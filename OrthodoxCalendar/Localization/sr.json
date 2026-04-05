@@ -1,0 +1,161 @@
+{
+    "language": "sr",
+    "displayName": "Српски",
+    "script": "cyrillic",
+
+    "ui": {
+        "appTitle": "Црквени Календар",
+        "months": ["Јануар", "Фебруар", "Март", "Април", "Мај", "Јун",
+                    "Јул", "Август", "Септембар", "Октобар", "Новембар", "Децембар"],
+        "daysOfWeek": ["Нед", "Пон", "Уто", "Сре", "Чет", "Пет", "Суб"],
+        "daysOfWeekFull": ["Недеља", "Понедељак", "Уторак", "Среда", "Четвртак", "Петак", "Субота"],
+        "julianLabel": "Јулијански",
+        "fastingLabel": "Пост",
+        "readingsLabel": "Читања",
+        "commemorationsLabel": "Помен Светих",
+        "settingsLabel": "Подешавања",
+        "todayLabel": "Данас",
+        "feastTypes": {
+            "pascha": "Празник Над Празницима",
+            "great": "Велики Празник",
+            "major": "Празник",
+            "holyWeek": "Страсна Седмица",
+            "bright": "Светла Седмица",
+            "minor": "Помен"
+        },
+        "fastingTypes": {
+            "noFast": "Без поста",
+            "fastFree": "Разрешено",
+            "strict": "Строги пост",
+            "fish": "Риба дозвољена",
+            "oil": "Уље дозвољено",
+            "wine": "Вино дозвољено"
+        }
+    },
+
+    "feastNames": {
+        "Lazarus Saturday":                         "Лазарева Субота",
+        "Palm Sunday":                              "Цвети — Улазак Господа у Јерусалим",
+        "Great and Holy Monday":                    "Велики Понедељак",
+        "Great and Holy Tuesday":                   "Велики Уторак",
+        "Great and Holy Wednesday":                 "Велика Среда",
+        "Great and Holy Thursday":                  "Велики Четвртак",
+        "Great and Holy Friday":                    "Велики Петак",
+        "Great and Holy Saturday":                  "Велика Субота",
+        "Holy Pascha":                              "Васкрс — Христос Воскресе!",
+        "Bright Monday":                            "Светли Понедељак",
+        "Bright Tuesday":                           "Светли Уторак",
+        "Bright Wednesday":                         "Светла Среда",
+        "Bright Thursday":                          "Светли Четвртак",
+        "Bright Friday":                            "Светли Петак",
+        "Bright Saturday":                          "Светла Субота",
+        "Thomas Sunday":                            "Томина Недеља",
+        "Sunday of the Myrrhbearing Women":         "Недеља Мироносица",
+        "Mid-Pentecost":                            "Преполовљење",
+        "Ascension of our Lord":                    "Спасовдан — Вазнесење Господње",
+        "Pentecost":                                "Духови — Силазак Светог Духа",
+        "Monday of the Holy Spirit":                "Духовски Понедељак",
+        "All Saints":                               "Недеља Свих Светих",
+        "Sunday of the Publican and the Pharisee":  "Недеља Митара и Фарисеја",
+        "Sunday of the Prodigal Son":               "Недеља Блудног Сина",
+        "Meatfare Sunday":                          "Месопусна Недеља",
+        "Cheesefare Sunday":                        "Беле Покладе (Сиропусна Недеља)",
+        "Clean Monday":                             "Чисти Понедељак — Почетак Великог Поста",
+        "Circumcision of Our Lord":                 "Обрезање Господње",
+        "Theophany":                                "Богојављење — Крштење Господње",
+        "Synaxis of St John the Baptist":           "Сабор Св. Јована Крститеља",
+        "Meeting of Our Lord":                      "Сретење Господње",
+        "Annunciation":                             "Благовести — Благовештење",
+        "Transfiguration":                          "Преображење Господње",
+        "Dormition":                                "Велика Госпојина — Успење Пресвете Богородице",
+        "Nativity of the Theotokos":                "Мала Госпојина — Рођење Пресвете Богородице",
+        "Elevation of the Cross":                   "Крстовдан — Воздвижење Часног Крста",
+        "Entry of the Theotokos":                   "Ваведење Пресвете Богородице",
+        "Nativity of Christ":                       "Божић — Рођење Господа Исуса Христа",
+        "Nativity of St John the Baptist":          "Ивањдан — Рођење Св. Јована Крститеља",
+        "Ss Peter and Paul":                        "Петровдан — Св. Апостоли Петар и Павле",
+        "Beheading of St John the Baptist":         "Усековање Главе Св. Јована Крститеља",
+        "Protection of the Theotokos":              "Покров Пресвете Богородице",
+        "St Nicholas":                              "Свети Никола — Никољдан"
+    },
+
+    "extraFeasts": [
+        {
+            "julianMonth": 1, "julianDay": 14,
+            "name": "Свети Сава — Просветитељ Српски",
+            "type": "great",
+            "description": "Празник Светог Саве, првог архиепископа српског"
+        },
+        {
+            "julianMonth": 2, "julianDay": 13,
+            "name": "Св. Симеон Мироточиви (Стефан Немања)",
+            "type": "major"
+        },
+        {
+            "julianMonth": 6, "julianDay": 15,
+            "name": "Видовдан — Св. Кнез Лазар и Косовски Мученици",
+            "type": "great",
+            "description": "Спомен на Косовску битку 1389."
+        },
+        {
+            "julianMonth": 7, "julianDay": 4,
+            "name": "Сабор Светих Српских Просветитеља",
+            "type": "major"
+        },
+        {
+            "julianMonth": 10, "julianDay": 14,
+            "name": "Света Петка — Петка Параскева",
+            "type": "major"
+        },
+        {
+            "julianMonth": 10, "julianDay": 26,
+            "name": "Св. Димитрије — Митровдан",
+            "type": "great"
+        },
+        {
+            "julianMonth": 11, "julianDay": 8,
+            "name": "Св. Арханђел Михајло — Аранђеловдан",
+            "type": "great"
+        },
+        {
+            "julianMonth": 4, "julianDay": 23,
+            "name": "Св. Великомученик Георгије — Ђурђевдан",
+            "type": "great",
+            "description": "Помера се на Светли Понедељак ако пада пре Васкрса"
+        },
+        {
+            "julianMonth": 7, "julianDay": 20,
+            "name": "Св. Пророк Илија — Илиндан",
+            "type": "major"
+        },
+        {
+            "julianMonth": 12, "julianDay": 24,
+            "name": "Бадње Вече",
+            "type": "great"
+        },
+        {
+            "julianMonth": 12, "julianDay": 26,
+            "name": "Сабор Пресвете Богородице",
+            "type": "major"
+        },
+        {
+            "julianMonth": 12, "julianDay": 27,
+            "name": "Св. Првомученик Стефан",
+            "type": "major"
+        }
+    ],
+
+    "feastTypeOverrides": {
+        "St George":         "great",
+        "St Nicholas":       "great",
+        "St Demetrius":      "great",
+        "Archangel Michael": "great"
+    },
+
+    "fastingPeriodNames": {
+        "Great Lent":       "Велики Пост",
+        "Apostles' Fast":   "Петровски Пост",
+        "Dormition Fast":   "Госпојински Пост",
+        "Nativity Fast":    "Божићни Пост"
+    }
+}

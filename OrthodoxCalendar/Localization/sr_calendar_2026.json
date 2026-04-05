@@ -1,0 +1,3656 @@
+{
+  "year": 2026,
+  "source": "crkvenikalendar.rs",
+  "days": {
+    "01-01": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Свети мученик Бонифатије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-02": {
+      "dayOfWeek": "П",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Свети Игњатије Богоносац; Свети Данило Други, архипископ српски (Претпразништво Рождества)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "01-03": {
+      "dayOfWeek": "С",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Света мученица Јулијана; Свети Петар, Митрополит Кијевски ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-04": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Света великомученица Анастасија; Свети Никифор Лепрозни – Оци",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "01-05": {
+      "dayOfWeek": "П",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Светих 10 мученика Критских; Преподобни Наум Охридски (Туциндан)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-06": {
+      "dayOfWeek": "У",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Света преподобномученица Евгенија – Бадњидан",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "01-07": {
+      "dayOfWeek": "С",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Рождество Христово – Божић",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "01-08": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Сабор Пресвете Богородице",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "01-09": {
+      "dayOfWeek": "П",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Свети првомученик и архиђакон Стефан; Преп. Теодор и Теофан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "01-10": {
+      "dayOfWeek": "С",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Светих 20.000 мученика Никомидијских ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-11": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Светих 14.000 младенаца Витлејемских. Преподобни Маркел",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-12": {
+      "dayOfWeek": "П",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "Света мученица Анисија; Преподобна Теодора",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-13": {
+      "dayOfWeek": "У",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Преподобна Меланија; Свети Доситеј Загребачки Исповедник (Оданије Рождества)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-14": {
+      "dayOfWeek": "С",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "ЈАНУАР – Обрезање Господње; Свети Василије Велики (Нова година)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "01-15": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Преподобни Серафим Саровски; Свети Силвестар (Претпразништво Богојављења)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-16": {
+      "dayOfWeek": "П",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети пророк Малахија; Свети мученик Гордије",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-17": {
+      "dayOfWeek": "С",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Сабор 70 светих апостола; Свети Јевстатије Српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-18": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети Теопемт и Теона; Преп. Синклитикиjа – Крстовдан ⬤",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "01-19": {
+      "dayOfWeek": "П",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Богојављење",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "01-20": {
+      "dayOfWeek": "У",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Сабор светог Јована Крститеља – Јовањдан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "01-21": {
+      "dayOfWeek": "С",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети мученик Јулијан и Василиса; Преподобни Георгије Хозевит; Преп. Доминика; Свети Григорије Охридски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-22": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети мученик Полиевкт; Свети Филип, Митрополит Московски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-23": {
+      "dayOfWeek": "П",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети Григорије Ниски; Преподобни Дометијан Митилински; Св. Маркиjан; Св. муч. Бачки",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-24": {
+      "dayOfWeek": "С",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Преподобни Теодосије Велики; Преподобни Михаило Клопски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-25": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Света мученица Татијана; Икона Млекопитатељица",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-26": {
+      "dayOfWeek": "П",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Свети мученици Ермил и Стратоник (Оданије Богојављења) ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-27": {
+      "dayOfWeek": "У",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети Сава, први Архиепископ српски – Савиндан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "01-28": {
+      "dayOfWeek": "С",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Преподобни Павле Тивеjски и Jован Колибар; Преподобни Гаврило Лесновски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-29": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Часне вериге Светог апостола Петра; Преподобни Ромило Раванички",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "01-30": {
+      "dayOfWeek": "П",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Преподобни Антоније Велики",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "01-31": {
+      "dayOfWeek": "С",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Свети Атанасије Велики; Св. Кирило Александриjски; Свети Максим, Архиепископ српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "02-01": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Преподобни Макарије Египатски; Свети Марко Ефески ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-02": {
+      "dayOfWeek": "П",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Преподобни Јевтимије Велики",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-03": {
+      "dayOfWeek": "У",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Преподобни Максим Исповедник; Свети мученик Неофит",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-04": {
+      "dayOfWeek": "С",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Свети апостол Тимотеј; Преподобни мученик Анастасије",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-05": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Свети свештеномученик Климент Анкирски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-06": {
+      "dayOfWeek": "П",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Преподобна Ксенија Римљанка; Блажена Ксенија Петроградска; Свети мученик Вавила",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-07": {
+      "dayOfWeek": "С",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Свети Григорије Богослов; Преподобни Публије; Св. преподобномученик Григориjе Пећки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-08": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Преподобни Ксенофонт, Марија и синови њихови",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-09": {
+      "dayOfWeek": "П",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Пренос моштију светог Јована Златоуста; Св. Данило, Еп. карловачки и плашчански ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-10": {
+      "dayOfWeek": "У",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Преподобни Јефрем Сирин; Преподобни Исак Сирин",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-11": {
+      "dayOfWeek": "С",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Пренос моштију Светог Игњатија Богоносца",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-12": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "Света Три Јерарха; Св. свештеномученик Иполит Римски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "02-13": {
+      "dayOfWeek": "П",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Свети бесребреници Кир и Јован (Претпразништво Сретења)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-14": {
+      "dayOfWeek": "С",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "ФЕБРУАР – Свети мученик Трифун – Задушнице зимске",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "02-15": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Сретење Господње (Месне покладе)",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "02-16": {
+      "dayOfWeek": "П",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети Симеон и Ана; Свети Јаков, Архиепископ српски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "02-17": {
+      "dayOfWeek": "У",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Преподобни Исидор Пелусиот; Преподобни Николај Студит ⬤",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-18": {
+      "dayOfWeek": "С",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Света мученица Агатија; Свети Полиевкт, Патриjарх Цариградски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-19": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Свети Фотије Цариградски; Свети Вукол, Епископ Смирнски (Оданије Сретења)",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-20": {
+      "dayOfWeek": "П",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Свети Партеније, Епископ Лампсакијски; Преп. Лука Еладски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-21": {
+      "dayOfWeek": "С",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети великомученик Теодор Стратилат; Св. пророк Захариjа; Свети Сава Други, Архиепископ српски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-22": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети мученик Никифор (Беле покладе)",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-23": {
+      "dayOfWeek": "П",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети свештеномученик Харалампије (Почетак поста)",
+      "fasting": "✱",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "02-24": {
+      "dayOfWeek": "У",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети свештеномученик Власије; Свети великомученик Ђорђе Кратовац ◐",
+      "fasting": "✱",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-25": {
+      "dayOfWeek": "С",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети Мелетије, Архиепископ Антиохијски",
+      "fasting": "✱",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "02-26": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Преподобни Симеон Мироточиви; Преп. Мартиниjан",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "02-27": {
+      "dayOfWeek": "П",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Преподобни Авксентије; Свети Кирило Словенски – Ћириловдан",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": true
+    },
+    "02-28": {
+      "dayOfWeek": "С",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети апостол Онисим; Преподобни Jевсевије Пустињак; Свети Теодор Комоговински – Теодорова субота",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "03-01": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 1,
+      "julianDay": "16",
+      "description": "Свети мученици Памфил, Порфириjе и осталих 10 мученика",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-02": {
+      "dayOfWeek": "П",
+      "gregorianDay": 2,
+      "julianDay": "17",
+      "description": "Свети великомученик Теодор Тирон",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "03-03": {
+      "dayOfWeek": "У",
+      "gregorianDay": 3,
+      "julianDay": "18",
+      "description": "Свети Лав, Епископ Римски; Свети Флавијан, Патриjарх Цариградски ⵔ",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-04": {
+      "dayOfWeek": "С",
+      "gregorianDay": 4,
+      "julianDay": "19",
+      "description": "Свети апостоли Архип, Филимон и Апфија",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-05": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 5,
+      "julianDay": "20",
+      "description": "Свети Лав, Епископ Катански",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-06": {
+      "dayOfWeek": "П",
+      "gregorianDay": 6,
+      "julianDay": "21",
+      "description": "Преподобни Тимотеј; Свети Евстатије",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-07": {
+      "dayOfWeek": "С",
+      "gregorianDay": 7,
+      "julianDay": "22",
+      "description": "Свети мученици у Евгенији",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-08": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 8,
+      "julianDay": "23",
+      "description": "Свети свештеномученик Поликарп, Епископ Смирнски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-09": {
+      "dayOfWeek": "П",
+      "gregorianDay": 9,
+      "julianDay": "24",
+      "description": "Прво и друго обретење главе Светог Јована Крститеља",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "03-10": {
+      "dayOfWeek": "У",
+      "gregorianDay": 10,
+      "julianDay": "25",
+      "description": "Свети Тарасије, Патриjарх Цариградски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-11": {
+      "dayOfWeek": "С",
+      "gregorianDay": 11,
+      "julianDay": "26",
+      "description": "Свети Порфирије, Епископ Гаски ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-12": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 12,
+      "julianDay": "27",
+      "description": "Преподобни Прокопије Декаполит; Преподобни Талалеј",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-13": {
+      "dayOfWeek": "П",
+      "gregorianDay": 13,
+      "julianDay": "28",
+      "description": "Преподобни Василије Исповедник",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-14": {
+      "dayOfWeek": "С",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "МАРТ – Света преподобномученица Евдокија",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-15": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Свети свештеномученик Теодот, Епископ Киринејски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-16": {
+      "dayOfWeek": "П",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети мученици Евтропије, Клеоник и Василиск",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-17": {
+      "dayOfWeek": "У",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Преподобни Герасим Јордански",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-18": {
+      "dayOfWeek": "С",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети мученик Конон Исавриjски; Преподобни Марко Подвижник",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-19": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Света 42 мученика Аморејска ⬤",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-20": {
+      "dayOfWeek": "П",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Светих седам свештеномученика Херсонских",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-21": {
+      "dayOfWeek": "С",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети Теофилакт Исповедник, Епископ Никомидиjски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-22": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Светих 40 мученика Севастијских – Младенци; Св. 42 мученика Момишићка",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "03-23": {
+      "dayOfWeek": "П",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети мученик Кодрат Коринтски и остали",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-24": {
+      "dayOfWeek": "У",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети Софроније, Патриjарх Јерусалимски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-25": {
+      "dayOfWeek": "С",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Преподобни Симеон Нови Богослов; Преп. Теофан Исповедник; Свети Григорије Двојеслов (Прво бдениjе) ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "03-26": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Пренос моштију Светог Никифора, Патриjарха Цариградског",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-27": {
+      "dayOfWeek": "П",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Преподобни Бенедикт Нурсијски (Друго бдениjе)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "03-28": {
+      "dayOfWeek": "С",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети мученик Агапије и други с њим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-29": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свети апостол Аристовул; Свети мученик Савин Египћанин",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "03-30": {
+      "dayOfWeek": "П",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети Алексије Човек Божји",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "03-31": {
+      "dayOfWeek": "У",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Свети Кирило, Епископ Јерусалимски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-01": {
+      "dayOfWeek": "С",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Свети мученици Хризант, Дарија и други; Преподобни Симеон Дајбапски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-02": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Преподобни Оци убијени у манастиру Светог Саве Освећеног ⵔ",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-03": {
+      "dayOfWeek": "П",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Преподобни Јаков Исповедник, Епископ Катански; Св. Серапион Тмуитски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-04": {
+      "dayOfWeek": "С",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Свети свештеномученик Василије Анкирски – Лазарева субота (Врбица)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "04-05": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Улазак Господа Исуса Христа у Jерусалим – Цвети",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "04-06": {
+      "dayOfWeek": "П",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Преподобни Захарије; Св. Артимиjе Солунски; Св. Иринеj Бачки, Исповедник вере (Претпразништво Благовести)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-07": {
+      "dayOfWeek": "У",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Благовести",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-08": {
+      "dayOfWeek": "С",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Сабор Светог Архангела Гаврила (Оданиjе Благовеси)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-09": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Велики четвртак (Велико бдениjе)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-10": {
+      "dayOfWeek": "П",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Велики петак ◑",
+      "fasting": "✱",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-11": {
+      "dayOfWeek": "С",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Велика субота",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-12": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "В а с к р с – Васкрсење Господа Исуса Христа",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-13": {
+      "dayOfWeek": "П",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Васкрсни понедељак",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-14": {
+      "dayOfWeek": "У",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "АПРИЛ – Васкрсни уторак",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-15": {
+      "dayOfWeek": "С",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Преподобни Тит Чудотворац",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-16": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Преподобни Никита Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-17": {
+      "dayOfWeek": "П",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Преп. Jосиф Химнограф; Преп. Георгиjе Малеин; Источни петак ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-18": {
+      "dayOfWeek": "С",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети мученици Агатопод и Теодул",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-19": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Свети Евтихије, Патриjарх Цариградски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-20": {
+      "dayOfWeek": "П",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Преподобни Георгиjе, Митрополит Митиленски; Преп. Нил Сорски; Побусани понедељак",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "04-21": {
+      "dayOfWeek": "У",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети апостоли Иродион, Агав, Руф и други",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-22": {
+      "dayOfWeek": "С",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети мученик Евпсихиje",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-23": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети мученик Терентиjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-24": {
+      "dayOfWeek": "П",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети свештеномученик Антипа ◐",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-25": {
+      "dayOfWeek": "С",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Преподобни Василије Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-26": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Свети свештеномученик Артемон Лаодикиjски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-27": {
+      "dayOfWeek": "П",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети Мартин Исповедник, Епископ Римски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-28": {
+      "dayOfWeek": "У",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети апостоли Аристарх, Пуд и Трофим",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-29": {
+      "dayOfWeek": "С",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свете мученице Агапиjа, Хиониjа и Ирина",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "04-30": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Преподобни Симеон, Епископ Персијски и остали",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-01": {
+      "dayOfWeek": "П",
+      "gregorianDay": 1,
+      "julianDay": "18",
+      "description": "Преподобни Jован, ученик Светог Григориjа Декаполита ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-02": {
+      "dayOfWeek": "С",
+      "gregorianDay": 2,
+      "julianDay": "19",
+      "description": "Преподобни Јован Ветхопештерник; Блажена Матрона Московска",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-03": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 3,
+      "julianDay": "20",
+      "description": "Преподобни Теодор Трихина, Преподобни Јоасаф Српски, Свети Николај Жички",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-04": {
+      "dayOfWeek": "П",
+      "gregorianDay": 4,
+      "julianDay": "21",
+      "description": "Свети свештеномученик Јануарије, Епископ кампаниjски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-05": {
+      "dayOfWeek": "У",
+      "gregorianDay": 5,
+      "julianDay": "22",
+      "description": "Преподобни Теодор Сикеот; Свети свештеномученик Платон Бањалучки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-06": {
+      "dayOfWeek": "С",
+      "gregorianDay": 6,
+      "julianDay": "23",
+      "description": "Свети великомученик Георгије – Ђурђевдан (Преполовљење)",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-07": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 7,
+      "julianDay": "24",
+      "description": "Свети Сава Стратилат; Свети Сава Ердељски; Свети свештеномученик Бранко",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-08": {
+      "dayOfWeek": "П",
+      "gregorianDay": 8,
+      "julianDay": "25",
+      "description": "Свети апостол и јеванђелист Марко – Марковдан",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-09": {
+      "dayOfWeek": "С",
+      "gregorianDay": 9,
+      "julianDay": "26",
+      "description": "Свети свештеномученик Василије Амасијски ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-10": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 10,
+      "julianDay": "27",
+      "description": "Св. ап. Симеон, Еп. Jерусалимски; Спаљивање моштију Светог Саве на Врачару",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-11": {
+      "dayOfWeek": "П",
+      "gregorianDay": 11,
+      "julianDay": "28",
+      "description": "Свети апостоли Јасон и Сосипатр и остали",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-12": {
+      "dayOfWeek": "У",
+      "gregorianDay": 12,
+      "julianDay": "29",
+      "description": "Свети Василије Острошки Чудотворац; Св. муч. Василије, пекар из Пећи",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-13": {
+      "dayOfWeek": "С",
+      "gregorianDay": 13,
+      "julianDay": "30",
+      "description": "Свети апостол Јаков Зеведејев (Оданије Преполовљења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-14": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "МАJ – Свети пророк Јеремија",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-15": {
+      "dayOfWeek": "П",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Свети Атанасије Велики; Свети Михаил",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-16": {
+      "dayOfWeek": "С",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети мученици Тимотеј и Мавра ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-17": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Света мученица Пелагија Тарсијска",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-18": {
+      "dayOfWeek": "П",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Света великомученица Ирина",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-19": {
+      "dayOfWeek": "У",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Свети праведни Јов; Пренос моштију Светог Саве Српског",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-20": {
+      "dayOfWeek": "С",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Појава Часног Крста у Јерусалиму (Оданије Васкрса)",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-21": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Вазнесење Господње – Спасовдан; Свети апостол и јеванђелист Јован Богослов; Св. свештеномуч. Недељко Раковички",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-22": {
+      "dayOfWeek": "П",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Пренос моштију Светог оца Николаја; Свети пророк Исаиjа; Пећка икона Пресвете Богородице",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-23": {
+      "dayOfWeek": "С",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети апостол Симон Зилот; Преподобна Исидора ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-24": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети равноапостолни Кирило и Методије",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "05-25": {
+      "dayOfWeek": "П",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Св. Епифаниjе Кипарски; Св. Герман Цариградски; Свети Никодим Српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-26": {
+      "dayOfWeek": "У",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Света мученица Гликерија",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-27": {
+      "dayOfWeek": "С",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети мученик Исидор Хиоски; Свети мученик Максим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-28": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Преподобни Пахомије Велики; Свети Ахилије Лариски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-29": {
+      "dayOfWeek": "П",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Преп. Теодор; Свештеномученик Теодор Вршачки; Св. муч. Вукашин; Св. Викентиjе и Св. муч. Сурдулички (Оданиjе Вазнесења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "05-30": {
+      "dayOfWeek": "С",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети апостол Андроник и Света Јунија – Задушнице летње (духовске)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "05-31": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Силазак Светог Духа на апостоле – Духови – Педесетница ⵔ",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "06-01": {
+      "dayOfWeek": "П",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Духовски понедељак",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "06-02": {
+      "dayOfWeek": "У",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Духовски уторак; Свети мученик Талалеj; Преподобни Стефан Пиперски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "06-03": {
+      "dayOfWeek": "С",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Свети цар Константин и царица Јелена; Преподобна Јелена Дечанска",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "06-04": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Свети мученик Василиск; Свети мученик Jован Владимир, Кнез српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-05": {
+      "dayOfWeek": "П",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Преподобни Михаило Исповедник, Епископ синадски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-06": {
+      "dayOfWeek": "С",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Преподобни Симеон Дивногорац (Оданиjе Педесетнице)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-07": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Треће обретење главе Светог Јована Крститеља; Св. муч. Пивски (Петровске покладе)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "06-08": {
+      "dayOfWeek": "П",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Свети апостоли Карп и Алфеј; Св. мученици Зворничко-тузлански (Почетак Петровског поста) ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-09": {
+      "dayOfWeek": "У",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Свети свештеномученик Терапонт; Преподобни Jован Руски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-10": {
+      "dayOfWeek": "С",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Преподобни Никита Исповедник, Епископ халкидонски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-11": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Света преподобномученица Теодосија Тирска",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-12": {
+      "dayOfWeek": "П",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "Преподобни Исакиjе Далматски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-13": {
+      "dayOfWeek": "С",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Свети апостол Јерма; Свети мученик Ермије",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-14": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "JУН – Свети мученик Jустин Философ; Преподобни Jустин Ћелијски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-15": {
+      "dayOfWeek": "П",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Свети Никифор; Свештеномученик Еразмо Охридски ⬤",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-16": {
+      "dayOfWeek": "У",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети мученик Лукилијан и други с њим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-17": {
+      "dayOfWeek": "С",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Свети Митрофан; Свете мироносице Марта и Марија; Свети Јоаникије Црногорски; Свети свештеномученик Ђорђе (Богић)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-18": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети свештеномученик Доротеј; Преподобни Петар Коришки",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-19": {
+      "dayOfWeek": "П",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Преподобни Висарион; Преподобни Иларион Нови",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-20": {
+      "dayOfWeek": "С",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Свети свештеномученик Теодот Анкирски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-21": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети великомученик Теодор Стратилат ◐",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-22": {
+      "dayOfWeek": "П",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети Кирило Александријски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-23": {
+      "dayOfWeek": "У",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети свештеномученик Тимотеј Бруски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-24": {
+      "dayOfWeek": "С",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети апостоли Вартоломеј и Варнава; Икона Пресвете Богородице Достоjно Jест",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "06-25": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Преподобни Онуфрије Велики; Преподобни Петар Атонски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-26": {
+      "dayOfWeek": "П",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Света мученица Акилина; Свети Трифилије Кипарски; Св. свештмуч. Житомислићки",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-27": {
+      "dayOfWeek": "С",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети пророк Јелисеј; Свети Методије Цариградски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "06-28": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети мученик Кнез Лазар и сви Св. муч. српски – Видовдан; Свети пророк Амос",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "06-29": {
+      "dayOfWeek": "П",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свети Тихон Чудотворац, Епископ Аматунски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "06-30": {
+      "dayOfWeek": "У",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети мученици Мануил, Савел и Исмаил ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-01": {
+      "dayOfWeek": "С",
+      "gregorianDay": 1,
+      "julianDay": "18",
+      "description": "Свети мученици Леонтије, Ипатије и Теодул",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-02": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 2,
+      "julianDay": "19",
+      "description": "Свети апостол Јуда; Преподобни Пајсије Велики; Свети Јован Шангајски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "07-03": {
+      "dayOfWeek": "П",
+      "gregorianDay": 3,
+      "julianDay": "20",
+      "description": "Свети свштеномученик Методије; Преподобни Наум Охридски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-04": {
+      "dayOfWeek": "С",
+      "gregorianDay": 4,
+      "julianDay": "21",
+      "description": "Свети мученик Јулијан Тарсијски; Преподобна Анастасија Српска",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-05": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 5,
+      "julianDay": "22",
+      "description": "Свети свштеномученик Јевсевије, Епископ Самосатски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-06": {
+      "dayOfWeek": "П",
+      "gregorianDay": 6,
+      "julianDay": "23",
+      "description": "Света мученица Агрипина",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-07": {
+      "dayOfWeek": "У",
+      "gregorianDay": 7,
+      "julianDay": "24",
+      "description": "Рођење Светог Јована Претече – Ивањдан; Свети Никита, Епископ Ремезиjански ◑",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "07-08": {
+      "dayOfWeek": "С",
+      "gregorianDay": 8,
+      "julianDay": "25",
+      "description": "Света преподобномученица Февронија",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-09": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 9,
+      "julianDay": "26",
+      "description": "Преподобни Давид Солунски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-10": {
+      "dayOfWeek": "П",
+      "gregorianDay": 10,
+      "julianDay": "27",
+      "description": "Преподобни Сампсон Странопримац",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "07-11": {
+      "dayOfWeek": "С",
+      "gregorianDay": 11,
+      "julianDay": "28",
+      "description": "Пренос моштију светих бесребреника Кира и Јована; Свети мученици Милешевски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-12": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 12,
+      "julianDay": "29",
+      "description": "Свети апостоли Петар и Павле – Петровдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "07-13": {
+      "dayOfWeek": "П",
+      "gregorianDay": 13,
+      "julianDay": "30",
+      "description": "Сабор Светих дванаест апостола – Павловдан; Св. деца мученици, Jастребарски и Сисачки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": true
+    },
+    "07-14": {
+      "dayOfWeek": "У",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "ЈУЛ – Свети мученици и бесребреници Козма и Дамјан ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "07-15": {
+      "dayOfWeek": "С",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Полагање ризе Пресвете Богородице",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-16": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети мученик Јакинт; Свети Анатолије Цариградски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-17": {
+      "dayOfWeek": "П",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Свети Андреј Критски; Преп. Марта; Свети свештеномученик Сава Горњокарловачки; Св. 73 свештмуч. Горњокарловачка; Свети царски новомученици Романови",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-18": {
+      "dayOfWeek": "С",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Преподобни Атанасије Атонски; Свети Сергије Радоњешки; Св. мученици Дабробосански",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-19": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Преподобни Сисоје Велики",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-20": {
+      "dayOfWeek": "П",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Преподобни Тома Малеин; Света великомученица Недеља; Преп. Акакиjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-21": {
+      "dayOfWeek": "У",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети великомученик Прокопије ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "07-22": {
+      "dayOfWeek": "С",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети свештеномученик Панкратије; Свети Теодор; Свети мученици Гламочки и Куленвакуфски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-23": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Светих 45 мученика из Никопоља; Преподобни Антоније Печерски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-24": {
+      "dayOfWeek": "П",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Света великомученица Ефимија; Свети равноапостолна Олга Руска",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-25": {
+      "dayOfWeek": "С",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети мученик Прокло и Иларије; Икона Пресвете Богородице Тројеручице",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "07-26": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Сабор Светог Архангела Гаврила; Преп. Стефан Саваит",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "07-27": {
+      "dayOfWeek": "П",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети апостол Акила; Преподобни Никодим Светогорац",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-28": {
+      "dayOfWeek": "У",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети мученици Кирик и Јулита; Свети Владимир Киjевски; Свети мученик Величко-горнjеполимски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-29": {
+      "dayOfWeek": "С",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свети свештеномученик Антиноген; Света мученица Јулија ⵔ",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "07-30": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Света великомученица Марина – Огњена Марија; Св. свештмуч. и муч. Ливањски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "07-31": {
+      "dayOfWeek": "П",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Свети мученик Емилијан; Свети мученик Јакинт",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-01": {
+      "dayOfWeek": "С",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Преподобна Макрина; Свети Стефан, Деспот српски; Преподобна Евгенија (Лазаревић)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-02": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Свети пророк Илија – Илиндан; Свети Илија Грузијски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "08-03": {
+      "dayOfWeek": "П",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Свети пророк Језекиљ; Преподобни Симеон Jуродиви и Jован",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "08-04": {
+      "dayOfWeek": "У",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Света Марија Магдалина – Блага Марија; Св. свештмуч. Фока",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "08-05": {
+      "dayOfWeek": "С",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Свети мученици Трофим, Теофил и други с њима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-06": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Света великомученица Христина; Преподобни Поликарп Печерски; Свети мученици Пребиловачки и Доњохерцеговачки ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-07": {
+      "dayOfWeek": "П",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Успеније свете Ане, маjке Пресвете Богородице; Св. Олимпиjада и Евпраксиjа",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-08": {
+      "dayOfWeek": "С",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Света преподобномученица Параскева (Света Петка); Св. свештмуч. Ермолаj; Свети Сава Трећи Српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "08-09": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Свети великомученик Пантелејмон; Свети Климент Охридски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "08-10": {
+      "dayOfWeek": "П",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Свети апостоли и ђакони Прохор, Никанор, Тимон и Пармен; Св. свештмуч. Милош, Грковачко-црнолушки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-11": {
+      "dayOfWeek": "У",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Свети мученик Калиник; Света мученица Серафима",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-12": {
+      "dayOfWeek": "С",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "Св. ап. Сила, Силуан и други; Преподобна мати Ангелина Српска ⬤",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-13": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Свети мученик Евдоким; Света мученица Јулита (Госпојинске покладе)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-14": {
+      "dayOfWeek": "П",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "АВГУСТ – Изношење Часног Крста; Св. муч. Макавеји (Почетак поста)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "08-15": {
+      "dayOfWeek": "С",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Пренос моштију Светог првомученика и архиђакона Стефана",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-16": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Преподобни Исакије, Далмат и Фауст",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-17": {
+      "dayOfWeek": "П",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Светих седам мученика у Ефесу",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-18": {
+      "dayOfWeek": "У",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети мученик Евсигније (Претпразништво Преображења)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-19": {
+      "dayOfWeek": "С",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Преображење Господње",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "08-20": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Свети преподобномученик Дометије; Преподобни Ор ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-21": {
+      "dayOfWeek": "П",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Свети Емилијан Исповедник; Преподобни Зосим и Jаков Тумански",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-22": {
+      "dayOfWeek": "С",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети апостол Матија; Свети мученик Антоније",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-23": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети мученик и архиђакон Лаврентије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-24": {
+      "dayOfWeek": "П",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети мученик и архиђакон Евпло",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-25": {
+      "dayOfWeek": "У",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети мученици Фотије, Аникита и други с њима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-26": {
+      "dayOfWeek": "С",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Пренос моштиjу преп. Максима Исповедника; Свети мученик Иполит (Оданије Преображења)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-27": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети пророк Михеј Други (Претпразништво Успенија)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-28": {
+      "dayOfWeek": "П",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Успеније Пресвете Богородице – Велика Госпојина ⵔ",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "08-29": {
+      "dayOfWeek": "С",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Нерукотворена икона Господа Исуса Христа; Свети Јевстатије, Други Архиепископ српски; Преподобни Роман; Преподобни Рафаило банатски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-30": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети мученик Патрокло; Свети мученик Мирон",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "08-31": {
+      "dayOfWeek": "П",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Свети мученици Флор и Лавр; Преподобни Јован Рилски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-01": {
+      "dayOfWeek": "У",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Свети мученик Андреј Стратилат и остали",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-02": {
+      "dayOfWeek": "С",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Свети пророк Самуило; Свети свештеномученик Филип Ираклијски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-03": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Свети апостол Тадеј; Света мученица Васа и њена деца Теогније, Агапије и Пист; Свештеномученик Рафаило Шишатовачки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-04": {
+      "dayOfWeek": "П",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Свети мученик Агатоник; Свети свештеномученик Горазд Чешки ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "09-05": {
+      "dayOfWeek": "С",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Свети свештеномученик Иринеј; Свети мученик Луп (Оданије Успенија)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-06": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Свети свештеномученик Евтихије; Света мученица Сира; Св. свештмуч. Козма Етолски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-07": {
+      "dayOfWeek": "П",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Пренос моштију Светог апостола Вартоломеја; Свети апостол Тит",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-08": {
+      "dayOfWeek": "У",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Свети мученици Адријан и Наталија; Владимирска икона Маjке Божиjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "09-09": {
+      "dayOfWeek": "С",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Преподобни Пимен Велики; Св. мученик Фануриjе",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-10": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Преподобни Мојсеј Мурин; Преподобни Сава Псковски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-11": {
+      "dayOfWeek": "П",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Усековање главе Светог Јована Крститеља ⬤",
+      "fasting": "вода",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "09-12": {
+      "dayOfWeek": "С",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "Пренос моштију светог Александра Невског; Свети Александар, Jован и Павле Нови",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-13": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Полагање појаса Пресвете Богородице; Свети мученици Jасеновачки; Сабор Светитеља српских",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "09-14": {
+      "dayOfWeek": "П",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "СЕПТЕМБАР – Црквена Нова година; Преподобни Симеон Столпник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "09-15": {
+      "dayOfWeek": "У",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Свети мученик Мамант; Свети Јован Посник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-16": {
+      "dayOfWeek": "С",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Св. свештеномученик Антим; Преп. Теоктист; Свети Јоаникије, први Патријарх српски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-17": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Св. свештеномуч. Вавила; Св. пророк Мојсеј Боговидац; Свети Петар Дабробосански; Преп. Стефан Троношки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-18": {
+      "dayOfWeek": "П",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети пророк Захарија и Света праведна Јелисавета ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-19": {
+      "dayOfWeek": "С",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Чудо Светог Архангела Михаила; Свети мученик Евдоксије; Преп. Архип",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-20": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Свети мученик Созонт (Претпразништво Рођења Пресвете Богородице)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-21": {
+      "dayOfWeek": "П",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Рођење Пресвете Богородице – Мала Госпојина",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "09-22": {
+      "dayOfWeek": "У",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети праведни богородитељи Јоаким и Ана; Св. мученик Севериjан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "09-23": {
+      "dayOfWeek": "С",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свете мученице Минодора, Митродора и Нимфодора",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-24": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Преподобна Теодора Александриjска; Преподобни Сергије и Герман Валаамски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-25": {
+      "dayOfWeek": "П",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети свештеномученик Автоном (Оданије Рођења Пресвете Богородице)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-26": {
+      "dayOfWeek": "С",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Спомен освећења храма Васкрсења Господњег; Св. свештмуч. Корнилије (Претпразништво Воздвижења) ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-27": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Воздвижење часног Крста – Крстовдан",
+      "fasting": "уље",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "09-28": {
+      "dayOfWeek": "П",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети великомученик Никита; Свети Јосиф Темишварски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-29": {
+      "dayOfWeek": "У",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Преподобни Доротеј; Свети Кипријан; Света великомученица Јефимија",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "09-30": {
+      "dayOfWeek": "С",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свете мученице Вера, Нада и Љубав и мајка им Софија",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "10-01": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 1,
+      "julianDay": "18",
+      "description": "Свети Евменије Гортински; Света мученица Ариадна",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-02": {
+      "dayOfWeek": "П",
+      "gregorianDay": 2,
+      "julianDay": "19",
+      "description": "Свети мученици Трофим, Саватије и Доримедонт; Пренос моштиjу Св. Иринеjа, Епископ бачког",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-03": {
+      "dayOfWeek": "С",
+      "gregorianDay": 3,
+      "julianDay": "20",
+      "description": "Свети великомученик Јевстатије ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "10-04": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 4,
+      "julianDay": "21",
+      "description": "Свети апостол Кодрат (Оданије Воздвижења)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-05": {
+      "dayOfWeek": "П",
+      "gregorianDay": 5,
+      "julianDay": "22",
+      "description": "Свети свештеномученик Фока; Свети пророк Јона",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-06": {
+      "dayOfWeek": "У",
+      "gregorianDay": 6,
+      "julianDay": "23",
+      "description": "Зачеће Светог Јована Претече и Крститеља",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "10-07": {
+      "dayOfWeek": "С",
+      "gregorianDay": 7,
+      "julianDay": "24",
+      "description": "Света првомученица Текла; Преподобни Симон, Свети краљ Владислав и Преподобни Давид Српски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-08": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 8,
+      "julianDay": "25",
+      "description": "Преподобна Ефросинија; Свети Сергије Радоњешки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-09": {
+      "dayOfWeek": "П",
+      "gregorianDay": 9,
+      "julianDay": "26",
+      "description": "Свети апостол и јеванђелист Јован Богослов",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "10-10": {
+      "dayOfWeek": "С",
+      "gregorianDay": 10,
+      "julianDay": "27",
+      "description": "Свети мученик Калистрат и остали – Задушнице михољске ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "10-11": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 11,
+      "julianDay": "28",
+      "description": "Преподобни Харитон Исповедник; Св. препмуч. медљански игуман Серафим, монаси Авакум и Мардариjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-12": {
+      "dayOfWeek": "П",
+      "gregorianDay": 12,
+      "julianDay": "29",
+      "description": "Преподобни Киријак Отшелник – Михољдан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "10-13": {
+      "dayOfWeek": "У",
+      "gregorianDay": 13,
+      "julianDay": "30",
+      "description": "Свети свештеномученик Григорије; Свети Михаил Кијевски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-14": {
+      "dayOfWeek": "С",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "ОКТОБАР – Покров Пресвете Богородице; Св. ап. Ананија; Преп. Роман Слаткопојац",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "10-15": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Св. свештеномуч. Кипријан и Св. муч. Јустина девица; Преподобни Андреј",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-16": {
+      "dayOfWeek": "П",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети свештеномученик Дионисије Ареопагит; Свети Паjсиjе (Jаневац), Патриjарх српски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-17": {
+      "dayOfWeek": "С",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Свети Jеротеј Атински; Свети Стефан и Јелена (Штиљановић)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-18": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Света мученица Харитина; Свети свештеномученик Дионисије ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-19": {
+      "dayOfWeek": "П",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Свети апостол Тома – Томиндан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "10-20": {
+      "dayOfWeek": "У",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Свети мученици Сергије и Вакхо – Срђевдан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "10-21": {
+      "dayOfWeek": "С",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Преподобна Пелагија Палестинска; Преподобна Таиса",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-22": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети апостол Јаков; Свети деспот Стефан Српски (Слепи)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-23": {
+      "dayOfWeek": "П",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети мученици Евлампије и Евлампија; Преп. Амвросиjе Оптински",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-24": {
+      "dayOfWeek": "С",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети апостол Филип; Преподобни Теофан Начертани",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-25": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети мученици Тарах, Пров и Андроник; Св. Козма Маjумски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-26": {
+      "dayOfWeek": "П",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Свети мученик Карп и Папил; Света мученица Злата Мегленска; Света мученица Босиљка Пасјанска ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-27": {
+      "dayOfWeek": "У",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Преподобна мати Параскева (Света Петка)",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "10-28": {
+      "dayOfWeek": "С",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети свештеномученик Лукијан; Преподобни Јевтимије",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-29": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свети мученик Лонгин Сотник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-30": {
+      "dayOfWeek": "П",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети пророк Осија; Свети преподобномученик Андреј Критски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "10-31": {
+      "dayOfWeek": "С",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Свети апостол и јеванђелист Лука – Лучиндан; Свети Петар Цетињски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-01": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 1,
+      "julianDay": "19",
+      "description": "Преподобни Прохор Пчињски; Свети пророк Јоил; Преподобни Јован Рилски; Св. мученик Уар ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": true
+    },
+    "11-02": {
+      "dayOfWeek": "П",
+      "gregorianDay": 2,
+      "julianDay": "20",
+      "description": "Свети великомученик Артемије; Преп. Герасим Кефалониjски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-03": {
+      "dayOfWeek": "У",
+      "gregorianDay": 3,
+      "julianDay": "21",
+      "description": "Преподобни Иларион; Свети Иларион Мегленски; Свети Висарион Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-04": {
+      "dayOfWeek": "С",
+      "gregorianDay": 4,
+      "julianDay": "22",
+      "description": "Свети равноапостолни Аверкије Јерапољски; Св. седам мученика Ефеских",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-05": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 5,
+      "julianDay": "23",
+      "description": "Свети апостол Јаков, први Епископ Јерусалимски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "11-06": {
+      "dayOfWeek": "П",
+      "gregorianDay": 6,
+      "julianDay": "24",
+      "description": "Свети великомученик Арета и остали",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-07": {
+      "dayOfWeek": "С",
+      "gregorianDay": 7,
+      "julianDay": "25",
+      "description": "Свети мученици Маркијан и Мартирије – Задушнице јесење (митровске)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "11-08": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 8,
+      "julianDay": "26",
+      "description": "Свети великомученик Димитрије – Митровдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-09": {
+      "dayOfWeek": "П",
+      "gregorianDay": 9,
+      "julianDay": "27",
+      "description": "Свети мученик Нестор ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-10": {
+      "dayOfWeek": "У",
+      "gregorianDay": 10,
+      "julianDay": "28",
+      "description": "Свети мученик Терентије; Преп. Стефан Саваит; Свети Арсеније Сремац, Архиепископ српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-11": {
+      "dayOfWeek": "С",
+      "gregorianDay": 11,
+      "julianDay": "29",
+      "description": "Преп. Аврамије Затворник; Св. препмуч. Анастасија Римљанка",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-12": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 12,
+      "julianDay": "30",
+      "description": "Св. муч. Зиновије и Зиновија; Свети краљ Милутин; Преподобни Теоктист и Јелена; Свети Варнава Хвостански Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-13": {
+      "dayOfWeek": "П",
+      "gregorianDay": 13,
+      "julianDay": "31",
+      "description": "Свети апостоли Стахије, Амплије, Урван и други с њима; Св. мученик Епимах",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-14": {
+      "dayOfWeek": "С",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "НОВЕМБАР – Свети Козма и Дамјан – Врачи",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-15": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Свети мученици Акиндин, Пигасије и други с њима",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-16": {
+      "dayOfWeek": "П",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Обновљење храма Светог великомученика Георгија – Ђурђиц; Св. муч. Акепсим и други са њим",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-17": {
+      "dayOfWeek": "У",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Преподобни Јоаникије Велики; Свети свештеномученик Никандар и Ермеј ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-18": {
+      "dayOfWeek": "С",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Свети преподобномученици Галактион и Епистима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-19": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Свети Павле Исповедник; Преподобни Варлаам Хутински",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-20": {
+      "dayOfWeek": "П",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Света 33 мученика у Мелитини; Преподобни Лазар Галисиjски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-21": {
+      "dayOfWeek": "С",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Сабор Светог Архангела Михаила и осталих Небеских Сила Бестелесних – Аранђеловдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-22": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Свети мученици Онисифор и Порфирије; Свети Нектарије Егински; Преп. Матрона; Преп. Теоктиста",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-23": {
+      "dayOfWeek": "П",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети апостоли Олимп, Ераст, Родион и други с њима",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-24": {
+      "dayOfWeek": "У",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Свети великомученик Мина; Преп. Теодор Студит; Свети краљ Стефан Дечански ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-25": {
+      "dayOfWeek": "С",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети Јован Милостиви; Преподобни Нил Синајски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-26": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Свети Јован Златоусти, Патриjарх цариградски (Божићне покладе)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-27": {
+      "dayOfWeek": "П",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети апостол Филип; Свети Григорије Палама",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "11-28": {
+      "dayOfWeek": "С",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети мученици Гурије, Самон и Авив (Почетак поста)",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "11-29": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свети апостол и јеванђелист Матеј",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "11-30": {
+      "dayOfWeek": "П",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети Григорије Чудотворац; Свети Максим, Патријарх цариградски; Преп. Севастијан Џексонски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-01": {
+      "dayOfWeek": "У",
+      "gregorianDay": 1,
+      "julianDay": "18",
+      "description": "Свети мученик Платон; Свети мученици Роман и Варул Отрок ◑",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-02": {
+      "dayOfWeek": "С",
+      "gregorianDay": 2,
+      "julianDay": "19",
+      "description": "Свети пророк Авдија; Св. муч. Варлаам; Преп. Јоасаф; Преподобни Порфирије Кавсокаливит",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-03": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 3,
+      "julianDay": "20",
+      "description": "Преподобни Григорије Декаполит; Свети Прокло (Претпразништво Ваведења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-04": {
+      "dayOfWeek": "П",
+      "gregorianDay": 4,
+      "julianDay": "21",
+      "description": "Ваведење Пресвете Богородице",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "12-05": {
+      "dayOfWeek": "С",
+      "gregorianDay": 5,
+      "julianDay": "22",
+      "description": "Свети апостоли Филимон, Апфија и Архип; Света мученица Кикилија",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-06": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 6,
+      "julianDay": "23",
+      "description": "Свети Амфилохије Иконијски; Свети Григорије; Свети Александар Невски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-07": {
+      "dayOfWeek": "П",
+      "gregorianDay": 7,
+      "julianDay": "24",
+      "description": "Света великомученица Екатерина; Св. великомученик Меркурије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-08": {
+      "dayOfWeek": "У",
+      "gregorianDay": 8,
+      "julianDay": "25",
+      "description": "Свети свештеномученик Климент; Св. свештмуч. Петар Александријски (Оданије Ваведења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-09": {
+      "dayOfWeek": "С",
+      "gregorianDay": 9,
+      "julianDay": "26",
+      "description": "Преподобни Алимпије Столпник ⬤",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "12-10": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 10,
+      "julianDay": "27",
+      "description": "Свети мученик Јаков Персијанац; Свети Јаков Ростовски; Преп. Паладије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-11": {
+      "dayOfWeek": "П",
+      "gregorianDay": 11,
+      "julianDay": "28",
+      "description": "Свети преподобномученик Стефан; Св. мученик Иринарх; Свети мученик Христо",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-12": {
+      "dayOfWeek": "С",
+      "gregorianDay": 12,
+      "julianDay": "29",
+      "description": "Свети мученици Парамон и Филумен; Преп. Акакије; Свети Мардарије",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-13": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 13,
+      "julianDay": "30",
+      "description": "Свети апостол Андреј Првозвани",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "12-14": {
+      "dayOfWeek": "П",
+      "gregorianDay": 14,
+      "julianDay": "1",
+      "description": "ДЕЦЕМБАР – Свети пророк Наум; Свети Филарет Милостиви",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-15": {
+      "dayOfWeek": "У",
+      "gregorianDay": 15,
+      "julianDay": "2",
+      "description": "Свети пророк Авакум; Свети цар Урош; Преподобни Јоаникије Девички",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-16": {
+      "dayOfWeek": "С",
+      "gregorianDay": 16,
+      "julianDay": "3",
+      "description": "Свети пророк Софоније; Преподобни Јован Ћутљиви",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-17": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 17,
+      "julianDay": "4",
+      "description": "Света великомученица Варвара; Преподобни Јован Дамаскин ◐",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-18": {
+      "dayOfWeek": "П",
+      "gregorianDay": 18,
+      "julianDay": "5",
+      "description": "Преподобни Сава Освећени; Преп. Нектарије Битољски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-19": {
+      "dayOfWeek": "С",
+      "gregorianDay": 19,
+      "julianDay": "6",
+      "description": "Свети Николај, Архиепископ мирликијски Чудотворац – Никољдан",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true,
+      "hasSlava": true
+    },
+    "12-20": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 20,
+      "julianDay": "7",
+      "description": "Свети Амвросије; Преподобни Григорије Горњачки – Детињци",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-21": {
+      "dayOfWeek": "П",
+      "gregorianDay": 21,
+      "julianDay": "8",
+      "description": "Преподобни Патапије; Свети апостоли Состен, Аполо и други с њима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-22": {
+      "dayOfWeek": "У",
+      "gregorianDay": 22,
+      "julianDay": "9",
+      "description": "Зачеће Свете Ане; Света пророчица Ана",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-23": {
+      "dayOfWeek": "С",
+      "gregorianDay": 23,
+      "julianDay": "10",
+      "description": "Свети мученик Мина и други с њим; Свети Јован, Деспот Српски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-24": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 24,
+      "julianDay": "11",
+      "description": "Преподобни Данило Столпник ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-25": {
+      "dayOfWeek": "П",
+      "gregorianDay": 25,
+      "julianDay": "12",
+      "description": "Свети Спиридон Чудотворац, Епископ тримитунски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-26": {
+      "dayOfWeek": "С",
+      "gregorianDay": 26,
+      "julianDay": "13",
+      "description": "Свети мученик Евстратије; Свети свештеномученик Гаврило, Патријарх српски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-27": {
+      "dayOfWeek": "Н",
+      "gregorianDay": 27,
+      "julianDay": "14",
+      "description": "Свети мученици Тирс, Левкије, Филимон, Аполоније и други с њима – Материце",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true,
+      "hasSlava": false
+    },
+    "12-28": {
+      "dayOfWeek": "П",
+      "gregorianDay": 28,
+      "julianDay": "15",
+      "description": "Свети свештеномученик Елевтерије; Преподобни Павле",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-29": {
+      "dayOfWeek": "У",
+      "gregorianDay": 29,
+      "julianDay": "16",
+      "description": "Свети пророк Агеј; Света блажена царица Теофанија",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-30": {
+      "dayOfWeek": "С",
+      "gregorianDay": 30,
+      "julianDay": "17",
+      "description": "Свети пророк Данило; Св. Три Младића; Свети преподобномученик ђакон Авакум и игуман Пајсије ◑",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    },
+    "12-31": {
+      "dayOfWeek": "Ч",
+      "gregorianDay": 31,
+      "julianDay": "18",
+      "description": "Свети мученик Севастијан; Свети Модест и други с њим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false,
+      "hasSlava": false
+    }
+  }
+}

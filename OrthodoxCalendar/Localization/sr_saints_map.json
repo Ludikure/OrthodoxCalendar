@@ -1,0 +1,2371 @@
+{
+  "source": "crkvenikalendar.rs",
+  "fixedByJulianDate": {
+    "12-19": {
+      "description": "Свети мученик Бонифатије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-20": {
+      "description": "Свети Игњатије Богоносац; Свети Данило Други, архипископ српски (Претпразништво Рождества)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-21": {
+      "description": "Света мученица Јулијана; Свети Петар, Митрополит Кијевски ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-22": {
+      "description": "Света великомученица Анастасија; Свети Никифор Лепрозни – Оци",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-23": {
+      "description": "Светих 10 мученика Критских; Преподобни Наум Охридски (Туциндан)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-24": {
+      "description": "Света преподобномученица Евгенија – Бадњидан",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-25": {
+      "description": "Рождество Христово – Божић",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-26": {
+      "description": "Сабор Пресвете Богородице",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-27": {
+      "description": "Свети првомученик и архиђакон Стефан; Преп. Теодор и Теофан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-28": {
+      "description": "Светих 20.000 мученика Никомидијских ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-29": {
+      "description": "Светих 14.000 младенаца Витлејемских. Преподобни Маркел",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-30": {
+      "description": "Света мученица Анисија; Преподобна Теодора",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-31": {
+      "description": "Преподобна Меланија; Свети Доситеј Загребачки Исповедник (Оданије Рождества)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-01": {
+      "description": "Обрезање Господње; Свети Василије Велики (Нова година)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-02": {
+      "description": "Преподобни Серафим Саровски; Свети Силвестар (Претпразништво Богојављења)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-03": {
+      "description": "Свети пророк Малахија; Свети мученик Гордије",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-04": {
+      "description": "Сабор 70 светих апостола; Свети Јевстатије Српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-05": {
+      "description": "Свети Теопемт и Теона; Преп. Синклитикиjа – Крстовдан ⬤",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-06": {
+      "description": "Богојављење",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-07": {
+      "description": "Сабор светог Јована Крститеља – Јовањдан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-08": {
+      "description": "Свети мученик Јулијан и Василиса; Преподобни Георгије Хозевит; Преп. Доминика; Свети Григорије Охридски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-09": {
+      "description": "Свети мученик Полиевкт; Свети Филип, Митрополит Московски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-10": {
+      "description": "Свети Григорије Ниски; Преподобни Дометијан Митилински; Св. Маркиjан; Св. муч. Бачки",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-11": {
+      "description": "Преподобни Теодосије Велики; Преподобни Михаило Клопски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-12": {
+      "description": "Света мученица Татијана; Икона Млекопитатељица",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-13": {
+      "description": "Свети мученици Ермил и Стратоник (Оданије Богојављења) ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-14": {
+      "description": "Свети Сава, први Архиепископ српски – Савиндан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-15": {
+      "description": "Преподобни Павле Тивеjски и Jован Колибар; Преподобни Гаврило Лесновски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-16": {
+      "description": "Часне вериге Светог апостола Петра; Преподобни Ромило Раванички",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-17": {
+      "description": "Преподобни Антоније Велики",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-18": {
+      "description": "Свети Атанасије Велики; Св. Кирило Александриjски; Свети Максим, Архиепископ српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "01-20": {
+      "description": "Преподобни Јевтимије Велики",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-21": {
+      "description": "Преподобни Максим Исповедник; Свети мученик Неофит",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-22": {
+      "description": "Свети апостол Тимотеј; Преподобни мученик Анастасије",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-23": {
+      "description": "Свети свештеномученик Климент Анкирски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-24": {
+      "description": "Преподобна Ксенија Римљанка; Блажена Ксенија Петроградска; Свети мученик Вавила",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-25": {
+      "description": "Свети Григорије Богослов; Преподобни Публије; Св. преподобномученик Григориjе Пећки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-27": {
+      "description": "Пренос моштију светог Јована Златоуста; Св. Данило, Еп. карловачки и плашчански ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-28": {
+      "description": "Преподобни Јефрем Сирин; Преподобни Исак Сирин",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-29": {
+      "description": "Пренос моштију Светог Игњатија Богоносца",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-30": {
+      "description": "Света Три Јерарха; Св. свештеномученик Иполит Римски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "01-31": {
+      "description": "Свети бесребреници Кир и Јован (Претпразништво Сретења)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-01": {
+      "description": "Свети мученик Трифун – Задушнице зимске",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "02-03": {
+      "description": "Свети Симеон и Ана; Свети Јаков, Архиепископ српски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "02-04": {
+      "description": "Преподобни Исидор Пелусиот; Преподобни Николај Студит ⬤",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-05": {
+      "description": "Света мученица Агатија; Свети Полиевкт, Патриjарх Цариградски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-06": {
+      "description": "Свети Фотије Цариградски; Свети Вукол, Епископ Смирнски (Оданије Сретења)",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-07": {
+      "description": "Свети Партеније, Епископ Лампсакијски; Преп. Лука Еладски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-08": {
+      "description": "Свети великомученик Теодор Стратилат; Св. пророк Захариjа; Свети Сава Други, Архиепископ српски",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-11": {
+      "description": "Свети свештеномученик Власије; Свети великомученик Ђорђе Кратовац ◐",
+      "fasting": "✱",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-12": {
+      "description": "Свети Мелетије, Архиепископ Антиохијски",
+      "fasting": "✱",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-13": {
+      "description": "Преподобни Симеон Мироточиви; Преп. Мартиниjан",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "02-14": {
+      "description": "Преподобни Авксентије; Свети Кирило Словенски – Ћириловдан",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-15": {
+      "description": "Свети апостол Онисим; Преподобни Jевсевије Пустињак; Свети Теодор Комоговински – Теодорова субота",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "02-16": {
+      "description": "Свети мученици Памфил, Порфириjе и осталих 10 мученика",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-17": {
+      "description": "Свети великомученик Теодор Тирон",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "02-18": {
+      "description": "Свети Лав, Епископ Римски; Свети Флавијан, Патриjарх Цариградски ⵔ",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-19": {
+      "description": "Свети апостоли Архип, Филимон и Апфија",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-20": {
+      "description": "Свети Лав, Епископ Катански",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-21": {
+      "description": "Преподобни Тимотеј; Свети Евстатије",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-22": {
+      "description": "Свети мученици у Евгенији",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-23": {
+      "description": "Свети свештеномученик Поликарп, Епископ Смирнски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-24": {
+      "description": "Прво и друго обретење главе Светог Јована Крститеља",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "02-25": {
+      "description": "Свети Тарасије, Патриjарх Цариградски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-26": {
+      "description": "Свети Порфирије, Епископ Гаски ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-27": {
+      "description": "Преподобни Прокопије Декаполит; Преподобни Талалеј",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-28": {
+      "description": "Преподобни Василије Исповедник",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-01": {
+      "description": "Света преподобномученица Евдокија",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-02": {
+      "description": "Свети свештеномученик Теодот, Епископ Киринејски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-03": {
+      "description": "Свети мученици Евтропије, Клеоник и Василиск",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-04": {
+      "description": "Преподобни Герасим Јордански",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-05": {
+      "description": "Свети мученик Конон Исавриjски; Преподобни Марко Подвижник",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-06": {
+      "description": "Света 42 мученика Аморејска ⬤",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-07": {
+      "description": "Светих седам свештеномученика Херсонских",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-08": {
+      "description": "Свети Теофилакт Исповедник, Епископ Никомидиjски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-09": {
+      "description": "Светих 40 мученика Севастијских – Младенци; Св. 42 мученика Момишићка",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "03-10": {
+      "description": "Свети мученик Кодрат Коринтски и остали",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-11": {
+      "description": "Свети Софроније, Патриjарх Јерусалимски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-12": {
+      "description": "Преподобни Симеон Нови Богослов; Преп. Теофан Исповедник; Свети Григорије Двојеслов (Прво бдениjе) ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "03-13": {
+      "description": "Пренос моштију Светог Никифора, Патриjарха Цариградског",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-14": {
+      "description": "Преподобни Бенедикт Нурсијски (Друго бдениjе)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "03-15": {
+      "description": "Свети мученик Агапије и други с њим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-16": {
+      "description": "Свети апостол Аристовул; Свети мученик Савин Египћанин",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-17": {
+      "description": "Свети Алексије Човек Божји",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "03-18": {
+      "description": "Свети Кирило, Епископ Јерусалимски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-19": {
+      "description": "Свети мученици Хризант, Дарија и други; Преподобни Симеон Дајбапски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-20": {
+      "description": "Преподобни Оци убијени у манастиру Светог Саве Освећеног ⵔ",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-21": {
+      "description": "Преподобни Јаков Исповедник, Епископ Катански; Св. Серапион Тмуитски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-07": {
+      "description": "Преподобни Георгиjе, Митрополит Митиленски; Преп. Нил Сорски; Побусани понедељак",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "04-08": {
+      "description": "Свети апостоли Иродион, Агав, Руф и други",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-09": {
+      "description": "Свети мученик Евпсихиje",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-10": {
+      "description": "Свети мученик Терентиjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-11": {
+      "description": "Свети свештеномученик Антипа ◐",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-12": {
+      "description": "Преподобни Василије Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-14": {
+      "description": "Свети Мартин Исповедник, Епископ Римски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-15": {
+      "description": "Свети апостоли Аристарх, Пуд и Трофим",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-16": {
+      "description": "Свете мученице Агапиjа, Хиониjа и Ирина",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-17": {
+      "description": "Преподобни Симеон, Епископ Персијски и остали",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-18": {
+      "description": "Преподобни Jован, ученик Светог Григориjа Декаполита ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-19": {
+      "description": "Преподобни Јован Ветхопештерник; Блажена Матрона Московска",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-20": {
+      "description": "Преподобни Теодор Трихина, Преподобни Јоасаф Српски, Свети Николај Жички",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-21": {
+      "description": "Свети свештеномученик Јануарије, Епископ кампаниjски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-22": {
+      "description": "Преподобни Теодор Сикеот; Свети свештеномученик Платон Бањалучки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-24": {
+      "description": "Свети Сава Стратилат; Свети Сава Ердељски; Свети свештеномученик Бранко",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-25": {
+      "description": "Свети апостол и јеванђелист Марко – Марковдан",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "04-26": {
+      "description": "Свети свештеномученик Василије Амасијски ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-27": {
+      "description": "Св. ап. Симеон, Еп. Jерусалимски; Спаљивање моштију Светог Саве на Врачару",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-28": {
+      "description": "Свети апостоли Јасон и Сосипатр и остали",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-29": {
+      "description": "Свети Василије Острошки Чудотворац; Св. муч. Василије, пекар из Пећи",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "04-30": {
+      "description": "Свети апостол Јаков Зеведејев (Оданије Преполовљења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-01": {
+      "description": "МАJ – Свети пророк Јеремија",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "05-02": {
+      "description": "Свети Атанасије Велики; Свети Михаил",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-03": {
+      "description": "Свети мученици Тимотеј и Мавра ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-04": {
+      "description": "Света мученица Пелагија Тарсијска",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-05": {
+      "description": "Света великомученица Ирина",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-06": {
+      "description": "Свети праведни Јов; Пренос моштију Светог Саве Српског",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-07": {
+      "description": "Појава Часног Крста у Јерусалиму (Оданије Васкрса)",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-09": {
+      "description": "Пренос моштију Светог оца Николаја; Свети пророк Исаиjа; Пећка икона Пресвете Богородице",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "05-10": {
+      "description": "Свети апостол Симон Зилот; Преподобна Исидора ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-11": {
+      "description": "Свети равноапостолни Кирило и Методије",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "05-12": {
+      "description": "Св. Епифаниjе Кипарски; Св. Герман Цариградски; Свети Никодим Српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-13": {
+      "description": "Света мученица Гликерија",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-14": {
+      "description": "Свети мученик Исидор Хиоски; Свети мученик Максим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-15": {
+      "description": "Преподобни Пахомије Велики; Свети Ахилије Лариски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-16": {
+      "description": "Преп. Теодор; Свештеномученик Теодор Вршачки; Св. муч. Вукашин; Св. Викентиjе и Св. муч. Сурдулички (Оданиjе Вазнесења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-17": {
+      "description": "Свети апостол Андроник и Света Јунија – Задушнице летње (духовске)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "05-20": {
+      "description": "Духовски уторак; Свети мученик Талалеj; Преподобни Стефан Пиперски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "05-21": {
+      "description": "Свети цар Константин и царица Јелена; Преподобна Јелена Дечанска",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "05-22": {
+      "description": "Свети мученик Василиск; Свети мученик Jован Владимир, Кнез српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-23": {
+      "description": "Преподобни Михаило Исповедник, Епископ синадски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-24": {
+      "description": "Преподобни Симеон Дивногорац (Оданиjе Педесетнице)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-26": {
+      "description": "Свети апостоли Карп и Алфеј; Св. мученици Зворничко-тузлански (Почетак Петровског поста) ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-27": {
+      "description": "Свети свештеномученик Терапонт; Преподобни Jован Руски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-28": {
+      "description": "Преподобни Никита Исповедник, Епископ халкидонски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-29": {
+      "description": "Света преподобномученица Теодосија Тирска",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-30": {
+      "description": "Преподобни Исакиjе Далматски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-31": {
+      "description": "Свети апостол Јерма; Свети мученик Ермије",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-01": {
+      "description": "JУН – Свети мученик Jустин Философ; Преподобни Jустин Ћелијски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-02": {
+      "description": "Свети Никифор; Свештеномученик Еразмо Охридски ⬤",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-03": {
+      "description": "Свети мученик Лукилијан и други с њим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-04": {
+      "description": "Свети Митрофан; Свете мироносице Марта и Марија; Свети Јоаникије Црногорски; Свети свештеномученик Ђорђе (Богић)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-05": {
+      "description": "Свети свештеномученик Доротеј; Преподобни Петар Коришки",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-06": {
+      "description": "Преподобни Висарион; Преподобни Иларион Нови",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-07": {
+      "description": "Свети свештеномученик Теодот Анкирски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-08": {
+      "description": "Свети великомученик Теодор Стратилат ◐",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-09": {
+      "description": "Свети Кирило Александријски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-10": {
+      "description": "Свети свештеномученик Тимотеј Бруски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-11": {
+      "description": "Свети апостоли Вартоломеј и Варнава; Икона Пресвете Богородице Достоjно Jест",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "06-12": {
+      "description": "Преподобни Онуфрије Велики; Преподобни Петар Атонски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-13": {
+      "description": "Света мученица Акилина; Свети Трифилије Кипарски; Св. свештмуч. Житомислићки",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-14": {
+      "description": "Свети пророк Јелисеј; Свети Методије Цариградски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true
+    },
+    "06-15": {
+      "description": "Свети мученик Кнез Лазар и сви Св. муч. српски – Видовдан; Свети пророк Амос",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "06-16": {
+      "description": "Свети Тихон Чудотворац, Епископ Аматунски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-17": {
+      "description": "Свети мученици Мануил, Савел и Исмаил ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-18": {
+      "description": "Свети мученици Леонтије, Ипатије и Теодул",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-19": {
+      "description": "Свети апостол Јуда; Преподобни Пајсије Велики; Свети Јован Шангајски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "06-20": {
+      "description": "Свети свштеномученик Методије; Преподобни Наум Охридски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-21": {
+      "description": "Свети мученик Јулијан Тарсијски; Преподобна Анастасија Српска",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-22": {
+      "description": "Свети свштеномученик Јевсевије, Епископ Самосатски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-23": {
+      "description": "Света мученица Агрипина",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-24": {
+      "description": "Рођење Светог Јована Претече – Ивањдан; Свети Никита, Епископ Ремезиjански ◑",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "06-25": {
+      "description": "Света преподобномученица Февронија",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-26": {
+      "description": "Преподобни Давид Солунски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-27": {
+      "description": "Преподобни Сампсон Странопримац",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "06-28": {
+      "description": "Пренос моштију светих бесребреника Кира и Јована; Свети мученици Милешевски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "06-29": {
+      "description": "Свети апостоли Петар и Павле – Петровдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "06-30": {
+      "description": "Сабор Светих дванаест апостола – Павловдан; Св. деца мученици, Jастребарски и Сисачки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-01": {
+      "description": "Свети мученици и бесребреници Козма и Дамјан ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-02": {
+      "description": "Полагање ризе Пресвете Богородице",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-03": {
+      "description": "Свети мученик Јакинт; Свети Анатолије Цариградски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-04": {
+      "description": "Свети Андреј Критски; Преп. Марта; Свети свештеномученик Сава Горњокарловачки; Св. 73 свештмуч. Горњокарловачка; Свети царски новомученици Романови",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-05": {
+      "description": "Преподобни Атанасије Атонски; Свети Сергије Радоњешки; Св. мученици Дабробосански",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-06": {
+      "description": "Преподобни Сисоје Велики",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-07": {
+      "description": "Преподобни Тома Малеин; Света великомученица Недеља; Преп. Акакиjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-08": {
+      "description": "Свети великомученик Прокопије ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-09": {
+      "description": "Свети свештеномученик Панкратије; Свети Теодор; Свети мученици Гламочки и Куленвакуфски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-10": {
+      "description": "Светих 45 мученика из Никопоља; Преподобни Антоније Печерски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-11": {
+      "description": "Света великомученица Ефимија; Свети равноапостолна Олга Руска",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-12": {
+      "description": "Свети мученик Прокло и Иларије; Икона Пресвете Богородице Тројеручице",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-13": {
+      "description": "Сабор Светог Архангела Гаврила; Преп. Стефан Саваит",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-14": {
+      "description": "Свети апостол Акила; Преподобни Никодим Светогорац",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-15": {
+      "description": "Свети мученици Кирик и Јулита; Свети Владимир Киjевски; Свети мученик Величко-горнjеполимски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-16": {
+      "description": "Свети свештеномученик Антиноген; Света мученица Јулија ⵔ",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-17": {
+      "description": "Света великомученица Марина – Огњена Марија; Св. свештмуч. и муч. Ливањски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-18": {
+      "description": "Свети мученик Емилијан; Свети мученик Јакинт",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-19": {
+      "description": "Преподобна Макрина; Свети Стефан, Деспот српски; Преподобна Евгенија (Лазаревић)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-20": {
+      "description": "Свети пророк Илија – Илиндан; Свети Илија Грузијски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "07-21": {
+      "description": "Свети пророк Језекиљ; Преподобни Симеон Jуродиви и Jован",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-22": {
+      "description": "Света Марија Магдалина – Блага Марија; Св. свештмуч. Фока",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-23": {
+      "description": "Свети мученици Трофим, Теофил и други с њима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-24": {
+      "description": "Света великомученица Христина; Преподобни Поликарп Печерски; Свети мученици Пребиловачки и Доњохерцеговачки ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-25": {
+      "description": "Успеније свете Ане, маjке Пресвете Богородице; Св. Олимпиjада и Евпраксиjа",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-26": {
+      "description": "Света преподобномученица Параскева (Света Петка); Св. свештмуч. Ермолаj; Свети Сава Трећи Српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-27": {
+      "description": "Свети великомученик Пантелејмон; Свети Климент Охридски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "07-28": {
+      "description": "Свети апостоли и ђакони Прохор, Никанор, Тимон и Пармен; Св. свештмуч. Милош, Грковачко-црнолушки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-29": {
+      "description": "Свети мученик Калиник; Света мученица Серафима",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-30": {
+      "description": "Св. ап. Сила, Силуан и други; Преподобна мати Ангелина Српска ⬤",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "07-31": {
+      "description": "Свети мученик Евдоким; Света мученица Јулита (Госпојинске покладе)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-01": {
+      "description": "Изношење Часног Крста; Св. муч. Макавеји (Почетак поста)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "08-02": {
+      "description": "Пренос моштију Светог првомученика и архиђакона Стефана",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-03": {
+      "description": "Преподобни Исакије, Далмат и Фауст",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-04": {
+      "description": "Светих седам мученика у Ефесу",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-05": {
+      "description": "Свети мученик Евсигније (Претпразништво Преображења)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-06": {
+      "description": "Преображење Господње",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "08-07": {
+      "description": "Свети преподобномученик Дометије; Преподобни Ор ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-08": {
+      "description": "Свети Емилијан Исповедник; Преподобни Зосим и Jаков Тумански",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-09": {
+      "description": "Свети апостол Матија; Свети мученик Антоније",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-10": {
+      "description": "Свети мученик и архиђакон Лаврентије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-11": {
+      "description": "Свети мученик и архиђакон Евпло",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-12": {
+      "description": "Свети мученици Фотије, Аникита и други с њима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-13": {
+      "description": "Пренос моштиjу преп. Максима Исповедника; Свети мученик Иполит (Оданије Преображења)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-14": {
+      "description": "Свети пророк Михеј Други (Претпразништво Успенија)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-15": {
+      "description": "Успеније Пресвете Богородице – Велика Госпојина ⵔ",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "08-16": {
+      "description": "Нерукотворена икона Господа Исуса Христа; Свети Јевстатије, Други Архиепископ српски; Преподобни Роман; Преподобни Рафаило банатски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-17": {
+      "description": "Свети мученик Патрокло; Свети мученик Мирон",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-18": {
+      "description": "Свети мученици Флор и Лавр; Преподобни Јован Рилски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-19": {
+      "description": "Свети мученик Андреј Стратилат и остали",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-20": {
+      "description": "Свети пророк Самуило; Свети свештеномученик Филип Ираклијски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-21": {
+      "description": "Свети апостол Тадеј; Света мученица Васа и њена деца Теогније, Агапије и Пист; Свештеномученик Рафаило Шишатовачки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-22": {
+      "description": "Свети мученик Агатоник; Свети свештеномученик Горазд Чешки ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "08-23": {
+      "description": "Свети свештеномученик Иринеј; Свети мученик Луп (Оданије Успенија)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-24": {
+      "description": "Свети свештеномученик Евтихије; Света мученица Сира; Св. свештмуч. Козма Етолски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-25": {
+      "description": "Пренос моштију Светог апостола Вартоломеја; Свети апостол Тит",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-26": {
+      "description": "Свети мученици Адријан и Наталија; Владимирска икона Маjке Божиjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "08-27": {
+      "description": "Преподобни Пимен Велики; Св. мученик Фануриjе",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-28": {
+      "description": "Преподобни Мојсеј Мурин; Преподобни Сава Псковски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-29": {
+      "description": "Усековање главе Светог Јована Крститеља ⬤",
+      "fasting": "вода",
+      "isRed": true,
+      "isBold": true
+    },
+    "08-30": {
+      "description": "Пренос моштију светог Александра Невског; Свети Александар, Jован и Павле Нови",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "08-31": {
+      "description": "Полагање појаса Пресвете Богородице; Свети мученици Jасеновачки; Сабор Светитеља српских",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-01": {
+      "description": "Црквена Нова година; Преподобни Симеон Столпник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-02": {
+      "description": "Свети мученик Мамант; Свети Јован Посник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-03": {
+      "description": "Св. свештеномученик Антим; Преп. Теоктист; Свети Јоаникије, први Патријарх српски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-04": {
+      "description": "Св. свештеномуч. Вавила; Св. пророк Мојсеј Боговидац; Свети Петар Дабробосански; Преп. Стефан Троношки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-05": {
+      "description": "Свети пророк Захарија и Света праведна Јелисавета ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-06": {
+      "description": "Чудо Светог Архангела Михаила; Свети мученик Евдоксије; Преп. Архип",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-07": {
+      "description": "Свети мученик Созонт (Претпразништво Рођења Пресвете Богородице)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-08": {
+      "description": "Рођење Пресвете Богородице – Мала Госпојина",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "09-09": {
+      "description": "Свети праведни богородитељи Јоаким и Ана; Св. мученик Севериjан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-10": {
+      "description": "Свете мученице Минодора, Митродора и Нимфодора",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-11": {
+      "description": "Преподобна Теодора Александриjска; Преподобни Сергије и Герман Валаамски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-12": {
+      "description": "Свети свештеномученик Автоном (Оданије Рођења Пресвете Богородице)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-13": {
+      "description": "Спомен освећења храма Васкрсења Господњег; Св. свештмуч. Корнилије (Претпразништво Воздвижења) ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-14": {
+      "description": "Воздвижење часног Крста – Крстовдан",
+      "fasting": "уље",
+      "isRed": true,
+      "isBold": true
+    },
+    "09-15": {
+      "description": "Свети великомученик Никита; Свети Јосиф Темишварски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-16": {
+      "description": "Преподобни Доротеј; Свети Кипријан; Света великомученица Јефимија",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-17": {
+      "description": "Свете мученице Вера, Нада и Љубав и мајка им Софија",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-18": {
+      "description": "Свети Евменије Гортински; Света мученица Ариадна",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-19": {
+      "description": "Свети мученици Трофим, Саватије и Доримедонт; Пренос моштиjу Св. Иринеjа, Епископ бачког",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-20": {
+      "description": "Свети великомученик Јевстатије ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-21": {
+      "description": "Свети апостол Кодрат (Оданије Воздвижења)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-22": {
+      "description": "Свети свештеномученик Фока; Свети пророк Јона",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-23": {
+      "description": "Зачеће Светог Јована Претече и Крститеља",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-24": {
+      "description": "Света првомученица Текла; Преподобни Симон, Свети краљ Владислав и Преподобни Давид Српски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-25": {
+      "description": "Преподобна Ефросинија; Свети Сергије Радоњешки",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-26": {
+      "description": "Свети апостол и јеванђелист Јован Богослов",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-27": {
+      "description": "Свети мученик Калистрат и остали – Задушнице михољске ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-28": {
+      "description": "Преподобни Харитон Исповедник; Св. препмуч. медљански игуман Серафим, монаси Авакум и Мардариjе",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "09-29": {
+      "description": "Преподобни Киријак Отшелник – Михољдан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "09-30": {
+      "description": "Свети свештеномученик Григорије; Свети Михаил Кијевски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-01": {
+      "description": "Покров Пресвете Богородице; Св. ап. Ананија; Преп. Роман Слаткопојац",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "10-02": {
+      "description": "Св. свештеномуч. Кипријан и Св. муч. Јустина девица; Преподобни Андреј",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-03": {
+      "description": "Свети свештеномученик Дионисије Ареопагит; Свети Паjсиjе (Jаневац), Патриjарх српски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-04": {
+      "description": "Свети Jеротеј Атински; Свети Стефан и Јелена (Штиљановић)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-05": {
+      "description": "Света мученица Харитина; Свети свештеномученик Дионисије ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-06": {
+      "description": "Свети апостол Тома – Томиндан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "10-07": {
+      "description": "Свети мученици Сергије и Вакхо – Срђевдан",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "10-08": {
+      "description": "Преподобна Пелагија Палестинска; Преподобна Таиса",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-09": {
+      "description": "Свети апостол Јаков; Свети деспот Стефан Српски (Слепи)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-10": {
+      "description": "Свети мученици Евлампије и Евлампија; Преп. Амвросиjе Оптински",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-11": {
+      "description": "Свети апостол Филип; Преподобни Теофан Начертани",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-12": {
+      "description": "Свети мученици Тарах, Пров и Андроник; Св. Козма Маjумски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-13": {
+      "description": "Свети мученик Карп и Папил; Света мученица Злата Мегленска; Света мученица Босиљка Пасјанска ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-14": {
+      "description": "Преподобна мати Параскева (Света Петка)",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "10-15": {
+      "description": "Свети свештеномученик Лукијан; Преподобни Јевтимије",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-16": {
+      "description": "Свети мученик Лонгин Сотник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-17": {
+      "description": "Свети пророк Осија; Свети преподобномученик Андреј Критски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-18": {
+      "description": "Свети апостол и јеванђелист Лука – Лучиндан; Свети Петар Цетињски",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "10-19": {
+      "description": "Преподобни Прохор Пчињски; Свети пророк Јоил; Преподобни Јован Рилски; Св. мученик Уар ◑",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-20": {
+      "description": "Свети великомученик Артемије; Преп. Герасим Кефалониjски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-21": {
+      "description": "Преподобни Иларион; Свети Иларион Мегленски; Свети Висарион Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-22": {
+      "description": "Свети равноапостолни Аверкије Јерапољски; Св. седам мученика Ефеских",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-23": {
+      "description": "Свети апостол Јаков, први Епископ Јерусалимски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "10-24": {
+      "description": "Свети великомученик Арета и остали",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-25": {
+      "description": "Свети мученици Маркијан и Мартирије – Задушнице јесење (митровске)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "10-26": {
+      "description": "Свети великомученик Димитрије – Митровдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "10-27": {
+      "description": "Свети мученик Нестор ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-28": {
+      "description": "Свети мученик Терентије; Преп. Стефан Саваит; Свети Арсеније Сремац, Архиепископ српски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-29": {
+      "description": "Преп. Аврамије Затворник; Св. препмуч. Анастасија Римљанка",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "10-30": {
+      "description": "Св. муч. Зиновије и Зиновија; Свети краљ Милутин; Преподобни Теоктист и Јелена; Свети Варнава Хвостански Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "10-31": {
+      "description": "Свети апостоли Стахије, Амплије, Урван и други с њима; Св. мученик Епимах",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-01": {
+      "description": "Свети Козма и Дамјан – Врачи",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-02": {
+      "description": "Свети мученици Акиндин, Пигасије и други с њима",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-03": {
+      "description": "Обновљење храма Светог великомученика Георгија – Ђурђиц; Св. муч. Акепсим и други са њим",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-04": {
+      "description": "Преподобни Јоаникије Велики; Свети свештеномученик Никандар и Ермеј ◐",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-05": {
+      "description": "Свети преподобномученици Галактион и Епистима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-06": {
+      "description": "Свети Павле Исповедник; Преподобни Варлаам Хутински",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-07": {
+      "description": "Света 33 мученика у Мелитини; Преподобни Лазар Галисиjски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-08": {
+      "description": "Сабор Светог Архангела Михаила и осталих Небеских Сила Бестелесних – Аранђеловдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "11-09": {
+      "description": "Свети мученици Онисифор и Порфирије; Свети Нектарије Егински; Преп. Матрона; Преп. Теоктиста",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-10": {
+      "description": "Свети апостоли Олимп, Ераст, Родион и други с њима",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-11": {
+      "description": "Свети великомученик Мина; Преп. Теодор Студит; Свети краљ Стефан Дечански ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-12": {
+      "description": "Свети Јован Милостиви; Преподобни Нил Синајски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-13": {
+      "description": "Свети Јован Златоусти, Патриjарх цариградски (Божићне покладе)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-14": {
+      "description": "Свети апостол Филип; Свети Григорије Палама",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-15": {
+      "description": "Свети мученици Гурије, Самон и Авив (Почетак поста)",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-16": {
+      "description": "Свети апостол и јеванђелист Матеј",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-17": {
+      "description": "Свети Григорије Чудотворац; Свети Максим, Патријарх цариградски; Преп. Севастијан Џексонски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-18": {
+      "description": "Свети мученик Платон; Свети мученици Роман и Варул Отрок ◑",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-19": {
+      "description": "Свети пророк Авдија; Св. муч. Варлаам; Преп. Јоасаф; Преподобни Порфирије Кавсокаливит",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-20": {
+      "description": "Преподобни Григорије Декаполит; Свети Прокло (Претпразништво Ваведења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-21": {
+      "description": "Ваведење Пресвете Богородице",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "11-22": {
+      "description": "Свети апостоли Филимон, Апфија и Архип; Света мученица Кикилија",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-23": {
+      "description": "Свети Амфилохије Иконијски; Свети Григорије; Свети Александар Невски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-24": {
+      "description": "Света великомученица Екатерина; Св. великомученик Меркурије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-25": {
+      "description": "Свети свештеномученик Климент; Св. свештмуч. Петар Александријски (Оданије Ваведења)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-26": {
+      "description": "Преподобни Алимпије Столпник ⬤",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "11-27": {
+      "description": "Свети мученик Јаков Персијанац; Свети Јаков Ростовски; Преп. Паладије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-28": {
+      "description": "Свети преподобномученик Стефан; Св. мученик Иринарх; Свети мученик Христо",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-29": {
+      "description": "Свети мученици Парамон и Филумен; Преп. Акакије; Свети Мардарије",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "11-30": {
+      "description": "Свети апостол Андреј Првозвани",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-01": {
+      "description": "Свети пророк Наум; Свети Филарет Милостиви",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-02": {
+      "description": "Свети пророк Авакум; Свети цар Урош; Преподобни Јоаникије Девички",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-03": {
+      "description": "Свети пророк Софоније; Преподобни Јован Ћутљиви",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-04": {
+      "description": "Света великомученица Варвара; Преподобни Јован Дамаскин ◐",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-05": {
+      "description": "Преподобни Сава Освећени; Преп. Нектарије Битољски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-06": {
+      "description": "Свети Николај, Архиепископ мирликијски Чудотворац – Никољдан",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "12-07": {
+      "description": "Свети Амвросије; Преподобни Григорије Горњачки – Детињци",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-08": {
+      "description": "Преподобни Патапије; Свети апостоли Состен, Аполо и други с њима",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-09": {
+      "description": "Зачеће Свете Ане; Света пророчица Ана",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-10": {
+      "description": "Свети мученик Мина и други с њим; Свети Јован, Деспот Српски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-11": {
+      "description": "Преподобни Данило Столпник ⵔ",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-12": {
+      "description": "Свети Спиридон Чудотворац, Епископ тримитунски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-13": {
+      "description": "Свети мученик Евстратије; Свети свештеномученик Гаврило, Патријарх српски",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-14": {
+      "description": "Свети мученици Тирс, Левкије, Филимон, Аполоније и други с њима – Материце",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true
+    },
+    "12-15": {
+      "description": "Свети свештеномученик Елевтерије; Преподобни Павле",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-16": {
+      "description": "Свети пророк Агеј; Света блажена царица Теофанија",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-17": {
+      "description": "Свети пророк Данило; Св. Три Младића; Свети преподобномученик ђакон Авакум и игуман Пајсије ◑",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "12-18": {
+      "description": "Свети мученик Севастијан; Свети Модест и други с њим",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-19": {
+      "description": "Преподобни Макарије Египатски; Свети Марко Ефески",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "01-26": {
+      "description": "Преподобни Ксенофонт, Марија и синови њихови",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-02": {
+      "description": "Сретење Господње",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "02-09": {
+      "description": "Свети мученик Никифор (Оданије Сретења)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "02-10": {
+      "description": "Свети свештеномученик Харалампије",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "03-22": {
+      "description": "Свети свештеномученик Василије Анкирски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-23": {
+      "description": "Свети свештеномученик Никон и други",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-24": {
+      "description": "Преподобни Захарије; Св. Артимиjе Солунски; Св. Иринеj Бачки, Исповедник вере (Претпразништво Благовести)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-25": {
+      "description": "Недеља трећа поста – Крстопоклона Благовести",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "03-26": {
+      "description": "Сабор Светог Архангела Гаврила ⬤",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "03-27": {
+      "description": "Света мученица Матрона Солунска",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-28": {
+      "description": "Преподобни Иларион Исповедник, Преп. Стефан Чудотворац",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-29": {
+      "description": "Преподобни Марко, Епископ Аретуски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-30": {
+      "description": "Преподобни Јован Лествичник",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "03-31": {
+      "description": "Свештеномученик Ипатиjе, Епископ гангриски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-01": {
+      "description": "Недеља четврта поста – Средопосна АПРИЛ – Преподобна Мариjа Египћанка",
+      "fasting": "уље",
+      "isRed": true,
+      "isBold": false
+    },
+    "04-02": {
+      "description": "Преподобни Тит Чудотворац ◐",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-03": {
+      "description": "Преподобни Никита Исповедник",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-04": {
+      "description": "Преп. Jосиф Химнограф; Преп. Георгиjе Малеин (Прво бдениjе)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "04-05": {
+      "description": "Свети мученици Агатопод и Теодул",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-06": {
+      "description": "Свети Евтихије, Патриjарх Цариградски (Друго бдениjе)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "04-13": {
+      "description": "Свети свештеномученик Артемон Лаодикиjски",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "04-23": {
+      "description": "Васкрсни понедељак. Свети великомученик Георгије – Ђурђевдан",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "05-08": {
+      "description": "Свети апостол и јеванђелист Јован Богослов; Св. свештеномуч. Недељко Раковички",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "05-18": {
+      "description": "Свети мученик Теодот Анкирски и седам мученица; Мученици Петар, Дионисиjе и остали",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-19": {
+      "description": "Свети свештеномученик Патрикије",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "05-25": {
+      "description": "Треће обретење главе Светог Јована Крститеља",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    }
+  },
+  "moveableByPaschaDistance": {
+    "-70": {
+      "description": "Преподобни Макарије Египатски; Свети Марко Ефески ⵔ",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "-63": {
+      "description": "Преподобни Ксенофонт, Марија и синови њихови",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "-56": {
+      "description": "Сретење Господње (Месне покладе)",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "-49": {
+      "description": "Свети мученик Никифор (Беле покладе)",
+      "fasting": "б.мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "-48": {
+      "description": "Свети свештеномученик Харалампије (Почетак поста)",
+      "fasting": "✱",
+      "isRed": false,
+      "isBold": true
+    },
+    "-8": {
+      "description": "Свети свештеномученик Василије Анкирски – Лазарева субота (Врбица)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "-7": {
+      "description": "Улазак Господа Исуса Христа у Jерусалим – Цвети",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "-6": {
+      "description": "Преподобни Захарије; Св. Артимиjе Солунски; Св. Иринеj Бачки, Исповедник вере (Претпразништво Благовести)",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    },
+    "-5": {
+      "description": "Благовести",
+      "fasting": "риба",
+      "isRed": true,
+      "isBold": true
+    },
+    "-4": {
+      "description": "Сабор Светог Архангела Гаврила (Оданиjе Благовеси)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "-3": {
+      "description": "Велики четвртак (Велико бдениjе)",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": true
+    },
+    "-2": {
+      "description": "Велики петак ◑",
+      "fasting": "✱",
+      "isRed": true,
+      "isBold": true
+    },
+    "-1": {
+      "description": "Велика субота",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": true
+    },
+    "0": {
+      "description": "В а с к р с – Васкрсење Господа Исуса Христа",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "1": {
+      "description": "Васкрсни понедељак",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "2": {
+      "description": "Васкрсни уторак",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "3": {
+      "description": "Преподобни Тит Чудотворац",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "4": {
+      "description": "Преподобни Никита Исповедник",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "5": {
+      "description": "Преп. Jосиф Химнограф; Преп. Георгиjе Малеин; Источни петак ⬤",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "6": {
+      "description": "Свети мученици Агатопод и Теодул",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "7": {
+      "description": "Свети Евтихије, Патриjарх Цариградски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "14": {
+      "description": "Свети свештеномученик Артемон Лаодикиjски",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": false
+    },
+    "24": {
+      "description": "Свети великомученик Георгије – Ђурђевдан (Преполовљење)",
+      "fasting": "риба",
+      "isRed": false,
+      "isBold": true
+    },
+    "39": {
+      "description": "Вазнесење Господње – Спасовдан; Свети апостол и јеванђелист Јован Богослов; Св. свештеномуч. Недељко Раковички",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "49": {
+      "description": "Силазак Светог Духа на апостоле – Духови – Педесетница ⵔ",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "50": {
+      "description": "Духовски понедељак",
+      "fasting": "мрс",
+      "isRed": true,
+      "isBold": true
+    },
+    "56": {
+      "description": "Треће обретење главе Светог Јована Крститеља; Св. муч. Пивски (Петровске покладе)",
+      "fasting": "мрс",
+      "isRed": false,
+      "isBold": true
+    },
+    "-28": {
+      "description": "Свети свештеномученик Теодот, Епископ Киринејски",
+      "fasting": "уље",
+      "isRed": false,
+      "isBold": false
+    },
+    "57": {
+      "description": "Свети апостоли Карп и Алфеј; Св. мученици Зворничко-тузлански (Почетак Петровског поста) ◑",
+      "fasting": "вода",
+      "isRed": false,
+      "isBold": false
+    }
+  }
+}

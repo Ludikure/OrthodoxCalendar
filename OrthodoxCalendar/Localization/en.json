@@ -1,0 +1,46 @@
+{
+    "language": "en",
+    "displayName": "English",
+    "script": "latin",
+
+    "ui": {
+        "appTitle": "Orthodox Church Calendar",
+        "months": ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"],
+        "daysOfWeek": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        "daysOfWeekFull": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "julianLabel": "Julian",
+        "fastingLabel": "Fasting",
+        "readingsLabel": "Readings",
+        "commemorationsLabel": "Commemorations",
+        "settingsLabel": "Settings",
+        "todayLabel": "Today",
+        "feastTypes": {
+            "pascha": "Feast of Feasts",
+            "great": "Great Feast",
+            "major": "Feast",
+            "holyWeek": "Holy Week",
+            "bright": "Bright Week",
+            "minor": "Commemoration"
+        },
+        "fastingTypes": {
+            "noFast": "No Fast",
+            "fastFree": "Fast-Free",
+            "strict": "Strict Fast",
+            "fish": "Fish Allowed",
+            "oil": "Oil Allowed",
+            "wine": "Wine Allowed"
+        }
+    },
+
+    "feastNames": {},
+    "extraFeasts": [],
+    "feastTypeOverrides": {},
+
+    "fastingPeriodNames": {
+        "Great Lent":       "Great Lent",
+        "Apostles' Fast":   "Apostles' Fast",
+        "Dormition Fast":   "Dormition Fast",
+        "Nativity Fast":    "Nativity Fast"
+    }
+}

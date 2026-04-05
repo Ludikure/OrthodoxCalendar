@@ -1,0 +1,140 @@
+{
+    "language": "ru",
+    "displayName": "Русский",
+    "script": "cyrillic",
+
+    "ui": {
+        "appTitle": "Православный Церковный Календарь",
+        "months": ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        "daysOfWeek": ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        "daysOfWeekFull": ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+        "julianLabel": "Юлианский",
+        "fastingLabel": "Пост",
+        "readingsLabel": "Чтения",
+        "commemorationsLabel": "Святые дня",
+        "settingsLabel": "Настройки",
+        "todayLabel": "Сегодня",
+        "feastTypes": {
+            "pascha": "Праздник Праздников",
+            "great": "Великий Праздник",
+            "major": "Праздник",
+            "holyWeek": "Страстная Седмица",
+            "bright": "Светлая Седмица",
+            "minor": "Память"
+        },
+        "fastingTypes": {
+            "noFast": "Без поста",
+            "fastFree": "Разрешение",
+            "strict": "Строгий пост",
+            "fish": "Рыба разрешена",
+            "oil": "Елей разрешён",
+            "wine": "Вино разрешено"
+        }
+    },
+
+    "feastNames": {
+        "Lazarus Saturday":                         "Лазарева Суббота",
+        "Palm Sunday":                              "Вход Господень в Иерусалим — Вербное Воскресенье",
+        "Great and Holy Monday":                    "Великий Понедельник",
+        "Great and Holy Tuesday":                   "Великий Вторник",
+        "Great and Holy Wednesday":                 "Великая Среда",
+        "Great and Holy Thursday":                  "Великий Четверг",
+        "Great and Holy Friday":                    "Великая Пятница",
+        "Great and Holy Saturday":                  "Великая Суббота",
+        "Holy Pascha":                              "Пасха — Христос Воскресе!",
+        "Bright Monday":                            "Светлый Понедельник",
+        "Bright Tuesday":                           "Светлый Вторник",
+        "Bright Wednesday":                         "Светлая Среда",
+        "Bright Thursday":                          "Светлый Четверг",
+        "Bright Friday":                            "Светлая Пятница",
+        "Bright Saturday":                          "Светлая Суббота",
+        "Thomas Sunday":                            "Фомина Неделя — Антипасха",
+        "Sunday of the Myrrhbearing Women":         "Неделя Жен-Мироносиц",
+        "Mid-Pentecost":                            "Преполовение Пятидесятницы",
+        "Ascension of our Lord":                    "Вознесение Господне",
+        "Pentecost":                                "Пятидесятница — День Святой Троицы",
+        "Monday of the Holy Spirit":                "День Святого Духа",
+        "All Saints":                               "Неделя Всех Святых",
+        "Sunday of the Publican and the Pharisee":  "Неделя о Мытаре и Фарисее",
+        "Sunday of the Prodigal Son":               "Неделя о Блудном Сыне",
+        "Meatfare Sunday":                          "Мясопустная Неделя",
+        "Cheesefare Sunday":                        "Сыропустная Неделя — Прощёное Воскресенье",
+        "Clean Monday":                             "Чистый Понедельник",
+        "Circumcision of Our Lord":                 "Обрезание Господне",
+        "Theophany":                                "Крещение Господне — Богоявление",
+        "Synaxis of St John the Baptist":           "Собор Иоанна Крестителя",
+        "Meeting of Our Lord":                      "Сретение Господне",
+        "Annunciation":                             "Благовещение Пресвятой Богородицы",
+        "Transfiguration":                          "Преображение Господне",
+        "Dormition":                                "Успение Пресвятой Богородицы",
+        "Nativity of the Theotokos":                "Рождество Пресвятой Богородицы",
+        "Elevation of the Cross":                   "Воздвижение Креста Господня",
+        "Entry of the Theotokos":                   "Введение во Храм Пресвятой Богородицы",
+        "Nativity of Christ":                       "Рождество Христово",
+        "Nativity of St John the Baptist":          "Рождество Иоанна Предтечи",
+        "Ss Peter and Paul":                        "Святые Апостолы Пётр и Павел",
+        "Beheading of St John the Baptist":         "Усекновение Главы Иоанна Предтечи",
+        "Protection of the Theotokos":              "Покров Пресвятой Богородицы",
+        "St Nicholas":                              "Святитель Николай Чудотворец"
+    },
+
+    "extraFeasts": [
+        {
+            "julianMonth": 1, "julianDay": 10,
+            "name": "Прп. Серафим Саровский (преставление)",
+            "type": "great",
+            "description": "Один из самых почитаемых русских святых"
+        },
+        {
+            "julianMonth": 7, "julianDay": 15,
+            "name": "Равноап. Великий Князь Владимир — День Крещения Руси",
+            "type": "great",
+            "description": "Креститель Руси, 988 год"
+        },
+        {
+            "julianMonth": 7, "julianDay": 18,
+            "name": "Прп. Сергий Радонежский (обретение мощей)",
+            "type": "great"
+        },
+        {
+            "julianMonth": 9, "julianDay": 25,
+            "name": "Прп. Сергий Радонежский (преставление)",
+            "type": "great"
+        },
+        {
+            "julianMonth": 11, "julianDay": 4,
+            "name": "Казанская Икона Божией Матери",
+            "type": "great"
+        },
+        {
+            "julianMonth": 7, "julianDay": 8,
+            "name": "Казанская Икона Божией Матери (летняя)",
+            "type": "great"
+        },
+        {
+            "julianMonth": 6, "julianDay": 1,
+            "name": "Блгв. Великий Князь Димитрий Донской",
+            "type": "major"
+        },
+        {
+            "julianMonth": 4, "julianDay": 30,
+            "name": "Царственные Страстотерпцы",
+            "type": "major"
+        }
+    ],
+
+    "feastTypeOverrides": {
+        "Seraphim of Sarov":    "great",
+        "Sergius of Radonezh":  "great",
+        "Vladimir":             "great",
+        "Kazan":                "great"
+    },
+
+    "fastingPeriodNames": {
+        "Great Lent":       "Великий Пост",
+        "Apostles' Fast":   "Петров Пост",
+        "Dormition Fast":   "Успенский Пост",
+        "Nativity Fast":    "Рождественский Пост"
+    }
+}
