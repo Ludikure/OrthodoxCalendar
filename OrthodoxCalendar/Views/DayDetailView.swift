@@ -1,22 +1,12 @@
 import SwiftUI
 
 struct DayDetailView: View {
-    let dayInfo: DayInfo
+    let day: CalendarDay
     @Environment(LocalizationManager.self) private var localization
     @Environment(\.dismiss) private var dismiss
     @State private var showAddReminder = false
 
     private var calendar: Calendar { Calendar(identifier: .gregorian) }
-
-    /// Whether we have scraped local data for this day
-    private var hasLocalData: Bool {
-        !dayInfo.localDescription.isEmpty
-    }
-
-    /// Non-English locales with scraped data hide English API content
-    private var hideEnglishContent: Bool {
-        hasLocalData && localization.language != .en
-    }
 
     var body: some View {
         NavigationStack {
@@ -24,12 +14,10 @@ struct DayDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     dateHeader
                     feastSection
-                    if hasLocalData { localCommemorationSection }
                     fastingSection
-                    if !dayInfo.localPrayer.isEmpty { prayerSection }
-                    if !hideEnglishContent && !dayInfo.saints.isEmpty { commemorationsSection }
-                    if !hideEnglishContent && !dayInfo.readings.isEmpty { readingsSection }
-                    if !hideEnglishContent && !dayInfo.stories.isEmpty { storiesSection }
+                    if let reflection = day.reflection, !reflection.text.isEmpty { reflectionSection }
+                    if !day.feasts.isEmpty { commemorationsSection }
+                    if !day.readings.isEmpty { readingsSection }
                 }
                 .padding()
             }
@@ -53,7 +41,7 @@ struct DayDetailView: View {
                 }
             }
             .sheet(isPresented: $showAddReminder) {
-                AddReminderView(dayInfo: dayInfo)
+                AddReminderView(day: day)
             }
         }
     }
@@ -61,16 +49,15 @@ struct DayDetailView: View {
     // MARK: - Date Header
 
     private var formattedDate: String {
-        let day = calendar.component(.day, from: dayInfo.gregorianDate)
-        let month = calendar.component(.month, from: dayInfo.gregorianDate)
-        return "\(day) \(localization.localizedMonthName(month))"
+        "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth))"
     }
 
     private var dateHeader: some View {
         VStack(alignment: .leading, spacing: 4) {
-            // Full day name (dayInfo.weekday: 0=Sun..6=Sat)
-            if dayInfo.weekday >= 0, dayInfo.weekday < localization.bundle.ui.daysOfWeekFull.count {
-                Text(localization.bundle.ui.daysOfWeekFull[dayInfo.weekday])
+            // Full day name
+            let idx = day.weekdayIndex
+            if idx >= 0, idx < localization.bundle.ui.daysOfWeekFull.count {
+                Text(localization.bundle.ui.daysOfWeekFull[idx])
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -79,13 +66,13 @@ struct DayDetailView: View {
             HStack {
                 Text(localization.ui.julianLabel)
                     .foregroundStyle(.secondary)
-                Text(dayInfo.julianDateString)
+                Text(day.julianDate)
             }
             .font(.subheadline)
 
-            // Tone
-            if let tone = dayInfo.tone, tone > 0 {
-                Text("Глас \(tone)")
+            // Liturgical period
+            if let period = day.liturgicalPeriod, !period.isEmpty {
+                Text(period)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -96,58 +83,45 @@ struct DayDetailView: View {
 
     private var feastSection: some View {
         VStack(alignment: .leading, spacing: 6) {
-            // Use localized display name when available
-            let title = hasLocalData ? dayInfo.localDescription : dayInfo.displayName
-            if !title.isEmpty {
-                Text(title)
+            // Primary feast
+            if let primary = day.primaryFeast {
+                Text(primary.name)
                     .font(.title3)
                     .fontWeight(.bold)
-                    .foregroundStyle(dayInfo.localIsRed ? AppColors.crimson : feastTitleColor)
+                    .foregroundStyle(primary.importance == "great" ? AppColors.crimson : .primary)
+
+                if day.isGreatFeast {
+                    Text(greatFeastLabel)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(AppColors.crimson.opacity(0.15))
+                        .foregroundStyle(AppColors.crimson)
+                        .clipShape(Capsule())
+                }
             }
 
-            if let feastType = dayInfo.feastType {
-                Text(localization.localizedFeastType(feastType))
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(feastBadgeColor(feastType).opacity(0.15))
-                    .foregroundStyle(feastBadgeColor(feastType))
-                    .clipShape(Capsule())
-            }
-
-            // Extra feast (language-specific)
-            if let extra = dayInfo.extraFeastName, extra != dayInfo.displayName {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(extra)
+            // Secondary feasts
+            if !day.secondaryFeasts.isEmpty {
+                ForEach(day.secondaryFeasts, id: \.name) { feast in
+                    Text(feast.name)
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                    if let desc = dayInfo.extraFeastDescription {
-                        Text(desc)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
                 }
-                .padding(.top, 4)
             }
         }
     }
 
-    // MARK: - Local Commemorations (scraped Serbian/Russian data)
+    // MARK: - Commemorations
 
-    private var localCommemorationSection: some View {
+    private var commemorationsSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             Label(localization.ui.commemorationsLabel, systemImage: "person.2")
                 .font(.headline)
 
-            // The local description contains all saints for the day
-            // Split by semicolons for individual display
-            let parts = dayInfo.localDescription
-                .components(separatedBy: "; ")
-                .filter { !$0.isEmpty }
-
-            ForEach(parts, id: \.self) { part in
-                Text("• \(part)")
+            ForEach(day.feasts, id: \.name) { feast in
+                Text("• \(feast.name)")
                     .font(.subheadline)
             }
         }
@@ -160,58 +134,28 @@ struct DayDetailView: View {
             Label(localization.ui.fastingLabel, systemImage: "leaf")
                 .font(.headline)
 
-            if !dayInfo.localFastingDesc.isEmpty {
-                // Use scraped local fasting description
-                Text(dayInfo.localFastingDesc)
-                    .font(.body)
-            } else {
-                Text(dayInfo.fastLevelDesc)
-                    .font(.body)
-
-                if !dayInfo.fastExceptionDesc.isEmpty {
-                    Text(dayInfo.fastExceptionDesc)
-                        .font(.subheadline)
-                        .foregroundStyle(AppColors.fastFreeGreen)
-                }
-            }
-
-            // Liturgical note (Russian)
-            if !dayInfo.localLiturgicalNote.isEmpty {
-                Text(dayInfo.localLiturgicalNote)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.top, 2)
-            }
-        }
-    }
-
-    // MARK: - Prayer (Russian — Feofan Zatvornik)
-
-    private var prayerSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Label("Мысли на каждый день", systemImage: "book.closed")
-                .font(.headline)
-
-            Text(dayInfo.localPrayer)
+            Text(day.fasting.label)
                 .font(.body)
-                .foregroundStyle(.secondary)
+
+            if !day.fasting.explanation.isEmpty {
+                Text(day.fasting.explanation)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 
-    // MARK: - Commemorations (English API data)
+    // MARK: - Reflection
 
-    private var commemorationsSection: some View {
+    private var reflectionSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            // Only show English header when no local data, to avoid duplication
-            if !hasLocalData {
-                Label(localization.ui.commemorationsLabel, systemImage: "person.2")
+            if let reflection = day.reflection {
+                Label(reflection.source, systemImage: "book.closed")
                     .font(.headline)
-            }
 
-            ForEach(dayInfo.saints, id: \.self) { saint in
-                Text("• \(saint)")
-                    .font(.subheadline)
-                    .foregroundStyle(hasLocalData ? .secondary : .primary)
+                Text(reflection.text)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -223,67 +167,34 @@ struct DayDetailView: View {
             Label(localization.ui.readingsLabel, systemImage: "book")
                 .font(.headline)
 
-            ForEach(dayInfo.readings) { reading in
+            ForEach(Array(day.readings.enumerated()), id: \.offset) { _, reading in
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text(reading.source)
+                        Text(reading.book)
                             .font(.subheadline)
                             .fontWeight(.semibold)
-                        Text(reading.display)
+                        Text(reading.reference)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
+                        if let zachalo = reading.zachalo {
+                            Text("(зач. \(zachalo))")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }
-
-                    Text(reading.passage.map(\.content).joined(separator: " "))
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(nil)
                 }
                 .padding(.vertical, 4)
             }
         }
     }
 
-    // MARK: - Stories
+    // MARK: - Labels
 
-    private var storiesSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label(localization.ui.commemorationsLabel, systemImage: "text.book.closed")
-                .font(.headline)
-
-            ForEach(dayInfo.stories) { story in
-                DisclosureGroup {
-                    Text(story.story.replacingOccurrences(
-                        of: "<[^>]+>",
-                        with: "",
-                        options: .regularExpression
-                    ))
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                } label: {
-                    Text(story.title)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
-            }
-        }
-    }
-
-    // MARK: - Colors
-
-    private var feastTitleColor: Color {
-        guard let type = dayInfo.feastType else { return .primary }
-        return feastBadgeColor(type)
-    }
-
-    private func feastBadgeColor(_ type: FeastType) -> Color {
-        switch type {
-        case .pascha:   return AppColors.gold
-        case .great:    return AppColors.crimson
-        case .major:    return AppColors.feastBlue
-        case .holyWeek: return AppColors.holyWeekPurple
-        case .bright:   return AppColors.brightGold
-        case .minor:    return .secondary
+    private var greatFeastLabel: String {
+        switch localization.language {
+        case .sr: return "Велики празник"
+        case .ru: return "Великий праздник"
+        case .en: return "Great Feast"
         }
     }
 }

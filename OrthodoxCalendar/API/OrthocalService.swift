@@ -1,7 +1,7 @@
 import Foundation
 
 actor OrthocalService {
-    private let baseURL = "https://orthocal.info/api/gregorian"
+    private let baseURL = "https://orthocal.info/api/julian"
     private let cache = OrthocalCache()
     private let session: URLSession
     private let decoder: JSONDecoder
@@ -36,12 +36,13 @@ actor OrthocalService {
 
         let days = try decoder.decode([OrthocalDay].self, from: data)
 
-        // Cache all days
-        for day in days {
-            await cache.save(day, year: year, month: month, day: day.day)
+        // Cache by Gregorian day (1-based index, since month endpoint
+        // returns days in Gregorian order but with Julian date fields)
+        for (index, day) in days.enumerated() {
+            await cache.save(day, year: year, month: month, day: index + 1)
         }
 
-        return days.sorted { $0.day < $1.day }
+        return days
     }
 
     /// Fetch a single day (for detail view stories, etc.)

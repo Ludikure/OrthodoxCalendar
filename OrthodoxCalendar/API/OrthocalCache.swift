@@ -14,6 +14,21 @@ actor OrthocalCache {
     /// In-memory cache for the current session
     private var memoryCache: [String: [Int: OrthocalDay]] = [:]
 
+    /// Call from main thread at app startup to wipe stale caches
+    static func migrateIfNeeded() {
+        let versionKey = "cacheVersion"
+        let currentVersion = "v2-julian"
+        let stored = UserDefaults.standard.string(forKey: versionKey)
+        if stored != currentVersion {
+            let fm = FileManager.default
+            if let baseDir = fm.urls(for: .cachesDirectory, in: .userDomainMask).first?
+                .appendingPathComponent("OrthodoxCalendar", isDirectory: true) {
+                try? fm.removeItem(at: baseDir)
+            }
+            UserDefaults.standard.set(currentVersion, forKey: versionKey)
+        }
+    }
+
     // MARK: - Public
 
     func load(year: Int, month: Int, day: Int) -> OrthocalDay? {
@@ -83,10 +98,14 @@ actor OrthocalCache {
 
     // MARK: - Paths
 
+    /// Cache version — increment to invalidate old data (e.g., after API endpoint change)
+    private let cacheVersion = "v2-julian"
+
     private func cacheDirectory() -> URL? {
         fileManager.urls(for: .cachesDirectory, in: .userDomainMask)
             .first?
             .appendingPathComponent("OrthodoxCalendar", isDirectory: true)
+            .appendingPathComponent(cacheVersion, isDirectory: true)
     }
 
     private func monthFileURL(year: Int, month: Int) -> URL? {

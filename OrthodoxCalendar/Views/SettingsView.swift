@@ -14,13 +14,15 @@ struct SettingsView: View {
             }
 
             Section {
-                Picker(AppTheme.sectionTitle(for: localization.language),
-                       selection: $loc.theme) {
+                Picker(selection: $loc.theme) {
                     ForEach(AppTheme.allCases) { theme in
                         Text(theme.displayName(for: localization.language)).tag(theme)
                     }
+                } label: {
+                    EmptyView()
                 }
                 .pickerStyle(.inline)
+                .labelsHidden()
             } header: {
                 Text(AppTheme.sectionTitle(for: localization.language))
             }

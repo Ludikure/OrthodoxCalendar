@@ -33,8 +33,22 @@
         }
     },
 
-    "feastNames": {},
-    "extraFeasts": [],
+    "feastNames": {
+        "Nativity of Christ": "Nativity of Christ — Christmas"
+    },
+    "extraFeasts": [
+        { "julianMonth": 12, "julianDay": 25, "name": "Nativity of Christ — Christmas", "type": "great", "description": "The birth of our Lord and Savior Jesus Christ" },
+        { "julianMonth": 12, "julianDay": 24, "name": "Christmas Eve", "type": "great" },
+        { "julianMonth": 1, "julianDay": 6, "name": "Holy Theophany — Baptism of the Lord", "type": "great" },
+        { "julianMonth": 2, "julianDay": 2, "name": "Meeting of our Lord — Presentation", "type": "great" },
+        { "julianMonth": 3, "julianDay": 25, "name": "Annunciation", "type": "great" },
+        { "julianMonth": 8, "julianDay": 6, "name": "Transfiguration of our Lord", "type": "great" },
+        { "julianMonth": 8, "julianDay": 15, "name": "Dormition of the Most Holy Theotokos", "type": "great" },
+        { "julianMonth": 9, "julianDay": 8, "name": "Nativity of the Most Holy Theotokos", "type": "great" },
+        { "julianMonth": 9, "julianDay": 14, "name": "Elevation of the Holy Cross", "type": "great" },
+        { "julianMonth": 11, "julianDay": 21, "name": "Entry of the Theotokos into the Temple", "type": "great" },
+        { "julianMonth": 12, "julianDay": 6, "name": "St Nicholas the Wonderworker", "type": "major" }
+    ],
     "feastTypeOverrides": {},
 
     "fastingPeriodNames": {

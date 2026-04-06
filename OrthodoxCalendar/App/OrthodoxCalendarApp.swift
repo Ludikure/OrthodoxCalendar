@@ -6,6 +6,7 @@ struct OrthodoxCalendarApp: App {
     @State private var viewModel: CalendarViewModel
 
     init() {
+        OrthocalCache.migrateIfNeeded()
         let loc = LocalizationManager()
         _localization = State(initialValue: loc)
         _viewModel = State(initialValue: CalendarViewModel(localizationManager: loc))
@@ -30,7 +31,10 @@ struct OrthodoxCalendarApp: App {
                     Task { await viewModel.loadMonth() }
                 }
                 .onChange(of: viewModel.currentYear) {
-                    Task { await viewModel.loadMonth() }
+                    Task {
+                        await viewModel.loadMonth()
+                        await viewModel.buildEnglishSearchIndex()
+                    }
                 }
         }
     }

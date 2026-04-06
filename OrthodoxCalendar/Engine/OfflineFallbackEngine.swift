@@ -146,4 +146,39 @@ struct OfflineFallbackEngine {
 
         return localization.ui.fastingTypes["noFast"] ?? "No Fast"
     }
+
+    // MARK: - CalendarDay Bridge
+
+    func buildCalendarDay(for date: Date) -> CalendarDay {
+        let info = buildDayInfo(for: date)
+        let cal = Calendar(identifier: .gregorian)
+        let julianComps = JulianConverter.julianComponents(from: date)
+
+        var feasts: [Feast] = []
+        if !info.displayName.isEmpty {
+            feasts.append(Feast(name: info.displayName, importance: "bold", role: "primary"))
+        }
+
+        return CalendarDay(
+            gregorianDate: date.formatted(.iso8601.year().month().day().dateSeparator(.dash)),
+            julianDate: String(format: "%02d-%02d", julianComps.month, julianComps.day),
+            dayOfWeek: (cal.component(.weekday, from: date) + 5) % 7,
+            paschaDistance: info.paschaDistance ?? 0,
+            feasts: feasts,
+            liturgicalPeriod: nil,
+            weekLabel: nil,
+            greatFeast: nil,
+            fasting: FastingInfo(
+                type: info.fastLevelDesc,
+                label: info.fastLevelDesc,
+                explanation: "",
+                abbrev: "",
+                icon: ""
+            ),
+            readings: [],
+            reflection: nil,
+            fastingPeriod: nil,
+            isFastFreeWeek: false
+        )
+    }
 }

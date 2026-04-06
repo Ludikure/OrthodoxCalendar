@@ -2,7 +2,7 @@ import SwiftUI
 import EventKit
 
 struct AddReminderView: View {
-    let dayInfo: DayInfo
+    let day: CalendarDay
     @Environment(LocalizationManager.self) private var localization
     @Environment(\.dismiss) private var dismiss
 
@@ -98,6 +98,10 @@ struct AddReminderView: View {
 
     // MARK: - Save
 
+    private var eventDate: Date {
+        day.date ?? Date()
+    }
+
     private func saveEvent() async {
         do {
             let granted = try await store.requestFullAccessToEvents()
@@ -113,8 +117,8 @@ struct AddReminderView: View {
         let event = EKEvent(eventStore: store)
         event.title = title
         event.isAllDay = true
-        event.startDate = dayInfo.gregorianDate
-        event.endDate = dayInfo.gregorianDate
+        event.startDate = eventDate
+        event.endDate = eventDate
         event.calendar = store.defaultCalendarForNewEvents
         event.notes = notes.isEmpty ? nil : notes
 
@@ -125,7 +129,7 @@ struct AddReminderView: View {
         case .morningOf:
             // 9:00 AM on the day
             event.isAllDay = false
-            var components = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day], from: dayInfo.gregorianDate)
+            var components = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day], from: eventDate)
             components.hour = 9
             components.minute = 0
             if let date = Calendar(identifier: .gregorian).date(from: components) {
@@ -150,20 +154,11 @@ struct AddReminderView: View {
     // MARK: - Default title
 
     private var defaultTitle: String {
-        if !dayInfo.localDescription.isEmpty {
-            // Use first saint/feast from local data
-            let parts = dayInfo.localDescription.components(separatedBy: "; ")
-            return parts.first ?? dayInfo.localDescription
-        }
-        return dayInfo.displayName.isEmpty ? dayInfo.feasts.first ?? "" : dayInfo.displayName
+        day.primaryFeast?.name ?? day.feasts.first?.name ?? ""
     }
 
     private var formattedDate: String {
-        let cal = Calendar(identifier: .gregorian)
-        let day = cal.component(.day, from: dayInfo.gregorianDate)
-        let month = cal.component(.month, from: dayInfo.gregorianDate)
-        let year = cal.component(.year, from: dayInfo.gregorianDate)
-        return "\(day) \(localization.localizedMonthName(month)) \(year)"
+        "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth)) \(day.gregorianDate.prefix(4))"
     }
 
     // MARK: - Localized labels

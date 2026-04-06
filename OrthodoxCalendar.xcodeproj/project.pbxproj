@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		1B399F9AFFB84AAE4522D23A /* JulianConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E05FD61F64516950CF42DF8 /* JulianConverter.swift */; };
 		21CA7D298E381154FFEA4DA4 /* OfflineFallbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0386F14EE9815918ABCEE111 /* OfflineFallbackEngine.swift */; };
 		23A4147E0720A98686B675AC /* OrthocalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1B2826E25593B95C63617D /* OrthocalModels.swift */; };
+		3283899924ED84A00190D4A8 /* SaintSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B47236D31D29AF749CF046 /* SaintSearchView.swift */; };
 		3C3B6C389D155E27A33B4A08 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDDA2D7ADF0401D45B2786B /* AppColors.swift */; };
 		3EFA67FFEF5A1D96DCD43A4F /* DayCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DBE4A35B03A9BB9F648946 /* DayCellView.swift */; };
 		3FD51CCD75E6D79F12188F95 /* ru_calendar_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = 01D52262C336E3F9C166CF48 /* ru_calendar_2026.json */; };
@@ -24,12 +25,14 @@
 		5BB48F11DD54E12903BBB517 /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B6ABB33D59C087264D846E2 /* ru.json */; };
 		63240EF68EC49D0994D3AFF6 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5547954B52EDE13709406 /* CalendarViewModel.swift */; };
 		6CF375533A1F4C062A081680 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EDE17BE739F60342F5BA63 /* AppTheme.swift */; };
+		A285C64A8C43D8CD2F52CD86 /* CalendarDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA02E694646BC2E2271EFC /* CalendarDataManager.swift */; };
 		A2DD63DE81D357E824AC94B0 /* ru_saints_map.json in Resources */ = {isa = PBXBuildFile; fileRef = D55CAACF6EEB9202BB4BEFA1 /* ru_saints_map.json */; };
 		A6B731349BB0CF33D8CF0FC0 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CD08FD5B2F099488C4330D /* MonthView.swift */; };
 		A82C3843B0D2BF5F36F5E30F /* RussianCalendarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E26DDB5E0F326DE379DAFC /* RussianCalendarData.swift */; };
 		AA2E3F3933CDDA962725BB84 /* AddReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32BDC246767B40B0505A643 /* AddReminderView.swift */; };
 		ABC8D210AF3D5599BC1F9C93 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 1176307AC2AB030CBFFCE434 /* en.json */; };
 		B95954D6DF5216162F8656E7 /* MergeEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75ACEB36276CF0C672C763F9 /* MergeEngine.swift */; };
+		BC639BDA69FC95917EE1276C /* CalendarDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443256BAEF88F0248C5B8646 /* CalendarDay.swift */; };
 		BF5F685D7B57E2D18C57B037 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF579CEDB94AF053C4E5F9BA /* SettingsView.swift */; };
 		C51F4D81CBEC2DF566D2974A /* DayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2D4C1416A64CB20AFE5E9 /* DayInfo.swift */; };
 		C706D6DE19B9D3747D1A46F8 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D99BCF92C2B165D15537979 /* DayDetailView.swift */; };
@@ -48,10 +51,12 @@
 		0B6ABB33D59C087264D846E2 /* ru.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ru.json; sourceTree = "<group>"; };
 		1176307AC2AB030CBFFCE434 /* en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
 		17EA05058841907271FB8FEE /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		24B47236D31D29AF749CF046 /* SaintSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintSearchView.swift; sourceTree = "<group>"; };
 		2666F042BF5EC16A7903D72B /* PaschaCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaschaCalculator.swift; sourceTree = "<group>"; };
 		38DCBD334CA42ABE70456716 /* LocalizationBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationBundle.swift; sourceTree = "<group>"; };
 		3989D2D1A147EEF3C02F663A /* sr_calendar_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sr_calendar_2026.json; sourceTree = "<group>"; };
 		4066C01F5F2A5B71E9637197 /* OrthocalCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrthocalCache.swift; sourceTree = "<group>"; };
+		443256BAEF88F0248C5B8646 /* CalendarDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDay.swift; sourceTree = "<group>"; };
 		48554875793241D595EA9496 /* sr_saints_map.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sr_saints_map.json; sourceTree = "<group>"; };
 		56DBE4A35B03A9BB9F648946 /* DayCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCellView.swift; sourceTree = "<group>"; };
 		6964F3695788ADD376D90759 /* SerbianCalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerbianCalendarData.swift; sourceTree = "<group>"; };
@@ -59,7 +64,7 @@
 		75ACEB36276CF0C672C763F9 /* MergeEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeEngine.swift; sourceTree = "<group>"; };
 		8D964572381FC1262D1309BF /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
 		93C2D4C1416A64CB20AFE5E9 /* DayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayInfo.swift; sourceTree = "<group>"; };
-		980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orthodox Calendar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OrthodoxCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99E26DDB5E0F326DE379DAFC /* RussianCalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RussianCalendarData.swift; sourceTree = "<group>"; };
 		9B2D224BFC5FDF3FA9AE06A7 /* FeastType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeastType.swift; sourceTree = "<group>"; };
 		9E05FD61F64516950CF42DF8 /* JulianConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JulianConverter.swift; sourceTree = "<group>"; };
@@ -76,6 +81,7 @@
 		F1CD08FD5B2F099488C4330D /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
 		F9EDE17BE739F60342F5BA63 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		FA81D3B4611E38DD7A4246CE /* LegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendView.swift; sourceTree = "<group>"; };
+		FAFA02E694646BC2E2271EFC /* CalendarDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDataManager.swift; sourceTree = "<group>"; };
 		FBDDA2D7ADF0401D45B2786B /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +114,7 @@
 		4998A37C3B8AF8EE4196E35C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */,
+				980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,6 +124,7 @@
 			children = (
 				CBF37F5514D0CF20E2AA2AEA /* AppLanguage.swift */,
 				F9EDE17BE739F60342F5BA63 /* AppTheme.swift */,
+				443256BAEF88F0248C5B8646 /* CalendarDay.swift */,
 				93C2D4C1416A64CB20AFE5E9 /* DayInfo.swift */,
 				9B2D224BFC5FDF3FA9AE06A7 /* FeastType.swift */,
 				38DCBD334CA42ABE70456716 /* LocalizationBundle.swift */,
@@ -159,6 +166,7 @@
 				8D964572381FC1262D1309BF /* LanguagePickerView.swift */,
 				FA81D3B4611E38DD7A4246CE /* LegendView.swift */,
 				F1CD08FD5B2F099488C4330D /* MonthView.swift */,
+				24B47236D31D29AF749CF046 /* SaintSearchView.swift */,
 				CF579CEDB94AF053C4E5F9BA /* SettingsView.swift */,
 			);
 			path = Views;
@@ -168,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				FBDDA2D7ADF0401D45B2786B /* AppColors.swift */,
+				FAFA02E694646BC2E2271EFC /* CalendarDataManager.swift */,
 				B8D5547954B52EDE13709406 /* CalendarViewModel.swift */,
 				A58656732089CB6E21F1931A /* OrthodoxCalendarApp.swift */,
 			);
@@ -182,6 +191,13 @@
 				D236E3DD9818006803625A5F /* OrthocalService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		"TEMP_7F270497-0AA5-4D87-8519-1254E01AD82E" /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,7 +218,7 @@
 			packageProductDependencies = (
 			);
 			productName = OrthodoxCalendar;
-			productReference = 980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */;
+			productReference = 980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -224,6 +240,7 @@
 			);
 			mainGroup = 3D91E07283ED76385C9DD6FC;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -258,6 +275,8 @@
 				3C3B6C389D155E27A33B4A08 /* AppColors.swift in Sources */,
 				FD4EAEBBC7750038F1541F26 /* AppLanguage.swift in Sources */,
 				6CF375533A1F4C062A081680 /* AppTheme.swift in Sources */,
+				A285C64A8C43D8CD2F52CD86 /* CalendarDataManager.swift in Sources */,
+				BC639BDA69FC95917EE1276C /* CalendarDay.swift in Sources */,
 				F16E591DD878CBFD7C8638A4 /* CalendarTabView.swift in Sources */,
 				63240EF68EC49D0994D3AFF6 /* CalendarViewModel.swift in Sources */,
 				3EFA67FFEF5A1D96DCD43A4F /* DayCellView.swift in Sources */,
@@ -278,6 +297,7 @@
 				EAB54F46245B52E4C1EFA48E /* OrthodoxCalendarApp.swift in Sources */,
 				40C383602F48F6784287F5A4 /* PaschaCalculator.swift in Sources */,
 				A82C3843B0D2BF5F36F5E30F /* RussianCalendarData.swift in Sources */,
+				3283899924ED84A00190D4A8 /* SaintSearchView.swift in Sources */,
 				56904FC5CE8788217ED84EAA /* SerbianCalendarData.swift in Sources */,
 				BF5F685D7B57E2D18C57B037 /* SettingsView.swift in Sources */,
 			);
@@ -292,7 +312,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Add feast days and reminders to your calendar";
@@ -441,7 +460,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Add feast days and reminders to your calendar";

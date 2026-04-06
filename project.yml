@@ -23,6 +23,8 @@ targets:
       - path: OrthodoxCalendar/Localization/ru.json
       - path: OrthodoxCalendar/Localization/sr_saints_map.json
       - path: OrthodoxCalendar/Localization/ru_saints_map.json
+      - path: data/output/calendar_sr_2026.json
+      - path: data/output/calendar_ru_2026.json
     settings:
       base:
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES

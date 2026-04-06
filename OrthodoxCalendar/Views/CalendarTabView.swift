@@ -31,16 +31,23 @@ struct CalendarTabView: View {
                     .font(.subheadline)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        SettingsView()
-                    } label: {
-                        Image(systemName: "gearshape")
+                    HStack(spacing: 16) {
+                        Button {
+                            viewModel.showSearch = true
+                        } label: {
+                            Image(systemName: "magnifyingglass")
+                        }
+                        NavigationLink {
+                            SettingsView()
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
                     }
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(item: $vm.selectedDay) { dayInfo in
-                DayDetailView(dayInfo: dayInfo)
+            .sheet(isPresented: $vm.showSearch) {
+                SaintSearchView()
             }
         }
     }
@@ -141,9 +148,9 @@ struct MonthHeaderBar: View {
         HStack(spacing: 0) {
             // Column headers
             HStack(spacing: 0) {
-                columnHeader("дан", width: 28)
-                columnHeader("нов", width: 28)
-                columnHeader("стар", width: 28)
+                columnHeader(dayLabel, width: 28)
+                columnHeader(newLabel, width: 28)
+                columnHeader(oldLabel, width: 28)
             }
 
             // Month navigation
@@ -174,7 +181,7 @@ struct MonthHeaderBar: View {
             }
             .padding(.horizontal, 4)
 
-            Text("\(daysCount > 0 ? "\(daysCount)" : "") дана")
+            Text("\(daysCount > 0 ? "\(daysCount)" : "") \(daysLabel)")
                 .font(.caption2)
                 .foregroundStyle(.white.opacity(0.8))
                 .frame(width: 50, alignment: .trailing)
@@ -189,6 +196,38 @@ struct MonthHeaderBar: View {
             .font(.system(size: 9))
             .foregroundStyle(.white.opacity(0.85))
             .frame(width: width, alignment: .center)
+    }
+
+    private var dayLabel: String {
+        switch localization.language {
+        case .sr: return "дан"
+        case .ru: return "день"
+        case .en: return "day"
+        }
+    }
+
+    private var newLabel: String {
+        switch localization.language {
+        case .sr: return "нов"
+        case .ru: return "нов"
+        case .en: return "new"
+        }
+    }
+
+    private var oldLabel: String {
+        switch localization.language {
+        case .sr: return "стар"
+        case .ru: return "стар"
+        case .en: return "old"
+        }
+    }
+
+    private var daysLabel: String {
+        switch localization.language {
+        case .sr: return "дана"
+        case .ru: return "дней"
+        case .en: return "days"
+        }
     }
 
     private func goToPreviousMonth() {

@@ -11,26 +11,25 @@ struct MergeEngine: Sendable {
         info.julianDay = julDay
         info.paschaDistance = apiDay.paschaDistance
         info.tone = apiDay.tone
-        info.weekday = apiDay.weekday
+        // Compute weekday from Gregorian date (not API field, which may use Julian date context)
+        let gregWeekday = Calendar(identifier: .gregorian).component(.weekday, from: date)
+        info.weekday = gregWeekday - 1 // Calendar: 1=Sun..7=Sat → 0=Sun..6=Sat
         info.fastLevel = apiDay.fastLevel
         info.fastException = apiDay.fastException
 
-        // 1. Localize title
-        let apiTitle = apiDay.titles.first ?? apiDay.summaryTitle
-        if let localName = localization.feastNames[apiTitle] {
-            info.displayName = localName
-        } else {
-            var matched = false
-            for title in apiDay.titles {
-                if let localName = localization.feastNames[title] {
-                    info.displayName = localName
-                    matched = true
-                    break
-                }
+        // 1. Localize title — prefer feasts over titles (titles are week descriptions)
+        let allNames = apiDay.feasts + apiDay.titles
+        var matched = false
+        for name in allNames {
+            if let localName = localization.feastNames[name] {
+                info.displayName = localName
+                matched = true
+                break
             }
-            if !matched {
-                info.displayName = apiTitle
-            }
+        }
+        if !matched {
+            // Use first feast name if available, otherwise first title
+            info.displayName = apiDay.feasts.first ?? apiDay.titles.first ?? apiDay.summaryTitle
         }
 
         // 2. Feast type from API level + pascha distance
@@ -204,6 +203,70 @@ struct MergeEngine: Sendable {
             default: return ""
             }
         }
+    }
+
+    // MARK: - CalendarDay Bridge (API fallback)
+
+    /// Convert API data to CalendarDay format (used when no bundled JSON available)
+    func buildCalendarDay(apiDay: OrthocalDay, date: Date) -> CalendarDay {
+        let info = buildDayInfo(apiDay: apiDay, date: date)
+        let cal = Calendar(identifier: .gregorian)
+        let julianComps = JulianConverter.julianComponents(from: date)
+
+        // Build feasts from API data
+        var feasts: [Feast] = []
+        let allNames = apiDay.feasts + apiDay.titles
+        var primaryName = apiDay.feasts.first ?? apiDay.titles.first ?? apiDay.summaryTitle
+
+        // Check localized feast names
+        for name in allNames {
+            if let localName = localization.feastNames[name] {
+                primaryName = localName
+                break
+            }
+        }
+
+        if !primaryName.isEmpty {
+            feasts.append(Feast(name: primaryName, importance: apiDay.feastLevel >= 7 ? "great" : "bold", role: "primary"))
+        }
+        for (i, saint) in apiDay.saints.enumerated() {
+            feasts.append(Feast(name: saint, importance: "normal", role: i == 0 && feasts.isEmpty ? "primary" : (i < 2 ? "secondary" : "tertiary")))
+        }
+
+        let fastAbbrev = info.fastingAbbrev.isEmpty ? localizedFastAbbrev("none") : info.fastingAbbrev
+
+        return CalendarDay(
+            gregorianDate: date.formatted(.iso8601.year().month().day().dateSeparator(.dash)),
+            julianDate: String(format: "%02d-%02d", julianComps.month, julianComps.day),
+            dayOfWeek: (cal.component(.weekday, from: date) + 5) % 7, // Convert 1=Sun..7=Sat to 0=Mon..6=Sun
+            paschaDistance: apiDay.paschaDistance,
+            feasts: feasts,
+            liturgicalPeriod: nil,
+            weekLabel: nil,
+            greatFeast: apiDay.feastLevel >= 7 ? "great" : nil,
+            fasting: FastingInfo(
+                type: info.fastLevelDesc,
+                label: info.fastLevelDesc,
+                explanation: info.fastExceptionDesc,
+                abbrev: fastAbbrev,
+                icon: fastingIcon(fastAbbrev)
+            ),
+            readings: apiDay.readings.map { r in
+                ScriptureReading(type: r.source.lowercased(), book: r.book, title: nil, reference: r.display, zachalo: nil)
+            },
+            reflection: nil,
+            fastingPeriod: nil,
+            isFastFreeWeek: false
+        )
+    }
+
+    private func fastingIcon(_ abbrev: String) -> String {
+        let a = abbrev.lowercased()
+        if a == "*" || a == "✱" { return "🚫" }
+        if a.contains("вода") || a.contains("water") { return "💧" }
+        if a.contains("уље") || a.contains("елей") || a.contains("oil") { return "🫒" }
+        if a.contains("риба") || a.contains("рыба") || a.contains("fish") { return "🐟" }
+        return "✓"
     }
 
     /// Expand Serbian fasting abbreviation to full description
