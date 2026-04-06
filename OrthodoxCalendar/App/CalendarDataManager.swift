@@ -60,7 +60,11 @@ actor CalendarDataManager {
     /// Check whether bundled data exists for a given year/locale.
     func hasData(year: Int, locale: String) -> Bool {
         let filename = "calendar_\(locale)_\(year)"
-        return Bundle.main.url(forResource: filename, withExtension: "json") != nil
+        let found = Bundle.main.url(forResource: filename, withExtension: "json") != nil
+        #if DEBUG
+        print("[CalendarDataManager] hasData(\(filename).json) = \(found)")
+        #endif
+        return found
     }
 
     /// Clear cache (e.g. on memory warning).

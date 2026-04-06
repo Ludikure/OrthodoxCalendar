@@ -12,6 +12,7 @@ final class CalendarViewModel {
 
     var scrollToTodayTrigger = false
     var showSearch = false
+    var showDatePicker = false
     var isLoading = false
     var errorMessage: String?
 
@@ -87,48 +88,7 @@ final class CalendarViewModel {
     }
 
     func buildEnglishSearchIndex() async {
-        var index: [(month: Int, day: Int, text: String)] = []
-
-        // Try bundled English data first
-        let hasBundledEnglish = await dataManager.hasData(year: currentYear, locale: "en")
-        if hasBundledEnglish {
-            do {
-                let allDays = try await dataManager.allDays(year: currentYear, locale: "en")
-                for day in allDays {
-                    var parts: [String] = []
-                    for feast in day.feasts {
-                        parts.append(feast.name)
-                    }
-                    let text = parts.joined(separator: "; ")
-                    if !text.isEmpty {
-                        index.append((month: day.gregorianMonth, day: day.gregorianDay, text: text))
-                    }
-                }
-                englishSearchIndex = index
-                return
-            } catch {
-                // Fall through to API
-            }
-        }
-
-        // Fallback: API-based index
-        for month in 1...12 {
-            do {
-                let days = try await apiService.fetchMonth(year: currentYear, month: month)
-                for (i, apiDay) in days.enumerated() {
-                    let day = i + 1
-                    var parts: [String] = []
-                    parts.append(contentsOf: apiDay.titles)
-                    parts.append(contentsOf: apiDay.feasts)
-                    parts.append(contentsOf: apiDay.saints)
-                    let text = parts.joined(separator: "; ")
-                    if !text.isEmpty {
-                        index.append((month: month, day: day, text: text))
-                    }
-                }
-            } catch {}
-        }
-        englishSearchIndex = index
+        // English locale removed — no-op
     }
 
     // MARK: - Private Helpers

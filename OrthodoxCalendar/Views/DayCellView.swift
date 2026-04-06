@@ -39,18 +39,20 @@ struct DayRowView: View {
             // Day number + weekday column
             VStack(spacing: 2) {
                 Text("\(day.gregorianDay)")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(day.isSunday ? AppColors.crimson : .primary)
+                    .font(.system(.title3, design: .serif).weight(.bold))
+                    .foregroundStyle(day.isSunday ? AppColors.crimson : AppColors.darkText)
 
                 Text(dayOfWeekAbbrev)
                     .font(.caption2.weight(.semibold))
-                    .foregroundStyle(day.isSunday ? AppColors.crimson : .secondary)
+                    .tracking(0.5)
+                    .foregroundStyle(day.isSunday ? AppColors.crimson : AppColors.mutedText)
 
                 Text("\(day.julianDay)")
                     .font(.system(size: 9))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(AppColors.lightMuted)
             }
-            .frame(width: 44)
+            .frame(width: 52)
+            .padding(.top, 2)
 
             // Main content
             VStack(alignment: .leading, spacing: 3) {
@@ -60,11 +62,21 @@ struct DayRowView: View {
                         .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(AppColors.crimson)
                         .textCase(.uppercase)
-                        .tracking(0.8)
+                        .tracking(1.2)
                 }
 
                 // Primary text
                 descriptionView
+
+                // Secondary feasts (shown in normal mode too)
+                if !isExpanded {
+                    if let secondaryText = secondaryText, !secondaryText.isEmpty {
+                        Text(secondaryText)
+                            .font(.caption)
+                            .foregroundStyle(AppColors.mutedText)
+                            .lineLimit(1)
+                    }
+                }
 
                 // Expanded content
                 if isExpanded {
@@ -73,21 +85,29 @@ struct DayRowView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 8)
 
             // Fasting badge
             fastingBadge
                 .padding(.leading, 6)
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, isExpanded ? 12 : 8)
+        .padding(.horizontal, 16)
+        .padding(.vertical, isExpanded ? 14 : 10)
         .background(rowBackground)
+        .overlay(alignment: .leading) {
+            // Left red border for great feasts
+            if isGreatFeast {
+                Rectangle()
+                    .fill(AppColors.crimson)
+                    .frame(width: 4)
+            }
+        }
         .overlay(
             RoundedRectangle(cornerRadius: 0)
-                .fill(AppColors.gold.opacity(highlightOpacity))
+                .fill(AppColors.goldAccent.opacity(highlightOpacity))
         )
         .onChange(of: isExpanded) {
             if isExpanded {
-                // Gold highlight pulse
                 withAnimation(.easeIn(duration: 0.15)) { highlightOpacity = 0.2 }
                 withAnimation(.easeOut(duration: 0.6).delay(0.15)) { highlightOpacity = 0 }
             }
@@ -100,7 +120,6 @@ struct DayRowView: View {
         switch localization.language {
         case .sr: return "Велики празник"
         case .ru: return "Великий праздник"
-        case .en: return "Great Feast"
         }
     }
 
@@ -122,40 +141,26 @@ struct DayRowView: View {
         }
     }
 
+    // MARK: - Secondary Text
+
+    private var secondaryText: String? {
+        let secondaryNames = day.secondaryFeasts.map(\.name)
+        let tertiaryNames = day.tertiaryFeasts.map(\.name)
+        let all = (secondaryNames + tertiaryNames).filter { !$0.isEmpty }
+        return all.isEmpty ? nil : all.joined(separator: "; ")
+    }
+
     // MARK: - Description
 
     @ViewBuilder
     private var descriptionView: some View {
         let primaryName = day.primaryFeast?.name ?? ""
-        let secondaryNames = day.secondaryFeasts.map(\.name)
-        let tertiaryNames = day.tertiaryFeasts.map(\.name)
 
-        if isBold || isGreatFeast {
-            VStack(alignment: .leading, spacing: 2) {
-                if !primaryName.isEmpty {
-                    Text(primaryName)
-                        .font(.subheadline.weight(isBold ? .bold : .regular))
-                        .foregroundStyle(isRed ? AppColors.crimson : .primary)
-                        .lineLimit(isExpanded ? nil : 2)
-                }
-
-                if !secondaryNames.isEmpty {
-                    Text(secondaryNames.joined(separator: "; "))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(isExpanded ? nil : 1)
-                }
-            }
-        } else {
-            VStack(alignment: .leading, spacing: 1) {
-                let allNames = ([primaryName] + secondaryNames + tertiaryNames).filter { !$0.isEmpty }
-                let text = allNames.joined(separator: "; ")
-                if !text.isEmpty {
-                    Text(text)
-                        .font(.subheadline)
-                        .lineLimit(isExpanded ? nil : 2)
-                }
-            }
+        if !primaryName.isEmpty {
+            Text(primaryName)
+                .font(.system(.subheadline, design: .serif).weight(isBold ? .bold : .regular))
+                .foregroundStyle(isRed ? Color(red: 0.545, green: 0.102, blue: 0.102) : AppColors.darkText)
+                .lineLimit(isExpanded ? nil : 2)
         }
     }
 
@@ -164,18 +169,28 @@ struct DayRowView: View {
     @ViewBuilder
     private var expandedContent: some View {
         VStack(alignment: .leading, spacing: 8) {
+            // All secondary & tertiary feasts
+            let secondaryNames = day.secondaryFeasts.map(\.name)
+            let tertiaryNames = day.tertiaryFeasts.map(\.name)
+            let allSecondary = (secondaryNames + tertiaryNames).filter { !$0.isEmpty }
+            if !allSecondary.isEmpty {
+                Text(allSecondary.joined(separator: "; "))
+                    .font(.caption)
+                    .foregroundStyle(AppColors.mutedText)
+            }
+
             // Fasting detail
             if !day.fasting.explanation.isEmpty {
                 Label(day.fasting.explanation, systemImage: "leaf")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.mutedText)
             }
 
             // Reflection
             if let reflection = day.reflection, !reflection.text.isEmpty {
                 Text(reflection.text)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.mutedText)
                     .lineLimit(4)
             }
 
@@ -184,10 +199,10 @@ struct DayRowView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "book")
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.mutedText)
                     Text(day.readings.map { "\($0.book): \($0.reference)" }.joined(separator: " • "))
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.mutedText)
                         .lineLimit(2)
                 }
             }
@@ -204,7 +219,14 @@ struct DayRowView: View {
                 }
             }
         }
-        .padding(.top, 4)
+        .padding(.top, 6)
+        .padding(.top, 2)
+        .overlay(alignment: .top) {
+            Rectangle()
+                .fill(AppColors.warmBorder)
+                .frame(height: 1)
+                .padding(.horizontal, -8)
+        }
     }
 
     // MARK: - Fasting Badge
@@ -218,7 +240,7 @@ struct DayRowView: View {
                 .font(.system(size: 10, weight: .semibold))
         }
         .foregroundStyle(color)
-        .padding(.horizontal, 6)
+        .padding(.horizontal, 8)
         .padding(.vertical, 3)
         .background(bg)
         .clipShape(Capsule())
@@ -228,15 +250,15 @@ struct DayRowView: View {
         let icon = day.fasting.icon
         let fastType = day.fasting.type.lowercased()
         if fastType == "strict" || fastType == "dryeating" {
-            return (icon.isEmpty ? "🚫" : icon, Color.purple, Color.purple.opacity(0.1))
+            return (icon.isEmpty ? "🚫" : icon, AppColors.fastStrict, AppColors.fastStrictBg)
         } else if fastType == "hotwithoutoil" || fastType == "water" {
-            return (icon.isEmpty ? "💧" : icon, Color.blue, Color.blue.opacity(0.08))
+            return (icon.isEmpty ? "💧" : icon, AppColors.fastWater, AppColors.fastWaterBg)
         } else if fastType == "hotwithoil" || fastType == "oil" {
-            return (icon.isEmpty ? "🫒" : icon, Color.yellow.opacity(0.8), Color.yellow.opacity(0.08))
+            return (icon.isEmpty ? "🫒" : icon, AppColors.fastOil, AppColors.fastOilBg)
         } else if fastType == "fish" {
-            return (icon.isEmpty ? "🐟" : icon, Color.teal, Color.teal.opacity(0.08))
+            return (icon.isEmpty ? "🐟" : icon, AppColors.fastFish, AppColors.fastFishBg)
         } else {
-            return (icon.isEmpty ? "✓" : icon, Color.green, Color.green.opacity(0.08))
+            return (icon.isEmpty ? "✓" : icon, AppColors.fastFree, AppColors.fastFreeBg)
         }
     }
 
@@ -244,7 +266,6 @@ struct DayRowView: View {
         switch localization.language {
         case .sr: return "Детаљи"
         case .ru: return "Подробнее"
-        case .en: return "Details"
         }
     }
 }

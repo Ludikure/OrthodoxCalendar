@@ -27,11 +27,17 @@ struct MonthListView: View {
                             }
                         }
 
-                        Divider()
-                            .foregroundStyle(.secondary.opacity(0.3))
+                        // Warm border divider instead of gray
+                        Rectangle()
+                            .fill(AppColors.warmBorder)
+                            .frame(height: 1)
                     }
                 }
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 0))
+                .shadow(color: AppColors.darkText.opacity(0.06), radius: 6, y: 2)
             }
+            .background(AppColors.warmBg)
             .onAppear {
                 scrollToToday(proxy: proxy)
             }

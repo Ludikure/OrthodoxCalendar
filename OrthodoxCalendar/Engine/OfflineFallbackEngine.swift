@@ -61,6 +61,7 @@ struct OfflineFallbackEngine {
 
     // MARK: - Moveable Feasts by Pascha Distance
 
+    /// English moveable feast keys — used as lookup keys into localization.feastNames
     private func moveableFeastName(distance: Int) -> String? {
         let moveableFeasts: [Int: String] = [
             -49: "Sunday of the Publican and the Pharisee",
@@ -84,8 +85,12 @@ struct OfflineFallbackEngine {
              5:  "Bright Friday",
              6:  "Bright Saturday",
              7:  "Thomas Sunday",
+             9:  "Radonitsa",
             14:  "Sunday of the Myrrhbearing Women",
+            21:  "Sunday of the Paralytic",
             24:  "Mid-Pentecost",
+            28:  "Sunday of the Samaritan Woman",
+            35:  "Sunday of the Blind Man",
             39:  "Ascension of our Lord",
             49:  "Pentecost",
             50:  "Monday of the Holy Spirit",

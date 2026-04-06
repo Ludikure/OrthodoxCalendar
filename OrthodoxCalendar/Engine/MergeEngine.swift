@@ -20,11 +20,25 @@ struct MergeEngine: Sendable {
         // 1. Localize title — prefer feasts over titles (titles are week descriptions)
         let allNames = apiDay.feasts + apiDay.titles
         var matched = false
+        // Exact match first
         for name in allNames {
             if let localName = localization.feastNames[name] {
                 info.displayName = localName
                 matched = true
                 break
+            }
+        }
+        // Fuzzy match: check if any feastNames key is contained in API names (or vice versa)
+        if !matched {
+            for name in allNames {
+                for (key, localName) in localization.feastNames {
+                    if name.contains(key) || key.contains(name) {
+                        info.displayName = localName
+                        matched = true
+                        break
+                    }
+                }
+                if matched { break }
             }
         }
         if !matched {
@@ -91,6 +105,13 @@ struct MergeEngine: Sendable {
                 info.localDescription = srEntry.description
                 info.localIsRed = srEntry.isRed
                 info.localIsBold = srEntry.isBold
+                // If displayName was not localized (still English from API),
+                // replace it with the Serbian overlay description
+                if !matched, !srEntry.description.isEmpty {
+                    // Use first semicolon-separated item as the primary display name
+                    let parts = srEntry.description.components(separatedBy: ";")
+                    info.displayName = parts[0].trimmingCharacters(in: .whitespaces)
+                }
                 if !srEntry.fasting.isEmpty {
                     info.fastingAbbrev = srEntry.fasting
                     info.localFastingDesc = serbianFastingFull(srEntry.fasting)
@@ -194,12 +215,12 @@ struct MergeEngine: Sendable {
             case "water": return "вода"
             default: return ""
             }
-        default: // en
+        default:
             switch type {
-            case "none": return "n/r"
-            case "fish": return "fish"
-            case "oil": return "oil"
-            case "water": return "water"
+            case "none": return "мрс"
+            case "fish": return "риба"
+            case "oil": return "уље"
+            case "water": return "вода"
             default: return ""
             }
         }
@@ -213,18 +234,10 @@ struct MergeEngine: Sendable {
         let cal = Calendar(identifier: .gregorian)
         let julianComps = JulianConverter.julianComponents(from: date)
 
-        // Build feasts from API data
+        // Build feasts from API data — use displayName from buildDayInfo
+        // (already localized via feastNames lookup + Serbian overlay)
         var feasts: [Feast] = []
-        let allNames = apiDay.feasts + apiDay.titles
-        var primaryName = apiDay.feasts.first ?? apiDay.titles.first ?? apiDay.summaryTitle
-
-        // Check localized feast names
-        for name in allNames {
-            if let localName = localization.feastNames[name] {
-                primaryName = localName
-                break
-            }
-        }
+        let primaryName = info.displayName
 
         if !primaryName.isEmpty {
             feasts.append(Feast(name: primaryName, importance: apiDay.feastLevel >= 7 ? "great" : "bold", role: "primary"))

@@ -134,35 +134,6 @@ struct SaintSearchView: View {
                     ))
                 }
             }
-        } else {
-            // English: search API data indexed from all 12 months
-            for entry in viewModel.englishSearchIndex {
-                if entry.text.lowercased().contains(q) {
-                    found.append(SaintSearchResult(
-                        matchedText: entry.text,
-                        julianKey: nil,
-                        paschaDistance: nil,
-                        gregorianMonth: entry.month,
-                        gregorianDay: entry.day,
-                        language: .en
-                    ))
-                }
-            }
-            // Also search extraFeasts from en.json (has "Christmas" etc.)
-            for extra in localization.bundle.extraFeasts {
-                if extra.name.lowercased().contains(q) {
-                    let jkey = String(format: "%02d-%02d", extra.julianMonth, extra.julianDay)
-                    found.append(SaintSearchResult(
-                        matchedText: extra.name,
-                        julianKey: jkey,
-                        paschaDistance: nil,
-                        language: .en
-                    ))
-                }
-            }
-            // Deduplicate — extraFeasts may overlap with API index
-            var seen = Set<String>()
-            found = found.filter { seen.insert($0.matchedText).inserted }
         }
 
         // Sort by date
@@ -238,7 +209,6 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Претрага"
         case .ru: return "Поиск"
-        case .en: return "Search"
         }
     }
 
@@ -246,7 +216,6 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Име светитеља или празника"
         case .ru: return "Имя святого или праздника"
-        case .en: return "Saint or feast name"
         }
     }
 
@@ -254,7 +223,6 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Нема резултата"
         case .ru: return "Ничего не найдено"
-        case .en: return "No results"
         }
     }
 
@@ -262,7 +230,6 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Готово"
         case .ru: return "Готово"
-        case .en: return "Done"
         }
     }
 }

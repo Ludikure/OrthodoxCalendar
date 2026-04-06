@@ -4,3 +4,6 @@ build/
 *.xcuserdata
 xcuserdata/
 *.xcworkspace/xcuserdata/
+__pycache__/
+*.pyc
+data/raw/

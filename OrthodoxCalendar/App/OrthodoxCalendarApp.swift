@@ -18,6 +18,7 @@ struct OrthodoxCalendarApp: App {
                 .environment(localization)
                 .environment(viewModel)
                 .preferredColorScheme(localization.theme.colorScheme)
+                .tint(AppColors.crimson)
                 .task {
                     await viewModel.loadMonth()
                 }
