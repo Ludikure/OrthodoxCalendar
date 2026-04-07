@@ -50,10 +50,6 @@ final class LocalizationManager {
         return bundle.ui.daysOfWeek[weekday]
     }
 
-    func localizedFeastType(_ type: FeastType) -> String {
-        bundle.ui.feastTypes[type.rawValue] ?? type.rawValue
-    }
-
     func localizedFastingDesc(_ apiDesc: String) -> String {
         // Map API fasting descriptions to localized versions
         let mapping: [(key: String, uiKey: String)] = [

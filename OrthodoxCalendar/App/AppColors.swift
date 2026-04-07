@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// App color constants — inline definitions to avoid asset catalog lookup issues
+/// App color constants with light/dark mode support
 enum AppColors {
+    // MARK: - Brand colors (same in both modes)
     static let gold = Color(red: 0.831, green: 0.686, blue: 0.216)
     static let crimson = Color(red: 0.788, green: 0.251, blue: 0.251)
     static let feastBlue = Color(red: 0.345, green: 0.510, blue: 0.690)
@@ -9,45 +10,101 @@ enum AppColors {
     static let brightGold = Color(red: 0.831, green: 0.753, blue: 0.502)
     static let fastFreeGreen = Color(red: 0.353, green: 0.541, blue: 0.314)
 
-    // MARK: - Redesign palette
+    // MARK: - Adaptive colors (light/dark)
 
-    /// Dark brown header background #2C2418
-    static let headerBg = Color(red: 0.173, green: 0.141, blue: 0.094)
+    /// Dark brown header background
+    static let headerBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.12, green: 0.10, blue: 0.07, alpha: 1)
+            : UIColor(red: 0.173, green: 0.141, blue: 0.094, alpha: 1)
+    })
 
-    /// Warm gray page background #F5F3EE
-    static let warmBg = Color(red: 0.961, green: 0.953, blue: 0.933)
+    /// Page background
+    static let warmBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.systemBackground
+            : UIColor(red: 0.961, green: 0.953, blue: 0.933, alpha: 1)
+    })
 
-    /// Gold accent #D4C5A9
-    static let goldAccent = Color(red: 0.831, green: 0.773, blue: 0.663)
+    /// Gold accent
+    static let goldAccent = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.75, green: 0.68, blue: 0.55, alpha: 1)
+            : UIColor(red: 0.831, green: 0.773, blue: 0.663, alpha: 1)
+    })
 
-    /// Muted text color #8C7E6A
-    static let mutedText = Color(red: 0.549, green: 0.494, blue: 0.416)
+    /// Muted text
+    static let mutedText = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.secondaryLabel
+            : UIColor(red: 0.549, green: 0.494, blue: 0.416, alpha: 1)
+    })
 
-    /// Warm border / divider color #F0EDE8
-    static let warmBorder = Color(red: 0.941, green: 0.929, blue: 0.910)
+    /// Warm border / divider
+    static let warmBorder = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.separator
+            : UIColor(red: 0.941, green: 0.929, blue: 0.910, alpha: 1)
+    })
 
-    /// Subtle warm background for cards #FAFAF6
-    static let cardBg = Color(red: 0.980, green: 0.980, blue: 0.965)
+    /// Card background
+    static let cardBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.secondarySystemBackground
+            : UIColor(red: 0.980, green: 0.980, blue: 0.965, alpha: 1)
+    })
 
-    /// Dark text #2C2418 (same as headerBg, used for body text)
-    static let darkText = Color(red: 0.173, green: 0.141, blue: 0.094)
+    /// Primary text
+    static let darkText = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.label
+            : UIColor(red: 0.173, green: 0.141, blue: 0.094, alpha: 1)
+    })
 
-    /// Lighter muted #B0A48E
-    static let lightMuted = Color(red: 0.690, green: 0.643, blue: 0.557)
+    /// Light muted
+    static let lightMuted = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.tertiaryLabel
+            : UIColor(red: 0.690, green: 0.643, blue: 0.557, alpha: 1)
+    })
 
-    /// Body text secondary #5C5040
-    static let bodyText = Color(red: 0.361, green: 0.314, blue: 0.251)
+    /// Body text secondary
+    static let bodyText = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor.secondaryLabel
+            : UIColor(red: 0.361, green: 0.314, blue: 0.251, alpha: 1)
+    })
 
-    // MARK: - Fasting colors (from mockup)
+    // MARK: - Fasting colors (same in both modes — badge backgrounds adapt via opacity)
 
-    static let fastStrict = Color(red: 0.482, green: 0.176, blue: 0.557)   // #7B2D8E
-    static let fastStrictBg = Color(red: 0.953, green: 0.910, blue: 0.969) // #F3E8F7
-    static let fastWater = Color(red: 0.180, green: 0.490, blue: 0.608)    // #2E7D9B
-    static let fastWaterBg = Color(red: 0.894, green: 0.949, blue: 0.969)  // #E4F2F7
-    static let fastOil = Color(red: 0.545, green: 0.482, blue: 0.176)      // #8B7B2D
-    static let fastOilBg = Color(red: 1.0, green: 0.973, blue: 0.882)      // #FFF8E1
-    static let fastFish = Color(red: 0.176, green: 0.420, blue: 0.310)     // #2D6B4F
-    static let fastFishBg = Color(red: 0.910, green: 0.961, blue: 0.925)   // #E8F5EC
-    static let fastFree = Color(red: 0.290, green: 0.486, blue: 0.247)     // #4A7C3F
-    static let fastFreeBg = Color(red: 0.929, green: 0.969, blue: 0.918)   // #EDF7EA
+    static let fastStrict = Color(red: 0.482, green: 0.176, blue: 0.557)
+    static let fastStrictBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.482, green: 0.176, blue: 0.557, alpha: 0.2)
+            : UIColor(red: 0.953, green: 0.910, blue: 0.969, alpha: 1)
+    })
+    static let fastWater = Color(red: 0.180, green: 0.490, blue: 0.608)
+    static let fastWaterBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.180, green: 0.490, blue: 0.608, alpha: 0.2)
+            : UIColor(red: 0.894, green: 0.949, blue: 0.969, alpha: 1)
+    })
+    static let fastOil = Color(red: 0.545, green: 0.482, blue: 0.176)
+    static let fastOilBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.545, green: 0.482, blue: 0.176, alpha: 0.2)
+            : UIColor(red: 1.0, green: 0.973, blue: 0.882, alpha: 1)
+    })
+    static let fastFish = Color(red: 0.176, green: 0.420, blue: 0.310)
+    static let fastFishBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.176, green: 0.420, blue: 0.310, alpha: 0.2)
+            : UIColor(red: 0.910, green: 0.961, blue: 0.925, alpha: 1)
+    })
+    static let fastFree = Color(red: 0.290, green: 0.486, blue: 0.247)
+    static let fastFreeBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.290, green: 0.486, blue: 0.247, alpha: 0.2)
+            : UIColor(red: 0.929, green: 0.969, blue: 0.918, alpha: 1)
+    })
 }

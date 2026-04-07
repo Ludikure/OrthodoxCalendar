@@ -19,10 +19,7 @@ targets:
     resources:
       - path: OrthodoxCalendar/Resources/Assets.xcassets
       - path: OrthodoxCalendar/Localization/sr.json
-      - path: OrthodoxCalendar/Localization/en.json
       - path: OrthodoxCalendar/Localization/ru.json
-      - path: OrthodoxCalendar/Localization/sr_saints_map.json
-      - path: OrthodoxCalendar/Localization/ru_saints_map.json
       - path: OrthodoxCalendar/Localization/calendar_sr_2026.json
       - path: OrthodoxCalendar/Localization/calendar_ru_2026.json
     settings:

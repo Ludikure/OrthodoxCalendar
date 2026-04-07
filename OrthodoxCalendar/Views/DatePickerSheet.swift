@@ -215,8 +215,9 @@ struct DatePickerSheet: View {
 
             LazyVGrid(columns: columns, spacing: 3) {
                 // Leading empty cells
-                ForEach(0..<offset, id: \.self) { _ in
+                ForEach(0..<offset, id: \.self) { i in
                     Color.clear.frame(height: 40)
+                        .id("empty-\(i)")
                 }
 
                 // Day cells
@@ -229,8 +230,7 @@ struct DatePickerSheet: View {
                     Button {
                         viewModel.currentMonth = pickerMonth
                         viewModel.currentYear = pickerYear
-                        // Scroll to this specific day
-                        viewModel.scrollToTodayTrigger.toggle()
+                        viewModel.navigateToDay = day
                         dismiss()
                     } label: {
                         Text("\(day)")

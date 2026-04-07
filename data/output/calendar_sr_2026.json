@@ -5582,9 +5582,9 @@
       "greatFeast": null,
       "fasting": {
         "type": "fishRoe",
-        "label": "Икра дозвољена",
-        "explanation": "Рибља икра дозвољена, риба није",
-        "abbrev": "икра",
+        "label": "Риба дозвољена",
+        "explanation": "Риба, уље, вино дозвољени",
+        "abbrev": "риба",
         "icon": "🐟"
       },
       "readings": [

@@ -21,9 +21,6 @@ struct CalendarTabView: View {
                     onMonthTap: { viewModel.showDatePicker = true }
                 )
 
-                // Fasting legend bar
-                FastingLegendBar()
-
                 // Day list
                 MonthListView()
             }
@@ -54,12 +51,28 @@ struct CalendarTabView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(item: $vm.selectedDay) { day in
+                DayDetailView(day: day)
+            }
             .sheet(isPresented: $vm.showSearch) {
                 SaintSearchView()
             }
             .sheet(isPresented: $vm.showDatePicker) {
                 DatePickerSheet(currentMonth: viewModel.currentMonth, currentYear: viewModel.currentYear)
                     .presentationDetents([.medium, .large])
+            }
+            .onChange(of: viewModel.navigateToDay) {
+                if let dayNum = viewModel.navigateToDay {
+                    // Wait for month data to load, then navigate to detail
+                    Task {
+                        // Give loadMonth time to complete
+                        try? await Task.sleep(for: .milliseconds(300))
+                        if let target = viewModel.daysInMonth.first(where: { $0.gregorianDay == dayNum }) {
+                            viewModel.selectedDay = target
+                        }
+                        viewModel.navigateToDay = nil
+                    }
+                }
             }
         }
     }

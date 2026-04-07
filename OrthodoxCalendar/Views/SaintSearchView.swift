@@ -88,62 +88,33 @@ struct SaintSearchView: View {
         }
 
         var found: [SaintSearchResult] = []
-        let lang = localization.language
+        let locale = localization.language.rawValue
+        let filename = "calendar_\(locale)_\(viewModel.currentYear)"
 
-        if lang == .sr {
-            let data = SerbianCalendarData.shared
-            for (julianKey, entry) in data.fixedByJulianDate {
-                if entry.description.lowercased().contains(q) {
+        guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let file = try? JSONDecoder().decode(CalendarFile.self, from: data) else {
+            results = []
+            return
+        }
+
+        for (_, day) in file.days {
+            for feast in day.feasts {
+                if feast.name.lowercased().contains(q) {
                     found.append(SaintSearchResult(
-                        matchedText: entry.description,
-                        julianKey: julianKey,
-                        paschaDistance: nil,
-                        language: .sr
-                    ))
-                }
-            }
-            for (dist, entry) in data.moveableByPaschaDistance {
-                if entry.description.lowercased().contains(q) {
-                    found.append(SaintSearchResult(
-                        matchedText: entry.description,
-                        julianKey: nil,
-                        paschaDistance: Int(dist),
-                        language: .sr
-                    ))
-                }
-            }
-        } else if lang == .ru {
-            let data = RussianCalendarData.shared
-            for (julianKey, entry) in data.fixedByJulianDate {
-                if entry.description.lowercased().contains(q) {
-                    found.append(SaintSearchResult(
-                        matchedText: entry.description,
-                        julianKey: julianKey,
-                        paschaDistance: nil,
-                        language: .ru
-                    ))
-                }
-            }
-            for (dist, entry) in data.moveableByPaschaDistance {
-                if entry.description.lowercased().contains(q) {
-                    found.append(SaintSearchResult(
-                        matchedText: entry.description,
-                        julianKey: nil,
-                        paschaDistance: Int(dist),
-                        language: .ru
+                        matchedText: feast.name,
+                        gregorianMonth: day.gregorianMonth,
+                        gregorianDay: day.gregorianDay,
+                        language: localization.language
                     ))
                 }
             }
         }
 
-        // Sort by date
+        // Sort by date and limit
         results = Array(found.sorted { a, b in
-            let aSort = a.gregorianMonth.map { String(format: "%02d-%02d", $0, a.gregorianDay ?? 0) }
-                ?? a.julianKey
-                ?? "99"
-            let bSort = b.gregorianMonth.map { String(format: "%02d-%02d", $0, b.gregorianDay ?? 0) }
-                ?? b.julianKey
-                ?? "99"
+            let aSort = String(format: "%02d-%02d", a.gregorianMonth ?? 0, a.gregorianDay ?? 0)
+            let bSort = String(format: "%02d-%02d", b.gregorianMonth ?? 0, b.gregorianDay ?? 0)
             return aSort < bSort
         }.prefix(50))
     }
@@ -151,28 +122,6 @@ struct SaintSearchView: View {
     // MARK: - Date Display
 
     private func dateDisplay(for result: SaintSearchResult) -> String {
-        let year = viewModel.currentYear
-
-        if let jk = result.julianKey {
-            let parts = jk.split(separator: "-")
-            if let jm = Int(parts[0]), let jd = Int(parts[1]),
-               let greg = JulianConverter.gregorianDate(julianMonth: jm, julianDay: jd, year: year) {
-                let cal = Calendar(identifier: .gregorian)
-                let day = cal.component(.day, from: greg)
-                let month = cal.component(.month, from: greg)
-                return "\(day) \(localization.localizedMonthName(month))"
-            }
-        }
-        if let pdist = result.paschaDistance,
-           let paschaDate = PaschaCalculator.pascha(for: year) {
-            let cal = Calendar(identifier: .gregorian)
-            if let feastDate = cal.date(byAdding: .day, value: pdist, to: paschaDate) {
-                let day = cal.component(.day, from: feastDate)
-                let month = cal.component(.month, from: feastDate)
-                return "\(day) \(localization.localizedMonthName(month))"
-            }
-        }
-        // Direct Gregorian date (from API index)
         if let gm = result.gregorianMonth, let gd = result.gregorianDay {
             return "\(gd) \(localization.localizedMonthName(gm))"
         }
@@ -182,23 +131,11 @@ struct SaintSearchView: View {
     // MARK: - Navigation
 
     private func navigateToDate(_ result: SaintSearchResult) {
-        if let julianKey = result.julianKey {
-            let parts = julianKey.split(separator: "-")
-            if let jm = Int(parts[0]), let jd = Int(parts[1]) {
-                if let greg = JulianConverter.gregorianDate(julianMonth: jm, julianDay: jd, year: viewModel.currentYear) {
-                    viewModel.currentMonth = Calendar(identifier: .gregorian).component(.month, from: greg)
-                    dismiss()
-                }
-            }
-        } else if let pdist = result.paschaDistance {
-            if let paschaDate = PaschaCalculator.pascha(for: viewModel.currentYear) {
-                if let feastDate = Calendar(identifier: .gregorian).date(byAdding: .day, value: pdist, to: paschaDate) {
-                    viewModel.currentMonth = Calendar(identifier: .gregorian).component(.month, from: feastDate)
-                    dismiss()
-                }
-            }
-        } else if let gm = result.gregorianMonth {
+        if let gm = result.gregorianMonth {
             viewModel.currentMonth = gm
+            if let gd = result.gregorianDay {
+                viewModel.navigateToDay = gd
+            }
             dismiss()
         }
     }
@@ -237,8 +174,6 @@ struct SaintSearchView: View {
 struct SaintSearchResult: Identifiable {
     let id = UUID()
     let matchedText: String
-    let julianKey: String?
-    let paschaDistance: Int?
     var gregorianMonth: Int?
     var gregorianDay: Int?
     let language: AppLanguage

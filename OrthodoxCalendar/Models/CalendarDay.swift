@@ -11,7 +11,9 @@ struct CalendarFile: Codable, Sendable {
 
 // MARK: - CalendarDay
 
-struct CalendarDay: Codable, Identifiable, Sendable {
+struct CalendarDay: Codable, Identifiable, Hashable, Sendable {
+    static func == (lhs: CalendarDay, rhs: CalendarDay) -> Bool { lhs.gregorianDate == rhs.gregorianDate }
+    func hash(into hasher: inout Hasher) { hasher.combine(gregorianDate) }
     let gregorianDate: String          // "2026-01-07"
     let julianDate: String             // "12-25"
     let dayOfWeek: Int                 // Python convention: 0=Mon..6=Sun
@@ -158,11 +160,18 @@ struct FastingInfo: Codable, Sendable {
 // MARK: - ScriptureReading
 
 struct ScriptureReading: Codable, Sendable {
-    let type: String                   // "apostol", "gospel"
-    let book: String
+    let type: String                   // "apostol", "gospel", "ot"
+    let book: String?
     let title: String?
-    let reference: String
+    let reference: String?
     let zachalo: Int?
+    let text: String?                  // Full scripture text
+    let service: String?               // "Јутрења", "Литургија", etc.
+
+    /// Best available display string for this reading
+    var displayReference: String {
+        reference ?? title ?? book ?? type
+    }
 }
 
 // MARK: - Reflection

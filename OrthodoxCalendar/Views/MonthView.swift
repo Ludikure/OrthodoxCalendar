@@ -5,36 +5,24 @@ struct MonthListView: View {
     @Environment(LocalizationManager.self) private var localization
 
     var body: some View {
-        @Bindable var vm = viewModel
-
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.daysInMonth) { day in
-                        DayRowView(
-                            day: day,
-                            isExpanded: viewModel.expandedDay?.id == day.id
-                        )
-                        .id(day.id)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.25)) {
-                                if viewModel.expandedDay?.id == day.id {
-                                    viewModel.expandedDay = nil
-                                } else {
-                                    viewModel.expandedDay = day
-                                }
-                            }
+                        NavigationLink {
+                            DayDetailView(day: day)
+                        } label: {
+                            DayRowView(day: day)
+                                .id(day.id)
                         }
+                        .buttonStyle(.plain)
 
-                        // Warm border divider instead of gray
                         Rectangle()
                             .fill(AppColors.warmBorder)
                             .frame(height: 1)
                     }
                 }
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 0))
+                .background(AppColors.cardBg)
                 .shadow(color: AppColors.darkText.opacity(0.06), radius: 6, y: 2)
             }
             .background(AppColors.warmBg)
@@ -47,18 +35,31 @@ struct MonthListView: View {
             .onChange(of: viewModel.scrollToTodayTrigger) {
                 scrollToToday(proxy: proxy)
             }
+            .onChange(of: viewModel.scrollToDay) {
+                if let day = viewModel.scrollToDay {
+                    scrollToDay(day, proxy: proxy)
+                    viewModel.scrollToDay = nil
+                }
+            }
         }
     }
 
     private func scrollToToday(proxy: ScrollViewProxy) {
         let calendar = Calendar(identifier: .gregorian)
-        let today = Date()
         if let todayDay = viewModel.daysInMonth.first(where: {
             guard let date = $0.date else { return false }
             return calendar.isDateInToday(date)
         }) {
             withAnimation {
                 proxy.scrollTo(todayDay.id, anchor: .center)
+            }
+        }
+    }
+
+    private func scrollToDay(_ dayNum: Int, proxy: ScrollViewProxy) {
+        if let target = viewModel.daysInMonth.first(where: { $0.gregorianDay == dayNum }) {
+            withAnimation {
+                proxy.scrollTo(target.id, anchor: .center)
             }
         }
     }

@@ -274,43 +274,7 @@ struct DayDetailView: View {
             }
 
             ForEach(Array(day.readings.enumerated()), id: \.offset) { _, reading in
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack {
-                        Text(reading.type.uppercased())
-                            .font(.system(size: 11, weight: .bold))
-                            .tracking(0.8)
-                            .foregroundStyle(AppColors.mutedText)
-
-                        Spacer()
-
-                        Text(reading.reference)
-                            .font(.system(.caption, design: .serif).weight(.bold))
-                            .foregroundStyle(AppColors.darkText)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 2)
-                            .background(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(AppColors.warmBorder)
-                            )
-                    }
-
-                    if let zachalo = reading.zachalo {
-                        Text("\(reading.book) (зач. \(zachalo))")
-                            .font(.caption)
-                            .foregroundStyle(AppColors.mutedText)
-                    }
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(.white)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(AppColors.warmBorder, lineWidth: 1.5)
-                        )
-                )
-                .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
+                ReadingCard(reading: reading)
             }
         }
     }
@@ -408,5 +372,103 @@ struct DayDetailView: View {
     private func isEnglishText(_ text: String) -> Bool {
         let latinRange = text.range(of: "[a-zA-Z]{3,}", options: .regularExpression)
         return latinRange != nil
+    }
+}
+
+// MARK: - Reading Card (expandable scripture text)
+
+struct ReadingCard: View {
+    let reading: ScriptureReading
+    @Environment(LocalizationManager.self) private var localization
+    @State private var isExpanded = false
+
+    private var localizedType: String {
+        let t = reading.type.lowercased()
+        switch localization.language {
+        case .sr:
+            if t == "gospel" { return "Јеванђеље" }
+            if t == "apostol" { return "Апостол" }
+            if t == "ot" { return "Стари Завет" }
+            return reading.type
+        case .ru:
+            if t == "gospel" { return "Евангелие" }
+            if t == "apostol" { return "Апостол" }
+            if t == "ot" { return "Ветхий Завет" }
+            return reading.type
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            // Header: type + reference
+            Button {
+                if reading.text != nil {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isExpanded.toggle()
+                    }
+                }
+            } label: {
+                HStack {
+                    // Service label if available
+                    if let service = reading.service {
+                        Text(service)
+                            .font(.system(size: 10, weight: .bold))
+                            .tracking(0.5)
+                            .foregroundStyle(AppColors.mutedText)
+                    }
+
+                    Text(localizedType.uppercased())
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(0.8)
+                        .foregroundStyle(AppColors.mutedText)
+
+                    Spacer()
+
+                    Text(reading.displayReference)
+                        .font(.system(.caption, design: .serif).weight(.bold))
+                        .foregroundStyle(AppColors.darkText)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(AppColors.warmBorder)
+                        )
+
+                    if reading.text != nil {
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .font(.caption2)
+                            .foregroundStyle(AppColors.lightMuted)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+
+            if let zachalo = reading.zachalo {
+                Text("зач. \(zachalo)")
+                    .font(.caption)
+                    .foregroundStyle(AppColors.mutedText)
+            }
+
+            // Scripture text (expandable)
+            if isExpanded, let text = reading.text, !text.isEmpty {
+                Text(text)
+                    .font(.system(.subheadline, design: .serif))
+                    .foregroundStyle(AppColors.bodyText)
+                    .lineSpacing(5)
+                    .padding(.top, 4)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(AppColors.cardBg)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(AppColors.warmBorder, lineWidth: 1.5)
+                )
+        )
+        .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
     }
 }
