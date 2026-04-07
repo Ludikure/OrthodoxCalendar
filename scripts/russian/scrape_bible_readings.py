@@ -17,13 +17,37 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'shared'))
 from paschalion import Paschalion
 
 YEAR = 2026
+FALLBACK_YEAR = 2025  # Year with full readings for pdist-based fallback
 JULIAN_OFFSET = 13
 CACHE_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'raw', 'ru')
 BIBLE_CACHE = os.path.join(CACHE_DIR, 'bible')
+FALLBACK_CACHE = os.path.join(CACHE_DIR, 'fallback_2025')
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'processed', 'ru')
 
 os.makedirs(BIBLE_CACHE, exist_ok=True)
+os.makedirs(FALLBACK_CACHE, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+
+def fetch_fallback_day_page(greg_date_2025):
+    """Fetch and cache an azbyka day page from the fallback year (2025)."""
+    ds = greg_date_2025.strftime("%Y-%m-%d")
+    cache_file = os.path.join(FALLBACK_CACHE, f"azbyka_{ds}.html")
+    if os.path.exists(cache_file):
+        with open(cache_file) as f:
+            return f.read()
+
+    url = f"https://azbyka.ru/days/{ds}"
+    req = urllib.request.Request(url, headers={"User-Agent": "OrthodoxCalendarApp/1.0"})
+    try:
+        html = urllib.request.urlopen(req, timeout=20).read().decode("utf-8")
+        with open(cache_file, 'w') as f:
+            f.write(html)
+        time.sleep(1.5)
+        return html
+    except Exception as e:
+        print(f"    Fallback fetch error {ds}: {e}", file=sys.stderr)
+        return ""
 
 
 def fetch_bible_page(book_code, chapter):
@@ -191,6 +215,7 @@ def parse_day_readings(html):
 
 def main():
     pasch = Paschalion(YEAR)
+    pasch_fallback = Paschalion(FALLBACK_YEAR)
     by_pdist = {}
     by_julian = {}
     total_days = 0
@@ -203,7 +228,8 @@ def main():
     all_bibrefs = {}  # href -> parsed info
     day_readings_map = {}  # "MM-DD" -> list of reading infos
 
-    print("Phase 1: Parsing day pages for reading references...", file=sys.stderr)
+    print("Phase 1: Parsing cached 2026 day pages for reading references...", file=sys.stderr)
+    missing_dates = []  # dates without inline readings
     while current <= end:
         if current.day == 1:
             print(f"  {current.strftime('%B')}...", file=sys.stderr)
@@ -211,6 +237,7 @@ def main():
         ds = current.strftime("%Y-%m-%d")
         cache_file = os.path.join(CACHE_DIR, f"azbyka_{ds}.html")
         if not os.path.exists(cache_file):
+            missing_dates.append(current)
             current += timedelta(days=1)
             continue
 
@@ -225,10 +252,79 @@ def main():
             for r in readings:
                 if r["href"] not in all_bibrefs and r["parsed"]:
                     all_bibrefs[r["href"]] = r["parsed"]
+        else:
+            missing_dates.append(current)
 
         current += timedelta(days=1)
 
-    print(f"  {total_days} days with readings, {len(all_bibrefs)} unique Bible refs", file=sys.stderr)
+    print(f"  {total_days} days with readings from 2026 cache, {len(all_bibrefs)} unique Bible refs", file=sys.stderr)
+    print(f"  {len(missing_dates)} dates without inline readings", file=sys.stderr)
+
+    # Phase 1b: Fetch fallback pages from 2025 for missing dates
+    if missing_dates:
+        print(f"\nPhase 1b: Fetching {len(missing_dates)} fallback pages from {FALLBACK_YEAR}...", file=sys.stderr)
+        fallback_found = 0
+        still_missing = []
+        for i, dt2026 in enumerate(missing_dates):
+            pdist = pasch.pascha_distance(dt2026)
+            # Find equivalent date in fallback year by pascha distance
+            dt_fallback = pasch_fallback.pascha + timedelta(days=pdist)
+            # Only use if the fallback date is in the same year
+            if dt_fallback.year != FALLBACK_YEAR:
+                still_missing.append(dt2026)
+                continue
+
+            html = fetch_fallback_day_page(dt_fallback)
+            if not html:
+                still_missing.append(dt2026)
+                continue
+
+            readings = parse_day_readings(html)
+            if readings:
+                key = dt2026.strftime("%m-%d")
+                day_readings_map[key] = readings
+                total_days += 1
+                fallback_found += 1
+                for r in readings:
+                    if r["href"] not in all_bibrefs and r["parsed"]:
+                        all_bibrefs[r["href"]] = r["parsed"]
+            else:
+                still_missing.append(dt2026)
+
+            if (i + 1) % 30 == 0:
+                print(f"  {i+1}/{len(missing_dates)} checked, {fallback_found} found...", file=sys.stderr)
+
+        print(f"  Found {fallback_found} additional days from {FALLBACK_YEAR} pdist fallback", file=sys.stderr)
+
+        # Phase 1c: For dates still missing (e.g. late Dec where pdist maps to next year),
+        # try same Gregorian date in the fallback year (fixed-calendar readings)
+        if still_missing:
+            print(f"\nPhase 1c: Trying {len(still_missing)} dates by same Gregorian date in {FALLBACK_YEAR}...", file=sys.stderr)
+            julian_found = 0
+            for dt2026 in still_missing:
+                # Use same month-day in the fallback year
+                try:
+                    dt_fallback = date(FALLBACK_YEAR, dt2026.month, dt2026.day)
+                except ValueError:
+                    continue  # e.g. Feb 29 in non-leap year
+
+                html = fetch_fallback_day_page(dt_fallback)
+                if not html:
+                    continue
+
+                readings = parse_day_readings(html)
+                if readings:
+                    key = dt2026.strftime("%m-%d")
+                    day_readings_map[key] = readings
+                    total_days += 1
+                    julian_found += 1
+                    for r in readings:
+                        if r["href"] not in all_bibrefs and r["parsed"]:
+                            all_bibrefs[r["href"]] = r["parsed"]
+
+            print(f"  Found {julian_found} additional days from {FALLBACK_YEAR} same-date fallback", file=sys.stderr)
+
+    print(f"  Total: {total_days} days with readings, {len(all_bibrefs)} unique Bible refs", file=sys.stderr)
 
     # Phase 2: Fetch Bible pages and extract text
     print(f"\nPhase 2: Fetching {len(all_bibrefs)} Bible passages...", file=sys.stderr)

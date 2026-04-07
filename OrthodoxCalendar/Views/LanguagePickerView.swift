@@ -5,24 +5,19 @@ struct LanguagePickerView: View {
     var onLanguageChanged: ((String) -> Void)?
 
     var body: some View {
-        VStack {
+        @Bindable var loc = localization
+
+        Picker(selection: $loc.language) {
             ForEach(AppLanguage.allCases) { lang in
-                Button {
-                    localization.language = lang
-                    onLanguageChanged?(lang.rawValue)
-                } label: {
-                    HStack {
-                        Text(lang.displayName)
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        if localization.language == lang {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(AppColors.crimson)
-                        }
-                    }
-                    .padding(.vertical, 8)
-                }
+                Text(lang.displayName).tag(lang)
             }
+        } label: {
+            EmptyView()
+        }
+        .pickerStyle(.inline)
+        .labelsHidden()
+        .onChange(of: localization.language) {
+            onLanguageChanged?(localization.language.rawValue)
         }
     }
 }
