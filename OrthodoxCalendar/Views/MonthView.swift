@@ -13,7 +13,6 @@ struct MonthListView: View {
                             DayDetailView(day: day)
                         } label: {
                             DayRowView(day: day)
-                                .id(day.id)
                         }
                         .buttonStyle(.plain)
 
@@ -22,6 +21,7 @@ struct MonthListView: View {
                             .frame(height: 1)
                     }
                 }
+                .id(viewModel.loadedLocale)
                 .background(AppColors.cardBg)
                 .shadow(color: AppColors.darkText.opacity(0.06), radius: 6, y: 2)
             }

@@ -42,7 +42,9 @@ struct CalendarTabView: View {
                                 .foregroundStyle(AppColors.mutedText)
                         }
                         NavigationLink {
-                            SettingsView()
+                            SettingsView(onLanguageChanged: { locale in
+                                viewModel.forceReload(locale: locale)
+                            })
                         } label: {
                             Image(systemName: "gearshape")
                                 .foregroundStyle(AppColors.mutedText)
@@ -51,8 +53,10 @@ struct CalendarTabView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(item: $vm.selectedDay) { day in
-                DayDetailView(day: day)
+            .sheet(item: $vm.selectedDay) { day in
+                NavigationStack {
+                    DayDetailView(day: day)
+                }
             }
             .sheet(isPresented: $vm.showSearch) {
                 SaintSearchView()

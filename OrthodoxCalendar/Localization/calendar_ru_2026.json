@@ -745,7 +745,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -928,7 +928,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1025,7 +1025,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1148,7 +1148,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1309,7 +1309,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1428,7 +1428,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1538,7 +1538,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1657,7 +1657,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1768,7 +1768,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1850,7 +1850,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -1995,7 +1995,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -2163,7 +2163,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Пища с растительным маслом.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -2240,7 +2240,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -2307,7 +2307,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -2617,7 +2617,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -2901,7 +2901,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3040,7 +3040,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3151,7 +3151,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3280,7 +3280,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3470,7 +3470,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3677,7 +3677,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3859,7 +3859,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -3958,7 +3958,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4078,7 +4078,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4195,7 +4195,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4326,7 +4326,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4430,7 +4430,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4574,7 +4574,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4739,7 +4739,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4793,7 +4793,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -4929,7 +4929,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -5170,7 +5170,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -5358,7 +5358,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -5418,7 +5418,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -11501,7 +11501,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -11621,7 +11621,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -11771,7 +11771,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -11849,7 +11849,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -11927,7 +11927,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -12068,7 +12068,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -12194,7 +12194,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -12300,7 +12300,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [
@@ -12400,7 +12400,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -12476,7 +12476,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -12610,7 +12610,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -12807,7 +12807,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -12883,7 +12883,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -12968,7 +12968,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13035,7 +13035,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13205,7 +13205,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13384,7 +13384,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13496,7 +13496,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13599,7 +13599,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13693,7 +13693,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -13918,7 +13918,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14070,7 +14070,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14147,7 +14147,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14214,7 +14214,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14308,7 +14308,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14523,7 +14523,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14711,7 +14711,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14805,7 +14805,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14872,7 +14872,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -14939,7 +14939,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -15136,7 +15136,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -15333,7 +15333,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -15445,7 +15445,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -15548,7 +15548,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -15660,7 +15660,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -15893,7 +15893,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16073,7 +16073,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16195,7 +16195,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16343,7 +16343,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16420,7 +16420,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16551,7 +16551,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16636,7 +16636,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16721,7 +16721,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16807,7 +16807,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -16901,7 +16901,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -20276,7 +20276,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -20397,7 +20397,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -20473,7 +20473,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -20697,7 +20697,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -20903,7 +20903,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21052,7 +21052,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21156,7 +21156,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21376,7 +21376,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21600,7 +21600,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21779,7 +21779,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21864,7 +21864,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -21967,7 +21967,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22034,7 +22034,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22204,7 +22204,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22356,7 +22356,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22477,7 +22477,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22553,7 +22553,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22620,7 +22620,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22781,7 +22781,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -22924,7 +22924,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -23027,7 +23027,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -23238,7 +23238,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -23368,7 +23368,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -23574,7 +23574,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -25262,7 +25262,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -25410,7 +25410,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -25513,7 +25513,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -25598,7 +25598,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -25795,7 +25795,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -25993,7 +25993,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -26133,7 +26133,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -26210,7 +26210,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -26331,7 +26331,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -26591,7 +26591,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -26762,7 +26762,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -26874,7 +26874,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -27013,7 +27013,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -27116,7 +27116,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -27439,7 +27439,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -27690,7 +27690,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -27838,7 +27838,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -27968,7 +27968,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -28116,7 +28116,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -28367,7 +28367,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -28600,7 +28600,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -28658,7 +28658,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Пища с растительным маслом.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -28816,7 +28816,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -28982,7 +28982,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -29251,7 +29251,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -29448,7 +29448,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -29596,7 +29596,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -29718,7 +29718,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -29803,7 +29803,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -30000,7 +30000,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -30206,7 +30206,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -30363,7 +30363,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -30439,7 +30439,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -30515,7 +30515,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -30793,7 +30793,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31035,7 +31035,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31129,7 +31129,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31178,7 +31178,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31290,7 +31290,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31532,7 +31532,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31720,7 +31720,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -31886,7 +31886,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32007,7 +32007,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32110,7 +32110,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32325,7 +32325,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32504,7 +32504,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32598,7 +32598,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32665,7 +32665,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32777,7 +32777,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -32947,7 +32947,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33144,7 +33144,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33220,7 +33220,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33305,7 +33305,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33453,7 +33453,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33668,7 +33668,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33856,7 +33856,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -33914,7 +33914,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34017,7 +34017,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34120,7 +34120,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34308,7 +34308,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34460,7 +34460,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34590,7 +34590,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34711,7 +34711,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34805,7 +34805,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],
@@ -34948,7 +34948,7 @@
         "type": "free",
         "label": "Без поста",
         "explanation": "Поста нет.",
-        "abbrev": "б/п",
+        "abbrev": "не пост",
         "icon": "✓"
       },
       "readings": [],

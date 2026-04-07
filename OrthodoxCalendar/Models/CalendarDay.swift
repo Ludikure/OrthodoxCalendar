@@ -11,9 +11,7 @@ struct CalendarFile: Codable, Sendable {
 
 // MARK: - CalendarDay
 
-struct CalendarDay: Codable, Identifiable, Hashable, Sendable {
-    static func == (lhs: CalendarDay, rhs: CalendarDay) -> Bool { lhs.gregorianDate == rhs.gregorianDate }
-    func hash(into hasher: inout Hasher) { hasher.combine(gregorianDate) }
+struct CalendarDay: Codable, Identifiable, Equatable, Sendable {
     let gregorianDate: String          // "2026-01-07"
     let julianDate: String             // "12-25"
     let dayOfWeek: Int                 // Python convention: 0=Mon..6=Sun
@@ -106,7 +104,10 @@ struct CalendarDay: Codable, Identifiable, Hashable, Sendable {
 
 // MARK: - Feast
 
-struct Feast: Codable, Sendable {
+struct Feast: Codable, Equatable, Sendable {
+    static func == (lhs: Feast, rhs: Feast) -> Bool {
+        lhs.name == rhs.name && lhs.importance == rhs.importance && lhs.displayRole == rhs.displayRole
+    }
     let name: String
     let importance: String             // "great", "bold", "normal"
     let displayRole: String            // "primary", "secondary", "tertiary"
@@ -149,7 +150,7 @@ struct Feast: Codable, Sendable {
 
 // MARK: - FastingInfo
 
-struct FastingInfo: Codable, Sendable {
+struct FastingInfo: Codable, Equatable, Sendable {
     let type: String                   // "free", "fish", "dryEating", "hotWithOil", etc.
     let label: String
     let explanation: String
@@ -159,7 +160,7 @@ struct FastingInfo: Codable, Sendable {
 
 // MARK: - ScriptureReading
 
-struct ScriptureReading: Codable, Sendable {
+struct ScriptureReading: Codable, Equatable, Sendable {
     let type: String                   // "apostol", "gospel", "ot"
     let book: String?
     let title: String?
@@ -176,7 +177,7 @@ struct ScriptureReading: Codable, Sendable {
 
 // MARK: - Reflection
 
-struct Reflection: Codable, Sendable {
+struct Reflection: Codable, Equatable, Sendable {
     let source: String
     let text: String
 }

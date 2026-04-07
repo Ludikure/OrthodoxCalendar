@@ -349,7 +349,7 @@ FASTING_ABBREV = {
         HOT_WITH_OIL: "елей",
         FISH: "рыба",
         FISH_ROE: "икра",
-        FREE: "б/п",
+        FREE: "не пост",
     },
     "en": {
         TOTAL_ABSTINENCE: "*",

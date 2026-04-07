@@ -3,13 +3,7 @@ import SwiftUI
 @main
 struct OrthodoxCalendarApp: App {
     @State private var localization = LocalizationManager()
-    @State private var viewModel: CalendarViewModel
-
-    init() {
-        let loc = LocalizationManager()
-        _localization = State(initialValue: loc)
-        _viewModel = State(initialValue: CalendarViewModel(localizationManager: loc))
-    }
+    @State private var viewModel = CalendarViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -18,17 +12,17 @@ struct OrthodoxCalendarApp: App {
                 .environment(viewModel)
                 .preferredColorScheme(localization.theme.colorScheme)
                 .tint(AppColors.crimson)
-                .task {
-                    await viewModel.loadMonth()
+                .onAppear {
+                    viewModel.loadMonth()
                 }
                 .onChange(of: localization.language) {
-                    Task { await viewModel.loadMonth() }
+                    viewModel.forceReload(locale: localization.language.rawValue)
                 }
                 .onChange(of: viewModel.currentMonth) {
-                    Task { await viewModel.loadMonth() }
+                    viewModel.loadMonth()
                 }
                 .onChange(of: viewModel.currentYear) {
-                    Task { await viewModel.loadMonth() }
+                    viewModel.loadMonth()
                 }
         }
     }

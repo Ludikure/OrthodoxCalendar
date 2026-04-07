@@ -2,16 +2,27 @@ import SwiftUI
 
 struct LanguagePickerView: View {
     @Environment(LocalizationManager.self) private var localization
+    var onLanguageChanged: ((String) -> Void)?
 
     var body: some View {
-        @Bindable var loc = localization
-
-        Picker(localization.ui.settingsLabel, selection: $loc.language) {
+        VStack {
             ForEach(AppLanguage.allCases) { lang in
-                Text(lang.displayName).tag(lang)
+                Button {
+                    localization.language = lang
+                    onLanguageChanged?(lang.rawValue)
+                } label: {
+                    HStack {
+                        Text(lang.displayName)
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        if localization.language == lang {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(AppColors.crimson)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
             }
         }
-        .pickerStyle(.inline)
-        .labelsHidden()
     }
 }
