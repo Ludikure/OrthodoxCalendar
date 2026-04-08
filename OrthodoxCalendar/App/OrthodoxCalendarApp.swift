@@ -7,7 +7,7 @@ struct OrthodoxCalendarApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CalendarTabView()
+            SplashScreenView()
                 .environment(localization)
                 .environment(viewModel)
                 .preferredColorScheme(localization.theme.colorScheme)

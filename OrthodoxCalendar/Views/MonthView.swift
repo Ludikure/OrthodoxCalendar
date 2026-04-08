@@ -4,28 +4,35 @@ struct MonthListView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
 
+    private var todayString: String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd"
+        fmt.calendar = Calendar(identifier: .gregorian)
+        return fmt.string(from: Date())
+    }
+
     var body: some View {
+        let today = todayString
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.daysInMonth) { day in
-                        NavigationLink {
-                            DayDetailView(day: day)
-                        } label: {
-                            DayRowView(day: day)
+                        NavigationLink(value: day) {
+                            DayRowView(day: day, isToday: day.gregorianDate == today)
                         }
                         .buttonStyle(.plain)
 
-                        Rectangle()
-                            .fill(AppColors.warmBorder)
+                        AppColors.warmBorder
                             .frame(height: 1)
                     }
                 }
                 .id(viewModel.loadedLocale)
                 .background(AppColors.cardBg)
-                .shadow(color: AppColors.darkText.opacity(0.06), radius: 6, y: 2)
             }
             .background(AppColors.warmBg)
+            .navigationDestination(for: CalendarDay.self) { day in
+                DayDetailView(day: day)
+            }
             .onAppear {
                 scrollToToday(proxy: proxy)
             }

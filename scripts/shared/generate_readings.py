@@ -741,7 +741,34 @@ def generate_readings_for_day(
                 entry['source'] = 'fixed'
             result.append(entry)
 
-    return result
+    # Remove engine-only readings with English titles (no localized content)
+    result = [r for r in result if not r.get('engineRef') or r.get('text')]
+
+    # Sort by liturgical service order
+    SERVICE_ORDER = {
+        '1st Passion Gospel': 21, '2nd Passion Gospel': 22, '3rd Passion Gospel': 23,
+        '4th Passion Gospel': 24, '5th Passion Gospel': 25, '6th Passion Gospel': 26,
+        '7th Passion Gospel': 27, '8th Passion Gospel': 28, '9th Passion Gospel': 29,
+        '10th Passion Gospel': 30, '11th Passion Gospel': 31, '12th Passion Gospel': 32,
+        '1st Hour': 100, '3rd Hour': 200, '6th Hour': 300, '9th Hour': 400,
+        'Vespers': 500, 'Matins Gospel': 700,
+        'Epistle': 800, 'Gospel': 900,
+        'fixed': 950,
+    }
+    result.sort(key=lambda r: SERVICE_ORDER.get(r.get('source', ''), 850))
+
+    # Deduplicate by title
+    seen = set()
+    deduped = []
+    for r in result:
+        title = r.get('title', '')
+        if title and title in seen:
+            continue
+        if title:
+            seen.add(title)
+        deduped.append(r)
+
+    return deduped
 
 
 def generate_all_readings(year: int, locale: str) -> dict:

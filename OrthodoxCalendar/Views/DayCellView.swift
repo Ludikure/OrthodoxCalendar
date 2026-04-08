@@ -1,14 +1,18 @@
 import SwiftUI
 
-struct DayRowView: View {
+struct DayRowView: View, Equatable {
     let day: CalendarDay
+    let isToday: Bool
+
     @Environment(LocalizationManager.self) private var localization
 
-    private let calendar = Calendar(identifier: .gregorian)
+    init(day: CalendarDay, isToday: Bool = false) {
+        self.day = day
+        self.isToday = isToday
+    }
 
-    private var isToday: Bool {
-        guard let date = day.date else { return false }
-        return calendar.isDateInToday(date)
+    nonisolated static func == (lhs: DayRowView, rhs: DayRowView) -> Bool {
+        lhs.day == rhs.day && lhs.isToday == rhs.isToday
     }
 
     private var dayOfWeekAbbrev: String {
@@ -31,12 +35,19 @@ struct DayRowView: View {
             VStack(spacing: 2) {
                 Text("\(day.gregorianDay)")
                     .font(.system(.title3, design: .serif).weight(.bold))
-                    .foregroundStyle(day.isSunday ? AppColors.crimson : AppColors.darkText)
+                    .foregroundStyle(isToday ? .white : (day.isSunday ? AppColors.crimson : AppColors.darkText))
+                    .frame(width: 34, height: 34)
+                    .background {
+                        if isToday {
+                            Circle()
+                                .fill(AppColors.crimson)
+                        }
+                    }
 
                 Text(dayOfWeekAbbrev)
                     .font(.caption2.weight(.semibold))
                     .tracking(0.5)
-                    .foregroundStyle(day.isSunday ? AppColors.crimson : AppColors.mutedText)
+                    .foregroundStyle(isToday ? AppColors.crimson : (day.isSunday ? AppColors.crimson : AppColors.mutedText))
 
                 Text("\(day.julianDay)")
                     .font(.system(size: 9))
@@ -102,7 +113,7 @@ struct DayRowView: View {
     private var rowBackground: some View {
         Group {
             if isToday {
-                Color.yellow.opacity(0.12)
+                AppColors.crimson.opacity(0.08)
             } else if isGreatFeast {
                 LinearGradient(colors: [Color(red: 1, green: 0.97, blue: 0.94),
                                         Color(red: 0.99, green: 0.92, blue: 0.82)],

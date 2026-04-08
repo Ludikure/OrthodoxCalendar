@@ -7,7 +7,8 @@ struct AddReminderView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var title: String = ""
-    @State private var alertOption: AlertOption = .morningOf
+    @State private var selectedAlerts: Set<AlertOption> = [.morningOf]
+    @State private var customTime = Date()
     @State private var notes: String = ""
     @State private var permissionDenied = false
     @State private var showSuccess = false
@@ -15,10 +16,12 @@ struct AddReminderView: View {
     private let store = EKEventStore()
 
     enum AlertOption: String, CaseIterable, Identifiable {
-        case none = "none"
-        case morningOf = "morningOf"
-        case dayBefore = "dayBefore"
-        case weekBefore = "weekBefore"
+        case morningOf
+        case eveningBefore
+        case dayBefore
+        case twoDaysBefore
+        case weekBefore
+        case custom
 
         var id: String { rawValue }
     }
@@ -29,7 +32,6 @@ struct AddReminderView: View {
                 Section {
                     TextField(titlePlaceholder, text: $title)
 
-                    // Date (read-only)
                     HStack {
                         Text(dateLabel)
                             .foregroundStyle(.secondary)
@@ -39,14 +41,29 @@ struct AddReminderView: View {
                 }
 
                 Section(header: Text(alertLabel)) {
-                    Picker(alertLabel, selection: $alertOption) {
-                        Text(noAlertText).tag(AlertOption.none)
-                        Text(morningOfText).tag(AlertOption.morningOf)
-                        Text(dayBeforeText).tag(AlertOption.dayBefore)
-                        Text(weekBeforeText).tag(AlertOption.weekBefore)
+                    ForEach(AlertOption.allCases) { option in
+                        Button {
+                            if selectedAlerts.contains(option) {
+                                selectedAlerts.remove(option)
+                            } else {
+                                selectedAlerts.insert(option)
+                            }
+                        } label: {
+                            HStack {
+                                Text(alertText(option))
+                                    .foregroundStyle(.primary)
+                                Spacer()
+                                if selectedAlerts.contains(option) {
+                                    Image(systemName: "checkmark")
+                                        .foregroundStyle(AppColors.crimson)
+                                }
+                            }
+                        }
                     }
-                    .pickerStyle(.inline)
-                    .labelsHidden()
+
+                    if selectedAlerts.contains(.custom) {
+                        DatePicker(customTimeLabel, selection: $customTime, displayedComponents: [.date, .hourAndMinute])
+                    }
                 }
 
                 Section(header: Text(notesLabel)) {
@@ -79,9 +96,11 @@ struct AddReminderView: View {
                 }
             }
             .onAppear {
-                if title.isEmpty {
-                    title = defaultTitle
-                }
+                if title.isEmpty { title = defaultTitle }
+                // Set custom time default to 9am on the event date
+                var components = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day], from: eventDate)
+                components.hour = 9
+                customTime = Calendar(identifier: .gregorian).date(from: components) ?? eventDate
             }
             .alert(permissionDeniedTitle, isPresented: $permissionDenied) {
                 Button("OK") { dismiss() }
@@ -114,6 +133,17 @@ struct AddReminderView: View {
             return
         }
 
+        // Check for duplicates
+        let cal = Calendar(identifier: .gregorian)
+        let dayStart = cal.startOfDay(for: eventDate)
+        let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
+        let predicate = store.predicateForEvents(withStart: dayStart, end: dayEnd, calendars: nil)
+        let existing = store.events(matching: predicate)
+        if existing.contains(where: { $0.title == title }) {
+            showSuccess = true
+            return
+        }
+
         let event = EKEvent(eventStore: store)
         event.title = title
         event.isAllDay = true
@@ -122,36 +152,37 @@ struct AddReminderView: View {
         event.calendar = store.defaultCalendarForNewEvents
         event.notes = notes.isEmpty ? nil : notes
 
-        // Set alarm
-        switch alertOption {
-        case .none:
-            break
-        case .morningOf:
-            // 9:00 AM on the day
-            event.isAllDay = false
-            var components = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day], from: eventDate)
-            components.hour = 9
-            components.minute = 0
-            if let date = Calendar(identifier: .gregorian).date(from: components) {
-                event.startDate = date
-                event.endDate = date.addingTimeInterval(3600)
+        // Add selected alarms
+        for alert in selectedAlerts {
+            switch alert {
+            case .morningOf:
+                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: eventDate)!))
+            case .eveningBefore:
+                let evening = cal.date(byAdding: .day, value: -1, to: eventDate)!
+                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 20, minute: 0, second: 0, of: evening)!))
+            case .dayBefore:
+                let dayBefore = cal.date(byAdding: .day, value: -1, to: eventDate)!
+                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: dayBefore)!))
+            case .twoDaysBefore:
+                let twoDays = cal.date(byAdding: .day, value: -2, to: eventDate)!
+                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: twoDays)!))
+            case .weekBefore:
+                let week = cal.date(byAdding: .day, value: -7, to: eventDate)!
+                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: week)!))
+            case .custom:
+                event.addAlarm(EKAlarm(absoluteDate: customTime))
             }
-            event.addAlarm(EKAlarm(relativeOffset: 0))
-        case .dayBefore:
-            event.addAlarm(EKAlarm(relativeOffset: -86400)) // 24h before
-        case .weekBefore:
-            event.addAlarm(EKAlarm(relativeOffset: -604800)) // 7 days before
         }
 
         do {
             try store.save(event, span: .thisEvent)
             showSuccess = true
         } catch {
-            // Could show error, but success alert covers the happy path
+            // Silently fail
         }
     }
 
-    // MARK: - Default title
+    // MARK: - Helpers
 
     private var defaultTitle: String {
         day.primaryFeast?.name ?? day.feasts.first?.name ?? ""
@@ -161,7 +192,42 @@ struct AddReminderView: View {
         "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth)) \(day.gregorianDate.prefix(4))"
     }
 
-    // MARK: - Localized labels
+    private func alertText(_ option: AlertOption) -> String {
+        switch option {
+        case .morningOf:
+            switch localization.language {
+            case .sr: return "Ујутру тог дана (9:00)"
+            case .ru: return "Утром в этот день (9:00)"
+            }
+        case .eveningBefore:
+            switch localization.language {
+            case .sr: return "Вече пре (20:00)"
+            case .ru: return "Вечером накануне (20:00)"
+            }
+        case .dayBefore:
+            switch localization.language {
+            case .sr: return "Дан раније (9:00)"
+            case .ru: return "За день до (9:00)"
+            }
+        case .twoDaysBefore:
+            switch localization.language {
+            case .sr: return "Два дана раније"
+            case .ru: return "За два дня до"
+            }
+        case .weekBefore:
+            switch localization.language {
+            case .sr: return "Недељу дана раније"
+            case .ru: return "За неделю до"
+            }
+        case .custom:
+            switch localization.language {
+            case .sr: return "Прилагођено време"
+            case .ru: return "Своё время"
+            }
+        }
+    }
+
+    // MARK: - Labels
 
     private var addReminderTitle: String {
         switch localization.language {
@@ -186,36 +252,15 @@ struct AddReminderView: View {
 
     private var alertLabel: String {
         switch localization.language {
-        case .sr: return "Обавештење"
-        case .ru: return "Уведомление"
+        case .sr: return "Обавештења"
+        case .ru: return "Уведомления"
         }
     }
 
-    private var noAlertText: String {
+    private var customTimeLabel: String {
         switch localization.language {
-        case .sr: return "Без обавештења"
-        case .ru: return "Без уведомления"
-        }
-    }
-
-    private var morningOfText: String {
-        switch localization.language {
-        case .sr: return "Ујутру тог дана (9:00)"
-        case .ru: return "Утром в этот день (9:00)"
-        }
-    }
-
-    private var dayBeforeText: String {
-        switch localization.language {
-        case .sr: return "Дан раније"
-        case .ru: return "За день до"
-        }
-    }
-
-    private var weekBeforeText: String {
-        switch localization.language {
-        case .sr: return "Недељу дана раније"
-        case .ru: return "За неделю до"
+        case .sr: return "Време"
+        case .ru: return "Время"
         }
     }
 

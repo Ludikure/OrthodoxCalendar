@@ -11,7 +11,7 @@ struct CalendarFile: Codable, Sendable {
 
 // MARK: - CalendarDay
 
-struct CalendarDay: Codable, Identifiable, Equatable, Sendable {
+struct CalendarDay: Codable, Identifiable, Equatable, Hashable, Sendable {
     let gregorianDate: String          // "2026-01-07"
     let julianDate: String             // "12-25"
     let dayOfWeek: Int                 // Python convention: 0=Mon..6=Sun
@@ -93,11 +93,17 @@ struct CalendarDay: Codable, Identifiable, Equatable, Sendable {
         Self.dateFormatter.date(from: gregorianDate)
     }
 
+    // MARK: - Hashable (use gregorianDate as unique key for navigation)
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(gregorianDate)
+    }
+
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.timeZone = TimeZone(identifier: "UTC")
+        formatter.timeZone = .current
         return formatter
     }()
 }

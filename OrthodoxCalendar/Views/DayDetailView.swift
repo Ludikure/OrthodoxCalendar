@@ -12,36 +12,34 @@ struct DayDetailView: View {
     private var isGreat: Bool { day.isGreatFeast }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    heroSection
-                    contentSections
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                heroSection
+                contentSections
+            }
+        }
+        .background(AppColors.warmBg)
+        .navigationTitle(formattedDate)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showAddReminder = true
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
-            .background(AppColors.warmBg)
-            .navigationTitle(formattedDate)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showAddReminder = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
                 }
             }
-            .sheet(isPresented: $showAddReminder) {
-                AddReminderView(day: day)
-            }
+        }
+        .sheet(isPresented: $showAddReminder) {
+            AddReminderView(day: day)
         }
     }
 

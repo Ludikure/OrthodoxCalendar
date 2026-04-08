@@ -20,8 +20,11 @@
 		5BB48F11DD54E12903BBB517 /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B6ABB33D59C087264D846E2 /* ru.json */; };
 		63240EF68EC49D0994D3AFF6 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5547954B52EDE13709406 /* CalendarViewModel.swift */; };
 		6CF375533A1F4C062A081680 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EDE17BE739F60342F5BA63 /* AppTheme.swift */; };
+		71C19A989ABDD362BD3E2D11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 751B4899F5210EF04C6A1657 /* Assets.xcassets */; };
 		819E29FC820D1A9A52D86CDE /* calendar_sr_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = 6C2C4FC5D949C4A7C978129B /* calendar_sr_2026.json */; };
+		83D8249034221A77B3C92D8A /* splash_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 412E78EF3E7566DB4C92C594 /* splash_logo.png */; };
 		8D83E7F6EEB57C862E90944E /* DatePickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67326005DDA6851066392C5E /* DatePickerSheet.swift */; };
+		A3F8AA63CDC54C695EF010F1 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7992EA53B5E120F0BFC7C5F1 /* SplashScreenView.swift */; };
 		A6B731349BB0CF33D8CF0FC0 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CD08FD5B2F099488C4330D /* MonthView.swift */; };
 		AA2E3F3933CDDA962725BB84 /* AddReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32BDC246767B40B0505A643 /* AddReminderView.swift */; };
 		BC639BDA69FC95917EE1276C /* CalendarDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443256BAEF88F0248C5B8646 /* CalendarDay.swift */; };
@@ -41,12 +44,15 @@
 		24B47236D31D29AF749CF046 /* SaintSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintSearchView.swift; sourceTree = "<group>"; };
 		2666F042BF5EC16A7903D72B /* PaschaCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaschaCalculator.swift; sourceTree = "<group>"; };
 		38DCBD334CA42ABE70456716 /* LocalizationBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationBundle.swift; sourceTree = "<group>"; };
+		412E78EF3E7566DB4C92C594 /* splash_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_logo.png; sourceTree = "<group>"; };
 		443256BAEF88F0248C5B8646 /* CalendarDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDay.swift; sourceTree = "<group>"; };
 		56DBE4A35B03A9BB9F648946 /* DayCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCellView.swift; sourceTree = "<group>"; };
 		5F0B3B2E6523DBE0A46C262C /* calendar_ru_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_ru_2026.json; sourceTree = "<group>"; };
 		67326005DDA6851066392C5E /* DatePickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerSheet.swift; sourceTree = "<group>"; };
 		6C2C4FC5D949C4A7C978129B /* calendar_sr_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2026.json; sourceTree = "<group>"; };
 		6D99BCF92C2B165D15537979 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		751B4899F5210EF04C6A1657 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7992EA53B5E120F0BFC7C5F1 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		8D964572381FC1262D1309BF /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
 		980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orthodox Calendar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E05FD61F64516950CF42DF8 /* JulianConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JulianConverter.swift; sourceTree = "<group>"; };
@@ -73,6 +79,7 @@
 				6C2C4FC5D949C4A7C978129B /* calendar_sr_2026.json */,
 				17EA05058841907271FB8FEE /* LocalizationManager.swift */,
 				0B6ABB33D59C087264D846E2 /* ru.json */,
+				412E78EF3E7566DB4C92C594 /* splash_logo.png */,
 				9EE0562EC4FDEFED51E7EAC9 /* sr.json */,
 			);
 			path = Localization;
@@ -121,6 +128,7 @@
 				5F3FBB60356268E3435D86AC /* Engine */,
 				12F5BFAAC627184A42E99ADE /* Localization */,
 				4E0D3E5CA5353FF6B8A36399 /* Models */,
+				EF9BB7767A331046AB65CC63 /* Resources */,
 				B6CFFABF5EFB56753E186779 /* Views */,
 			);
 			path = OrthodoxCalendar;
@@ -141,6 +149,7 @@
 				F1CD08FD5B2F099488C4330D /* MonthView.swift */,
 				24B47236D31D29AF749CF046 /* SaintSearchView.swift */,
 				CF579CEDB94AF053C4E5F9BA /* SettingsView.swift */,
+				7992EA53B5E120F0BFC7C5F1 /* SplashScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,6 +162,14 @@
 				A58656732089CB6E21F1931A /* OrthodoxCalendarApp.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		EF9BB7767A331046AB65CC63 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				751B4899F5210EF04C6A1657 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,9 +225,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71C19A989ABDD362BD3E2D11 /* Assets.xcassets in Resources */,
 				434DC641DDCBAE9D818E5630 /* calendar_ru_2026.json in Resources */,
 				819E29FC820D1A9A52D86CDE /* calendar_sr_2026.json in Resources */,
 				5BB48F11DD54E12903BBB517 /* ru.json in Resources */,
+				83D8249034221A77B3C92D8A /* splash_logo.png in Resources */,
 				F23B39CB8391170353E42B60 /* sr.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,6 +263,7 @@
 				40C383602F48F6784287F5A4 /* PaschaCalculator.swift in Sources */,
 				3283899924ED84A00190D4A8 /* SaintSearchView.swift in Sources */,
 				BF5F685D7B57E2D18C57B037 /* SettingsView.swift in Sources */,
+				A3F8AA63CDC54C695EF010F1 /* SplashScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,10 +274,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -403,10 +425,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
