@@ -21,6 +21,7 @@ from datetime import date, timedelta
 sys.path.insert(0, os.path.dirname(__file__))
 from paschalion import Paschalion
 from fasting_engine import compute_fasting, get_fasting_info, FASTING_ABBREV, FASTING_ICONS
+from generate_readings import generate_all_readings
 
 YEAR = 2026
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -49,6 +50,12 @@ def build_calendar(locale: str, year: int):
 
     # Load scraped data
     saints_data = load_json(os.path.join(proc_dir, 'saints.json')).get('days', {})
+
+    # Use the lectionary engine + scraped text for readings
+    print(f"  Generating engine-based readings for {locale} {year}...", file=sys.stderr)
+    engine_readings = generate_all_readings(year, locale)
+
+    # Fall back: load raw scraped readings for days the engine has no data
     readings_data = load_json(os.path.join(proc_dir, 'readings.json')).get('days', {})
 
     # Russian-specific
@@ -101,8 +108,8 @@ def build_calendar(locale: str, year: int):
                 "icon": fasting_info["icon"],
             },
 
-            # Readings
-            "readings": readings_data.get(key, []),
+            # Readings: prefer engine-generated, fall back to raw scraped
+            "readings": engine_readings.get(key) or readings_data.get(key, []),
 
             # Reflection
             "reflection": reflections_data.get(key),
