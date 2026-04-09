@@ -17,8 +17,28 @@ targets:
     resources:
       - path: OrthodoxCalendar/Localization/sr.json
       - path: OrthodoxCalendar/Localization/ru.json
+      - path: OrthodoxCalendar/Localization/en.json
+      - path: OrthodoxCalendar/Localization/calendar_sr_2024.json
+      - path: OrthodoxCalendar/Localization/calendar_ru_2024.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2024.json
+      - path: OrthodoxCalendar/Localization/calendar_sr_2025.json
+      - path: OrthodoxCalendar/Localization/calendar_ru_2025.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2025.json
       - path: OrthodoxCalendar/Localization/calendar_sr_2026.json
       - path: OrthodoxCalendar/Localization/calendar_ru_2026.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2026.json
+      - path: OrthodoxCalendar/Localization/calendar_sr_2027.json
+      - path: OrthodoxCalendar/Localization/calendar_ru_2027.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2027.json
+      - path: OrthodoxCalendar/Localization/calendar_sr_2028.json
+      - path: OrthodoxCalendar/Localization/calendar_ru_2028.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2028.json
+      - path: OrthodoxCalendar/Localization/calendar_sr_2029.json
+      - path: OrthodoxCalendar/Localization/calendar_ru_2029.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2029.json
+      - path: OrthodoxCalendar/Localization/calendar_sr_2030.json
+      - path: OrthodoxCalendar/Localization/calendar_ru_2030.json
+      - path: OrthodoxCalendar/Localization/calendar_en_2030.json
       - path: OrthodoxCalendar/Localization/splash_logo.png
     settings:
       base:

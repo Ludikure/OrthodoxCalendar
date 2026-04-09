@@ -147,6 +147,73 @@ RU_BOOK_MAP = {
     'Apostol': None,
 }
 
+# English book names — identity map (engine already uses English names)
+EN_BOOK_MAP = {
+    'Matthew': 'Matthew',
+    'Mark': 'Mark',
+    'Luke': 'Luke',
+    'John': 'John',
+    'Acts': 'Acts',
+    'Romans': 'Romans',
+    '1 Corinthians': '1 Corinthians',
+    '2 Corinthians': '2 Corinthians',
+    'Galatians': 'Galatians',
+    'Ephesians': 'Ephesians',
+    'Philippians': 'Philippians',
+    'Colossians': 'Colossians',
+    '1 Thessalonians': '1 Thessalonians',
+    '2 Thessalonians': '2 Thessalonians',
+    '1 Timothy': '1 Timothy',
+    '2 Timothy': '2 Timothy',
+    'Titus': 'Titus',
+    'Philemon': 'Philemon',
+    'Hebrews': 'Hebrews',
+    'James': 'James',
+    '1 Peter': '1 Peter',
+    '2 Peter': '2 Peter',
+    '1 John': '1 John',
+    '2 John': '2 John',
+    '3 John': '3 John',
+    'Jude': 'Jude',
+    'Revelation': 'Revelation',
+    'Genesis': 'Genesis',
+    'Exodus': 'Exodus',
+    'Leviticus': 'Leviticus',
+    'Numbers': 'Numbers',
+    'Deuteronomy': 'Deuteronomy',
+    'Joshua': 'Joshua',
+    'Judges': 'Judges',
+    'Ruth': 'Ruth',
+    '1 Samuel': '1 Samuel',
+    '2 Samuel': '2 Samuel',
+    '1 Kings': '1 Kings',
+    '2 Kings': '2 Kings',
+    'Isaiah': 'Isaiah',
+    'Jeremiah': 'Jeremiah',
+    'Ezekiel': 'Ezekiel',
+    'Daniel': 'Daniel',
+    'Hosea': 'Hosea',
+    'Joel': 'Joel',
+    'Amos': 'Amos',
+    'Obadiah': 'Obadiah',
+    'Jonah': 'Jonah',
+    'Micah': 'Micah',
+    'Nahum': 'Nahum',
+    'Habakkuk': 'Habakkuk',
+    'Zephaniah': 'Zephaniah',
+    'Haggai': 'Haggai',
+    'Zechariah': 'Zechariah',
+    'Malachi': 'Malachi',
+    'Proverbs': 'Proverbs',
+    'Ecclesiastes': 'Ecclesiastes',
+    'Song of Solomon': 'Song of Solomon',
+    'Wisdom': 'Wisdom',
+    'Sirach': 'Sirach',
+    'Baruch': 'Baruch',
+    'Lamentations': 'Lamentations',
+    'Apostol': None,
+}
+
 
 # ---------------------------------------------------------------------------
 # Reference normalization
@@ -303,6 +370,24 @@ def _extract_scraped_ref_ru(title: str, reference: str = None) -> list:
     return _parse_ref_segments(ref_part, ':')
 
 
+def _extract_scraped_ref_en(title: str, reference: str = None) -> list:
+    """Extract chapter:verse segments from English scraped data.
+
+    English scraped titles use ':' as chapter separator, e.g. "Hebrews 10:35-11:7".
+    """
+    text = reference or title
+    if not text:
+        return []
+
+    # Remove book name: find the first digit
+    m = re.search(r'(\d)', text)
+    if not m:
+        return []
+    ref_part = text[m.start():]
+
+    return _parse_ref_segments(ref_part, ':')
+
+
 def _segments_overlap(segs_a: list, segs_b: list) -> bool:
     """Check if two sets of (chapter, verse_start, verse_end) segments overlap significantly."""
     if not segs_a or not segs_b:
@@ -355,6 +440,22 @@ def _book_matches_ru(engine_book: str, scraped_title: str) -> bool:
     return False
 
 
+def _book_matches_en(engine_book: str, scraped_title: str) -> bool:
+    """Check if engine book name matches the English scraped title."""
+    if not engine_book or engine_book == 'Apostol':
+        # Match any epistle (not gospel, not OT)
+        for gospel_name in ['Matthew', 'Mark', 'Luke', 'John']:
+            if scraped_title.startswith(gospel_name + ' '):
+                return False
+        return True
+
+    en_name = EN_BOOK_MAP.get(engine_book)
+    if en_name and scraped_title.startswith(en_name + ' '):
+        return True
+
+    return False
+
+
 # ---------------------------------------------------------------------------
 # Data loading — global index of scraped readings by normalized reference
 # ---------------------------------------------------------------------------
@@ -380,6 +481,26 @@ def _build_scraped_index(locale: str) -> tuple:
     """
     proc_dir = os.path.join(DATA_DIR, 'processed', locale)
 
+    if locale == 'en':
+        # English: index scraped readings from holytrinityorthodox.com
+        readings_path = os.path.join(proc_dir, 'readings.json')
+        if not os.path.exists(readings_path):
+            print(f"  [{locale}] No scraped readings data found", file=sys.stderr)
+            return {}, {}
+
+        with open(readings_path) as f:
+            rdata = json.load(f)
+
+        text_index = {}
+        for day_key, entries in rdata.get('days', {}).items():
+            for entry in entries:
+                if not entry.get('text'):
+                    continue
+                _index_scraped_entry(text_index, entry, locale)
+
+        print(f"  [{locale}] Indexed {len(text_index)} scraped readings with text", file=sys.stderr)
+        return text_index, {}
+
     if locale == 'sr':
         path = os.path.join(proc_dir, 'lectionary_merged.json')
     else:
@@ -400,6 +521,7 @@ def _build_scraped_index(locale: str) -> tuple:
             if not entry.get('text'):
                 continue
             _index_scraped_entry(text_index, entry, locale)
+
 
     # Index all byJulianDate entries
     for julian_key, entries in data.get('byJulianDate', {}).items():
@@ -433,9 +555,13 @@ def _index_scraped_entry(index: dict, entry: dict, locale: str):
     if locale == 'sr':
         segments = _extract_scraped_ref_sr(title, reference)
         book_key = _sr_book_key(title)
-    else:
+    elif locale == 'ru':
         segments = _extract_scraped_ref_ru(title, title)
         book_key = _ru_book_key(title)
+    else:
+        # English scraped: uses ":" separator (e.g., "Hebrews 10:35-11:7")
+        segments = _extract_scraped_ref_en(title, reference)
+        book_key = _engine_book_from_display(title)
 
     if not segments:
         return
@@ -582,6 +708,8 @@ def _engine_book_from_display(display: str) -> str:
 
 def load_scraped_data(locale: str) -> dict:
     """Load scraped data for backward compatibility. Returns the raw structure."""
+    if locale == 'en':
+        return {'byPaschaDistance': {}, 'byJulianDate': {}}
     proc_dir = os.path.join(DATA_DIR, 'processed', locale)
     if locale == 'sr':
         path = os.path.join(proc_dir, 'lectionary_merged.json')
@@ -687,8 +815,10 @@ def generate_readings_for_day(
                 reference = js.get('reference', '')
                 if locale == 'sr':
                     js_segments = _extract_scraped_ref_sr(title, reference)
-                else:
+                elif locale == 'ru':
                     js_segments = _extract_scraped_ref_ru(title, title)
+                else:
+                    js_segments = _extract_chapter_verses(title)
                 engine_segments = _extract_chapter_verses(display)
                 if _segments_overlap(engine_segments, js_segments):
                     matched = js
@@ -881,11 +1011,11 @@ def main():
 
     if '--validate' in sys.argv:
         years = [2026, 2027, 2028]
-        for locale in ['sr', 'ru']:
+        for locale in ['sr', 'ru', 'en']:
             validate_years(years, locale)
         return
 
-    for locale in ['sr', 'ru']:
+    for locale in ['sr', 'ru', 'en']:
         print(f"\n=== Generating readings for {locale} {year} ===", file=sys.stderr)
         readings = generate_all_readings(year, locale)
 

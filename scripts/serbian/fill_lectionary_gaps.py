@@ -38,6 +38,10 @@ DOW_NAMES = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 def clean(text: str) -> str:
     text = unescape(text)
     text = re.sub(r'\s+', ' ', text)
+    # Remove footer junk from pravoslavno.rs pages
+    text = re.sub(r'\s*Охридски пролог.*', '', text, flags=re.DOTALL)
+    text = re.sub(r'\s*document\.addEventListener.*', '', text, flags=re.DOTALL)
+    text = re.sub(r'\s*©\s*Микро књига.*', '', text, flags=re.DOTALL)
     return text.strip()
 
 

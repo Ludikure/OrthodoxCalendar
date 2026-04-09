@@ -21,16 +21,19 @@ enum AppTheme: String, CaseIterable, Identifiable, Codable {
             switch language {
             case .sr: return "Системски"
             case .ru: return "Системная"
+            case .en: return "System"
             }
         case .light:
             switch language {
             case .sr: return "Светла"
             case .ru: return "Светлая"
+            case .en: return "Light"
             }
         case .dark:
             switch language {
             case .sr: return "Тамна"
             case .ru: return "Тёмная"
+            case .en: return "Dark"
             }
         }
     }
@@ -39,6 +42,7 @@ enum AppTheme: String, CaseIterable, Identifiable, Codable {
         switch language {
         case .sr: return "Тема"
         case .ru: return "Тема"
+        case .en: return "Theme"
         }
     }
 }

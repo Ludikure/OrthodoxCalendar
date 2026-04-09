@@ -82,6 +82,8 @@ struct DatePickerSheet: View {
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
+                .disabled(pickerYear <= CalendarViewModel.minYear)
+                .opacity(pickerYear <= CalendarViewModel.minYear ? 0.3 : 1)
                 Spacer()
                 Text(String(pickerYear))
                     .font(.title2.weight(.bold))
@@ -91,6 +93,8 @@ struct DatePickerSheet: View {
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
+                .disabled(pickerYear >= CalendarViewModel.maxYear)
+                .opacity(pickerYear >= CalendarViewModel.maxYear ? 0.3 : 1)
             }
             .padding(.horizontal, 20)
 
@@ -158,6 +162,7 @@ struct DatePickerSheet: View {
         VStack(spacing: 12) {
             // Month/year navigation
             HStack {
+                let atMin = pickerYear <= CalendarViewModel.minYear && pickerMonth <= 1
                 Button {
                     if pickerMonth == 1 { pickerMonth = 12; pickerYear -= 1 }
                     else { pickerMonth -= 1 }
@@ -166,6 +171,8 @@ struct DatePickerSheet: View {
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
+                .disabled(atMin)
+                .opacity(atMin ? 0.3 : 1)
 
                 Spacer()
 
@@ -185,6 +192,7 @@ struct DatePickerSheet: View {
 
                 Spacer()
 
+                let atMax = pickerYear >= CalendarViewModel.maxYear && pickerMonth >= 12
                 Button {
                     if pickerMonth == 12 { pickerMonth = 1; pickerYear += 1 }
                     else { pickerMonth += 1 }
@@ -193,6 +201,8 @@ struct DatePickerSheet: View {
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
+                .disabled(atMax)
+                .opacity(atMax ? 0.3 : 1)
             }
             .padding(.horizontal, 20)
 
@@ -294,6 +304,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Изаберите месец"
         case .ru: return "Выберите месяц"
+        case .en: return "Select month"
         }
     }
 
@@ -301,6 +312,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Изаберите датум"
         case .ru: return "Выберите дату"
+        case .en: return "Select date"
         }
     }
 
@@ -308,6 +320,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Данас"
         case .ru: return "Сегодня"
+        case .en: return "Today"
         }
     }
 
@@ -315,6 +328,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Тачан датум"
         case .ru: return "Точная дата"
+        case .en: return "Exact date"
         }
     }
 
@@ -322,6 +336,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Назад на месеце"
         case .ru: return "Назад к месяцам"
+        case .en: return "Back to months"
         }
     }
 }

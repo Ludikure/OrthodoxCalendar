@@ -107,6 +107,7 @@ struct DayRowView: View, Equatable {
         switch localization.language {
         case .sr: return "Велики празник"
         case .ru: return "Великий праздник"
+        case .en: return "Great Feast"
         }
     }
 

@@ -1,0 +1,169 @@
+{
+    "language": "en",
+    "displayName": "English",
+    "script": "latin",
+
+    "ui": {
+        "appTitle": "Church Calendar",
+        "months": ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"],
+        "daysOfWeek": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        "daysOfWeekFull": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "julianLabel": "Julian",
+        "fastingLabel": "Fasting",
+        "readingsLabel": "Readings",
+        "commemorationsLabel": "Commemorations",
+        "settingsLabel": "Settings",
+        "todayLabel": "Today",
+        "feastTypes": {
+            "pascha": "Feast of Feasts",
+            "great": "Great Feast",
+            "major": "Feast",
+            "holyWeek": "Holy Week",
+            "bright": "Bright Week",
+            "minor": "Commemoration"
+        },
+        "fastingTypes": {
+            "noFast": "No fast",
+            "fastFree": "Fast-free",
+            "strict": "Strict fast",
+            "fish": "Fish allowed",
+            "oil": "Oil allowed",
+            "wine": "Wine allowed"
+        }
+    },
+
+    "feastNames": {
+        "Lazarus Saturday":                         "Lazarus Saturday",
+        "Palm Sunday":                              "Palm Sunday — Entry of the Lord into Jerusalem",
+        "Great and Holy Monday":                    "Great and Holy Monday",
+        "Great and Holy Tuesday":                   "Great and Holy Tuesday",
+        "Great and Holy Wednesday":                 "Great and Holy Wednesday",
+        "Great and Holy Thursday":                  "Great and Holy Thursday",
+        "Great and Holy Friday":                    "Great and Holy Friday",
+        "Great and Holy Saturday":                  "Great and Holy Saturday",
+        "Holy Pascha":                              "Pascha — Christ Is Risen!",
+        "Bright Monday":                            "Bright Monday",
+        "Bright Tuesday":                           "Bright Tuesday",
+        "Bright Wednesday":                         "Bright Wednesday",
+        "Bright Thursday":                          "Bright Thursday",
+        "Bright Friday":                            "Bright Friday",
+        "Bright Saturday":                          "Bright Saturday",
+        "Thomas Sunday":                            "Thomas Sunday",
+        "St Thomas Sunday":                         "St Thomas Sunday",
+        "Radonitsa":                                "Radonitsa (Day of Rejoicing)",
+        "Day of Rejoicing":                         "Radonitsa (Day of Rejoicing)",
+        "Day of Rejoicing (Radonitsa)":             "Radonitsa (Day of Rejoicing)",
+        "Sunday of the Myrrhbearing Women":         "Sunday of the Myrrhbearing Women",
+        "Sunday of the Paralytic":                  "Sunday of the Paralytic",
+        "Sunday of the Samaritan Woman":            "Sunday of the Samaritan Woman",
+        "Sunday of the Blind Man":                  "Sunday of the Blind Man",
+        "Mid-Pentecost":                            "Mid-Pentecost",
+        "Ascension of our Lord":                    "Ascension of Our Lord",
+        "Ascension":                                "Ascension of Our Lord",
+        "Pentecost":                                "Pentecost — Descent of the Holy Spirit",
+        "Monday of the Holy Spirit":                "Monday of the Holy Spirit",
+        "All Saints":                               "Sunday of All Saints",
+        "Sunday of the Publican and the Pharisee":  "Sunday of the Publican and the Pharisee",
+        "Sunday of the Prodigal Son":               "Sunday of the Prodigal Son",
+        "Meatfare Sunday":                          "Meatfare Sunday",
+        "Cheesefare Sunday":                        "Cheesefare Sunday",
+        "Clean Monday":                             "Clean Monday — Beginning of Great Lent",
+        "Circumcision of Our Lord":                 "Circumcision of Our Lord",
+        "Theophany":                                "Theophany — Baptism of Our Lord",
+        "Synaxis of St John the Baptist":           "Synaxis of St John the Baptist",
+        "Meeting of Our Lord":                      "Meeting of Our Lord in the Temple",
+        "Annunciation":                             "Annunciation of the Most Holy Theotokos",
+        "Transfiguration":                          "Transfiguration of Our Lord",
+        "Dormition":                                "Dormition of the Most Holy Theotokos",
+        "Nativity of the Theotokos":                "Nativity of the Most Holy Theotokos",
+        "Elevation of the Cross":                   "Elevation of the Precious Cross",
+        "Entry of the Theotokos":                   "Entry of the Theotokos into the Temple",
+        "Nativity of Christ":                       "Nativity of Our Lord Jesus Christ",
+        "Nativity of St John the Baptist":          "Nativity of St John the Baptist",
+        "Ss Peter and Paul":                        "Ss Peter and Paul",
+        "Beheading of St John the Baptist":         "Beheading of St John the Baptist",
+        "Protection of the Theotokos":              "Protection of the Most Holy Theotokos",
+        "St Nicholas":                              "St Nicholas the Wonderworker"
+    },
+
+    "extraFeasts": [
+        {
+            "julianMonth": 1, "julianDay": 14,
+            "name": "St Sava — Enlightener of the Serbs",
+            "type": "great",
+            "description": "Feast of St Sava, first Archbishop of Serbia"
+        },
+        {
+            "julianMonth": 2, "julianDay": 13,
+            "name": "St Simeon the Myrrh-Flowing (Stefan Nemanja)",
+            "type": "major"
+        },
+        {
+            "julianMonth": 6, "julianDay": 15,
+            "name": "Vidovdan — Holy Prince Lazar and the Kosovo Martyrs",
+            "type": "great",
+            "description": "Commemoration of the Battle of Kosovo, 1389"
+        },
+        {
+            "julianMonth": 7, "julianDay": 4,
+            "name": "Synaxis of the Holy Serbian Enlighteners",
+            "type": "major"
+        },
+        {
+            "julianMonth": 10, "julianDay": 14,
+            "name": "St Paraskeva (Petka)",
+            "type": "major"
+        },
+        {
+            "julianMonth": 10, "julianDay": 26,
+            "name": "St Demetrius the Great Martyr",
+            "type": "great"
+        },
+        {
+            "julianMonth": 11, "julianDay": 8,
+            "name": "Archangel Michael — Michaelmas",
+            "type": "great"
+        },
+        {
+            "julianMonth": 4, "julianDay": 23,
+            "name": "St George the Great Martyr",
+            "type": "great",
+            "description": "Transferred to Bright Monday if it falls before Pascha"
+        },
+        {
+            "julianMonth": 7, "julianDay": 20,
+            "name": "Holy Prophet Elijah",
+            "type": "major"
+        },
+        {
+            "julianMonth": 12, "julianDay": 24,
+            "name": "Christmas Eve",
+            "type": "great"
+        },
+        {
+            "julianMonth": 12, "julianDay": 26,
+            "name": "Synaxis of the Most Holy Theotokos",
+            "type": "major"
+        },
+        {
+            "julianMonth": 12, "julianDay": 27,
+            "name": "St Stephen the Protomartyr",
+            "type": "major"
+        }
+    ],
+
+    "feastTypeOverrides": {
+        "St George":         "great",
+        "St Nicholas":       "great",
+        "St Demetrius":      "great",
+        "Archangel Michael": "great"
+    },
+
+    "fastingPeriodNames": {
+        "Great Lent":       "Great Lent",
+        "Apostles' Fast":   "Apostles' Fast",
+        "Dormition Fast":   "Dormition Fast",
+        "Nativity Fast":    "Nativity Fast"
+    }
+}

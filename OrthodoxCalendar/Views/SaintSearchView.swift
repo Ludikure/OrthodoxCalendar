@@ -146,6 +146,7 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Претрага"
         case .ru: return "Поиск"
+        case .en: return "Search"
         }
     }
 
@@ -153,6 +154,7 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Име светитеља или празника"
         case .ru: return "Имя святого или праздника"
+        case .en: return "Saint or feast name"
         }
     }
 
@@ -160,6 +162,7 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Нема резултата"
         case .ru: return "Ничего не найдено"
+        case .en: return "No results"
         }
     }
 
@@ -167,6 +170,7 @@ struct SaintSearchView: View {
         switch localization.language {
         case .sr: return "Готово"
         case .ru: return "Готово"
+        case .en: return "Done"
         }
     }
 }

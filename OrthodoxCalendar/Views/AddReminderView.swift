@@ -198,31 +198,37 @@ struct AddReminderView: View {
             switch localization.language {
             case .sr: return "Ујутру тог дана (9:00)"
             case .ru: return "Утром в этот день (9:00)"
+            case .en: return "Morning of (9:00)"
             }
         case .eveningBefore:
             switch localization.language {
             case .sr: return "Вече пре (20:00)"
             case .ru: return "Вечером накануне (20:00)"
+            case .en: return "Evening before (8 PM)"
             }
         case .dayBefore:
             switch localization.language {
             case .sr: return "Дан раније (9:00)"
             case .ru: return "За день до (9:00)"
+            case .en: return "Day before (9:00)"
             }
         case .twoDaysBefore:
             switch localization.language {
             case .sr: return "Два дана раније"
             case .ru: return "За два дня до"
+            case .en: return "Two days before"
             }
         case .weekBefore:
             switch localization.language {
             case .sr: return "Недељу дана раније"
             case .ru: return "За неделю до"
+            case .en: return "Week before"
             }
         case .custom:
             switch localization.language {
             case .sr: return "Прилагођено време"
             case .ru: return "Своё время"
+            case .en: return "Custom time"
             }
         }
     }
@@ -233,6 +239,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Подсетник"
         case .ru: return "Напоминание"
+        case .en: return "Reminder"
         }
     }
 
@@ -240,6 +247,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Назив"
         case .ru: return "Название"
+        case .en: return "Title"
         }
     }
 
@@ -247,6 +255,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Датум"
         case .ru: return "Дата"
+        case .en: return "Date"
         }
     }
 
@@ -254,6 +263,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Обавештења"
         case .ru: return "Уведомления"
+        case .en: return "Alerts"
         }
     }
 
@@ -261,6 +271,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Време"
         case .ru: return "Время"
+        case .en: return "Custom time"
         }
     }
 
@@ -268,6 +279,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Белешке"
         case .ru: return "Заметки"
+        case .en: return "Notes"
         }
     }
 
@@ -275,6 +287,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Откажи"
         case .ru: return "Отмена"
+        case .en: return "Cancel"
         }
     }
 
@@ -282,6 +295,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Сачувај"
         case .ru: return "Сохранить"
+        case .en: return "Save"
         }
     }
 
@@ -289,6 +303,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Нема приступа"
         case .ru: return "Нет доступа"
+        case .en: return "No Access"
         }
     }
 
@@ -296,6 +311,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Дозволите приступ календару у Подешавањима."
         case .ru: return "Разрешите доступ к календарю в Настройках."
+        case .en: return "Allow calendar access in Settings."
         }
     }
 
@@ -303,6 +319,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Сачувано"
         case .ru: return "Сохранено"
+        case .en: return "Saved"
         }
     }
 
@@ -310,6 +327,7 @@ struct AddReminderView: View {
         switch localization.language {
         case .sr: return "Подсетник је додат у календар."
         case .ru: return "Напоминание добавлено в календарь."
+        case .en: return "Reminder added to calendar."
         }
     }
 }

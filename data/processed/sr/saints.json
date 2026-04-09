@@ -778,10 +778,12 @@
           "displayRole": "secondary"
         }
       ],
-      "weekLabel": "Недеља митара и фарисеја",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "02-02": {
       "saints": [
@@ -942,8 +944,8 @@
           "displayRole": "primary"
         }
       ],
-      "weekLabel": "Недеља блудног сина",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
       "scrapedFasting": null
     },
@@ -1069,15 +1071,17 @@
           "position": 0,
           "importance": "great",
           "type": "feast",
-          "liturgicalContext": "☞ Месне покладе",
+          "liturgicalContext": null,
           "isSlava": true,
           "displayRole": "primary"
         }
       ],
-      "weekLabel": "Недеља месопусна",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "02-16": {
       "saints": [
@@ -1265,13 +1269,13 @@
           "position": 0,
           "importance": "bold",
           "type": "saint",
-          "liturgicalContext": "Беле покладе, Бела недеља, Велике покладе, Прочка",
+          "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
         }
       ],
-      "weekLabel": "Недеља сиропусна",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
       "scrapedFasting": {
         "raw": "пост"
@@ -1280,7 +1284,7 @@
     "02-23": {
       "saints": [
         {
-          "name": "Покајни канон Свети свештеномученик Харалампије",
+          "name": "Свети свештеномученик Харалампије",
           "position": 0,
           "importance": "bold",
           "type": "saint",
@@ -2168,45 +2172,7 @@
     "04-04": {
       "saints": [
         {
-          "name": "Свети свештеномученик Василије Анкирски – Лазарева субота",
-          "position": 0,
-          "importance": "bold",
-          "type": "saint",
-          "liturgicalContext": "Врбица",
-          "isSlava": true,
-          "displayRole": "primary"
-        }
-      ],
-      "weekLabel": null,
-      "isSunday": false,
-      "isSaturday": true,
-      "scrapedFasting": {
-        "raw": "пост"
-      }
-    },
-    "04-05": {
-      "saints": [
-        {
-          "name": "Улазак Господа Исуса Христа у Јерусалим – Цвети",
-          "position": 0,
-          "importance": "great",
-          "type": "saint",
-          "liturgicalContext": null,
-          "isSlava": true,
-          "displayRole": "primary"
-        }
-      ],
-      "weekLabel": "Недеља шеста поста - Цветна",
-      "isSunday": true,
-      "isSaturday": false,
-      "scrapedFasting": {
-        "raw": "пост"
-      }
-    },
-    "04-06": {
-      "saints": [
-        {
-          "name": "Литургија Велики понедељак",
+          "name": "Свети свештеномученик Василије Анкирски",
           "position": 0,
           "importance": "bold",
           "type": "saint",
@@ -2222,10 +2188,48 @@
         "raw": "пост"
       }
     },
+    "04-05": {
+      "saints": [
+        {
+          "name": "Преподобномученик Никор и други",
+          "position": 0,
+          "importance": "bold",
+          "type": "venerable_martyr",
+          "liturgicalContext": null,
+          "isSlava": false,
+          "displayRole": "primary"
+        }
+      ],
+      "weekLabel": null,
+      "isSunday": false,
+      "isSaturday": false,
+      "scrapedFasting": {
+        "raw": "пост"
+      }
+    },
+    "04-06": {
+      "saints": [
+        {
+          "name": "Преподобни Захарије",
+          "position": 0,
+          "importance": "bold",
+          "type": "venerable",
+          "liturgicalContext": "Претпразништво Благовести",
+          "isSlava": false,
+          "displayRole": "primary"
+        }
+      ],
+      "weekLabel": null,
+      "isSunday": false,
+      "isSaturday": false,
+      "scrapedFasting": {
+        "raw": "пост"
+      }
+    },
     "04-07": {
       "saints": [
         {
-          "name": "Литургија Велики уторак Благовести",
+          "name": "Благовести",
           "position": 0,
           "importance": "great",
           "type": "feast",
@@ -2244,7 +2248,35 @@
     "04-08": {
       "saints": [
         {
-          "name": "Литургија Велика среда",
+          "name": "Сабор светог Архангела Гаврила",
+          "position": 0,
+          "importance": "bold",
+          "type": "synaxis",
+          "liturgicalContext": null,
+          "isSlava": false,
+          "displayRole": "primary"
+        },
+        {
+          "name": "",
+          "position": 1,
+          "importance": "bold",
+          "type": "saint",
+          "liturgicalContext": "Оданије Благовести",
+          "isSlava": false,
+          "displayRole": "secondary"
+        }
+      ],
+      "weekLabel": null,
+      "isSunday": false,
+      "isSaturday": false,
+      "scrapedFasting": {
+        "raw": "пост"
+      }
+    },
+    "04-09": {
+      "saints": [
+        {
+          "name": "Света мученица Матрона Солунска",
           "position": 0,
           "importance": "bold",
           "type": "saint",
@@ -2260,32 +2292,13 @@
         "raw": "пост"
       }
     },
-    "04-09": {
-      "saints": [
-        {
-          "name": "Велики четвртак",
-          "position": 0,
-          "importance": "bold",
-          "type": "saint",
-          "liturgicalContext": "Велико бденије",
-          "isSlava": false,
-          "displayRole": "primary"
-        }
-      ],
-      "weekLabel": null,
-      "isSunday": false,
-      "isSaturday": false,
-      "scrapedFasting": {
-        "raw": "пост"
-      }
-    },
     "04-10": {
       "saints": [
         {
-          "name": "Велики петак",
+          "name": "Преподобни Иларион Исповедник",
           "position": 0,
-          "importance": "great",
-          "type": "saint",
+          "importance": "bold",
+          "type": "venerable",
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
@@ -2301,10 +2314,48 @@
     "04-11": {
       "saints": [
         {
-          "name": "Велика субота",
+          "name": "Преподобни Марко Аретуски",
           "position": 0,
           "importance": "bold",
-          "type": "saint",
+          "type": "venerable",
+          "liturgicalContext": null,
+          "isSlava": false,
+          "displayRole": "primary"
+        }
+      ],
+      "weekLabel": null,
+      "isSunday": false,
+      "isSaturday": false,
+      "scrapedFasting": {
+        "raw": "пост"
+      }
+    },
+    "04-12": {
+      "saints": [
+        {
+          "name": "Преподобни Јован Лествичник",
+          "position": 0,
+          "importance": "bold",
+          "type": "venerable",
+          "liturgicalContext": null,
+          "isSlava": false,
+          "displayRole": "primary"
+        }
+      ],
+      "weekLabel": null,
+      "isSunday": false,
+      "isSaturday": false,
+      "scrapedFasting": {
+        "raw": "пост"
+      }
+    },
+    "04-13": {
+      "saints": [
+        {
+          "name": "Свештеномученик Ипатије Гангријски",
+          "position": 0,
+          "importance": "bold",
+          "type": "hieromartyr",
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
@@ -2317,56 +2368,24 @@
         "raw": "пост"
       }
     },
-    "04-12": {
-      "saints": [
-        {
-          "name": "В а с к р с - Васкрсење Господа Исуса Христа",
-          "position": 0,
-          "importance": "great",
-          "type": "feast",
-          "liturgicalContext": null,
-          "isSlava": false,
-          "displayRole": "primary"
-        }
-      ],
-      "weekLabel": null,
-      "isSunday": true,
-      "isSaturday": false,
-      "scrapedFasting": null
-    },
-    "04-13": {
-      "saints": [
-        {
-          "name": "Васкрсни понедељак",
-          "position": 0,
-          "importance": "great",
-          "type": "feast",
-          "liturgicalContext": null,
-          "isSlava": false,
-          "displayRole": "primary"
-        }
-      ],
-      "weekLabel": null,
-      "isSunday": false,
-      "isSaturday": false,
-      "scrapedFasting": null
-    },
     "04-14": {
       "saints": [
         {
-          "name": "Васкрсни уторак",
+          "name": "АПРИЛ - Преподобна Марија Египћанка",
           "position": 0,
-          "importance": "great",
-          "type": "feast",
+          "importance": "bold",
+          "type": "saint",
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
         }
       ],
-      "weekLabel": null,
-      "isSunday": false,
+      "weekLabel": "Недеља четврта поста – Средопосна",
+      "isSunday": true,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "04-15": {
       "saints": [
@@ -2383,7 +2402,9 @@
       "weekLabel": null,
       "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "04-16": {
       "saints": [
@@ -2400,16 +2421,18 @@
       "weekLabel": null,
       "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "04-17": {
       "saints": [
         {
-          "name": "Источни петак",
+          "name": "Преподобни Јосиф Химнограф",
           "position": 0,
           "importance": "bold",
-          "type": "saint",
-          "liturgicalContext": null,
+          "type": "venerable",
+          "liturgicalContext": "Прво бденије",
           "isSlava": false,
           "displayRole": "primary"
         }
@@ -2417,7 +2440,9 @@
       "weekLabel": null,
       "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "04-18": {
       "saints": [
@@ -2433,8 +2458,10 @@
       ],
       "weekLabel": null,
       "isSunday": false,
-      "isSaturday": true,
-      "scrapedFasting": null
+      "isSaturday": false,
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "04-19": {
       "saints": [
@@ -2443,13 +2470,13 @@
           "position": 0,
           "importance": "bold",
           "type": "saint",
-          "liturgicalContext": null,
+          "liturgicalContext": "Друго бденије",
           "isSlava": false,
           "displayRole": "primary"
         }
       ],
-      "weekLabel": "Недеља прва – Томина",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
       "scrapedFasting": null
     },
@@ -2571,10 +2598,12 @@
           "displayRole": "primary"
         }
       ],
-      "weekLabel": "Недеља друга – Мироносица",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "04-27": {
       "saints": [
@@ -2769,17 +2798,15 @@
           "position": 0,
           "importance": "great",
           "type": "saint",
-          "liturgicalContext": "Преполовљење",
+          "liturgicalContext": null,
           "isSlava": true,
           "displayRole": "primary"
         }
       ],
       "weekLabel": null,
       "isSunday": false,
-      "isSaturday": false,
-      "scrapedFasting": {
-        "raw": "пост"
-      }
+      "isSaturday": true,
+      "scrapedFasting": null
     },
     "05-07": {
       "saints": [
@@ -3097,17 +3124,17 @@
     "05-21": {
       "saints": [
         {
-          "name": "Вазнесење Господње – Спасовдан",
+          "name": "Свети апостол и јеванђелист Јован Богослов",
           "position": 0,
-          "importance": "great",
-          "type": "feast",
+          "importance": "bold",
+          "type": "saint",
           "liturgicalContext": null,
           "isSlava": true,
           "displayRole": "primary"
         }
       ],
-      "weekLabel": null,
-      "isSunday": false,
+      "weekLabel": "Недеља пета – Слепога",
+      "isSunday": true,
       "isSaturday": false,
       "scrapedFasting": null
     },
@@ -3369,26 +3396,28 @@
     "05-31": {
       "saints": [
         {
-          "name": "Силазак Светог Духа на апостоле - Педесетница - Тројице",
+          "name": "Свети мученик Тедот Анкирски",
           "position": 0,
-          "importance": "great",
+          "importance": "bold",
           "type": "saint",
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
         }
       ],
-      "weekLabel": "Недеља Педесетнице",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
-      "scrapedFasting": null
+      "scrapedFasting": {
+        "raw": "пост"
+      }
     },
     "06-01": {
       "saints": [
         {
-          "name": "Духовски понедељак",
+          "name": "Свети свештеномученик Патрикије",
           "position": 0,
-          "importance": "great",
+          "importance": "bold",
           "type": "saint",
           "liturgicalContext": null,
           "isSlava": false,
@@ -3515,19 +3544,10 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 1,
-          "importance": "bold",
-          "type": "saint",
-          "liturgicalContext": "Петровске покладе",
-          "isSlava": false,
-          "displayRole": "secondary"
         }
       ],
-      "weekLabel": "Недеља 1. по Духовима – Свих Светих",
-      "isSunday": true,
+      "weekLabel": null,
+      "isSunday": false,
       "isSaturday": false,
       "scrapedFasting": null
     },

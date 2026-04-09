@@ -338,6 +338,7 @@ struct DayDetailView: View {
         switch localization.language {
         case .sr: return "Велики празник"
         case .ru: return "Великий праздник"
+        case .en: return "Great Feast"
         }
     }
 
@@ -360,9 +361,19 @@ struct DayDetailView: View {
             "confessor": "Исповедник", "noble": "Благоверный", "prophet": "Пророк",
             "synaxis": "Собор",
         ]
+        let types_en: [String: String] = [
+            "feast": "Feast", "saint": "Saint", "apostle": "Apostle",
+            "great_martyr": "Great Martyr", "hierarch": "Hierarch",
+            "equal_to_apostles": "Equal-to-the-Apostles", "venerable": "Venerable",
+            "hieromartyr": "Hieromartyr", "venerable_martyr": "Venerable Martyr",
+            "martyr": "Martyr", "righteous": "Righteous", "blessed": "Blessed",
+            "confessor": "Confessor", "noble": "Right-believing", "prophet": "Prophet",
+            "synaxis": "Synaxis",
+        ]
         switch localization.language {
         case .sr: return types_sr[type] ?? type
         case .ru: return types_ru[type] ?? type
+        case .en: return types_en[type] ?? type
         }
     }
 
@@ -392,6 +403,11 @@ struct ReadingCard: View {
             if t == "gospel" { return "Евангелие" }
             if t == "apostol" { return "Апостол" }
             if t == "ot" { return "Ветхий Завет" }
+            return reading.type
+        case .en:
+            if t == "gospel" { return "Gospel" }
+            if t == "apostol" { return "Epistle" }
+            if t == "ot" { return "Old Testament" }
             return reading.type
         }
     }
