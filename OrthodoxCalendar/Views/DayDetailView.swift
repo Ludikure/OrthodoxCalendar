@@ -5,6 +5,7 @@ struct DayDetailView: View {
     @Environment(LocalizationManager.self) private var localization
     @Environment(\.dismiss) private var dismiss
     @State private var showAddReminder = false
+    @State private var showShareSheet = false
     @State private var expandedSection: String?
 
     private var calendar: Calendar { Calendar(identifier: .gregorian) }
@@ -26,20 +27,35 @@ struct DayDetailView: View {
                 Button {
                     showAddReminder = true
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
+                HStack(spacing: 8) {
+                    Button {
+                        showShareSheet = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.up.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(.secondary)
+                    }
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
         .sheet(isPresented: $showAddReminder) {
             AddReminderView(day: day)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            ShareSheet(items: [shareText])
         }
     }
 
@@ -193,8 +209,7 @@ struct DayDetailView: View {
                     )
             )
 
-            // Only show explanation if it's in the current locale (not English fallback)
-            if !day.fasting.explanation.isEmpty && !isEnglishText(day.fasting.explanation) {
+            if !day.fasting.explanation.isEmpty {
                 Text(day.fasting.explanation)
                     .font(.subheadline)
                     .foregroundStyle(AppColors.bodyText)
@@ -323,13 +338,15 @@ struct DayDetailView: View {
 
     private func fastingStyle(for type: String) -> (String, Color, Color) {
         let fastType = type.lowercased()
-        if fastType == "strict" || fastType == "dryeating" {
+        if fastType == "totalabstinence" || fastType == "strict" {
             return ("🚫", AppColors.fastStrict, AppColors.fastStrictBg)
-        } else if fastType == "hotwithoutoil" || fastType == "water" {
+        } else if fastType == "dryeating" {
+            return ("🍞", AppColors.fastStrict, AppColors.fastStrictBg)
+        } else if fastType == "hotnooil" || fastType == "hotwithoutoil" || fastType == "water" {
             return ("💧", AppColors.fastWater, AppColors.fastWaterBg)
         } else if fastType == "hotwithoil" || fastType == "oil" {
             return ("🫒", AppColors.fastOil, AppColors.fastOilBg)
-        } else if fastType == "fish" {
+        } else if fastType == "fish" || fastType == "fishroe" {
             return ("🐟", AppColors.fastFish, AppColors.fastFishBg)
         } else {
             return ("✓", AppColors.fastFree, AppColors.fastFreeBg)
@@ -381,11 +398,51 @@ struct DayDetailView: View {
         }
     }
 
-    /// Check if text appears to be English (fallback from API)
-    private func isEnglishText(_ text: String) -> Bool {
-        let latinRange = text.range(of: "[a-zA-Z]{3,}", options: .regularExpression)
-        return latinRange != nil
+    // MARK: - Share
+
+    private var shareText: String {
+        var lines: [String] = []
+
+        // Date
+        lines.append("☦ \(formattedDate)")
+        lines.append("")
+
+        // Primary feast
+        if let primary = day.primaryFeast {
+            lines.append(primary.name)
+        }
+
+        // Secondary feasts
+        for feast in day.feasts.dropFirst() {
+            lines.append("• \(feast.name)")
+        }
+
+        // Fasting
+        lines.append("")
+        lines.append("\(day.fasting.label)")
+
+        // Readings
+        if !day.readings.isEmpty {
+            lines.append("")
+            for reading in day.readings {
+                lines.append("\(reading.displayReference)")
+            }
+        }
+
+        return lines.joined(separator: "\n")
     }
+}
+
+// MARK: - Share Sheet
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // MARK: - Reading Card (expandable scripture text)

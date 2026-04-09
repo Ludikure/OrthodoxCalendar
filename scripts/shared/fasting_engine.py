@@ -138,6 +138,64 @@ CHEESE_WEEK_RULES = {
 }
 
 
+# ─── SPC (Serbian Orthodox Church) Overrides ───
+# The SPC has stricter regular Wed/Fri fasting and a simpler Nativity Fast.
+
+SPC_REGULAR_WEEK_RULES = {
+    "mon": FREE,
+    "tue": FREE,
+    "wed": DRY_EATING,     # SPC: strict Wed fast
+    "thu": FREE,
+    "fri": DRY_EATING,     # SPC: strict Fri fast
+    "sat": FREE,
+    "sun": FREE,
+}
+
+# Paschal season (Pascha to Pentecost): Wed/Fri relaxed to oil
+SPC_PASCHAL_WEEK_RULES = {
+    "mon": FREE,
+    "tue": FREE,
+    "wed": HOT_WITH_OIL,   # Relaxed during Paschal season
+    "thu": FREE,
+    "fri": HOT_WITH_OIL,   # Relaxed during Paschal season
+    "sat": FREE,
+    "sun": FREE,
+}
+
+SPC_NATIVITY_FAST_PERIOD1_RULES = {
+    # SPC Nov 28 - Jan 1: Sat/Sun=fish, Wed/Fri=dry, other=oil
+    "mon": HOT_WITH_OIL,
+    "tue": HOT_WITH_OIL,
+    "wed": DRY_EATING,
+    "thu": HOT_WITH_OIL,
+    "fri": DRY_EATING,
+    "sat": FISH,
+    "sun": FISH,
+}
+
+SPC_NATIVITY_FAST_PERIOD2_RULES = {
+    # SPC Jan 2-6 (stricter): Mon/Wed/Fri=dry, Tue/Thu=oil, Sat/Sun=oil
+    "mon": DRY_EATING,
+    "tue": HOT_WITH_OIL,
+    "wed": DRY_EATING,
+    "thu": HOT_WITH_OIL,
+    "fri": DRY_EATING,
+    "sat": HOT_WITH_OIL,
+    "sun": HOT_WITH_OIL,
+}
+
+SPC_APOSTLES_FAST_RULES = {
+    # SPC: Sat/Sun=fish, Wed/Fri=dry, Mon/Tue/Thu=oil
+    "mon": HOT_NO_OIL,
+    "tue": HOT_WITH_OIL,
+    "wed": DRY_EATING,
+    "thu": HOT_WITH_OIL,
+    "fri": DRY_EATING,
+    "sat": FISH,
+    "sun": FISH,
+}
+
+
 # ─── Julian Date Helpers ───
 
 JULIAN_OFFSET = 13
@@ -150,14 +208,16 @@ def to_julian(greg_date: date) -> tuple:
 
 # ─── Fixed Date Exceptions ───
 
-def check_fixed_exceptions(greg_date: date, fasting_period: Optional[str]) -> Optional[str]:
+def check_fixed_exceptions(greg_date: date, fasting_period: Optional[str],
+                           locale: str = "ru") -> Optional[str]:
     """Check for specific fixed-date fasting exceptions."""
     jm, jd = to_julian(greg_date)
 
-    # Annunciation (Mar 25 Julian = Apr 7 Gregorian) — always fish, even during Lent
-    # Exception: during Holy Week, Annunciation allows fish but not on Great Friday
+    # Annunciation (Mar 25 Julian = Apr 7 Gregorian)
     if jm == 3 and jd == 25:
-        return FISH
+        if locale == "sr":
+            return HOT_WITH_OIL  # SPC: oil during Holy Week, not fish
+        return FISH  # Russian: always fish
 
     # Transfiguration (Aug 6 Julian = Aug 19 Gregorian) — fish during Dormition Fast
     if jm == 8 and jd == 6:
@@ -167,24 +227,46 @@ def check_fixed_exceptions(greg_date: date, fasting_period: Optional[str]) -> Op
     if jm == 12 and jd == 24:
         return HOT_NO_OIL
 
-    # Theophany Eve (Jan 5 Julian = Jan 18 Gregorian) — strict
+    # Theophany Eve (Jan 5 Julian = Jan 18 Gregorian)
     if jm == 1 and jd == 5:
-        return HOT_NO_OIL
+        if locale == "sr":
+            return HOT_WITH_OIL  # SPC: oil on Theophany Eve
+        return HOT_NO_OIL  # Russian: strict
 
-    # Beheading of St John Baptist (Aug 29 Julian = Sep 11 Gregorian) — strict
+    # Beheading of St John Baptist (Aug 29 Julian = Sep 11 Gregorian)
     if jm == 8 and jd == 29:
+        if locale == "sr":
+            return FISH  # SPC: Dormition feast = fish
         return HOT_WITH_OIL
 
-    # Elevation of Cross (Sep 14 Julian = Sep 27 Gregorian) — strict
+    # Elevation of Cross (Sep 14 Julian = Sep 27 Gregorian)
     if jm == 9 and jd == 14:
         return HOT_WITH_OIL
+
+    # Dormition of Theotokos (Aug 15 Julian = Aug 28 Gregorian)
+    # On a regular Fri, SPC relaxes to fish for this great feast
+    if jm == 8 and jd == 15:
+        return FISH
+
+    # Nativity of St John Baptist (Jun 24 Julian = Jul 7 Gregorian)
+    if jm == 6 and jd == 24:
+        return FISH  # Great feast during Apostles' Fast
+
+    # Ваведење (Entry of Theotokos, Nov 21 Julian = Dec 4 Gregorian)
+    if jm == 11 and jd == 21:
+        return FISH  # Feast day during Nativity Fast
+
+    # Св. Никола (St Nicholas, Dec 6 Julian = Dec 19 Gregorian)
+    if jm == 12 and jd == 6:
+        return FISH  # Николдан during Nativity Fast
 
     return None
 
 
 # ─── Movable Date Exceptions ───
 
-def check_movable_exceptions(greg_date: date, pasch: Paschalion) -> Optional[str]:
+def check_movable_exceptions(greg_date: date, pasch: Paschalion,
+                             locale: str = "ru") -> Optional[str]:
     """Check for movable-date fasting exceptions."""
     pdist = pasch.pascha_distance(greg_date)
 
@@ -192,9 +274,11 @@ def check_movable_exceptions(greg_date: date, pasch: Paschalion) -> Optional[str
     if pdist == -48:
         return TOTAL_ABSTINENCE
 
-    # Lazarus Saturday — fish roe (not fish)
+    # Lazarus Saturday
     if pdist == -8:
-        return FISH_ROE
+        if locale == "sr":
+            return HOT_WITH_OIL  # SPC: oil on Lazarus Saturday
+        return FISH_ROE  # Russian: fish roe
 
     # Palm Sunday — fish
     if pdist == -7:
@@ -205,7 +289,8 @@ def check_movable_exceptions(greg_date: date, pasch: Paschalion) -> Optional[str
 
 # ─── Feast Rank Upgrade ───
 
-def upgrade_fasting(base_level: str, feast_rank: Optional[str]) -> str:
+def upgrade_fasting(base_level: str, feast_rank: Optional[str],
+                    locale: str = "ru") -> str:
     """A higher-ranked feast can relax the fasting level."""
     if feast_rank is None:
         return base_level
@@ -216,10 +301,11 @@ def upgrade_fasting(base_level: str, feast_rank: Optional[str]) -> str:
             return FISH
         return base_level
 
-    if feast_rank in ("vigil", "polyeleos"):
-        # Upgrade dry eating or hot-no-oil to oil
-        if base_level in (DRY_EATING, HOT_NO_OIL):
-            return HOT_WITH_OIL
+    if feast_rank in ("vigil", "polyeleos", "bold"):
+        # SPC: bold saints upgrade to oil during fasting periods
+        if locale == "sr" or feast_rank in ("vigil", "polyeleos"):
+            if base_level in (DRY_EATING, HOT_NO_OIL):
+                return HOT_WITH_OIL
         return base_level
 
     return base_level
@@ -228,7 +314,8 @@ def upgrade_fasting(base_level: str, feast_rank: Optional[str]) -> str:
 # ─── Main Computation ───
 
 def compute_fasting(greg_date: date, pasch: Paschalion,
-                    feast_rank: Optional[str] = None) -> str:
+                    feast_rank: Optional[str] = None,
+                    locale: str = "ru") -> str:
     """
     Compute the fasting level for a given Gregorian date.
 
@@ -236,12 +323,14 @@ def compute_fasting(greg_date: date, pasch: Paschalion,
         greg_date: The Gregorian calendar date
         pasch: Paschalion instance for the year
         feast_rank: Optional feast rank ("great", "vigil", "polyeleos", None)
+        locale: "sr" for SPC rules, "ru"/"en" for Russian/OCA rules
 
     Returns:
         One of: "totalAbstinence", "dryEating", "hotNoOil", "hotWithOil",
                 "fish", "fishRoe", "free"
     """
     dow = DOW_NAMES[greg_date.weekday()]  # 0=Mon..6=Sun
+    is_spc = (locale == "sr")
 
     # Step 1: Check fast-free weeks
     if pasch.is_fast_free_week(greg_date):
@@ -252,7 +341,7 @@ def compute_fasting(greg_date: date, pasch: Paschalion,
         return CHEESE_WEEK_RULES[dow]
 
     # Step 3: Check movable date exceptions (Clean Monday, Lazarus Sat, Palm Sun)
-    movable_exc = check_movable_exceptions(greg_date, pasch)
+    movable_exc = check_movable_exceptions(greg_date, pasch, locale)
     if movable_exc is not None:
         return movable_exc
 
@@ -265,37 +354,47 @@ def compute_fasting(greg_date: date, pasch: Paschalion,
             # Annunciation during Holy Week: special handling
             jm, jd = to_julian(greg_date)
             if jm == 3 and jd == 25 and base != TOTAL_ABSTINENCE:
-                return FISH
+                return HOT_WITH_OIL if is_spc else FISH
             return base  # No feast upgrades during Holy Week
         else:
             base = GREAT_LENT_RULES[dow]
 
     elif period == "apostles_fast":
-        base = APOSTLES_FAST_RULES[dow]
+        base = (SPC_APOSTLES_FAST_RULES if is_spc else APOSTLES_FAST_RULES)[dow]
 
     elif period == "dormition_fast":
         base = DORMITION_FAST_RULES[dow]
 
     elif period == "nativity_fast":
-        sub = pasch.get_nativity_fast_sub_period(greg_date)
-        if sub == 2:
-            base = NATIVITY_FAST_PERIOD2_RULES[dow]
+        if is_spc:
+            sub = pasch.get_nativity_fast_sub_period(greg_date)
+            base = (SPC_NATIVITY_FAST_PERIOD2_RULES if sub == 2
+                    else SPC_NATIVITY_FAST_PERIOD1_RULES)[dow]
         else:
-            base = NATIVITY_FAST_PERIOD1_RULES[dow]
+            sub = pasch.get_nativity_fast_sub_period(greg_date)
+            base = (NATIVITY_FAST_PERIOD2_RULES if sub == 2
+                    else NATIVITY_FAST_PERIOD1_RULES)[dow]
 
     else:
-        # Regular week
-        base = REGULAR_WEEK_RULES[dow]
+        # Regular week — SPC relaxes Wed/Fri during Paschal season
+        if is_spc:
+            pdist = pasch.pascha_distance(greg_date)
+            if 0 < pdist < 49:  # Between Pascha and Pentecost
+                base = SPC_PASCHAL_WEEK_RULES[dow]
+            else:
+                base = SPC_REGULAR_WEEK_RULES[dow]
+        else:
+            base = REGULAR_WEEK_RULES[dow]
 
     # Step 5: Check fixed date exceptions
-    fixed_exc = check_fixed_exceptions(greg_date, period)
+    fixed_exc = check_fixed_exceptions(greg_date, period, locale)
     if fixed_exc is not None:
         # Use the more permissive of base rule and exception
         if STRICTNESS.get(fixed_exc, 5) > STRICTNESS.get(base, 5):
             base = fixed_exc
 
     # Step 6: Apply feast rank upgrade
-    final = upgrade_fasting(base, feast_rank)
+    final = upgrade_fasting(base, feast_rank, locale)
 
     return final
 
@@ -364,7 +463,7 @@ FASTING_ABBREV = {
 
 FASTING_ICONS = {
     TOTAL_ABSTINENCE: "🚫",
-    DRY_EATING: "💧",
+    DRY_EATING: "🍞",
     HOT_NO_OIL: "💧",
     HOT_WITH_OIL: "🫒",
     FISH: "🐟",

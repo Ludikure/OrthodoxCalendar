@@ -506,10 +506,17 @@ def build_calendar(locale: str, year: int):
 
         # Determine feast rank for fasting upgrade
         great_feast = pasch.is_great_feast(current)
-        feast_rank = "great" if great_feast else None
+        # Check saints data for feast importance (bold saints upgrade fasting in SPC)
+        day_saints = saints_data.get(key, {}).get("saints", [])
+        if great_feast:
+            feast_rank = "great"
+        elif any(s.get("importance") == "bold" for s in day_saints):
+            feast_rank = "bold"
+        else:
+            feast_rank = None
 
         # Compute algorithmic fasting
-        fasting_level = compute_fasting(current, pasch, feast_rank)
+        fasting_level = compute_fasting(current, pasch, feast_rank, locale)
         fasting_info = get_fasting_info(fasting_level, locale)
 
         # Get scraped fasting description (supplements algorithmic)

@@ -23,11 +23,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -98,11 +98,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -341,11 +341,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -405,11 +405,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4130,11 +4130,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4190,11 +4190,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4245,11 +4245,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4309,11 +4309,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4469,11 +4469,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4532,11 +4532,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4586,11 +4586,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4707,11 +4707,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -4837,11 +4837,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5090,11 +5090,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5163,11 +5163,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5236,11 +5236,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5348,11 +5348,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5469,11 +5469,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5635,11 +5635,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5702,11 +5702,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5778,11 +5778,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5845,11 +5845,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -5912,11 +5912,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6124,11 +6124,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6191,11 +6191,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6267,11 +6267,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6334,11 +6334,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6401,11 +6401,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6635,11 +6635,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6702,11 +6702,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6779,11 +6779,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6846,11 +6846,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6913,11 +6913,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -6989,11 +6989,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fishRoe",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -7140,7 +7140,7 @@
         "label": "Сухоједење",
         "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
         "abbrev": "вода",
-        "icon": "💧"
+        "icon": "🍞"
       },
       "readings": [
         {
@@ -7231,11 +7231,11 @@
       "weekLabel": null,
       "greatFeast": "annunciation",
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -7372,7 +7372,7 @@
         "label": "Сухоједење",
         "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
         "abbrev": "вода",
-        "icon": "💧"
+        "icon": "🍞"
       },
       "readings": [
         {
@@ -11787,11 +11787,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -11879,11 +11879,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12041,11 +12041,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12286,11 +12286,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12410,11 +12410,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12530,11 +12530,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12678,11 +12678,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12812,11 +12812,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -12951,11 +12951,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -13147,11 +13147,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -13268,11 +13268,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -13408,11 +13408,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -13563,11 +13563,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -13611,11 +13611,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotWithOil",
-        "label": "Уље дозвољено",
-        "explanation": "Кувана храна са уљем, вино дозвољено",
-        "abbrev": "уље",
-        "icon": "🫒"
+        "type": "fish",
+        "label": "Риба дозвољена",
+        "explanation": "Риба, уље, вино дозвољени",
+        "abbrev": "риба",
+        "icon": "🐟"
       },
       "readings": [
         {
@@ -13700,11 +13700,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -13780,11 +13780,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16141,11 +16141,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16361,11 +16361,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16425,11 +16425,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16570,11 +16570,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16628,11 +16628,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16830,11 +16830,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16894,11 +16894,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -16959,11 +16959,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -17048,11 +17048,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -18101,11 +18101,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotWithOil",
-        "label": "Уље дозвољено",
-        "explanation": "Кувана храна са уљем, вино дозвољено",
-        "abbrev": "уље",
-        "icon": "🫒"
+        "type": "fish",
+        "label": "Риба дозвољена",
+        "explanation": "Риба, уље, вино дозвољени",
+        "abbrev": "риба",
+        "icon": "🐟"
       },
       "readings": [
         {
@@ -23284,11 +23284,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23347,11 +23347,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23405,11 +23405,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23453,11 +23453,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23728,11 +23728,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23793,11 +23793,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23876,11 +23876,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -23933,11 +23933,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24007,11 +24007,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24200,11 +24200,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24284,11 +24284,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24349,11 +24349,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24414,11 +24414,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24490,11 +24490,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24747,11 +24747,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24803,11 +24803,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24869,11 +24869,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24917,11 +24917,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -24965,11 +24965,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -25185,11 +25185,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "hotNoOil",
-        "label": "Кувано без уља",
-        "explanation": "Кувана храна без уља и вина",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -25258,11 +25258,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -25324,11 +25324,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "dryEating",
-        "label": "Сухоједење",
-        "explanation": "Хлеб, воће, поврће, орашасти плодови — без кувања",
-        "abbrev": "вода",
-        "icon": "💧"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {
@@ -25389,11 +25389,11 @@
       "weekLabel": null,
       "greatFeast": null,
       "fasting": {
-        "type": "fish",
-        "label": "Риба дозвољена",
-        "explanation": "Риба, уље, вино дозвољени",
-        "abbrev": "риба",
-        "icon": "🐟"
+        "type": "hotWithOil",
+        "label": "Уље дозвољено",
+        "explanation": "Кувана храна са уљем, вино дозвољено",
+        "abbrev": "уље",
+        "icon": "🫒"
       },
       "readings": [
         {

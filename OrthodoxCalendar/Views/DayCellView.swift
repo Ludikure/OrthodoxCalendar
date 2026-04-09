@@ -148,18 +148,19 @@ struct DayRowView: View, Equatable {
     }
 
     private var fastingStyle: (String, Color, Color) {
-        let icon = day.fasting.icon ?? ""
         let t = day.fasting.type.lowercased()
-        if t.contains("abstinence") || t.contains("dryeating") || t.contains("dry") {
-            return (icon.isEmpty ? "🚫" : icon, AppColors.fastStrict, AppColors.fastStrictBg)
-        } else if t.contains("nooil") || t.contains("water") {
-            return (icon.isEmpty ? "💧" : icon, AppColors.fastWater, AppColors.fastWaterBg)
+        if t == "totalabstinence" {
+            return ("🚫", AppColors.fastStrict, AppColors.fastStrictBg)
+        } else if t == "dryeating" {
+            return ("🍞", AppColors.fastStrict, AppColors.fastStrictBg)
+        } else if t.contains("nooil") {
+            return ("💧", AppColors.fastWater, AppColors.fastWaterBg)
         } else if t.contains("oil") {
-            return (icon.isEmpty ? "🫒" : icon, AppColors.fastOil, AppColors.fastOilBg)
+            return ("🫒", AppColors.fastOil, AppColors.fastOilBg)
         } else if t.contains("fish") || t.contains("roe") {
-            return (icon.isEmpty ? "🐟" : icon, AppColors.fastFish, AppColors.fastFishBg)
+            return ("🐟", AppColors.fastFish, AppColors.fastFishBg)
         } else {
-            return (icon.isEmpty ? "✓" : icon, AppColors.fastFree, AppColors.fastFreeBg)
+            return ("✓", AppColors.fastFree, AppColors.fastFreeBg)
         }
     }
 }
