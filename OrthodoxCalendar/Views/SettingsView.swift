@@ -30,14 +30,22 @@ struct SettingsView: View {
 
             Section {
                 HStack {
-                    Text("Version")
+                    Text(versionLabel)
                     Spacer()
-                    Text("1.0.0")
+                    Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
                         .foregroundStyle(.secondary)
                 }
             }
         }
         .navigationTitle(localization.ui.settingsLabel)
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var versionLabel: String {
+        switch localization.language {
+        case .sr: return "Верзија"
+        case .ru: return "Версия"
+        case .en: return "Version"
+        }
     }
 }

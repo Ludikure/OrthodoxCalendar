@@ -7,6 +7,9 @@ struct SaintSearchView: View {
 
     @State private var query = ""
     @State private var results: [SaintSearchResult] = []
+    @State private var searchTask: Task<Void, Never>?
+    @State private var cachedFile: CalendarFile?
+    @State private var cachedKey = ""
     @FocusState private var isSearchFocused: Bool
 
     var body: some View {
@@ -70,7 +73,12 @@ struct SaintSearchView: View {
                 }
             }
             .onChange(of: query) {
-                search()
+                searchTask?.cancel()
+                searchTask = Task {
+                    try? await Task.sleep(for: .milliseconds(200))
+                    guard !Task.isCancelled else { return }
+                    search()
+                }
             }
             .onAppear {
                 isSearchFocused = true
@@ -87,17 +95,27 @@ struct SaintSearchView: View {
             return
         }
 
-        var found: [SaintSearchResult] = []
         let locale = localization.language.rawValue
-        let filename = "calendar_\(locale)_\(viewModel.currentYear)"
+        let key = "calendar_\(locale)_\(viewModel.currentYear)"
 
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let file = try? JSONDecoder().decode(CalendarFile.self, from: data) else {
+        // Cache decoded file to avoid re-parsing JSON on every keystroke
+        if cachedKey != key {
+            guard let url = Bundle.main.url(forResource: key, withExtension: "json"),
+                  let data = try? Data(contentsOf: url),
+                  let file = try? JSONDecoder().decode(CalendarFile.self, from: data) else {
+                results = []
+                return
+            }
+            cachedFile = file
+            cachedKey = key
+        }
+
+        guard let file = cachedFile else {
             results = []
             return
         }
 
+        var found: [SaintSearchResult] = []
         for (_, day) in file.days {
             for feast in day.feasts {
                 if feast.name.lowercased().contains(q) {
@@ -111,7 +129,6 @@ struct SaintSearchView: View {
             }
         }
 
-        // Sort by date and limit
         results = Array(found.sorted { a, b in
             let aSort = String(format: "%02d-%02d", a.gregorianMonth ?? 0, a.gregorianDay ?? 0)
             let bSort = String(format: "%02d-%02d", b.gregorianMonth ?? 0, b.gregorianDay ?? 0)

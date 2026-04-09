@@ -61,7 +61,7 @@ struct DayDetailView: View {
                     Text(period)
                         .font(.system(size: 11, weight: .bold))
                         .tracking(0.5)
-                        .foregroundStyle(isGreat ? Color(red: 0.910, green: 0.659, blue: 0.486) : AppColors.mutedText)
+                        .foregroundStyle(isGreat ? AppColors.goldAccent : AppColors.mutedText)
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical, 4)
@@ -70,7 +70,7 @@ struct DayDetailView: View {
                         .fill(isGreat ? AppColors.crimson.opacity(0.15) : AppColors.warmBorder)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(isGreat ? AppColors.crimson.opacity(0.25) : Color(red: 0.878, green: 0.863, blue: 0.831), lineWidth: 1)
+                                .stroke(isGreat ? AppColors.crimson.opacity(0.25) : AppColors.warmBorder, lineWidth: 1)
                         )
                 )
                 .padding(.bottom, 12)
@@ -119,13 +119,13 @@ struct DayDetailView: View {
                 ? AnyShapeStyle(LinearGradient(
                     colors: [
                         AppColors.headerBg,
-                        Color(red: 0.239, green: 0.196, blue: 0.145),
-                        Color(red: 1, green: 0.97, blue: 0.94)
+                        AppColors.darkText.opacity(0.15),
+                        AppColors.warmBg
                     ],
                     startPoint: .top,
                     endPoint: .bottom
                   ))
-                : AnyShapeStyle(Color(red: 0.996, green: 0.992, blue: 0.984))
+                : AnyShapeStyle(AppColors.cardBg)
         )
     }
 
@@ -202,6 +202,8 @@ struct DayDetailView: View {
                     .padding(.leading, 2)
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(day.fasting.label)
     }
 
     // MARK: - Saints
@@ -223,7 +225,7 @@ struct DayDetailView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(
                                 LinearGradient(
-                                    colors: [AppColors.warmBorder, Color(red: 0.878, green: 0.863, blue: 0.831)],
+                                    colors: [AppColors.warmBorder, AppColors.warmBorder.opacity(0.8)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -255,6 +257,8 @@ struct DayDetailView: View {
                         .frame(width: 3)
                         .clipShape(RoundedRectangle(cornerRadius: 2))
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("\(localizedSaintType(feast.type)): \(feast.name)")
             }
         }
     }
@@ -291,7 +295,7 @@ struct DayDetailView: View {
 
             Text(reflection.text)
                 .font(.system(.subheadline, design: .serif))
-                .foregroundStyle(Color(red: 0.239, green: 0.196, blue: 0.145))
+                .foregroundStyle(AppColors.bodyText)
                 .lineSpacing(5)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 14)
@@ -484,5 +488,8 @@ struct ReadingCard: View {
                 )
         )
         .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(localizedType): \(reading.displayReference)")
+        .accessibilityHint(reading.text != nil ? (isExpanded ? "" : "Double tap to expand") : "")
     }
 }

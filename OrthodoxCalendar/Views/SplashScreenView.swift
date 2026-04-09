@@ -36,11 +36,11 @@ struct SplashScreenView: View {
                     .scaleEffect(scale)
 
                     VStack(spacing: 6) {
-                        Text("Православни Календар")
+                        Text(splashTitle)
                             .font(.system(.title2, design: .serif).weight(.bold))
                             .foregroundStyle(.white)
 
-                        Text("Црквени Календар")
+                        Text(splashSubtitle)
                             .font(.system(.subheadline, design: .serif))
                             .foregroundStyle(AppColors.goldAccent)
                     }
@@ -60,6 +60,27 @@ struct SplashScreenView: View {
                     }
                 }
             }
+        }
+    }
+
+    private var savedLanguage: AppLanguage {
+        UserDefaults.standard.string(forKey: "appLanguage")
+            .flatMap(AppLanguage.init(rawValue:)) ?? .sr
+    }
+
+    private var splashTitle: String {
+        switch savedLanguage {
+        case .sr: return "Православни Календар"
+        case .ru: return "Православный Календарь"
+        case .en: return "Orthodox Calendar"
+        }
+    }
+
+    private var splashSubtitle: String {
+        switch savedLanguage {
+        case .sr: return "Црквени Календар"
+        case .ru: return "Церковный Календарь"
+        case .en: return "Church Calendar"
         }
     }
 }

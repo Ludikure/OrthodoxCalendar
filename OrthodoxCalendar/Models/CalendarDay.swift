@@ -24,7 +24,7 @@ struct CalendarDay: Codable, Identifiable, Equatable, Hashable, Sendable {
     let readings: [ScriptureReading]
     let reflection: Reflection?
     let fastingPeriod: String?
-    let isFastFreeWeek: Bool
+    let isFastFreeWeek: Bool?
 
     // MARK: - Identifiable
 
@@ -160,8 +160,8 @@ struct FastingInfo: Codable, Equatable, Sendable {
     let type: String                   // "free", "fish", "dryEating", "hotWithOil", etc.
     let label: String
     let explanation: String
-    let abbrev: String
-    let icon: String
+    let abbrev: String?
+    let icon: String?
 }
 
 // MARK: - ScriptureReading

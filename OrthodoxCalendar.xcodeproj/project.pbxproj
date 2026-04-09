@@ -45,7 +45,6 @@
 		BF5F685D7B57E2D18C57B037 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF579CEDB94AF053C4E5F9BA /* SettingsView.swift */; };
 		C706D6DE19B9D3747D1A46F8 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D99BCF92C2B165D15537979 /* DayDetailView.swift */; };
 		C7A06F9203B8B24B37F2CAB4 /* calendar_en_2030.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E9FD6492DB22520DBC0B634 /* calendar_en_2030.json */; };
-		CF66577FDB410D1D83E3A694 /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81D3B4611E38DD7A4246CE /* LegendView.swift */; };
 		D374C3F3E1B8B7D278571D50 /* calendar_sr_2029.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2EFBB4F9B49D309EFE8343 /* calendar_sr_2029.json */; };
 		DA5DB5A9FB11AB9BC6F44555 /* LanguagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D964572381FC1262D1309BF /* LanguagePickerView.swift */; };
 		DCDA1F6F56F7506936698829 /* calendar_ru_2029.json in Resources */ = {isa = PBXBuildFile; fileRef = DABA22B17A9DD7470D3920C5 /* calendar_ru_2029.json */; };
@@ -106,7 +105,6 @@
 		E8B96F4AEB086384D1C17103 /* calendar_en_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_2026.json; sourceTree = "<group>"; };
 		F1CD08FD5B2F099488C4330D /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
 		F9EDE17BE739F60342F5BA63 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
-		FA81D3B4611E38DD7A4246CE /* LegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendView.swift; sourceTree = "<group>"; };
 		FBDDA2D7ADF0401D45B2786B /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		FF2EFBB4F9B49D309EFE8343 /* calendar_sr_2029.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2029.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -204,7 +202,6 @@
 				6D99BCF92C2B165D15537979 /* DayDetailView.swift */,
 				A5D59A4D5146B2132AB8F2D5 /* FastingLegendBar.swift */,
 				8D964572381FC1262D1309BF /* LanguagePickerView.swift */,
-				FA81D3B4611E38DD7A4246CE /* LegendView.swift */,
 				B4C149A04B50B2F3D1D116B5 /* MonthHeaderBar.swift */,
 				F1CD08FD5B2F099488C4330D /* MonthView.swift */,
 				24B47236D31D29AF749CF046 /* SaintSearchView.swift */,
@@ -334,7 +331,6 @@
 				143603E505C653BD26CE787B /* FastingLegendBar.swift in Sources */,
 				1B399F9AFFB84AAE4522D23A /* JulianConverter.swift in Sources */,
 				DA5DB5A9FB11AB9BC6F44555 /* LanguagePickerView.swift in Sources */,
-				CF66577FDB410D1D83E3A694 /* LegendView.swift in Sources */,
 				062A2B415E56A626C90CE77F /* LocalizationBundle.swift in Sources */,
 				52A7B4BBBBA7899417250B06 /* LocalizationManager.swift in Sources */,
 				3554E8B11D3CE45310468B68 /* MonthHeaderBar.swift in Sources */,

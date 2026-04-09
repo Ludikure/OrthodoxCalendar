@@ -137,7 +137,7 @@ struct DayRowView: View, Equatable {
         return HStack(spacing: 3) {
             Text(icon)
                 .font(.system(size: 10))
-            Text(day.fasting.abbrev)
+            Text(day.fasting.abbrev ?? "")
                 .font(.system(size: 10, weight: .semibold))
         }
         .foregroundStyle(color)
@@ -148,7 +148,7 @@ struct DayRowView: View, Equatable {
     }
 
     private var fastingStyle: (String, Color, Color) {
-        let icon = day.fasting.icon
+        let icon = day.fasting.icon ?? ""
         let t = day.fasting.type.lowercased()
         if t.contains("abstinence") || t.contains("dryeating") || t.contains("dry") {
             return (icon.isEmpty ? "🚫" : icon, AppColors.fastStrict, AppColors.fastStrictBg)
