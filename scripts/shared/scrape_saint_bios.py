@@ -42,8 +42,11 @@ def fetch_url(url: str, timeout: int = 30) -> str:
 
 def strip_html(html_text: str) -> str:
     """Strip HTML tags and decode entities, returning plain text."""
+    # Remove <script> and <style> blocks entirely
+    text = re.sub(r'<script[^>]*>.*?</script>', '', html_text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r'<style[^>]*>.*?</style>', '', text, flags=re.DOTALL | re.IGNORECASE)
     # Replace <br> variants with newlines
-    text = re.sub(r'<br\s*/?>', '\n', html_text)
+    text = re.sub(r'<br\s*/?>', '\n', text)
     # Replace block elements with newlines
     text = re.sub(r'</(p|div|h[1-6]|li|tr)>', '\n', text, flags=re.IGNORECASE)
     # Remove all remaining tags
@@ -180,10 +183,18 @@ def _clean_sr_bio(text: str) -> str:
     # Remove Google Tag Manager and other inline scripts
     text = re.sub(r'\(function\(w,d,s,l,i\).*?(?=\n[А-Яа-яЂђЉљЊњЋћЏџ]|\Z)', '', text, flags=re.DOTALL)
     text = re.sub(r'var\s+\w+\s*=.*?;', '', text)
-    # Remove any remaining lines that look like code
+    # Remove stray navigation text
+    text = re.sub(r'\bМК\b', '', text)
+    text = re.sub(r'о\.г\.', '', text)
+    text = re.sub(r'Задушнице\s+\w+', '', text)  # "Задушнице зимске" etc navigation
+    # Remove any remaining lines that look like code or CSS
     lines = text.split('\n')
     lines = [l for l in lines if not re.match(r'^\s*[\{\}()\[\];]', l.strip()) and
-             not re.match(r'^\s*(function|var |let |const |if\s*\(|for\s*\(|document\.|window\.)', l.strip())]
+             not re.match(r'^\s*(function|var |let |const |if\s*\(|for\s*\(|document\.|window\.)', l.strip()) and
+             not re.match(r'^\s*\.[a-zA-Z]', l.strip()) and  # CSS class rules
+             not re.match(r'^\s*#[a-zA-Z]', l.strip()) and   # CSS ID rules
+             not re.match(r'^\s*display\s*:', l.strip()) and  # CSS properties
+             not re.match(r'^\s*@media', l.strip())]
     text = '\n'.join(lines)
     # Remove "Охридски пролог" and everything after it (often a section marker)
     text = re.sub(r'Охридски пролог.*', '', text, flags=re.DOTALL)
