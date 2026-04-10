@@ -461,7 +461,7 @@ struct ReadingCard: View {
             // Header: type + reference
             Button {
                 if reading.text != nil {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                         isExpanded.toggle()
                     }
                 }
@@ -493,9 +493,10 @@ struct ReadingCard: View {
                         )
 
                     if reading.text != nil {
-                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        Image(systemName: "chevron.down")
                             .font(.caption2)
                             .foregroundStyle(AppColors.lightMuted)
+                            .rotationEffect(.degrees(isExpanded ? -180 : 0))
                     }
                 }
             }
@@ -508,13 +509,17 @@ struct ReadingCard: View {
             }
 
             // Scripture text (expandable)
-            if isExpanded, let text = reading.text, !text.isEmpty {
-                Text(text)
-                    .font(.system(.subheadline, design: .serif))
-                    .foregroundStyle(AppColors.bodyText)
-                    .lineSpacing(5)
-                    .padding(.top, 4)
-                    .transition(.opacity.combined(with: .move(edge: .top)))
+            if let text = reading.text, !text.isEmpty {
+                VStack {
+                    Text(text)
+                        .font(.system(.subheadline, design: .serif))
+                        .foregroundStyle(AppColors.bodyText)
+                        .lineSpacing(5)
+                        .padding(.top, 4)
+                }
+                .frame(maxHeight: isExpanded ? .infinity : 0, alignment: .top)
+                .clipped()
+                .opacity(isExpanded ? 1 : 0)
             }
         }
         .padding(.horizontal, 14)
@@ -546,7 +551,7 @@ struct SaintCard: View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
                 if bio != nil {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                         isExpanded.toggle()
                     }
                 }
@@ -579,9 +584,10 @@ struct SaintCard: View {
                     Spacer()
 
                     if bio != nil {
-                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        Image(systemName: "chevron.down")
                             .font(.caption2)
                             .foregroundStyle(AppColors.lightMuted)
+                            .rotationEffect(.degrees(isExpanded ? -180 : 0))
                             .padding(.top, 10)
                     }
                 }
@@ -591,14 +597,18 @@ struct SaintCard: View {
             .padding(.vertical, 10)
 
             // Expandable biography
-            if isExpanded, let bio {
-                Text(bio.text)
-                    .font(.system(.subheadline, design: .serif))
-                    .foregroundStyle(AppColors.bodyText)
-                    .lineSpacing(5)
-                    .padding(.horizontal, 12)
-                    .padding(.bottom, 12)
-                    .transition(.opacity.combined(with: .move(edge: .top)))
+            if let bio {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(bio.text)
+                        .font(.system(.subheadline, design: .serif))
+                        .foregroundStyle(AppColors.bodyText)
+                        .lineSpacing(5)
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 12)
+                }
+                .frame(maxHeight: isExpanded ? .infinity : 0, alignment: .top)
+                .clipped()
+                .opacity(isExpanded ? 1 : 0)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
