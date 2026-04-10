@@ -405,6 +405,7 @@ def _get_moveable_feast_entry(pdist: int, locale: str) -> dict:
         "displayRole": "primary",
         "isSlava": False,
         "liturgicalContext": None,
+        "moveable": True,
     }
 
 

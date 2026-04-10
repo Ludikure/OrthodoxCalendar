@@ -255,8 +255,8 @@ struct DayDetailView: View {
         }
         if matched != nil { return matched }
         // For single-bio days (Serbian Охридски Пролог), show on the first
-        // non-moveable feast (skip feasts typed as "feast" which are moveable)
-        if bios.count == 1 && feast.type != "feast" {
+        // non-moveable feast (moveable feasts like Pascha, Holy Week don't get saint bios)
+        if bios.count == 1 && !feast.moveable {
             // Only if no other feast already matched this bio
             let anyOtherMatch = day.feasts.enumerated().contains { i, f in
                 guard i < index else { return false }
