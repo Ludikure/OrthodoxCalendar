@@ -126,8 +126,7 @@ def _enrich_sr_reference(reading: dict):
 # ---------------------------------------------------------------------------
 
 MOVEABLE_FEASTS = {
-    # pdist: {locale: (name, importance, type, description)}
-    # description is optional (4th element)
+    # pdist: {locale: (name, importance, type)}
     -70: {
         'sr': ("Недеља митара и фарисеја", "bold", "feast"),
         'ru': ("Неделя о мытаре и фарисее", "bold", "feast"),
@@ -154,14 +153,14 @@ MOVEABLE_FEASTS = {
         'en': ("Clean Monday — Beginning of Great Lent", "bold", "feast"),
     },
     -8: {
-        'sr': ("Лазарева субота", "bold", "feast", "Спомен на васкрсење праведног Лазара, пријатеља Христовог, у Витанији. Господ га је васкрсао четири дана после смрти, показујући своју власт над смрћу и најављујући своје сопствено Васкрсење."),
-        'ru': ("Воскрешение праведного Лазаря (Лазарева суббота)", "bold", "feast", "Воспоминание воскрешения праведного Лазаря, друга Христова, в Вифании. Господь воскресил его через четыре дня после смерти, явив Свою власть над смертью и предвозвестив Своё собственное Воскресение."),
-        'en': ("Lazarus Saturday", "bold", "feast", "Commemoration of the raising of Righteous Lazarus, the friend of Christ, in Bethany. The Lord raised him four days after his death, showing His power over death and foreshadowing His own Resurrection."),
+        'sr': ("Лазарева субота", "bold", "feast"),
+        'ru': ("Воскрешение праведного Лазаря (Лазарева суббота)", "bold", "feast"),
+        'en': ("Lazarus Saturday", "bold", "feast"),
     },
     -7: {
-        'sr': ("Улазак Господа Исуса Христа у Јерусалим – Цвети", "great", "feast", "Народ је дочекао Господа са палмовим гранама и клицањем „Осана!" када је ушао у Јерусалим на магарету, испуњавајући пророштво Захарије. Овај празник се зове и Цвети или Врбица."),
-        'ru': ("Вход Господень в Иерусалим (Вербное воскресенье)", "great", "feast", "Народ встречал Господа с пальмовыми ветвями и восклицаниями «Осанна!», когда Он вошёл в Иерусалим на молодом осле, исполняя пророчество Захарии. Этот праздник называется также Вербным воскресеньем."),
-        'en': ("Entry of the Lord into Jerusalem — Palm Sunday", "great", "feast", "The people greeted the Lord with palm branches and cries of 'Hosanna!' as He entered Jerusalem on a young donkey, fulfilling the prophecy of Zechariah. This feast is also called Palm Sunday."),
+        'sr': ("Улазак Господа Исуса Христа у Јерусалим – Цвети", "great", "feast"),
+        'ru': ("Вход Господень в Иерусалим (Вербное воскресенье)", "great", "feast"),
+        'en': ("Entry of the Lord into Jerusalem — Palm Sunday", "great", "feast"),
     },
     -6: {
         'sr': ("Велики понедељак", "bold", "feast"),
@@ -179,24 +178,24 @@ MOVEABLE_FEASTS = {
         'en': ("Great Wednesday", "bold", "feast"),
     },
     -3: {
-        'sr': ("Велики четвртак", "bold", "feast", "Спомен на Тајну вечеру на којој је Господ установио Свету Евхаристију (Причешће) и умио ноге ученицима. Те ноћи је Јуда издао Христа пољупцем у Гетсиманском врту."),
-        'ru': ("Великий четверг", "bold", "feast", "Воспоминание Тайной Вечери, на которой Господь установил Таинство Евхаристии (Причащения) и омыл ноги ученикам. В ту ночь Иуда предал Христа поцелуем в Гефсиманском саду."),
-        'en': ("Great Thursday", "bold", "feast", "Commemoration of the Mystical Supper at which the Lord instituted the Holy Eucharist (Communion) and washed the feet of His disciples. That night Judas betrayed Christ with a kiss in the Garden of Gethsemane."),
+        'sr': ("Велики четвртак", "bold", "feast"),
+        'ru': ("Великий четверг", "bold", "feast"),
+        'en': ("Great Thursday", "bold", "feast"),
     },
     -2: {
-        'sr': ("Велики петак", "bold", "feast", "На данашњи дан је страдао Господ наш Исус Христос. Осуђен од Понтија Пилата, бичеван, понижен и распет на Крсту на Голготи. Скинут са Крста и положен у гроб Јосифа из Ариматеје. Најтужнији дан хришћанског календара."),
-        'ru': ("Великая пятница", "bold", "feast", "В сей день пострадал Господь наш Иисус Христос. Осуждённый Понтием Пилатом, бичёванный, поруганный и распятый на Кресте на Голгофе. Снятый со Креста и положенный во гроб Иосифа Аримафейского. Самый скорбный день христианского календаря."),
-        'en': ("Great Friday", "bold", "feast", "On this day our Lord Jesus Christ suffered. Condemned by Pontius Pilate, scourged, mocked and crucified on the Cross at Golgotha. Taken down from the Cross and laid in the tomb of Joseph of Arimathea. The most sorrowful day of the Christian calendar."),
+        'sr': ("Велики петак", "bold", "feast"),
+        'ru': ("Великая пятница", "bold", "feast"),
+        'en': ("Great Friday", "bold", "feast"),
     },
     -1: {
-        'sr': ("Велика субота", "bold", "feast", "Дан тишине и ишчекивања. Тело Христово лежи у гробу. Душом је сишао у ад и ослободио праведнике од Адама до Јована Крститеља. Церква ишчекује славно Васкрсење."),
-        'ru': ("Великая суббота", "bold", "feast", "День тишины и ожидания. Тело Христово лежит во гробе. Душою Он сошёл во ад и освободил праведников от Адама до Иоанна Крестителя. Церковь ожидает славного Воскресения."),
-        'en': ("Great Saturday", "bold", "feast", "A day of silence and expectation. The Body of Christ lies in the tomb. In soul He descended into Hades and freed the righteous from Adam to John the Baptist. The Church awaits the glorious Resurrection."),
+        'sr': ("Велика субота", "bold", "feast"),
+        'ru': ("Великая суббота", "bold", "feast"),
+        'en': ("Great Saturday", "bold", "feast"),
     },
     0: {
-        'sr': ("Васкрсење Христово – Васкрс", "great", "feast", "Христос Воскресе! Празник над празницима и торжество над торжествима. Господ наш Исус Христос васкрсао је из мртвих трећег дана, победивши смрт и даровавши живот свету. Васкрс је темељ хришћанске вере."),
-        'ru': ("Светлое Христово Воскресение — Пасха", "great", "feast", "Христос Воскресе! Праздник праздников и торжество торжеств. Господь наш Иисус Христос воскрес из мёртвых в третий день, победив смерть и даровав жизнь миру. Пасха — основание христианской веры."),
-        'en': ("The Resurrection of Our Lord Jesus Christ — Pascha", "great", "feast", "Christ is Risen! The Feast of Feasts and the Triumph of Triumphs. Our Lord Jesus Christ rose from the dead on the third day, conquering death and granting life to the world. Pascha is the foundation of the Christian faith."),
+        'sr': ("Васкрсење Христово – Васкрс", "great", "feast"),
+        'ru': ("Светлое Христово Воскресение — Пасха", "great", "feast"),
+        'en': ("The Resurrection of Our Lord Jesus Christ — Pascha", "great", "feast"),
     },
     1: {
         'sr': ("Васкрсни понедељак", "bold", "feast"),
@@ -229,39 +228,39 @@ MOVEABLE_FEASTS = {
         'en': ("Bright Saturday", "bold", "feast"),
     },
     7: {
-        'sr': ("Томина недеља", "bold", "feast", "Прва недеља по Васкрсу. Апостол Тома, који није био присутан при првом јављању Васкрслог Христа, рекао је: „Ако не видим на рукама Његовим ране од клинова и не метнем руку своју у ребра Његова, нећу веровати." Осам дана касније Господ му се јавио и рече: „Блажени који не видеше а вероваше.""),
-        'ru': ("Антипасха (Фомина неделя)", "bold", "feast", "Первое воскресенье по Пасхе. Апостол Фома, не присутствовавший при первом явлении Воскресшего Христа, сказал: «Если не увижу на руках Его ран от гвоздей и не вложу руки моей в рёбра Его, не поверю.» Через восемь дней Господь явился ему и сказал: «Блаженны не видевшие и уверовавшие.»"),
-        'en': ("Thomas Sunday (Antipascha)", "bold", "feast", "The first Sunday after Pascha. Apostle Thomas, absent at the first appearance of the Risen Christ, said: 'Unless I see the nail marks in His hands and put my hand into His side, I will not believe.' Eight days later the Lord appeared and said: 'Blessed are those who have not seen and yet have believed.'"),
+        'sr': ("Томина недеља", "bold", "feast"),
+        'ru': ("Антипасха (Фомина неделя)", "bold", "feast"),
+        'en': ("Thomas Sunday (Antipascha)", "bold", "feast"),
     },
     14: {
-        'sr': ("Недеља мироносица", "bold", "feast", "Спомен на жене мироносице — Марију Магдалину, Марију Клеопину, Саломију, Јоану и друге — које су рано ујутру дошле на гроб Христов са мирисима и прве чуле радосну вест о Васкрсењу од анђела."),
-        'ru': ("Неделя святых жен-мироносиц", "bold", "feast", "Память святых жен-мироносиц — Марии Магдалины, Марии Клеоповой, Саломии, Иоанны и других, — которые рано утром пришли ко гробу Христову с ароматами и первыми услышали радостную весть о Воскресении от ангела."),
-        'en': ("Sunday of the Myrrh-Bearing Women", "bold", "feast", "Commemoration of the Myrrh-Bearing Women — Mary Magdalene, Mary wife of Cleopas, Salome, Joanna and others — who came early in the morning to the tomb of Christ with spices and were the first to hear the joyful news of the Resurrection from the angel."),
+        'sr': ("Недеља мироносица", "bold", "feast"),
+        'ru': ("Неделя святых жен-мироносиц", "bold", "feast"),
+        'en': ("Sunday of the Myrrh-Bearing Women", "bold", "feast"),
     },
     24: {
-        'sr': ("Преполовљење Педесетнице", "bold", "feast", "Средина периода од Васкрса до Духова. Господ је на половини празника Сеница ушао у храм и учио народ, говорећи: „Ко је жедан нека дође к мени и пије.""),
-        'ru': ("Преполовение Пятидесятницы", "bold", "feast", "Середина периода от Пасхи до Пятидесятницы. В середине праздника Кущей Господь вошёл в храм и учил народ, говоря: «Кто жаждет, иди ко Мне и пей.»"),
-        'en': ("Mid-Pentecost", "bold", "feast", "The midpoint between Pascha and Pentecost. At the middle of the Feast of Tabernacles the Lord entered the Temple and taught the people, saying: 'If anyone thirsts, let him come to Me and drink.'"),
+        'sr': ("Преполовљење Педесетнице", "bold", "feast"),
+        'ru': ("Преполовение Пятидесятницы", "bold", "feast"),
+        'en': ("Mid-Pentecost", "bold", "feast"),
     },
     39: {
-        'sr': ("Вазнесење Господње – Спасовдан", "great", "feast", "Четрдесет дана по Васкрсењу Господ се вазнео на небо са Маслинске горе пред очима својих ученика. Два анђела су рекла апостолима: „Овај Исус који се од вас узнесе на небо, тако ће доћи као што сте Га видели да иде на небо.""),
-        'ru': ("Вознесение Господне", "great", "feast", "Через сорок дней после Воскресения Господь вознёсся на небо с горы Елеонской на глазах Своих учеников. Два ангела сказали апостолам: «Сей Иисус, вознёсшийся от вас на небо, придёт таким же образом, как вы видели Его восходящим на небо.»"),
-        'en': ("The Ascension of Our Lord Jesus Christ", "great", "feast", "Forty days after the Resurrection, the Lord ascended into heaven from the Mount of Olives before the eyes of His disciples. Two angels said to the apostles: 'This same Jesus, who was taken from you into heaven, will come in like manner as you saw Him go into heaven.'"),
+        'sr': ("Вазнесење Господње – Спасовдан", "great", "feast"),
+        'ru': ("Вознесение Господне", "great", "feast"),
+        'en': ("The Ascension of Our Lord Jesus Christ", "great", "feast"),
     },
     49: {
-        'sr': ("Силазак Светог Духа на Апостоле – Педесетница – Тројице", "great", "feast", "Педесет дана по Васкрсу, на дан јеврејске Педесетнице, Свети Дух сишао је на апостоле у виду огњених језика. Испуњени Духом Светим, апостоли су почели да говоре разним језицима и да проповедају Јеванђеље свим народима. Овај дан се сматра рођенданом Цркве."),
-        'ru': ("День Святой Троицы — Пятидесятница", "great", "feast", "Через пятьдесят дней после Воскресения, в день еврейской Пятидесятницы, Святой Дух сошёл на апостолов в виде огненных языков. Исполнившись Духа Святого, апостолы начали говорить на разных языках и проповедовать Евангелие всем народам. Этот день считается днём рождения Церкви."),
-        'en': ("Pentecost — The Descent of the Holy Spirit", "great", "feast", "Fifty days after the Resurrection, on the day of the Jewish Pentecost, the Holy Spirit descended upon the apostles in the form of tongues of fire. Filled with the Holy Spirit, the apostles began to speak in various languages and preach the Gospel to all nations. This day is considered the birthday of the Church."),
+        'sr': ("Силазак Светог Духа на Апостоле – Педесетница – Тројице", "great", "feast"),
+        'ru': ("День Святой Троицы — Пятидесятница", "great", "feast"),
+        'en': ("Pentecost — The Descent of the Holy Spirit", "great", "feast"),
     },
     50: {
-        'sr': ("Духовски понедељак", "bold", "feast", "Дан Светог Духа. Други дан Духова, посвећен посебно Светом Духу — трећем Лицу Свете Тројице."),
-        'ru': ("День Святого Духа", "bold", "feast", "День Святого Духа. Второй день Пятидесятницы, посвящённый особо Святому Духу — третьему Лицу Святой Троицы."),
-        'en': ("Monday of the Holy Spirit", "bold", "feast", "The Day of the Holy Spirit. The second day of Pentecost, dedicated especially to the Holy Spirit — the Third Person of the Holy Trinity."),
+        'sr': ("Духовски понедељак", "bold", "feast"),
+        'ru': ("День Святого Духа", "bold", "feast"),
+        'en': ("Monday of the Holy Spirit", "bold", "feast"),
     },
     56: {
-        'sr': ("Недеља свих светих", "bold", "feast", "Прва недеља по Духовима. Црква прославља све светитеље — познате и непознате — који су од постанка света до данас угодили Богу својим животом и подвизима."),
-        'ru': ("Неделя всех святых", "bold", "feast", "Первое воскресенье по Пятидесятнице. Церковь прославляет всех святых — известных и неизвестных, — которые от начала мира до наших дней угодили Богу своей жизнью и подвигами."),
-        'en': ("Sunday of All Saints", "bold", "feast", "The first Sunday after Pentecost. The Church glorifies all the saints — known and unknown — who from the beginning of the world to the present day have pleased God by their lives and struggles."),
+        'sr': ("Недеља свих светих", "bold", "feast"),
+        'ru': ("Неделя всех святых", "bold", "feast"),
+        'en': ("Sunday of All Saints", "bold", "feast"),
     },
 }
 
@@ -325,51 +324,51 @@ def _clean_moveable_label(name: str) -> str:
 # Fixed great feasts by Julian month-day (Gregorian = Julian + 13 for 1900-2099)
 # These are always present regardless of moveable feast collisions.
 FIXED_GREAT_FEASTS = {
-    # Julian date: {locale: (name, type, isSlava, description)}
+    # Julian date: {locale: (name, type, isSlava)}
     '09-08': {  # Greg 09-21: Nativity of Theotokos
-        'sr': ("Рођење Пресвете Богородице – Мала Госпојина", "feast", True, "Рођење Пресвете Богородице од праведних родитеља Јоакима и Ане. После дугогодишње неплодности, Бог им је даровао кћер, која ће постати мајка Спаситеља света."),
-        'ru': ("Рождество Пресвятой Богородицы", "feast", False, "Рождение Пресвятой Богородицы от праведных родителей Иоакима и Анны. После долгих лет бесплодия Бог даровал им дочь, которая станет Матерью Спасителя мира."),
-        'en': ("The Nativity of Our Most Holy Lady the Theotokos", "feast", False, "The birth of the Most Holy Theotokos from the righteous parents Joachim and Anna. After many years of childlessness, God granted them a daughter who would become the Mother of the Savior of the world."),
+        'sr': ("Рођење Пресвете Богородице – Мала Госпојина", "feast", True),
+        'ru': ("Рождество Пресвятой Богородицы", "feast", False),
+        'en': ("The Nativity of Our Most Holy Lady the Theotokos", "feast", False),
     },
     '09-14': {  # Greg 09-27: Elevation of Cross
-        'sr': ("Воздвижење часног Крста – Крстовдан", "feast", True, "Света царица Јелена (мајка цара Константина) пронашла је Часни Крст Христов у Јерусалиму 326. године. Патријарх Макарије воздигао је Крст пред народом, и народ је узвикивао „Господи, помилуј!""),
-        'ru': ("Воздвижение Честного Креста Господня", "feast", False, "Святая царица Елена (мать императора Константина) обрела Честной Крест Христов в Иерусалиме в 326 году. Патриарх Макарий воздвиг Крест перед народом, и народ восклицал «Господи, помилуй!»"),
-        'en': ("The Universal Elevation of the Precious and Life-Giving Cross", "feast", False, "Holy Empress Helen (mother of Emperor Constantine) discovered the True Cross of Christ in Jerusalem in 326. Patriarch Macarius elevated the Cross before the people, who cried out 'Lord, have mercy!'"),
+        'sr': ("Воздвижење часног Крста – Крстовдан", "feast", True),
+        'ru': ("Воздвижение Честного Креста Господня", "feast", False),
+        'en': ("The Universal Elevation of the Precious and Life-Giving Cross", "feast", False),
     },
     '11-21': {  # Greg 12-04: Entry/Presentation of Theotokos
-        'sr': ("Ваведење Пресвете Богородице", "feast", True, "Праведни Јоаким и Ана довели су трогодишњу Марију у Јерусалимски храм, испуњавајући свој завет Богу. Првосвештеник Захарија увео ју је у Светињу над Светињама, где је живела до своје дванаесте године."),
-        'ru': ("Введение во храм Пресвятой Богородицы", "feast", False, "Праведные Иоаким и Анна привели трёхлетнюю Марию в Иерусалимский храм, исполняя свой обет Богу. Первосвященник Захария ввёл Её во Святая Святых, где Она жила до двенадцатилетнего возраста."),
-        'en': ("The Entry of the Most Holy Theotokos into the Temple", "feast", False, "The righteous Joachim and Anna brought three-year-old Mary to the Jerusalem Temple, fulfilling their vow to God. The High Priest Zacharias led Her into the Holy of Holies, where She lived until the age of twelve."),
+        'sr': ("Ваведење Пресвете Богородице", "feast", True),
+        'ru': ("Введение во храм Пресвятой Богородицы", "feast", False),
+        'en': ("The Entry of the Most Holy Theotokos into the Temple", "feast", False),
     },
     '12-25': {  # Greg 01-07: Nativity of Christ
-        'sr': ("Рождество Христово – Божић", "feast", True, "Господ наш Исус Христос рођен је у Витлејему Јудејском од Пресвете Дјеве Марије. Пастири и мудраци са Истока дошли су да Му се поклоне. „Слава на висини Богу, и на земљи мир, међу људима добра воља!""),
-        'ru': ("Рождество Христово", "feast", False, "Господь наш Иисус Христос родился в Вифлееме Иудейском от Пресвятой Девы Марии. Пастухи и волхвы с Востока пришли поклониться Ему. «Слава в вышних Богу, и на земле мир, в человеках благоволение!»"),
-        'en': ("The Nativity of Our Lord Jesus Christ", "feast", False, "Our Lord Jesus Christ was born in Bethlehem of Judea of the Most Holy Virgin Mary. Shepherds and wise men from the East came to worship Him. 'Glory to God in the highest, and on earth peace, good will toward men!'"),
+        'sr': ("Рождество Христово – Божић", "feast", True),
+        'ru': ("Рождество Христово", "feast", False),
+        'en': ("The Nativity of Our Lord Jesus Christ", "feast", False),
     },
     '01-06': {  # Greg 01-19: Theophany
-        'sr': ("Богојављење", "feast", True, "Крштење Господа Исуса Христа у реци Јордану од Светог Јована Крститеља. При крштењу се Света Тројица јавила свету: Отац гласом с неба, Син у води, и Дух Свети у виду голуба."),
-        'ru': ("Святое Богоявление — Крещение Господне", "feast", False, "Крещение Господа Иисуса Христа в реке Иордан от святого Иоанна Крестителя. При Крещении Святая Троица явилась миру: Отец гласом с небес, Сын в воде, и Дух Святой в виде голубя."),
-        'en': ("The Baptism of Our Lord Jesus Christ — Theophany", "feast", False, "The Baptism of our Lord Jesus Christ in the River Jordan by Saint John the Baptist. At the Baptism the Holy Trinity was revealed to the world: the Father by a voice from heaven, the Son in the water, and the Holy Spirit in the form of a dove."),
+        'sr': ("Богојављење", "feast", True),
+        'ru': ("Святое Богоявление — Крещение Господне", "feast", False),
+        'en': ("The Baptism of Our Lord Jesus Christ — Theophany", "feast", False),
     },
     '02-02': {  # Greg 02-15: Meeting of the Lord (Сретење)
-        'sr': ("Сретење Господње", "feast", True, "Четрдесет дана по рођењу, Младенац Христос је донесен у Јерусалимски храм. Старац Симеон Га је примио у наручје и рекао: „Сад отпушташ слугу свога, Владико, по речи својој, с миром, јер видеше очи моје спасење Твоје.""),
-        'ru': ("Сретение Господне", "feast", False, "На сороковой день по рождении Младенец Христос был принесён в Иерусалимский храм. Старец Симеон принял Его на руки и сказал: «Ныне отпущаеши раба Твоего, Владыко, по глаголу Твоему, с миром, яко видеста очи мои спасение Твое.»"),
-        'en': ("The Meeting of Our Lord Jesus Christ in the Temple", "feast", False, "Forty days after His birth, the infant Christ was brought to the Jerusalem Temple. The Elder Simeon received Him in his arms and said: 'Lord, now lettest Thou Thy servant depart in peace, according to Thy word, for mine eyes have seen Thy salvation.'"),
+        'sr': ("Сретење Господње", "feast", True),
+        'ru': ("Сретение Господне", "feast", False),
+        'en': ("The Meeting of Our Lord Jesus Christ in the Temple", "feast", False),
     },
     '03-25': {  # Greg 04-07: Annunciation
-        'sr': ("Благовести – Благовештење Пресвете Богородице", "feast", True, "Архангел Гаврило јавио се Пресветој Дјеви Марији у Назарету и благовестио јој да ће родити Сина Божјег. Марија је одговорила: „Ево слушкиње Господње, нека ми буде по речи твојој.""),
-        'ru': ("Благовещение Пресвятой Богородицы", "feast", False, "Архангел Гавриил явился Пресвятой Деве Марии в Назарете и благовестил Ей, что Она родит Сына Божия. Мария ответила: «Се, раба Господня; да будет Мне по слову твоему.»"),
-        'en': ("The Annunciation of Our Most Holy Lady the Theotokos", "feast", False, "The Archangel Gabriel appeared to the Most Holy Virgin Mary in Nazareth and announced that She would bear the Son of God. Mary answered: 'Behold the handmaid of the Lord; be it unto me according to thy word.'"),
+        'sr': ("Благовести – Благовештење Пресвете Богородице", "feast", True),
+        'ru': ("Благовещение Пресвятой Богородицы", "feast", False),
+        'en': ("The Annunciation of Our Most Holy Lady the Theotokos", "feast", False),
     },
     '08-06': {  # Greg 08-19: Transfiguration
-        'sr': ("Преображење Господње", "feast", True, "Господ се преобразио на гори Тавор пред ученицима Петром, Јаковом и Јованом. Лице Његово засијало је као сунце, а хаљине Му постадоше беле као светлост. Јавише се Мојсије и Илија и глас с неба рече: „Ово је Син Мој љубљени, Њега слушајте.""),
-        'ru': ("Преображение Господне", "feast", False, "Господь преобразился на горе Фавор перед учениками Петром, Иаковом и Иоанном. Лицо Его просияло как солнце, а одежды Его стали белыми как свет. Явились Моисей и Илия, и голос с небес сказал: «Сей есть Сын Мой возлюбленный, Его слушайте.»"),
-        'en': ("The Transfiguration of Our Lord Jesus Christ", "feast", False, "The Lord was transfigured on Mount Tabor before His disciples Peter, James and John. His face shone like the sun, and His garments became white as light. Moses and Elijah appeared, and a voice from heaven said: 'This is My beloved Son; listen to Him.'"),
+        'sr': ("Преображење Господње", "feast", True),
+        'ru': ("Преображение Господне", "feast", False),
+        'en': ("The Transfiguration of Our Lord Jesus Christ", "feast", False),
     },
     '08-15': {  # Greg 08-28: Dormition
-        'sr': ("Успеније Пресвете Богородице – Велика Госпојина", "feast", True, "Успење (смрт) Пресвете Богородице у Јерусалиму. Сви апостоли били су чудесно донесени на облацима да би присуствовали Њеном упокојењу. Трећег дана гроб Њен нађен је празан — Господ је узнео Своју Мајку у небеску славу."),
-        'ru': ("Успение Пресвятой Богородицы", "feast", False, "Успение (кончина) Пресвятой Богородицы в Иерусалиме. Все апостолы были чудесно перенесены на облаках, чтобы присутствовать при Её погребении. На третий день гроб Её оказался пуст — Господь вознёс Свою Матерь в небесную славу."),
-        'en': ("The Dormition of Our Most Holy Lady the Theotokos", "feast", False, "The Dormition (falling asleep) of the Most Holy Theotokos in Jerusalem. All the apostles were miraculously transported on clouds to be present at Her burial. On the third day Her tomb was found empty — the Lord had taken His Mother into heavenly glory."),
+        'sr': ("Успеније Пресвете Богородице – Велика Госпојина", "feast", True),
+        'ru': ("Успение Пресвятой Богородицы", "feast", False),
+        'en': ("The Dormition of Our Most Holy Lady the Theotokos", "feast", False),
     },
 }
 
@@ -392,14 +391,23 @@ def _get_fixed_saints(saints_data: dict, key: str) -> list:
     return result
 
 
+def _load_feast_descriptions():
+    """Load feast descriptions from JSON file."""
+    path = os.path.join(DATA_DIR, 'processed', 'shared', 'feast_descriptions.json')
+    if os.path.exists(path):
+        with open(path) as f:
+            return json.load(f)
+    return {"moveable": {}, "fixed": {}}
+
+_FEAST_DESCS = _load_feast_descriptions()
+
+
 def _get_moveable_feast_entry(pdist: int, locale: str) -> dict:
     """Create a feast entry for a moveable feast at the given pascha distance."""
     feast = MOVEABLE_FEASTS.get(pdist)
     if not feast or locale not in feast:
         return None
-    entry_tuple = feast[locale]
-    name, importance, ftype = entry_tuple[0], entry_tuple[1], entry_tuple[2]
-    description = entry_tuple[3] if len(entry_tuple) > 3 else None
+    name, importance, ftype = feast[locale]
     result = {
         "name": name,
         "position": 0,
@@ -410,8 +418,9 @@ def _get_moveable_feast_entry(pdist: int, locale: str) -> dict:
         "liturgicalContext": None,
         "moveable": True,
     }
-    if description:
-        result["description"] = description
+    desc = _FEAST_DESCS.get("moveable", {}).get(str(pdist), {}).get(locale)
+    if desc:
+        result["description"] = desc
     return result
 
 
@@ -426,9 +435,7 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, great_fe
     fixed_great = FIXED_GREAT_FEASTS.get(julian_key)
     fixed_great_entry = None
     if fixed_great and locale in fixed_great:
-        entry_tuple = fixed_great[locale]
-        name, ftype, is_slava = entry_tuple[0], entry_tuple[1], entry_tuple[2]
-        description = entry_tuple[3] if len(entry_tuple) > 3 else None
+        name, ftype, is_slava = fixed_great[locale]
         fixed_great_entry = {
             "name": name,
             "position": 0,
@@ -438,8 +445,9 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, great_fe
             "isSlava": is_slava,
             "liturgicalContext": None,
         }
-        if description:
-            fixed_great_entry["description"] = description
+        desc = _FEAST_DESCS.get("fixed", {}).get(julian_key, {}).get(locale)
+        if desc:
+            fixed_great_entry["description"] = desc
         # Remove any scraped entry that duplicates this great feast
         fixed = [s for s in fixed if s.get("importance") != "great"]
 

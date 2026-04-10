@@ -1,0 +1,116 @@
+{
+  "moveable": {
+    "-8": {
+      "sr": "Спомен на васкрсење праведног Лазара, пријатеља Христовог, у Витанији. Господ га је васкрсао четири дана после смрти, показујући своју власт над смрћу и најављујући своје сопствено Васкрсење.",
+      "ru": "Воспоминание воскрешения праведного Лазаря, друга Христова, в Вифании. Господь воскресил его через четыре дня после смерти, явив Свою власть над смертью и предвозвестив Своё собственное Воскресение.",
+      "en": "Commemoration of the raising of Righteous Lazarus, the friend of Christ, in Bethany. The Lord raised him four days after his death, showing His power over death and foreshadowing His own Resurrection."
+    },
+    "-7": {
+      "sr": "Народ је дочекао Господа са палмовим гранама и клицањем 'Осана!' када је ушао у Јерусалим на магарету, испуњавајући пророштво Захарије. Овај празник се зове и Цвети или Врбица.",
+      "ru": "Народ встречал Господа с пальмовыми ветвями и восклицаниями 'Осанна!', когда Он вошёл в Иерусалим на молодом осле, исполняя пророчество Захарии.",
+      "en": "The people greeted the Lord with palm branches and cries of 'Hosanna!' as He entered Jerusalem on a young donkey, fulfilling the prophecy of Zechariah."
+    },
+    "-3": {
+      "sr": "Спомен на Тајну вечеру на којој је Господ установио Свету Евхаристију (Причешће) и умио ноге ученицима. Те ноћи је Јуда издао Христа пољупцем у Гетсиманском врту.",
+      "ru": "Воспоминание Тайной Вечери, на которой Господь установил Таинство Евхаристии и омыл ноги ученикам. В ту ночь Иуда предал Христа поцелуем в Гефсиманском саду.",
+      "en": "Commemoration of the Mystical Supper at which the Lord instituted the Holy Eucharist and washed the feet of His disciples. That night Judas betrayed Christ with a kiss in the Garden of Gethsemane."
+    },
+    "-2": {
+      "sr": "На данашњи дан је страдао Господ наш Исус Христос. Осуђен од Понтија Пилата, бичеван, понижен и распет на Крсту на Голготи. Скинут са Крста и положен у гроб Јосифа из Ариматеје. Најтужнији дан хришћанског календара.",
+      "ru": "В сей день пострадал Господь наш Иисус Христос. Осуждённый Понтием Пилатом, бичёванный, поруганный и распятый на Кресте на Голгофе. Снятый со Креста и положенный во гроб Иосифа Аримафейского. Самый скорбный день христианского календаря.",
+      "en": "On this day our Lord Jesus Christ suffered. Condemned by Pontius Pilate, scourged, mocked and crucified on the Cross at Golgotha. Taken down from the Cross and laid in the tomb of Joseph of Arimathea. The most sorrowful day of the Christian calendar."
+    },
+    "-1": {
+      "sr": "Дан тишине и ишчекивања. Тело Христово лежи у гробу. Душом је сишао у ад и ослободио праведнике од Адама до Јована Крститеља. Црква ишчекује славно Васкрсење.",
+      "ru": "День тишины и ожидания. Тело Христово лежит во гробе. Душою Он сошёл во ад и освободил праведников от Адама до Иоанна Крестителя. Церковь ожидает славного Воскресения.",
+      "en": "A day of silence and expectation. The Body of Christ lies in the tomb. In soul He descended into Hades and freed the righteous from Adam to John the Baptist. The Church awaits the glorious Resurrection."
+    },
+    "0": {
+      "sr": "Христос Воскресе! Празник над празницима и торжество над торжествима. Господ наш Исус Христос васкрсао је из мртвих трећег дана, победивши смрт и даровавши живот свету. Васкрс је темељ хришћанске вере.",
+      "ru": "Христос Воскресе! Праздник праздников и торжество торжеств. Господь наш Иисус Христос воскрес из мёртвых в третий день, победив смерть и даровав жизнь миру. Пасха — основание христианской веры.",
+      "en": "Christ is Risen! The Feast of Feasts and the Triumph of Triumphs. Our Lord Jesus Christ rose from the dead on the third day, conquering death and granting life to the world. Pascha is the foundation of the Christian faith."
+    },
+    "7": {
+      "sr": "Прва недеља по Васкрсу. Апостол Тома, који није био присутан при првом јављању Васкрслог Христа, рекао је: 'Ако не видим на рукама Његовим ране од клинова, нећу веровати.' Осам дана касније Господ му се јавио и рече: 'Блажени који не видеше а вероваше.'",
+      "ru": "Первое воскресенье по Пасхе. Апостол Фома, не присутствовавший при первом явлении Воскресшего Христа, сказал: 'Если не увижу на руках Его ран от гвоздей, не поверю.' Через восемь дней Господь явился ему и сказал: 'Блаженны не видевшие и уверовавшие.'",
+      "en": "The first Sunday after Pascha. Apostle Thomas, absent at the first appearance of the Risen Christ, said: 'Unless I see the nail marks in His hands, I will not believe.' Eight days later the Lord appeared and said: 'Blessed are those who have not seen and yet have believed.'"
+    },
+    "14": {
+      "sr": "Спомен на жене мироносице — Марију Магдалину, Саломију, Јоану и друге — које су рано ујутру дошле на гроб Христов са мирисима и прве чуле радосну вест о Васкрсењу од анђела.",
+      "ru": "Память святых жен-мироносиц — Марии Магдалины, Саломии, Иоанны и других, — которые рано утром пришли ко гробу Христову с ароматами и первыми услышали радостную весть о Воскресении от ангела.",
+      "en": "Commemoration of the Myrrh-Bearing Women — Mary Magdalene, Salome, Joanna and others — who came early in the morning to the tomb of Christ with spices and were the first to hear the joyful news of the Resurrection from the angel."
+    },
+    "24": {
+      "sr": "Средина периода од Васкрса до Духова. Господ је на половини празника Сеница ушао у храм и учио народ, говорећи: 'Ко је жедан нека дође к мени и пије.'",
+      "ru": "Середина периода от Пасхи до Пятидесятницы. В середине праздника Кущей Господь вошёл в храм и учил народ, говоря: 'Кто жаждет, иди ко Мне и пей.'",
+      "en": "The midpoint between Pascha and Pentecost. At the middle of the Feast of Tabernacles the Lord entered the Temple and taught the people, saying: 'If anyone thirsts, let him come to Me and drink.'"
+    },
+    "39": {
+      "sr": "Четрдесет дана по Васкрсењу Господ се вазнео на небо са Маслинске горе пред очима својих ученика. Два анђела су рекла апостолима: 'Овај Исус који се од вас узнесе на небо, тако ће доћи као што сте Га видели да иде на небо.'",
+      "ru": "Через сорок дней после Воскресения Господь вознёсся на небо с горы Елеонской на глазах Своих учеников. Два ангела сказали апостолам: 'Сей Иисус, вознёсшийся от вас на небо, придёт таким же образом, как вы видели Его восходящим на небо.'",
+      "en": "Forty days after the Resurrection, the Lord ascended into heaven from the Mount of Olives before the eyes of His disciples. Two angels said to the apostles: 'This same Jesus, who was taken from you into heaven, will come in like manner as you saw Him go into heaven.'"
+    },
+    "49": {
+      "sr": "Педесет дана по Васкрсу Свети Дух сишао је на апостоле у виду огњених језика. Испуњени Духом Светим, апостоли су почели да говоре разним језицима и да проповедају Јеванђеље свим народима. Овај дан се сматра рођенданом Цркве.",
+      "ru": "Через пятьдесят дней после Воскресения Святой Дух сошёл на апостолов в виде огненных языков. Исполнившись Духа Святого, апостолы начали говорить на разных языках и проповедовать Евангелие всем народам. Этот день считается днём рождения Церкви.",
+      "en": "Fifty days after the Resurrection, the Holy Spirit descended upon the apostles in the form of tongues of fire. Filled with the Holy Spirit, the apostles began to speak in various languages and preach the Gospel to all nations. This day is considered the birthday of the Church."
+    },
+    "50": {
+      "sr": "Дан Светог Духа. Други дан Духова, посвећен посебно Светом Духу — трећем Лицу Свете Тројице.",
+      "ru": "День Святого Духа. Второй день Пятидесятницы, посвящённый особо Святому Духу — третьему Лицу Святой Троицы.",
+      "en": "The Day of the Holy Spirit. The second day of Pentecost, dedicated especially to the Holy Spirit — the Third Person of the Holy Trinity."
+    },
+    "56": {
+      "sr": "Прва недеља по Духовима. Црква прославља све светитеље — познате и непознате — који су од постанка света до данас угодили Богу својим животом и подвизима.",
+      "ru": "Первое воскресенье по Пятидесятнице. Церковь прославляет всех святых — известных и неизвестных, — которые от начала мира до наших дней угодили Богу своей жизнью и подвигами.",
+      "en": "The first Sunday after Pentecost. The Church glorifies all the saints — known and unknown — who from the beginning of the world to the present day have pleased God by their lives and struggles."
+    }
+  },
+  "fixed": {
+    "09-08": {
+      "sr": "Рођење Пресвете Богородице од праведних родитеља Јоакима и Ане. После дугогодишње неплодности, Бог им је даровао кћер, која ће постати мајка Спаситеља света.",
+      "ru": "Рождение Пресвятой Богородицы от праведных родителей Иоакима и Анны. После долгих лет бесплодия Бог даровал им дочь, которая станет Матерью Спасителя мира.",
+      "en": "The birth of the Most Holy Theotokos from the righteous parents Joachim and Anna. After many years of childlessness, God granted them a daughter who would become the Mother of the Savior of the world."
+    },
+    "09-14": {
+      "sr": "Света царица Јелена пронашла је Часни Крст Христов у Јерусалиму 326. године. Патријарх Макарије воздигао је Крст пред народом, и народ је узвикивао 'Господи, помилуј!'",
+      "ru": "Святая царица Елена обрела Честной Крест Христов в Иерусалиме в 326 году. Патриарх Макарий воздвиг Крест перед народом, и народ восклицал 'Господи, помилуй!'",
+      "en": "Holy Empress Helen discovered the True Cross of Christ in Jerusalem in 326. Patriarch Macarius elevated the Cross before the people, who cried out 'Lord, have mercy!'"
+    },
+    "11-21": {
+      "sr": "Праведни Јоаким и Ана довели су трогодишњу Марију у Јерусалимски храм, испуњавајући свој завет Богу. Првосвештеник Захарија увео ју је у Светињу над Светињама.",
+      "ru": "Праведные Иоаким и Анна привели трёхлетнюю Марию в Иерусалимский храм, исполняя свой обет Богу. Первосвященник Захария ввёл Её во Святая Святых.",
+      "en": "The righteous Joachim and Anna brought three-year-old Mary to the Jerusalem Temple, fulfilling their vow to God. The High Priest Zacharias led Her into the Holy of Holies."
+    },
+    "12-25": {
+      "sr": "Господ наш Исус Христос рођен је у Витлејему Јудејском од Пресвете Дјеве Марије. Пастири и мудраци са Истока дошли су да Му се поклоне. 'Слава на висини Богу, и на земљи мир, међу људима добра воља!'",
+      "ru": "Господь наш Иисус Христос родился в Вифлееме Иудейском от Пресвятой Девы Марии. Пастухи и волхвы с Востока пришли поклониться Ему. 'Слава в вышних Богу, и на земле мир, в человеках благоволение!'",
+      "en": "Our Lord Jesus Christ was born in Bethlehem of Judea of the Most Holy Virgin Mary. Shepherds and wise men from the East came to worship Him. 'Glory to God in the highest, and on earth peace, good will toward men!'"
+    },
+    "01-06": {
+      "sr": "Крштење Господа Исуса Христа у реци Јордану од Светог Јована Крститеља. При крштењу се Света Тројица јавила свету: Отац гласом с неба, Син у води, и Дух Свети у виду голуба.",
+      "ru": "Крещение Господа Иисуса Христа в реке Иордан от святого Иоанна Крестителя. При Крещении Святая Троица явилась миру: Отец гласом с небес, Сын в воде, и Дух Святой в виде голубя.",
+      "en": "The Baptism of our Lord Jesus Christ in the River Jordan by Saint John the Baptist. At the Baptism the Holy Trinity was revealed to the world: the Father by a voice from heaven, the Son in the water, and the Holy Spirit in the form of a dove."
+    },
+    "02-02": {
+      "sr": "Четрдесет дана по рођењу, Младенац Христос је донесен у Јерусалимски храм. Старац Симеон Га је примио у наручје и рекао: 'Сад отпушташ слугу свога, Владико, по речи својој, с миром, јер видеше очи моје спасење Твоје.'",
+      "ru": "На сороковой день по рождении Младенец Христос был принесён в Иерусалимский храм. Старец Симеон принял Его на руки и сказал: 'Ныне отпущаеши раба Твоего, Владыко, яко видеста очи мои спасение Твое.'",
+      "en": "Forty days after His birth, the infant Christ was brought to the Jerusalem Temple. The Elder Simeon received Him in his arms and said: 'Lord, now lettest Thou Thy servant depart in peace, for mine eyes have seen Thy salvation.'"
+    },
+    "03-25": {
+      "sr": "Архангел Гаврило јавио се Пресветој Дјеви Марији у Назарету и благовестио јој да ће родити Сина Божјег. Марија је одговорила: 'Ево слушкиње Господње, нека ми буде по речи твојој.'",
+      "ru": "Архангел Гавриил явился Пресвятой Деве Марии в Назарете и благовестил Ей, что Она родит Сына Божия. Мария ответила: 'Се, раба Господня; да будет Мне по слову твоему.'",
+      "en": "The Archangel Gabriel appeared to the Most Holy Virgin Mary in Nazareth and announced that She would bear the Son of God. Mary answered: 'Behold the handmaid of the Lord; be it unto me according to thy word.'"
+    },
+    "08-06": {
+      "sr": "Господ се преобразио на гори Тавор пред ученицима Петром, Јаковом и Јованом. Лице Његово засијало је као сунце, а хаљине Му постадоше беле као светлост. Глас с неба рече: 'Ово је Син Мој љубљени, Њега слушајте.'",
+      "ru": "Господь преобразился на горе Фавор перед учениками Петром, Иаковом и Иоанном. Лицо Его просияло как солнце, а одежды Его стали белыми как свет. Голос с небес сказал: 'Сей есть Сын Мой возлюбленный, Его слушайте.'",
+      "en": "The Lord was transfigured on Mount Tabor before His disciples Peter, James and John. His face shone like the sun, and His garments became white as light. A voice from heaven said: 'This is My beloved Son; listen to Him.'"
+    },
+    "08-15": {
+      "sr": "Успење Пресвете Богородице у Јерусалиму. Сви апостоли били су чудесно донесени да присуствују Њеном упокојењу. Трећег дана гроб Њен нађен је празан — Господ је узнео Своју Мајку у небеску славу.",
+      "ru": "Успение Пресвятой Богородицы в Иерусалиме. Все апостолы были чудесно перенесены, чтобы присутствовать при Её погребении. На третий день гроб Её оказался пуст — Господь вознёс Свою Матерь в небесную славу.",
+      "en": "The Dormition of the Most Holy Theotokos in Jerusalem. All the apostles were miraculously transported to be present at Her burial. On the third day Her tomb was found empty — the Lord had taken His Mother into heavenly glory."
+    }
+  }
+}
