@@ -486,6 +486,9 @@ def build_calendar(locale: str, year: int):
     # Fall back: load raw scraped readings for days the engine has no data
     readings_data = load_json(os.path.join(proc_dir, 'readings.json')).get('days', {})
 
+    # Saint biographies
+    saint_bios_data = load_json(os.path.join(proc_dir, 'saint_bios.json')).get('days', {})
+
     # Russian-specific
     reflections_data = {}
     fasting_descriptions = {}
@@ -551,6 +554,9 @@ def build_calendar(locale: str, year: int):
 
             # Reflection
             "reflection": reflections_data.get(key),
+
+            # Saint biographies (keyed by MM-DD, year-independent)
+            "saintBios": saint_bios_data.get(key) or None,
 
             # Fasting period context
             "fastingPeriod": pasch.get_fasting_period(current),

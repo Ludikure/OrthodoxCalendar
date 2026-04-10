@@ -167,6 +167,12 @@ struct DayDetailView: View {
                 readingsSection
             }
 
+            // Saint Biographies
+            if let bios = day.saintBios, !bios.isEmpty {
+                sectionDivider
+                saintBiosSection(bios)
+            }
+
             // Reflection
             if let reflection = day.reflection, !reflection.text.isEmpty {
                 sectionDivider
@@ -293,6 +299,32 @@ struct DayDetailView: View {
             ForEach(Array(day.readings.enumerated()), id: \.offset) { _, reading in
                 ReadingCard(reading: reading)
             }
+        }
+    }
+
+    // MARK: - Saint Biographies
+
+    private func saintBiosSection(_ bios: [SaintBio]) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Text("📜")
+                    .font(.system(size: 16))
+                Text(saintBiosLabel)
+                    .font(.system(.subheadline, design: .serif).weight(.bold))
+                    .foregroundStyle(AppColors.darkText)
+            }
+
+            ForEach(Array(bios.enumerated()), id: \.offset) { _, bio in
+                SaintBioCard(bio: bio)
+            }
+        }
+    }
+
+    private var saintBiosLabel: String {
+        switch localization.language {
+        case .sr: return "Житија светих"
+        case .ru: return "Жития святых"
+        case .en: return "Lives of Saints"
         }
     }
 
@@ -548,5 +580,59 @@ struct ReadingCard: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(localizedType): \(reading.displayReference)")
         .accessibilityHint(reading.text != nil ? (isExpanded ? "" : "Double tap to expand") : "")
+    }
+}
+
+// MARK: - Saint Bio Card (expandable biography)
+
+struct SaintBioCard: View {
+    let bio: SaintBio
+    @State private var isExpanded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Button {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    isExpanded.toggle()
+                }
+            } label: {
+                HStack {
+                    Text(bio.title)
+                        .font(.system(.caption, design: .serif).weight(.bold))
+                        .foregroundStyle(AppColors.darkText)
+                        .lineLimit(isExpanded ? nil : 2)
+                        .multilineTextAlignment(.leading)
+
+                    Spacer()
+
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption2)
+                        .foregroundStyle(AppColors.lightMuted)
+                }
+            }
+            .buttonStyle(.plain)
+
+            if isExpanded {
+                Text(bio.text)
+                    .font(.system(.subheadline, design: .serif))
+                    .foregroundStyle(AppColors.bodyText)
+                    .lineSpacing(5)
+                    .padding(.top, 4)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(AppColors.cardBg)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(AppColors.warmBorder, lineWidth: 1.5)
+                )
+        )
+        .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(bio.title)
     }
 }
