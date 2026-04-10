@@ -155,7 +155,7 @@ struct DayDetailView: View {
 
             sectionDivider
 
-            // Saints / Commemorations
+            // Saints / Commemorations (with expandable bios)
             if !day.feasts.isEmpty {
                 saintsSection
             }
@@ -165,12 +165,6 @@ struct DayDetailView: View {
             // Readings
             if !day.readings.isEmpty {
                 readingsSection
-            }
-
-            // Saint Biographies
-            if let bios = day.saintBios, !bios.isEmpty {
-                sectionDivider
-                saintBiosSection(bios)
             }
 
             // Reflection
@@ -239,48 +233,31 @@ struct DayDetailView: View {
                     .foregroundStyle(AppColors.darkText)
             }
 
-            ForEach(day.feasts, id: \.name) { feast in
-                HStack(alignment: .top, spacing: 12) {
-                    // Icon
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(
-                                LinearGradient(
-                                    colors: [AppColors.warmBorder, AppColors.warmBorder.opacity(0.8)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 36, height: 36)
-                        Text(feast.importance == "great" ? "✦" : "☦")
-                            .font(.system(size: 16))
-                    }
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(feast.name)
-                            .font(.system(.subheadline, design: .serif).weight(.semibold))
-                            .foregroundStyle(AppColors.darkText)
-                        Text(localizedSaintType(feast.type))
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(AppColors.lightMuted)
-                    }
-                }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 10)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(AppColors.cardBg)
+            ForEach(Array(day.feasts.enumerated()), id: \.offset) { index, feast in
+                SaintCard(
+                    feast: feast,
+                    bio: findBio(for: feast, index: index),
+                    localizedType: localizedSaintType(feast.type)
                 )
-                .overlay(alignment: .leading) {
-                    Rectangle()
-                        .fill(AppColors.goldAccent)
-                        .frame(width: 3)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel("\(localizedSaintType(feast.type)): \(feast.name)")
             }
+        }
+    }
+
+    /// Find matching bio for a feast entry
+    private func findBio(for feast: Feast, index: Int) -> SaintBio? {
+        guard let bios = day.saintBios, !bios.isEmpty else { return nil }
+        // For Serbian: single bio per day (Охридски Пролог covers all saints)
+        // Show it on the first feast only
+        if bios.count == 1 && index == 0 {
+            return bios[0]
+        }
+        // For EN/RU: multiple bios, match by title similarity
+        let feastNameLower = feast.name.lowercased()
+        return bios.first { bio in
+            let bioTitleLower = bio.title.lowercased()
+            // Check if key words from feast name appear in bio title
+            let feastWords = feastNameLower.split(separator: " ").filter { $0.count > 3 }
+            return feastWords.contains { bioTitleLower.contains($0) }
         }
     }
 
@@ -299,32 +276,6 @@ struct DayDetailView: View {
             ForEach(Array(day.readings.enumerated()), id: \.offset) { _, reading in
                 ReadingCard(reading: reading)
             }
-        }
-    }
-
-    // MARK: - Saint Biographies
-
-    private func saintBiosSection(_ bios: [SaintBio]) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Text("📜")
-                    .font(.system(size: 16))
-                Text(saintBiosLabel)
-                    .font(.system(.subheadline, design: .serif).weight(.bold))
-                    .foregroundStyle(AppColors.darkText)
-            }
-
-            ForEach(Array(bios.enumerated()), id: \.offset) { _, bio in
-                SaintBioCard(bio: bio)
-            }
-        }
-    }
-
-    private var saintBiosLabel: String {
-        switch localization.language {
-        case .sr: return "Житија светих"
-        case .ru: return "Жития святых"
-        case .en: return "Lives of Saints"
         }
     }
 
@@ -583,56 +534,86 @@ struct ReadingCard: View {
     }
 }
 
-// MARK: - Saint Bio Card (expandable biography)
+// MARK: - Saint Card (feast entry + expandable biography)
 
-struct SaintBioCard: View {
-    let bio: SaintBio
+struct SaintCard: View {
+    let feast: Feast
+    let bio: SaintBio?
+    let localizedType: String
     @State private var isExpanded = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 0) {
             Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    isExpanded.toggle()
+                if bio != nil {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isExpanded.toggle()
+                    }
                 }
             } label: {
-                HStack {
-                    Text(bio.title)
-                        .font(.system(.caption, design: .serif).weight(.bold))
-                        .foregroundStyle(AppColors.darkText)
-                        .lineLimit(isExpanded ? nil : 2)
-                        .multilineTextAlignment(.leading)
+                HStack(alignment: .top, spacing: 12) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(
+                                LinearGradient(
+                                    colors: [AppColors.warmBorder, AppColors.warmBorder.opacity(0.8)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 36, height: 36)
+                        Text(feast.importance == "great" ? "✦" : "☦")
+                            .font(.system(size: 16))
+                    }
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(feast.name)
+                            .font(.system(.subheadline, design: .serif).weight(.semibold))
+                            .foregroundStyle(AppColors.darkText)
+                            .multilineTextAlignment(.leading)
+                        Text(localizedType)
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(AppColors.lightMuted)
+                    }
 
                     Spacer()
 
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption2)
-                        .foregroundStyle(AppColors.lightMuted)
+                    if bio != nil {
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .font(.caption2)
+                            .foregroundStyle(AppColors.lightMuted)
+                            .padding(.top, 10)
+                    }
                 }
             }
             .buttonStyle(.plain)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
 
-            if isExpanded {
+            // Expandable biography
+            if isExpanded, let bio {
                 Text(bio.text)
                     .font(.system(.subheadline, design: .serif))
                     .foregroundStyle(AppColors.bodyText)
                     .lineSpacing(5)
-                    .padding(.top, 4)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 12)
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 10)
                 .fill(AppColors.cardBg)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(AppColors.warmBorder, lineWidth: 1.5)
-                )
         )
-        .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
+        .overlay(alignment: .leading) {
+            Rectangle()
+                .fill(AppColors.goldAccent)
+                .frame(width: 3)
+                .clipShape(RoundedRectangle(cornerRadius: 2))
+        }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(bio.title)
+        .accessibilityLabel("\(localizedType): \(feast.name)")
+        .accessibilityHint(bio != nil ? (isExpanded ? "" : "Double tap to read biography") : "")
     }
 }
