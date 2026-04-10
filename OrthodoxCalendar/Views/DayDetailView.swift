@@ -555,10 +555,16 @@ struct SaintCard: View {
     let localizedType: String
     @State private var isExpanded = false
 
+    /// The expandable text: feast description or saint bio
+    private var expandableText: String? {
+        if let desc = feast.description, !desc.isEmpty { return desc }
+        return bio?.text
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
-                if bio != nil {
+                if expandableText != nil {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                         isExpanded.toggle()
                     }
@@ -591,7 +597,7 @@ struct SaintCard: View {
 
                     Spacer()
 
-                    if bio != nil {
+                    if expandableText != nil {
                         Image(systemName: "chevron.down")
                             .font(.caption2)
                             .foregroundStyle(AppColors.lightMuted)
@@ -604,10 +610,10 @@ struct SaintCard: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
 
-            // Expandable biography
-            if let bio {
+            // Expandable description or biography
+            if let text = expandableText {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(bio.text)
+                    Text(text)
                         .font(.system(.subheadline, design: .serif))
                         .foregroundStyle(AppColors.bodyText)
                         .lineSpacing(5)

@@ -121,6 +121,7 @@ struct Feast: Codable, Equatable, Sendable {
     let type: String                   // "feast", "saint", "martyr", "venerable", etc.
     let isSlava: Bool
     let moveable: Bool
+    let description: String?
     let liturgicalContext: String?
 
     // Optional fields present in the JSON
@@ -135,13 +136,14 @@ struct Feast: Codable, Equatable, Sendable {
         type = try container.decode(String.self, forKey: .type)
         isSlava = try container.decodeIfPresent(Bool.self, forKey: .isSlava) ?? false
         moveable = try container.decodeIfPresent(Bool.self, forKey: .moveable) ?? false
+        description = try container.decodeIfPresent(String.self, forKey: .description)
         liturgicalContext = try container.decodeIfPresent(String.self, forKey: .liturgicalContext)
         position = try container.decodeIfPresent(Int.self, forKey: .position)
         serbianSaint = try container.decodeIfPresent(Bool.self, forKey: .serbianSaint)
     }
 
     private enum CodingKeys: String, CodingKey {
-        case name, importance, displayRole, type, isSlava, moveable, liturgicalContext, position, serbianSaint
+        case name, importance, displayRole, type, isSlava, moveable, description, liturgicalContext, position, serbianSaint
     }
 
     /// Convenience initializer for building from API data (bridge)
@@ -152,6 +154,7 @@ struct Feast: Codable, Equatable, Sendable {
         self.type = "saint"
         self.isSlava = false
         self.moveable = false
+        self.description = nil
         self.liturgicalContext = nil
         self.position = nil
         self.serbianSaint = nil
