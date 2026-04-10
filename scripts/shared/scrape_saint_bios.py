@@ -187,15 +187,21 @@ def _clean_sr_bio(text: str) -> str:
     text = re.sub(r'\bМК\b', '', text)
     text = re.sub(r'о\.г\.', '', text)
     text = re.sub(r'Задушнице\s+\w+', '', text)  # "Задушнице зимске" etc navigation
-    # Remove any remaining lines that look like code or CSS
+    # Remove lines that are predominantly Latin (CSS/JS/HTML junk in Cyrillic context)
     lines = text.split('\n')
-    lines = [l for l in lines if not re.match(r'^\s*[\{\}()\[\];]', l.strip()) and
-             not re.match(r'^\s*(function|var |let |const |if\s*\(|for\s*\(|document\.|window\.)', l.strip()) and
-             not re.match(r'^\s*\.[a-zA-Z]', l.strip()) and  # CSS class rules
-             not re.match(r'^\s*#[a-zA-Z]', l.strip()) and   # CSS ID rules
-             not re.match(r'^\s*display\s*:', l.strip()) and  # CSS properties
-             not re.match(r'^\s*@media', l.strip())]
-    text = '\n'.join(lines)
+    cleaned_lines = []
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            cleaned_lines.append(line)
+            continue
+        # Count Cyrillic vs Latin characters
+        cyrillic = len(re.findall(r'[А-Яа-яЂђЉљЊњЋћЏџЁёІіЇїЄє]', stripped))
+        latin = len(re.findall(r'[a-zA-Z]', stripped))
+        # Keep lines that are mostly Cyrillic or short non-code lines
+        if cyrillic > latin or (latin == 0 and len(stripped) < 5):
+            cleaned_lines.append(line)
+    text = '\n'.join(cleaned_lines)
     # Remove "Охридски пролог" and everything after it (often a section marker)
     text = re.sub(r'Охридски пролог.*', '', text, flags=re.DOTALL)
     # Remove JavaScript junk
