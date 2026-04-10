@@ -246,19 +246,27 @@ struct DayDetailView: View {
     /// Find matching bio for a feast entry
     private func findBio(for feast: Feast, index: Int) -> SaintBio? {
         guard let bios = day.saintBios, !bios.isEmpty else { return nil }
-        // For Serbian: single bio per day (Охридски Пролог covers all saints)
-        // Show it on the first feast only
-        if bios.count == 1 && index == 0 {
-            return bios[0]
-        }
-        // For EN/RU: multiple bios, match by title similarity
+        // Match by title similarity — key words from feast name must appear in bio title
         let feastNameLower = feast.name.lowercased()
-        return bios.first { bio in
+        let matched = bios.first { bio in
             let bioTitleLower = bio.title.lowercased()
-            // Check if key words from feast name appear in bio title
             let feastWords = feastNameLower.split(separator: " ").filter { $0.count > 3 }
             return feastWords.contains { bioTitleLower.contains($0) }
         }
+        if matched != nil { return matched }
+        // For single-bio days (Serbian Охридски Пролог), show on the first
+        // non-moveable feast (skip feasts typed as "feast" which are moveable)
+        if bios.count == 1 && feast.type != "feast" {
+            // Only if no other feast already matched this bio
+            let anyOtherMatch = day.feasts.enumerated().contains { i, f in
+                guard i < index else { return false }
+                let words = f.name.lowercased().split(separator: " ").filter { $0.count > 3 }
+                let bioLower = bios[0].title.lowercased()
+                return words.contains { bioLower.contains($0) }
+            }
+            if !anyOtherMatch { return bios[0] }
+        }
+        return nil
     }
 
     // MARK: - Readings
