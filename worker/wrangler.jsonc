@@ -1,0 +1,11 @@
+{
+  "name": "orthodox-calendar-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-01",
+  "r2_buckets": [
+    {
+      "binding": "CALENDAR_DATA",
+      "bucket_name": "orthodox-calendar-data"
+    }
+  ]
+}
