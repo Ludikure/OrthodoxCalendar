@@ -3,7 +3,8 @@ import SwiftUI
 struct CalendarGridView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
-    @State private var selectedDay: CalendarDay?
+    @State private var selectedGridDay: CalendarDay?
+    @State private var initialized = false
 
     private var todayString: String {
         let fmt = DateFormatter()
@@ -41,15 +42,11 @@ struct CalendarGridView: View {
                         GridDayCell(
                             day: day,
                             isToday: day.gregorianDate == today,
-                            isSelected: selectedDay?.gregorianDate == day.gregorianDate
+                            isSelected: selectedGridDay?.gregorianDate == day.gregorianDate
                         )
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                if selectedDay?.gregorianDate == day.gregorianDate {
-                                    selectedDay = nil
-                                } else {
-                                    selectedDay = day
-                                }
+                                selectedGridDay = day
                             }
                         }
                     }
@@ -57,9 +54,12 @@ struct CalendarGridView: View {
                 .padding(.horizontal, 12)
                 .padding(.bottom, 8)
 
-                // Selected day detail card
-                if let day = selectedDay {
+                // Selected day detail card (tap to open full detail)
+                if let day = selectedGridDay {
                     SelectedDayCard(day: day)
+                        .onTapGesture {
+                            viewModel.selectedDay = day
+                        }
                         .transition(.asymmetric(
                             insertion: .move(edge: .top).combined(with: .opacity),
                             removal: .opacity
@@ -77,6 +77,17 @@ struct CalendarGridView: View {
         }
         .background(AppColors.warmBg)
         .id(viewModel.loadedLocale)
+        .onAppear { selectToday() }
+        .onChange(of: viewModel.daysInMonth.count) { selectToday() }
+    }
+
+    private func selectToday() {
+        let today = todayString
+        if let todayDay = viewModel.daysInMonth.first(where: { $0.gregorianDate == today }) {
+            selectedGridDay = todayDay
+        } else if let first = viewModel.daysInMonth.first {
+            selectedGridDay = first
+        }
     }
 
     private var weekdayHeaders: some View {
