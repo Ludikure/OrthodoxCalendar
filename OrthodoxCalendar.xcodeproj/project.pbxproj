@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		423DCBF4AADA22CF30EBF823 /* calendar_sr_2030.json in Resources */ = {isa = PBXBuildFile; fileRef = 90DBB51E9394613105123B11 /* calendar_sr_2030.json */; };
 		434DC641DDCBAE9D818E5630 /* calendar_ru_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F0B3B2E6523DBE0A46C262C /* calendar_ru_2026.json */; };
 		46F43B760DA0D5F3BEAD1947 /* calendar_en_2026.json in Resources */ = {isa = PBXBuildFile; fileRef = E8B96F4AEB086384D1C17103 /* calendar_en_2026.json */; };
+		4C47247F71030222FAAC742F /* CalendarGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7669427C71CB727693A790 /* CalendarGridView.swift */; };
 		52A7B4BBBBA7899417250B06 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EA05058841907271FB8FEE /* LocalizationManager.swift */; };
 		5BB48F11DD54E12903BBB517 /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B6ABB33D59C087264D846E2 /* ru.json */; };
 		63240EF68EC49D0994D3AFF6 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5547954B52EDE13709406 /* CalendarViewModel.swift */; };
@@ -65,6 +66,7 @@
 		24B47236D31D29AF749CF046 /* SaintSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintSearchView.swift; sourceTree = "<group>"; };
 		2666F042BF5EC16A7903D72B /* PaschaCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaschaCalculator.swift; sourceTree = "<group>"; };
 		38DCBD334CA42ABE70456716 /* LocalizationBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationBundle.swift; sourceTree = "<group>"; };
+		3C7669427C71CB727693A790 /* CalendarGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarGridView.swift; sourceTree = "<group>"; };
 		3D04FD89406690C3E314C2F0 /* calendar_en_2028.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_2028.json; sourceTree = "<group>"; };
 		3E9470D67ACB8D9244B9802F /* calendar_ru_2027.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_ru_2027.json; sourceTree = "<group>"; };
 		41098FD074E1624D5F43FB72 /* calendar_ru_2024.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_ru_2024.json; sourceTree = "<group>"; };
@@ -88,7 +90,7 @@
 		8D964572381FC1262D1309BF /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
 		90DBB51E9394613105123B11 /* calendar_sr_2030.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2030.json; sourceTree = "<group>"; };
 		9735DE00718EAF7D895C4CBB /* calendar_en_2029.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_2029.json; sourceTree = "<group>"; };
-		980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orthodox Calendar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OrthodoxCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E05FD61F64516950CF42DF8 /* JulianConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JulianConverter.swift; sourceTree = "<group>"; };
 		9ECB2D80878A479F4284C08F /* calendar_sr_2028.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2028.json; sourceTree = "<group>"; };
 		9EE0562EC4FDEFED51E7EAC9 /* sr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sr.json; sourceTree = "<group>"; };
@@ -154,7 +156,7 @@
 		4998A37C3B8AF8EE4196E35C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */,
+				980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				E32BDC246767B40B0505A643 /* AddReminderView.swift */,
+				3C7669427C71CB727693A790 /* CalendarGridView.swift */,
 				CAC31CAD818AF95A0829487E /* CalendarTabView.swift */,
 				67326005DDA6851066392C5E /* DatePickerSheet.swift */,
 				56DBE4A35B03A9BB9F648946 /* DayCellView.swift */,
@@ -247,7 +250,7 @@
 			packageProductDependencies = (
 			);
 			productName = OrthodoxCalendar;
-			productReference = 980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */;
+			productReference = 980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -269,6 +272,7 @@
 			);
 			mainGroup = 3D91E07283ED76385C9DD6FC;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -323,6 +327,7 @@
 				FD4EAEBBC7750038F1541F26 /* AppLanguage.swift in Sources */,
 				6CF375533A1F4C062A081680 /* AppTheme.swift in Sources */,
 				BC639BDA69FC95917EE1276C /* CalendarDay.swift in Sources */,
+				4C47247F71030222FAAC742F /* CalendarGridView.swift in Sources */,
 				F16E591DD878CBFD7C8638A4 /* CalendarTabView.swift in Sources */,
 				63240EF68EC49D0994D3AFF6 /* CalendarViewModel.swift in Sources */,
 				8D83E7F6EEB57C862E90944E /* DatePickerSheet.swift in Sources */,
@@ -353,7 +358,6 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
@@ -504,7 +508,6 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";

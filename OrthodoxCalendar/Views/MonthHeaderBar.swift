@@ -3,6 +3,7 @@ import SwiftUI
 struct MonthHeaderBar: View {
     @Binding var currentMonth: Int
     @Binding var currentYear: Int
+    @Binding var viewMode: CalendarViewModel.ViewMode
     let daysCount: Int
     let localization: LocalizationManager
     var onMonthTap: (() -> Void)? = nil
@@ -38,6 +39,31 @@ struct MonthHeaderBar: View {
             }
 
             Spacer()
+
+            // View mode toggle
+            HStack(spacing: 2) {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) { viewMode = .list }
+                } label: {
+                    Image(systemName: "list.bullet")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(viewMode == .list ? AppColors.headerBg : .white.opacity(0.5))
+                        .padding(5)
+                        .background(viewMode == .list ? AppColors.goldAccent : Color.clear)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                }
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) { viewMode = .grid }
+                } label: {
+                    Image(systemName: "square.grid.3x3")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(viewMode == .grid ? AppColors.headerBg : .white.opacity(0.5))
+                        .padding(5)
+                        .background(viewMode == .grid ? AppColors.goldAccent : Color.clear)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                }
+            }
+            .padding(.trailing, 8)
 
             // Next month
             Button {

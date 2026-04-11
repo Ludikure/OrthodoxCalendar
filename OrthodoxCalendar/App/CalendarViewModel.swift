@@ -13,7 +13,10 @@ final class CalendarViewModel {
     var scrollToTodayTrigger = false
     var scrollToDay: Int? = nil
     var navigateToDay: Int? = nil
+    var viewMode: ViewMode = .list
     var showSearch = false
+
+    enum ViewMode { case list, grid }
     var showDatePicker = false
     var isLoading = false
     var errorMessage: String?

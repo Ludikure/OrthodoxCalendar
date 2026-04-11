@@ -16,13 +16,18 @@ struct CalendarTabView: View {
                 MonthHeaderBar(
                     currentMonth: $vm.currentMonth,
                     currentYear: $vm.currentYear,
+                    viewMode: $vm.viewMode,
                     daysCount: viewModel.daysInMonth.count,
                     localization: localization,
                     onMonthTap: { viewModel.showDatePicker = true }
                 )
 
-                // Day list
-                MonthListView()
+                // Calendar content
+                if viewModel.viewMode == .grid {
+                    CalendarGridView()
+                } else {
+                    MonthListView()
+                }
             }
             .background(AppColors.warmBg)
             .toolbar {
