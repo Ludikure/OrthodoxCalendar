@@ -48,7 +48,7 @@ struct MonthHeaderBar: View {
                     Image(systemName: "list.bullet")
                         .font(.caption.weight(.bold))
                         .foregroundStyle(viewMode == .list ? AppColors.headerBg : .white.opacity(0.5))
-                        .padding(5)
+                        .padding(6)
                         .background(viewMode == .list ? AppColors.goldAccent : Color.clear)
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
@@ -58,7 +58,7 @@ struct MonthHeaderBar: View {
                     Image(systemName: "square.grid.3x3")
                         .font(.caption.weight(.bold))
                         .foregroundStyle(viewMode == .grid ? AppColors.headerBg : .white.opacity(0.5))
-                        .padding(5)
+                        .padding(6)
                         .background(viewMode == .grid ? AppColors.goldAccent : Color.clear)
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
@@ -76,7 +76,7 @@ struct MonthHeaderBar: View {
             .padding(.horizontal, 8)
         }
         .padding(.horizontal, 8)
-        .padding(.vertical, 10)
+        .padding(.vertical, 14)
         .background(headerColor)
     }
 
