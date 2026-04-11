@@ -34,7 +34,7 @@ struct CalendarGridView: View {
                     // Empty cells before month starts
                     ForEach(0..<firstDayOffset, id: \.self) { _ in
                         Color.clear
-                            .aspectRatio(1, contentMode: .fit)
+                            .frame(height: 46)
                     }
 
                     // Day cells
@@ -135,7 +135,7 @@ struct GridDayCell: View {
             fastingDot
         }
         .frame(maxWidth: .infinity)
-        .aspectRatio(1, contentMode: .fit)
+        .frame(height: 46)
         .background(cellBackground)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .overlay(
