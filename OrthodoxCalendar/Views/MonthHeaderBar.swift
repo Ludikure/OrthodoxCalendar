@@ -8,7 +8,7 @@ struct MonthHeaderBar: View {
     let localization: LocalizationManager
     var onMonthTap: (() -> Void)? = nil
 
-    private let headerColor = AppColors.headerBg
+    private let headerColor = AppColors.crimson
 
     var body: some View {
         HStack(spacing: 0) {
