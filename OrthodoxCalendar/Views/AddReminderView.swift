@@ -136,7 +136,7 @@ struct AddReminderView: View {
         // Check for duplicates
         let cal = Calendar(identifier: .gregorian)
         let dayStart = cal.startOfDay(for: eventDate)
-        let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
+        guard let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart) else { return }
         let predicate = store.predicateForEvents(withStart: dayStart, end: dayEnd, calendars: nil)
         let existing = store.events(matching: predicate)
         if existing.contains(where: { $0.title == title }) {
@@ -154,23 +154,31 @@ struct AddReminderView: View {
 
         // Add selected alarms
         for alert in selectedAlerts {
+            var alarmDate: Date?
             switch alert {
             case .morningOf:
-                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: eventDate)!))
+                alarmDate = cal.date(bySettingHour: 9, minute: 0, second: 0, of: eventDate)
             case .eveningBefore:
-                let evening = cal.date(byAdding: .day, value: -1, to: eventDate)!
-                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 20, minute: 0, second: 0, of: evening)!))
+                if let evening = cal.date(byAdding: .day, value: -1, to: eventDate) {
+                    alarmDate = cal.date(bySettingHour: 20, minute: 0, second: 0, of: evening)
+                }
             case .dayBefore:
-                let dayBefore = cal.date(byAdding: .day, value: -1, to: eventDate)!
-                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: dayBefore)!))
+                if let dayBefore = cal.date(byAdding: .day, value: -1, to: eventDate) {
+                    alarmDate = cal.date(bySettingHour: 9, minute: 0, second: 0, of: dayBefore)
+                }
             case .twoDaysBefore:
-                let twoDays = cal.date(byAdding: .day, value: -2, to: eventDate)!
-                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: twoDays)!))
+                if let twoDays = cal.date(byAdding: .day, value: -2, to: eventDate) {
+                    alarmDate = cal.date(bySettingHour: 9, minute: 0, second: 0, of: twoDays)
+                }
             case .weekBefore:
-                let week = cal.date(byAdding: .day, value: -7, to: eventDate)!
-                event.addAlarm(EKAlarm(absoluteDate: cal.date(bySettingHour: 9, minute: 0, second: 0, of: week)!))
+                if let week = cal.date(byAdding: .day, value: -7, to: eventDate) {
+                    alarmDate = cal.date(bySettingHour: 9, minute: 0, second: 0, of: week)
+                }
             case .custom:
-                event.addAlarm(EKAlarm(absoluteDate: customTime))
+                alarmDate = customTime
+            }
+            if let alarmDate {
+                event.addAlarm(EKAlarm(absoluteDate: alarmDate))
             }
         }
 
@@ -178,7 +186,7 @@ struct AddReminderView: View {
             try store.save(event, span: .thisEvent)
             showSuccess = true
         } catch {
-            // Silently fail
+            print("Failed to save calendar event: \(error)")
         }
     }
 

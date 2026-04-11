@@ -8,8 +8,6 @@ struct DayDetailView: View {
     @State private var showShareSheet = false
     @State private var expandedSection: String?
 
-    private var calendar: Calendar { Calendar(identifier: .gregorian) }
-
     private var isGreat: Bool { day.isGreatFeast }
 
     var body: some View {
@@ -464,6 +462,13 @@ struct ReadingCard: View {
         }
     }
 
+    private var zachaloLabel: String {
+        switch localization.language {
+        case .sr, .ru: return "зач."
+        case .en: return "ch."
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             // Header: type + reference
@@ -511,7 +516,7 @@ struct ReadingCard: View {
             .buttonStyle(.plain)
 
             if let zachalo = reading.zachalo {
-                Text("зач. \(zachalo)")
+                Text("\(zachaloLabel) \(zachalo)")
                     .font(.caption)
                     .foregroundStyle(AppColors.mutedText)
             }

@@ -15,12 +15,13 @@ Outputs:
 
 import json
 import os
+import re
 import sys
 from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(__file__))
 from paschalion import Paschalion
-from fasting_engine import compute_fasting, get_fasting_info, FASTING_ABBREV, FASTING_ICONS
+from fasting_engine import compute_fasting, get_fasting_info
 from generate_readings import generate_all_readings
 
 YEAR_START = 2024
@@ -104,7 +105,6 @@ SR_SHORT_BOOK = [
     ('Плач', 'Плач'),
 ]
 
-import re as _re
 
 def _enrich_sr_reference(reading: dict):
     """Add short book name to Serbian reading reference for readability."""
@@ -113,10 +113,10 @@ def _enrich_sr_reference(reading: dict):
     if not ref or not title:
         return
     # Skip if reference already contains Cyrillic (already has book name)
-    if _re.search(r'[А-Яа-яЂђЉљЊњЋћЏџ]', ref):
+    if re.search(r'[А-Яа-яЂђЉљЊњЋћЏџ]', ref):
         return
     for pattern, short in SR_SHORT_BOOK:
-        if _re.search(pattern, title):
+        if re.search(pattern, title):
             reading['reference'] = f'{short} {ref}'
             return
 
@@ -306,7 +306,7 @@ def _is_pure_moveable_entry(name: str) -> bool:
         r'^Clean Monday',
     ]
     for pat in pure_patterns:
-        if _re.search(pat, name):
+        if re.search(pat, name):
             return True
     return False
 
@@ -315,9 +315,9 @@ def _clean_moveable_label(name: str) -> str:
     """Remove moveable feast labels appended to fixed saint names."""
     # "Свети X – Лазарева субота" → "Свети X"
     # "Покајни канон Свети X" → "Свети X" (Lenten prefix)
-    name = _re.sub(r'\s*–\s*(Лазарева субота|Цвети|Спасовдан)$', '', name)
-    name = _re.sub(r'^Литургија\s+', '', name)
-    name = _re.sub(r'^Покајни канон\s+', '', name)
+    name = re.sub(r'\s*–\s*(Лазарева субота|Цвети|Спасовдан)$', '', name)
+    name = re.sub(r'^Литургија\s+', '', name)
+    name = re.sub(r'^Покајни канон\s+', '', name)
     return name.strip()
 
 
@@ -470,8 +470,14 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, great_fe
     for i, saint in enumerate(fixed):
         saint = dict(saint)
         saint["position"] = len(feasts) + i
-        if feasts:
-            saint["displayRole"] = "secondary" if len(feasts) == 1 and i == 0 else "tertiary"
+        if not feasts and i == 0:
+            saint["displayRole"] = "primary"
+        elif not feasts:
+            saint["displayRole"] = "secondary" if i == 1 else "tertiary"
+        elif len(feasts) == 1 and i == 0:
+            saint["displayRole"] = "secondary"
+        else:
+            saint["displayRole"] = "tertiary"
         feasts.append(saint)
 
     return feasts

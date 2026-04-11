@@ -74,7 +74,7 @@ struct SaintSearchView: View {
             }
             .onChange(of: query) {
                 searchTask?.cancel()
-                searchTask = Task {
+                searchTask = Task { @MainActor in
                     try? await Task.sleep(for: .milliseconds(200))
                     guard !Task.isCancelled else { return }
                     search()

@@ -3,18 +3,17 @@ import SwiftUI
 struct MonthListView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
-    @State private var todayString: String = {
+    @State private var todayString = Self.makeTodayString()
+
+    private static func makeTodayString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy-MM-dd"
         fmt.calendar = Calendar(identifier: .gregorian)
         return fmt.string(from: Date())
-    }()
+    }
 
     private func refreshToday() {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = Calendar(identifier: .gregorian)
-        todayString = fmt.string(from: Date())
+        todayString = Self.makeTodayString()
     }
 
     var body: some View {
