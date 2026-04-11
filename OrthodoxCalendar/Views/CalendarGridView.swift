@@ -204,8 +204,8 @@ struct SelectedDayCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            if isGreat, let feast = day.primaryFeast {
-                Text(isGreat ? "✦ \(greatFeastLabel)" : "")
+            if isGreat, day.primaryFeast != nil {
+                Text("✦ \(greatFeastLabel)")
                     .font(.system(size: 10, weight: .bold))
                     .tracking(1.5)
                     .foregroundStyle(isPascha ? AppColors.goldAccent : AppColors.crimson)
