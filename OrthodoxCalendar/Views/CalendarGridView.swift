@@ -20,7 +20,7 @@ struct CalendarGridView: View {
         return first.dayOfWeek
     }
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 3), count: 7)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
 
     var body: some View {
         let today = todayString
@@ -30,7 +30,7 @@ struct CalendarGridView: View {
                 weekdayHeaders
 
                 // Grid
-                LazyVGrid(columns: columns, spacing: 3) {
+                LazyVGrid(columns: columns, spacing: 8) {
                     // Empty cells before month starts
                     ForEach(0..<firstDayOffset, id: \.self) { _ in
                         Color.clear
