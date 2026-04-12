@@ -125,11 +125,17 @@ struct GridDayCell: View {
                 .font(.system(.callout, design: .serif).weight(isGreat || isToday ? .bold : .medium))
                 .foregroundStyle(
                     isPascha ? AppColors.goldAccent :
-                    isGreat ? AppColors.crimson :
                     isToday ? .white :
+                    isGreat ? AppColors.crimson :
                     day.isSunday ? AppColors.crimson :
                     AppColors.darkText
                 )
+                .frame(width: 30, height: 30)
+                .background {
+                    if isToday {
+                        Circle().fill(AppColors.crimson)
+                    }
+                }
 
             // Fasting dot
             fastingDot
@@ -175,9 +181,6 @@ struct GridDayCell: View {
                 colors: [AppColors.crimson, AppColors.crimson.opacity(0.8)],
                 startPoint: .topLeading, endPoint: .bottomTrailing
             ))
-        }
-        if isToday {
-            return AnyShapeStyle(AppColors.crimson)
         }
         if isGreat {
             return AnyShapeStyle(AppColors.crimson.opacity(0.08))

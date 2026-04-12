@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -101,7 +101,7 @@
 		8D964572381FC1262D1309BF /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
 		90DBB51E9394613105123B11 /* calendar_sr_2030.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2030.json; sourceTree = "<group>"; };
 		9735DE00718EAF7D895C4CBB /* calendar_en_2029.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_2029.json; sourceTree = "<group>"; };
-		980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OrthodoxCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orthodox Calendar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98CE7BEB6588582110BD971C /* calendar_en_nc_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_nc_2026.json; sourceTree = "<group>"; };
 		9E05FD61F64516950CF42DF8 /* JulianConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JulianConverter.swift; sourceTree = "<group>"; };
 		9ECB2D80878A479F4284C08F /* calendar_sr_2028.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2028.json; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 		4998A37C3B8AF8EE4196E35C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */,
+				980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 			packageProductDependencies = (
 			);
 			productName = OrthodoxCalendar;
-			productReference = 980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */;
+			productReference = 980ECA64C085AAFC335F31B3 /* Orthodox Calendar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -293,7 +293,6 @@
 			);
 			mainGroup = 3D91E07283ED76385C9DD6FC;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -386,6 +385,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
@@ -536,6 +536,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
