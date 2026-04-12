@@ -56,7 +56,7 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
         PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar
         PRODUCT_NAME: "Orthodox Calendar"
-        MARKETING_VERSION: "1.1.0"
+        MARKETING_VERSION: "1.2.0"
         CURRENT_PROJECT_VERSION: "5"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES
