@@ -186,7 +186,9 @@ struct AddReminderView: View {
             try store.save(event, span: .thisEvent)
             showSuccess = true
         } catch {
+            #if DEBUG
             print("Failed to save calendar event: \(error)")
+            #endif
         }
     }
 

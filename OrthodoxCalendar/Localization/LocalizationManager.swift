@@ -31,6 +31,13 @@ final class LocalizationManager {
                                          subdirectory: nil),
               let data = try? Data(contentsOf: url),
               let bundle = try? JSONDecoder().decode(LocalizationBundle.self, from: data) else {
+            // Fallback to Serbian if the requested locale file is missing
+            if language != .sr,
+               let fallbackUrl = Bundle.main.url(forResource: "sr", withExtension: "json"),
+               let fallbackData = try? Data(contentsOf: fallbackUrl),
+               let fallbackBundle = try? JSONDecoder().decode(LocalizationBundle.self, from: fallbackData) {
+                return fallbackBundle
+            }
             fatalError("Missing localization file: \(language.localizationFile).json")
         }
         return bundle

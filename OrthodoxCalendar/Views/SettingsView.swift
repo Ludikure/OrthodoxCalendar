@@ -29,6 +29,14 @@ struct SettingsView: View {
             }
 
             Section {
+                NavigationLink {
+                    AboutView()
+                } label: {
+                    Text(aboutLabel)
+                }
+            }
+
+            Section {
                 HStack {
                     Text(versionLabel)
                     Spacer()
@@ -39,6 +47,14 @@ struct SettingsView: View {
         }
         .navigationTitle(localization.ui.settingsLabel)
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var aboutLabel: String {
+        switch localization.language {
+        case .sr: return "О апликацији"
+        case .ru: return "О приложении"
+        case .en, .en_nc: return "About"
+        }
     }
 
     private var versionLabel: String {
