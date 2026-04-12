@@ -261,7 +261,7 @@ struct SelectedDayCard: View {
         switch localization.language {
         case .sr: return "ВЕЛИКИ ПРАЗНИК"
         case .ru: return "ВЕЛИКИЙ ПРАЗДНИК"
-        case .en: return "GREAT FEAST"
+        case .en, .en_nc: return "GREAT FEAST"
         }
     }
 

@@ -483,6 +483,25 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, great_fe
     return feasts
 
 
+# New Calendar: fixed great feasts by GREGORIAN month-day (no Julian offset)
+NC_GREAT_FEASTS_GREG = {
+    '09-08': 'nativity-of-theotokos',
+    '09-14': 'elevation-of-cross',
+    '11-21': 'presentation-of-theotokos',
+    '12-25': 'nativity-of-christ',
+    '01-06': 'theophany',
+    '02-02': 'meeting-of-lord',
+    '03-25': 'annunciation',
+    '08-06': 'transfiguration',
+    '08-15': 'dormition',
+}
+
+
+def _nc_great_feast(greg_key: str):
+    """Check if a Gregorian date is a fixed great feast on the New Calendar."""
+    return NC_GREAT_FEASTS_GREG.get(greg_key)
+
+
 def load_json(path: str) -> dict:
     if not os.path.exists(path):
         print(f"  WARNING: {path} not found, using empty dict", file=sys.stderr)
@@ -499,14 +518,17 @@ def to_julian_key(greg_date: date) -> str:
 def build_calendar(locale: str, year: int):
     """Build the final calendar JSON for a locale."""
     pasch = Paschalion(year)
-    proc_dir = os.path.join(DATA_DIR, 'processed', locale)
+    # en_nc (New Calendar English) shares data with en but uses different date mapping
+    data_locale = 'en' if locale == 'en_nc' else locale
+    is_new_calendar = (locale == 'en_nc')
+    proc_dir = os.path.join(DATA_DIR, 'processed', data_locale)
 
     # Load scraped data
     saints_data = load_json(os.path.join(proc_dir, 'saints.json')).get('days', {})
 
     # Use the lectionary engine + scraped text for readings
     print(f"  Generating engine-based readings for {locale} {year}...", file=sys.stderr)
-    engine_readings = generate_all_readings(year, locale)
+    engine_readings = generate_all_readings(year, data_locale)
 
     # Fall back: load raw scraped readings for days the engine has no data
     readings_data = load_json(os.path.join(proc_dir, 'readings.json')).get('days', {})
@@ -529,11 +551,23 @@ def build_calendar(locale: str, year: int):
         key = current.strftime("%m-%d")
         julian_key = to_julian_key(current)
 
+        # New Calendar: fixed feasts use Gregorian dates (julian_key == key)
+        feast_julian_key = key if is_new_calendar else julian_key
+
         # Pascha distance for this day
         pdist = pasch.pascha_distance(current)
 
         # Determine feast rank for fasting upgrade
-        great_feast = pasch.is_great_feast(current)
+        if is_new_calendar:
+            # New Calendar: fixed great feasts are on Gregorian dates
+            great_feast = _nc_great_feast(key)
+            # Moveable great feasts (Palm Sunday, Ascension, Pentecost) still from Paschalion
+            if not great_feast:
+                moveable_great = pasch.is_great_feast(current)
+                if moveable_great in ('pascha', 'entry-into-jerusalem', 'ascension', 'pentecost'):
+                    great_feast = moveable_great
+        else:
+            great_feast = pasch.is_great_feast(current)
         # Check saints data for feast importance (bold saints upgrade fasting in SPC)
         day_saints = saints_data.get(key, {}).get("saints", [])
         if great_feast:
@@ -544,8 +578,8 @@ def build_calendar(locale: str, year: int):
             feast_rank = None
 
         # Compute algorithmic fasting
-        fasting_level = compute_fasting(current, pasch, feast_rank, locale)
-        fasting_info = get_fasting_info(fasting_level, locale)
+        fasting_level = compute_fasting(current, pasch, feast_rank, data_locale)
+        fasting_info = get_fasting_info(fasting_level, data_locale)
 
         # Get scraped fasting description (supplements algorithmic)
         scraped_fasting = fasting_descriptions.get(key, {})
@@ -558,7 +592,7 @@ def build_calendar(locale: str, year: int):
             "paschaDistance": pdist,
 
             # Feasts/Saints — fixed saints from scraped data + algorithmic moveable feasts
-            "feasts": _build_feasts(saints_data, key, pdist, locale, great_feast, julian_key),
+            "feasts": _build_feasts(saints_data, key, pdist, data_locale, great_feast, feast_julian_key),
             "liturgicalPeriod": saints_data.get(key, {}).get("liturgicalPeriod"),
             "weekLabel": saints_data.get(key, {}).get("weekLabel"),
 
@@ -616,7 +650,7 @@ def main():
         year_start, year_end = YEAR_START, YEAR_END
 
     for year in range(year_start, year_end + 1):
-        for locale in ['sr', 'ru', 'en']:
+        for locale in ['sr', 'ru', 'en', 'en_nc']:
             print(f"\n=== Building calendar_{locale}_{year}.json ===", file=sys.stderr)
             calendar = build_calendar(locale, year)
 

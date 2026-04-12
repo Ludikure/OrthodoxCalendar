@@ -45,7 +45,7 @@ struct SettingsView: View {
         switch localization.language {
         case .sr: return "Верзија"
         case .ru: return "Версия"
-        case .en: return "Version"
+        case .en, .en_nc: return "Version"
         }
     }
 }

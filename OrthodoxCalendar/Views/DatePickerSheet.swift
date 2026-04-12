@@ -304,7 +304,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Изаберите месец"
         case .ru: return "Выберите месяц"
-        case .en: return "Select month"
+        case .en, .en_nc: return "Select month"
         }
     }
 
@@ -312,7 +312,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Изаберите датум"
         case .ru: return "Выберите дату"
-        case .en: return "Select date"
+        case .en, .en_nc: return "Select date"
         }
     }
 
@@ -320,7 +320,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Данас"
         case .ru: return "Сегодня"
-        case .en: return "Today"
+        case .en, .en_nc: return "Today"
         }
     }
 
@@ -328,7 +328,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Тачан датум"
         case .ru: return "Точная дата"
-        case .en: return "Exact date"
+        case .en, .en_nc: return "Exact date"
         }
     }
 
@@ -336,7 +336,7 @@ struct DatePickerSheet: View {
         switch localization.language {
         case .sr: return "Назад на месеце"
         case .ru: return "Назад к месяцам"
-        case .en: return "Back to months"
+        case .en, .en_nc: return "Back to months"
         }
     }
 }

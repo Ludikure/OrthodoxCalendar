@@ -118,7 +118,7 @@ struct CalendarTitle: View {
         switch localization.language {
         case .sr: return "Српска Православна Црква"
         case .ru: return "Русская Православная Церковь"
-        case .en: return "Orthodox Church Calendar"
+        case .en, .en_nc: return "Orthodox Church Calendar"
         }
     }
 }

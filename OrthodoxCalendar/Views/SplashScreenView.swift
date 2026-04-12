@@ -72,7 +72,7 @@ struct SplashScreenView: View {
         switch savedLanguage {
         case .sr: return "Православни Календар"
         case .ru: return "Православный Календарь"
-        case .en: return "Orthodox Calendar"
+        case .en, .en_nc: return "Orthodox Calendar"
         }
     }
 
@@ -80,7 +80,7 @@ struct SplashScreenView: View {
         switch savedLanguage {
         case .sr: return "Црквени Календар"
         case .ru: return "Церковный Календарь"
-        case .en: return "Church Calendar"
+        case .en, .en_nc: return "Church Calendar"
         }
     }
 }

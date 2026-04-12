@@ -348,7 +348,7 @@ struct DayDetailView: View {
         switch localization.language {
         case .sr: return "Велики празник"
         case .ru: return "Великий праздник"
-        case .en: return "Great Feast"
+        case .en, .en_nc: return "Great Feast"
         }
     }
 
@@ -383,7 +383,7 @@ struct DayDetailView: View {
         switch localization.language {
         case .sr: return types_sr[type] ?? type
         case .ru: return types_ru[type] ?? type
-        case .en: return types_en[type] ?? type
+        case .en, .en_nc: return types_en[type] ?? type
         }
     }
 
@@ -454,7 +454,7 @@ struct ReadingCard: View {
             if t == "apostol" { return "Апостол" }
             if t == "ot" { return "Ветхий Завет" }
             return reading.type
-        case .en:
+        case .en, .en_nc:
             if t == "gospel" { return "Gospel" }
             if t == "apostol" { return "Epistle" }
             if t == "ot" { return "Old Testament" }
@@ -465,7 +465,7 @@ struct ReadingCard: View {
     private var zachaloLabel: String {
         switch localization.language {
         case .sr, .ru: return "зач."
-        case .en: return "ch."
+        case .en, .en_nc: return "ch."
         }
     }
 

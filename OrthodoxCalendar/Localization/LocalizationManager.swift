@@ -27,11 +27,11 @@ final class LocalizationManager {
     }
 
     private static func loadBundle(for language: AppLanguage) -> LocalizationBundle {
-        guard let url = Bundle.main.url(forResource: language.rawValue, withExtension: "json",
+        guard let url = Bundle.main.url(forResource: language.localizationFile, withExtension: "json",
                                          subdirectory: nil),
               let data = try? Data(contentsOf: url),
               let bundle = try? JSONDecoder().decode(LocalizationBundle.self, from: data) else {
-            fatalError("Missing localization file: \(language.rawValue).json")
+            fatalError("Missing localization file: \(language.localizationFile).json")
         }
         return bundle
     }
