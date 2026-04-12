@@ -74,6 +74,27 @@ struct AboutView: View {
             }
 
             Section {
+                Link(destination: URL(string: "https://ludikure.github.io/OrthodoxCalendar/privacy")!) {
+                    HStack {
+                        Text(privacyLabel)
+                        Spacer()
+                        Image(systemName: "arrow.up.right.square")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Link(destination: URL(string: "https://ludikure.github.io/OrthodoxCalendar/")!) {
+                    HStack {
+                        Text(supportLabel)
+                        Spacer()
+                        Image(systemName: "arrow.up.right.square")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
+            Section {
                 Text(disclaimer)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -253,6 +274,22 @@ struct AboutView: View {
         case .sr: return "Текстови из Библије на српском, руском и енглеском"
         case .ru: return "Тексты из Библии на сербском, русском и английском"
         case .en, .en_nc: return "Bible texts in Serbian, Russian, and English"
+        }
+    }
+
+    private var privacyLabel: String {
+        switch localization.language {
+        case .sr: return "Политика приватности"
+        case .ru: return "Политика конфиденциальности"
+        case .en, .en_nc: return "Privacy Policy"
+        }
+    }
+
+    private var supportLabel: String {
+        switch localization.language {
+        case .sr: return "Подршка"
+        case .ru: return "Поддержка"
+        case .en, .en_nc: return "Support"
         }
     }
 
