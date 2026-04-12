@@ -241,28 +241,36 @@ struct DayDetailView: View {
         }
     }
 
+    // Common saint title prefixes — too generic for matching
+    private static let commonWords: Set<String> = [
+        "свети", "света", "светог", "светих", "светом",
+        "преподобни", "преподобна", "преподобног",
+        "мученик", "мученица", "мученици",
+        "свештеномученик", "великомученик",
+        "святой", "святая", "святых", "святителя",
+        "преподобный", "преподобная", "мученик",
+        "saint", "holy", "venerable", "martyr",
+        "blessed", "righteous",
+    ]
+
     /// Find matching bio for a feast entry
     private func findBio(for feast: Feast, index: Int) -> SaintBio? {
         guard let bios = day.saintBios, !bios.isEmpty else { return nil }
-        // Match by title similarity — key words from feast name must appear in bio title
+        // Match by significant keywords (skip common prefixes like Свети, Преподобни)
         let feastNameLower = feast.name.lowercased()
+        let feastWords = feastNameLower.split(separator: " ")
+            .map(String.init)
+            .filter { $0.count > 3 && !Self.commonWords.contains($0) }
+
         let matched = bios.first { bio in
             let bioTitleLower = bio.title.lowercased()
-            let feastWords = feastNameLower.split(separator: " ").filter { $0.count > 3 }
             return feastWords.contains { bioTitleLower.contains($0) }
         }
         if matched != nil { return matched }
         // For single-bio days (Serbian Охридски Пролог), show on the first
-        // non-moveable feast (moveable feasts like Pascha, Holy Week don't get saint bios)
-        if bios.count == 1 && !feast.moveable {
-            // Only if no other feast already matched this bio
-            let anyOtherMatch = day.feasts.enumerated().contains { i, f in
-                guard i < index else { return false }
-                let words = f.name.lowercased().split(separator: " ").filter { $0.count > 3 }
-                let bioLower = bios[0].title.lowercased()
-                return words.contains { bioLower.contains($0) }
-            }
-            if !anyOtherMatch { return bios[0] }
+        // non-moveable feast only
+        if bios.count == 1 && !feast.moveable && index == 0 {
+            return bios[0]
         }
         return nil
     }
