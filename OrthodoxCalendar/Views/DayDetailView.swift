@@ -253,26 +253,45 @@ struct DayDetailView: View {
         "blessed", "righteous",
     ]
 
-    /// Find matching bio for a feast entry
+    /// Find matching bio for a feast entry — each bio used only once
     private func findBio(for feast: Feast, index: Int) -> SaintBio? {
         guard let bios = day.saintBios, !bios.isEmpty else { return nil }
-        // Match by significant keywords (skip common prefixes like Свети, Преподобни)
-        let feastNameLower = feast.name.lowercased()
-        let feastWords = feastNameLower.split(separator: " ")
+        if feast.moveable { return nil }
+
+        // Single bio per day (Serbian Охридски Пролог): show on first feast only
+        if bios.count == 1 {
+            return index == 0 ? bios[0] : nil
+        }
+
+        // Multiple bios (EN/RU): match by significant keywords, each bio used once
+        // Find which bios are already claimed by earlier feasts
+        var usedBioTitles = Set<String>()
+        for i in 0..<index {
+            let f = day.feasts[i]
+            if f.moveable { continue }
+            let words = f.name.lowercased().split(separator: " ")
+                .map(String.init)
+                .filter { $0.count > 3 && !Self.commonWords.contains($0) }
+            for bio in bios {
+                if usedBioTitles.contains(bio.title) { continue }
+                let bioLower = bio.title.lowercased()
+                if words.contains(where: { bioLower.contains($0) }) {
+                    usedBioTitles.insert(bio.title)
+                    break
+                }
+            }
+        }
+
+        // Match this feast to an unclaimed bio
+        let feastWords = feast.name.lowercased().split(separator: " ")
             .map(String.init)
             .filter { $0.count > 3 && !Self.commonWords.contains($0) }
 
-        let matched = bios.first { bio in
-            let bioTitleLower = bio.title.lowercased()
-            return feastWords.contains { bioTitleLower.contains($0) }
+        return bios.first { bio in
+            guard !usedBioTitles.contains(bio.title) else { return false }
+            let bioLower = bio.title.lowercased()
+            return feastWords.contains { bioLower.contains($0) }
         }
-        if matched != nil { return matched }
-        // For single-bio days (Serbian Охридски Пролог), show on the first
-        // non-moveable feast only
-        if bios.count == 1 && !feast.moveable && index == 0 {
-            return bios[0]
-        }
-        return nil
     }
 
     // MARK: - Readings
