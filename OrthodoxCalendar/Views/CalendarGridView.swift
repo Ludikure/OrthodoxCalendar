@@ -45,6 +45,7 @@ struct CalendarGridView: View {
                             isSelected: selectedGridDay?.gregorianDate == day.gregorianDate
                         )
                         .onTapGesture {
+                            Haptics.selection()
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                                 selectedGridDay = day
                             }

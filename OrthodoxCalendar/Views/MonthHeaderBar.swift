@@ -14,6 +14,7 @@ struct MonthHeaderBar: View {
         HStack(spacing: 0) {
             // Previous month
             Button {
+                Haptics.selection()
                 goToPreviousMonth()
             } label: {
                 Image(systemName: "chevron.left")
@@ -26,6 +27,7 @@ struct MonthHeaderBar: View {
 
             // Month name (tappable for date picker)
             Button {
+                Haptics.light()
                 onMonthTap?()
             } label: {
                 HStack(spacing: 6) {
@@ -43,6 +45,7 @@ struct MonthHeaderBar: View {
             // View mode toggle
             HStack(spacing: 2) {
                 Button {
+                    Haptics.selection()
                     withAnimation(.easeInOut(duration: 0.2)) { viewMode = .list }
                 } label: {
                     Image(systemName: "list.bullet")
@@ -53,6 +56,7 @@ struct MonthHeaderBar: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
                 Button {
+                    Haptics.selection()
                     withAnimation(.easeInOut(duration: 0.2)) { viewMode = .grid }
                 } label: {
                     Image(systemName: "square.grid.3x3")
@@ -67,6 +71,7 @@ struct MonthHeaderBar: View {
 
             // Next month
             Button {
+                Haptics.selection()
                 goToNextMonth()
             } label: {
                 Image(systemName: "chevron.right")

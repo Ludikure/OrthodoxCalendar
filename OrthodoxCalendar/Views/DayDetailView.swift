@@ -23,6 +23,7 @@ struct DayDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
+                    Haptics.light()
                     showAddReminder = true
                 } label: {
                     Image(systemName: "plus.circle.fill")
@@ -33,6 +34,7 @@ struct DayDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 HStack(spacing: 8) {
                     Button {
+                        Haptics.light()
                         showShareSheet = true
                     } label: {
                         Image(systemName: "square.and.arrow.up.circle.fill")

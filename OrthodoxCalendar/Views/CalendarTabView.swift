@@ -33,6 +33,7 @@ struct CalendarTabView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(localization.ui.todayLabel) {
+                        Haptics.medium()
                         viewModel.goToToday()
                     }
                     .font(.subheadline)
@@ -41,6 +42,7 @@ struct CalendarTabView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 16) {
                         Button {
+                            Haptics.light()
                             viewModel.showSearch = true
                         } label: {
                             Image(systemName: "magnifyingglass")
