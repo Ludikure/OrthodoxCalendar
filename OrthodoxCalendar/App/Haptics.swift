@@ -1,16 +1,15 @@
 import UIKit
 
-@MainActor
 enum Haptics {
-    static func light() {
+    @MainActor static func light() {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 
-    static func medium() {
+    @MainActor static func medium() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
 
-    static func selection() {
+    @MainActor static func selection() {
         UISelectionFeedbackGenerator().selectionChanged()
     }
 }
