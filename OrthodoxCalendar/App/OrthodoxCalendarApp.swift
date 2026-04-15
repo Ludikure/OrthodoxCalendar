@@ -14,6 +14,7 @@ struct OrthodoxCalendarApp: App {
                 .tint(AppColors.crimson)
                 .onAppear {
                     viewModel.loadMonth()
+                    Haptics.prepare()
                 }
                 .onChange(of: localization.language) {
                     viewModel.forceReload(locale: localization.language.rawValue)
