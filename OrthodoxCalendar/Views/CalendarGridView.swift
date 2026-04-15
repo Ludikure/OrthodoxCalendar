@@ -80,6 +80,7 @@ struct CalendarGridView: View {
         .id(viewModel.loadedLocale)
         .onAppear { selectToday() }
         .onChange(of: viewModel.daysInMonth.count) { selectToday() }
+        .onChange(of: viewModel.scrollToTodayTrigger) { selectToday() }
     }
 
     private func selectToday() {
