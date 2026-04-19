@@ -282,12 +282,43 @@ struct SelectedDayCard: View {
 // MARK: - Fasting Legend
 
 struct FastingLegend: View {
+    @Environment(LocalizationManager.self) private var localization
+
+    private var oilLabel: String {
+        switch localization.language {
+        case .sr: return "Уље"
+        case .ru: return "Масло"
+        case .en, .en_nc: return "Oil"
+        }
+    }
+    private var fishLabel: String {
+        switch localization.language {
+        case .sr: return "Риба"
+        case .ru: return "Рыба"
+        case .en, .en_nc: return "Fish"
+        }
+    }
+    private var strictLabel: String {
+        switch localization.language {
+        case .sr: return "Строги"
+        case .ru: return "Строгий"
+        case .en, .en_nc: return "Strict"
+        }
+    }
+    private var feastLabel: String {
+        switch localization.language {
+        case .sr: return "Празник"
+        case .ru: return "Праздник"
+        case .en, .en_nc: return "Feast"
+        }
+    }
+
     var body: some View {
         HStack(spacing: 16) {
-            legendItem(color: AppColors.fastOil, label: "Уље")
-            legendItem(color: AppColors.fastFish, label: "Риба")
-            legendItem(color: AppColors.fastStrict, label: "Строги")
-            legendItem(color: AppColors.crimson, label: "Празник")
+            legendItem(color: AppColors.fastOil, label: oilLabel)
+            legendItem(color: AppColors.fastFish, label: fishLabel)
+            legendItem(color: AppColors.fastStrict, label: strictLabel)
+            legendItem(color: AppColors.crimson, label: feastLabel)
         }
         .frame(maxWidth: .infinity)
     }
