@@ -495,18 +495,138 @@ def _strip_service_tail(text: str) -> str:
 
 
 def _is_orphan_fragment(reading: dict) -> bool:
-    """True for a Serbian reading that is a textless scraper artifact.
+    """True for a Serbian reading that is a scraper artifact, not a real reading.
 
-    Such entries have no reference and no structural (book/зачало) title — they
-    are single verses the scraper peeled off onto their own <b> tag, and they
-    carry no recoverable text. Readings that *do* have text (e.g. the Lenten
-    canticle odes "Песма прва" …) are legitimate and kept.
+    Such entries have no reference and no structural (book/зачало) title. The
+    scraper sometimes split a single Gospel reading (e.g. John 14) into one entry
+    per verse, putting the verse text in the title. Drop an orphan when it has no
+    text, or when its "title" is a verse sentence rather than a short service
+    label — legitimate short labels like the Lenten canticle odes ("Песма прва" …
+    ≤ 13 chars) are kept, while verse fragments (> 16 chars, up to whole prayers)
+    are dropped.
     """
     if reading.get('reference'):
         return False
-    if _SR_STRUCT_TITLE_RE.search(reading.get('title') or ''):
+    title = (reading.get('title') or '').strip()
+    if _SR_STRUCT_TITLE_RE.search(title):
         return False
-    return not (reading.get('text') or '').strip()
+    if not (reading.get('text') or '').strip():
+        return True
+    return len(title) > 16
+
+
+# ---------------------------------------------------------------------------
+# Serbian Bible fallback — fill text for readings the day-scrape missed
+# ---------------------------------------------------------------------------
+
+# Engine book name -> knjiga number in the scraped Serbian Bible (bible.json).
+ENGINE_TO_KNJIGA = {
+    'Genesis': 1, 'Exodus': 2, 'Leviticus': 3, 'Numbers': 4, 'Deuteronomy': 5,
+    'Joshua': 6, 'Judges': 7, 'Ruth': 8, '1 Samuel': 9, '2 Samuel': 10,
+    '1 Kings': 11, '2 Kings': 12, '1 Chronicles': 13, '2 Chronicles': 14,
+    'Ezra': 15, 'Nehemiah': 16, 'Esther': 17, 'Job': 18, 'Psalms': 19,
+    'Proverbs': 20, 'Ecclesiastes': 21, 'Song of Songs': 22, 'Isaiah': 23,
+    'Jeremiah': 24, 'Lamentations': 25, 'Ezekiel': 26, 'Daniel': 27, 'Hosea': 28,
+    'Joel': 29, 'Amos': 30, 'Obadiah': 31, 'Jonah': 32, 'Micah': 33, 'Nahum': 34,
+    'Habakkuk': 35, 'Zephaniah': 36, 'Haggai': 37, 'Zechariah': 38, 'Malachi': 39,
+    'Matthew': 40, 'Mark': 41, 'Luke': 42, 'John': 43, 'Acts': 44, 'Romans': 45,
+    '1 Corinthians': 46, '2 Corinthians': 47, 'Galatians': 48, 'Ephesians': 49,
+    'Philippians': 50, 'Colossians': 51, '1 Thessalonians': 52,
+    '2 Thessalonians': 53, '1 Timothy': 54, '2 Timothy': 55, 'Titus': 56,
+    'Philemon': 57, 'Hebrews': 58, 'James': 59, '1 Peter': 60, '2 Peter': 61,
+    '1 John': 62, '2 John': 63, '3 John': 64, 'Jude': 65, 'Revelation': 66,
+}
+
+# Serbian citation name for the reading 'reference' field (matches the style of
+# the existing scraped references, e.g. "Римљанима 1,1-7", "1. Тимотеју 6,11-16").
+SR_REF_NAME = {
+    'Genesis': 'Постање', 'Exodus': 'Излазак', 'Leviticus': 'Левитска',
+    'Numbers': 'Бројеви', 'Deuteronomy': 'Поновљени закони', 'Joshua': 'Исус Навин',
+    'Judges': 'Судије', 'Ruth': 'Рута', '1 Samuel': '1. Самуилова',
+    '2 Samuel': '2. Самуилова', '1 Kings': '1. о царевима', '2 Kings': '2. о царевима',
+    'Job': 'Јов', 'Psalms': 'Псалам', 'Proverbs': 'Приче', 'Ecclesiastes': 'Проповедник',
+    'Isaiah': 'Исаија', 'Jeremiah': 'Јеремија', 'Lamentations': 'Плач Јеремијин',
+    'Ezekiel': 'Језекиљ', 'Daniel': 'Данило', 'Hosea': 'Осија', 'Joel': 'Јоил',
+    'Amos': 'Амос', 'Obadiah': 'Авдије', 'Jonah': 'Јона', 'Micah': 'Михеј',
+    'Nahum': 'Наум', 'Habakkuk': 'Авакум', 'Zephaniah': 'Софонија', 'Haggai': 'Агеј',
+    'Zechariah': 'Захарија', 'Malachi': 'Малахија',
+    'Matthew': 'Матеј', 'Mark': 'Марко', 'Luke': 'Лука', 'John': 'Јован',
+    'Acts': 'Дела', 'Romans': 'Римљанима', '1 Corinthians': '1. Коринћанима',
+    '2 Corinthians': '2. Коринћанима', 'Galatians': 'Галатима', 'Ephesians': 'Ефесцима',
+    'Philippians': 'Филипљанима', 'Colossians': 'Колошанима',
+    '1 Thessalonians': '1. Солуњанима', '2 Thessalonians': '2. Солуњанима',
+    '1 Timothy': '1. Тимотеју', '2 Timothy': '2. Тимотеју', 'Titus': 'Титу',
+    'Philemon': 'Филимону', 'Hebrews': 'Јеврејима', 'James': 'Јакова',
+    '1 Peter': '1. Петрова', '2 Peter': '2. Петрова', '1 John': '1. Јованова',
+    '2 John': '2. Јованова', '3 John': '3. Јованова', 'Jude': 'Јуде',
+    'Revelation': 'Откривење',
+}
+
+_SR_BIBLE = None
+
+
+def _load_sr_bible() -> dict:
+    """Load the scraped Serbian Bible (books keyed by knjiga number)."""
+    global _SR_BIBLE
+    if _SR_BIBLE is None:
+        path = os.path.join(DATA_DIR, 'processed', 'sr', 'bible.json')
+        if os.path.exists(path):
+            with open(path) as f:
+                _SR_BIBLE = json.load(f).get('books', {})
+            print(f"  [sr] Loaded Serbian Bible: {len(_SR_BIBLE)} books", file=sys.stderr)
+        else:
+            _SR_BIBLE = {}
+    return _SR_BIBLE
+
+
+def _sr_bible_fill(eng: dict) -> dict:
+    """Build a Serbian reading from the scraped Bible for an engine reading that
+    matched no scraped day-text. Returns a reading entry (with text) or None.
+    """
+    bible = _load_sr_bible()
+    if not bible:
+        return None
+    display = eng.get('display') or eng.get('sdisplay') or ''
+    bm = re.match(r'((?:[1-3]\s)?[A-Za-z ]+?)\s+\d', display)
+    if not bm:
+        return None
+    book = bm.group(1).strip()
+    knjiga = ENGINE_TO_KNJIGA.get(book)
+    book_data = bible.get(str(knjiga)) if knjiga else None
+    if not book_data:
+        return None  # deuterocanon (e.g. Wisdom) or unmapped — leave to day-scrape
+    chapters = book_data['chapters']
+
+    segments = _extract_chapter_verses(display)
+    if not segments:
+        return None
+    parts = []
+    for ch, vstart, vend in segments:
+        chap = chapters.get(str(ch))
+        if not chap:
+            continue
+        last = max(int(v) for v in chap)
+        for v in range(vstart, min(vend, last) + 1):
+            t = chap.get(str(v))
+            if t:
+                parts.append(f"{v}. {t}")
+    if not parts:
+        return None
+
+    ref_sr = display[bm.end() - 1:].strip().replace('.', ',')
+    short = SR_REF_NAME.get(book, book)
+    if 40 <= knjiga <= 43:
+        rtype = 'gospel'
+    elif 1 <= knjiga <= 39:
+        rtype = 'ot'
+    else:
+        rtype = 'apostol'
+    return {
+        'title': f"{book_data['title']} ({ref_sr})",
+        'type': rtype,
+        'text': ' '.join(parts),
+        'reference': f"{short} {ref_sr}",
+    }
 
 
 def _add_title_text(title_index: dict, entry: dict):
@@ -908,6 +1028,18 @@ def generate_readings_for_day(
                 entry['desc'] = desc
             result.append(entry)
         else:
+            # No scraped day-text matched. For Serbian, fill the text from the
+            # scraped Bible using the engine's known reference (this covers the
+            # post-Pentecost weekday readings the day-scrape missed).
+            if locale == 'sr':
+                filled = _sr_bible_fill(eng)
+                if filled:
+                    filled['source'] = source
+                    if desc:
+                        filled['desc'] = desc
+                    result.append(filled)
+                    continue
+
             # Map engine source to app-compatible type
             if source == 'Epistle':
                 reading_type = 'apostol'
