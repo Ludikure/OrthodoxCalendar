@@ -13,19 +13,13 @@ targets:
     type: application
     platform: iOS
     sources:
+      # The folder scan bundles every resource it finds, so exclude all calendar
+      # data and re-add only the bundled window below. Other years (2024-2030)
+      # are fetched on demand from R2 and cached on device. RELEASE CHECKLIST:
+      # roll this window forward each year (and ensure the new year exists in R2).
       - path: OrthodoxCalendar
-    resources:
-      - path: OrthodoxCalendar/Localization/sr.json
-      - path: OrthodoxCalendar/Localization/ru.json
-      - path: OrthodoxCalendar/Localization/en.json
-      - path: OrthodoxCalendar/Localization/calendar_sr_2024.json
-      - path: OrthodoxCalendar/Localization/calendar_ru_2024.json
-      - path: OrthodoxCalendar/Localization/calendar_en_2024.json
-      - path: OrthodoxCalendar/Localization/calendar_en_nc_2024.json
-      - path: OrthodoxCalendar/Localization/calendar_sr_2025.json
-      - path: OrthodoxCalendar/Localization/calendar_ru_2025.json
-      - path: OrthodoxCalendar/Localization/calendar_en_2025.json
-      - path: OrthodoxCalendar/Localization/calendar_en_nc_2025.json
+        excludes:
+          - "Localization/calendar_*.json"
       - path: OrthodoxCalendar/Localization/calendar_sr_2026.json
       - path: OrthodoxCalendar/Localization/calendar_ru_2026.json
       - path: OrthodoxCalendar/Localization/calendar_en_2026.json
@@ -34,19 +28,6 @@ targets:
       - path: OrthodoxCalendar/Localization/calendar_ru_2027.json
       - path: OrthodoxCalendar/Localization/calendar_en_2027.json
       - path: OrthodoxCalendar/Localization/calendar_en_nc_2027.json
-      - path: OrthodoxCalendar/Localization/calendar_sr_2028.json
-      - path: OrthodoxCalendar/Localization/calendar_ru_2028.json
-      - path: OrthodoxCalendar/Localization/calendar_en_2028.json
-      - path: OrthodoxCalendar/Localization/calendar_en_nc_2028.json
-      - path: OrthodoxCalendar/Localization/calendar_sr_2029.json
-      - path: OrthodoxCalendar/Localization/calendar_ru_2029.json
-      - path: OrthodoxCalendar/Localization/calendar_en_2029.json
-      - path: OrthodoxCalendar/Localization/calendar_en_nc_2029.json
-      - path: OrthodoxCalendar/Localization/calendar_sr_2030.json
-      - path: OrthodoxCalendar/Localization/calendar_ru_2030.json
-      - path: OrthodoxCalendar/Localization/calendar_en_2030.json
-      - path: OrthodoxCalendar/Localization/calendar_en_nc_2030.json
-      - path: OrthodoxCalendar/Localization/splash_logo.png
     settings:
       base:
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -56,8 +37,8 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
         PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar
         PRODUCT_NAME: "Orthodox Calendar"
-        MARKETING_VERSION: "1.2.1"
-        CURRENT_PROJECT_VERSION: "7"
+        MARKETING_VERSION: "1.3.0"
+        CURRENT_PROJECT_VERSION: "8"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES
         GENERATE_INFOPLIST_FILE: YES

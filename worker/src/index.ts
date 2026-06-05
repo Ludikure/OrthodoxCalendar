@@ -18,7 +18,7 @@ interface Env {
 	CALENDAR_DATA: R2Bucket;
 }
 
-const VALID_LOCALES = new Set(["sr", "ru", "en"]);
+const VALID_LOCALES = new Set(["sr", "ru", "en", "en_nc"]);
 const CACHE_HEADERS = {
 	"Cache-Control": "public, max-age=86400, s-maxage=604800, immutable",
 	"Content-Type": "application/json; charset=utf-8",
@@ -105,7 +105,7 @@ async function handleListYears(env: Env): Promise<Response> {
 
 async function handleGetYear(env: Env, locale: string, year: number): Promise<Response> {
 	if (!VALID_LOCALES.has(locale)) {
-		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en`, 400);
+		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en, en_nc`, 400);
 	}
 
 	if (year < 2020 || year > 2050) {

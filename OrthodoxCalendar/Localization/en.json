@@ -4,6 +4,8 @@
     "script": "latin",
 
     "ui": {
+        "loadingLabel": "Loading…",
+        "offlineMessage": "Couldn't load data. Check your connection.",
         "appTitle": "Church Calendar",
         "months": ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"],

@@ -23,11 +23,28 @@ struct CalendarTabView: View {
                 )
 
                 // Calendar content
-                if viewModel.viewMode == .grid {
-                    CalendarGridView()
-                } else {
-                    MonthListView()
+                ZStack {
+                    if viewModel.viewMode == .grid {
+                        CalendarGridView()
+                    } else {
+                        MonthListView()
+                    }
+
+                    // Loading / offline states for years fetched on demand.
+                    if viewModel.daysInMonth.isEmpty {
+                        if viewModel.isLoading {
+                            ProgressView(localization.ui.loadingLabel ?? "Loading…")
+                                .tint(AppColors.crimson)
+                        } else if viewModel.errorMessage != nil {
+                            CalendarLoadFailureView(
+                                message: localization.ui.offlineMessage
+                                    ?? "Couldn't load data. Check your connection.",
+                                onRetry: { viewModel.loadMonth() }
+                            )
+                        }
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .background(AppColors.warmBg)
             .toolbar {
@@ -86,6 +103,36 @@ struct CalendarTabView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - Load failure (offline / missing data for an on-demand year)
+
+struct CalendarLoadFailureView: View {
+    let message: String
+    let onRetry: () -> Void
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "wifi.slash")
+                .font(.largeTitle)
+                .foregroundStyle(AppColors.mutedText)
+            Text(message)
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(AppColors.mutedText)
+                .padding(.horizontal, 32)
+            Button {
+                Haptics.light()
+                onRetry()
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .font(.title3)
+                    .foregroundStyle(AppColors.crimson)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.warmBg)
     }
 }
 

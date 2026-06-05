@@ -8,8 +8,6 @@ struct SaintSearchView: View {
     @State private var query = ""
     @State private var results: [SaintSearchResult] = []
     @State private var searchTask: Task<Void, Never>?
-    @State private var cachedFile: CalendarFile?
-    @State private var cachedKey = ""
     @FocusState private var isSearchFocused: Bool
 
     var body: some View {
@@ -95,22 +93,10 @@ struct SaintSearchView: View {
             return
         }
 
-        let locale = localization.language.rawValue
-        let key = "calendar_\(locale)_\(viewModel.currentYear)"
-
-        // Cache decoded file to avoid re-parsing JSON on every keystroke
-        if cachedKey != key {
-            guard let url = Bundle.main.url(forResource: key, withExtension: "json"),
-                  let data = try? Data(contentsOf: url),
-                  let file = try? JSONDecoder().decode(CalendarFile.self, from: data) else {
-                results = []
-                return
-            }
-            cachedFile = file
-            cachedKey = key
-        }
-
-        guard let file = cachedFile else {
+        // Search the year already resolved by the calendar (bundle, disk cache,
+        // or network) rather than re-reading the bundle — so it also works for
+        // fetched years that aren't bundled on device.
+        guard let file = viewModel.loadedFile else {
             results = []
             return
         }

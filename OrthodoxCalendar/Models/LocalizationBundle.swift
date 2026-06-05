@@ -24,6 +24,9 @@ struct UILabels: Codable, Sendable {
     let todayLabel: String
     let feastTypes: [String: String]
     let fastingTypes: [String: String]
+    // On-demand year loading (optional so older localization files still decode).
+    let loadingLabel: String?
+    let offlineMessage: String?
 }
 
 struct ExtraFeast: Codable, Sendable {
