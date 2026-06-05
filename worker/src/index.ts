@@ -72,6 +72,10 @@ export default {
 			return await handleListYears(env);
 		}
 
+		if (path === "/api/config") {
+			return await handleConfig(env);
+		}
+
 		// /api/{locale}/{year}
 		const yearMatch = path.match(/^\/api\/(\w+)\/(\d{4})$/);
 		if (yearMatch) {
@@ -89,6 +93,22 @@ export default {
 		return errorResponse("Not found", 404);
 	},
 };
+
+// App config (forced-update gate). Stored as config.json in R2 so the minimum
+// required version can be changed without redeploying the worker or the app.
+// Short cache so version bumps take effect quickly. Fail-open if absent.
+async function handleConfig(env: Env): Promise<Response> {
+	const headers = {
+		"Cache-Control": "public, max-age=120",
+		"Content-Type": "application/json; charset=utf-8",
+		...corsHeaders(null),
+	};
+	const object = await env.CALENDAR_DATA.get("config.json");
+	if (!object) {
+		return new Response(JSON.stringify({ minVersion: "0.0.0" }), { status: 200, headers });
+	}
+	return new Response(await object.text(), { status: 200, headers });
+}
 
 async function handleListYears(env: Env): Promise<Response> {
 	const list = await env.CALENDAR_DATA.list({ prefix: "calendar_sr_" });

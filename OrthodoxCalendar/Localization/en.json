@@ -6,6 +6,9 @@
     "ui": {
         "loadingLabel": "Loading…",
         "offlineMessage": "Couldn't load data. Check your connection.",
+        "updateRequiredTitle": "Update Required",
+        "updateRequiredMessage": "A new version is required to continue. Please update the app.",
+        "updateButton": "Update",
         "appTitle": "Church Calendar",
         "months": ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"],

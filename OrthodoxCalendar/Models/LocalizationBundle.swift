@@ -27,6 +27,10 @@ struct UILabels: Codable, Sendable {
     // On-demand year loading (optional so older localization files still decode).
     let loadingLabel: String?
     let offlineMessage: String?
+    // Forced-update gate.
+    let updateRequiredTitle: String?
+    let updateRequiredMessage: String?
+    let updateButton: String?
 }
 
 struct ExtraFeast: Codable, Sendable {
