@@ -325,7 +325,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
@@ -339,7 +339,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.orthodox.calendar;
 				PRODUCT_NAME = "Orthodox Calendar";
 				SDKROOT = iphoneos;
@@ -475,7 +475,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
@@ -489,7 +489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.orthodox.calendar;
 				PRODUCT_NAME = "Orthodox Calendar";
 				SDKROOT = iphoneos;
