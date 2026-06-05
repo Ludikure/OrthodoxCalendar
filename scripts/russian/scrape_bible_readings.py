@@ -70,16 +70,12 @@ def fetch_bible_page(book_code, chapter):
         return ""
 
 
-def extract_verses(html, chapter, start_verse, end_verse, extra_verses=None):
-    """Extract verse text for a range from a Bible chapter page."""
-    # Find ALL verse divs — the actual text is in the second set
-    # First set has cross-references, second has actual text
+def extract_chapter_verse_map(html):
+    """Return {verse_number: text} for a single Bible chapter page."""
     all_verses = re.findall(
         r'<div[^>]*data-lang="r"[^>]*data-chapter="(\d+)"[^>]*data-line="(\d+)"[^>]*>(.*?)</div>',
         html, re.DOTALL
     )
-
-    # Group by (chapter, verse) — take the LAST occurrence (actual text, not cross-refs)
     verse_map = {}
     for ch, v, text in all_verses:
         clean = re.sub(r'<[^>]+>', '', text).strip()
@@ -87,74 +83,69 @@ def extract_verses(html, chapter, start_verse, end_verse, extra_verses=None):
         clean = re.sub(r'^\]\s*', '', clean)
         clean = re.sub(r'\s+', ' ', unescape(clean)).strip()
         if clean and len(clean) > 3 and not re.match(r'^\d+:\d+', clean):
-            verse_map[(int(ch), int(v))] = clean
+            verse_map[int(v)] = clean  # data-line is the verse number
+    return verse_map
 
-    # Extract requested range
+
+def assemble_segments(parsed, get_chapter_map):
+    """Assemble verse text for parsed segments, spanning chapters as needed.
+
+    get_chapter_map(book, chapter) -> {verse: text}. Returns "N. text" lines.
+    """
     result = []
-    for v in range(start_verse, end_verse + 1):
-        text = verse_map.get((chapter, v))
-        if text:
-            result.append(f"{v}. {text}")
-
-    # Extra individual verses (e.g., verse 56 in "39-49,56")
-    if extra_verses:
-        for v in extra_verses:
-            text = verse_map.get((chapter, v))
+    for ch, vstart, vend in parsed["segments"]:
+        cmap = get_chapter_map(parsed["book"], ch)
+        if not cmap:
+            continue
+        last = max(cmap) if cmap else vend
+        for v in range(vstart, min(vend, last) + 1):
+            text = cmap.get(v)
             if text:
                 result.append(f"{v}. {text}")
-
     return "\n".join(result)
 
 
 def parse_bibref_url(url):
-    """Parse azbyka bibref URL into book code, chapter, verse range."""
-    # URL format: https://azbyka.ru/biblia/?Lk.1:39-49,56
+    """Parse an azbyka bibref URL into a list of (chapter, start, end) segments.
+
+    URL format: https://azbyka.ru/biblia/?Book.Chapter:Verses , where Verses is a
+    comma list of ranges. A range may cross chapters, and a chapter stated with
+    "N:" sets the context for the bare ranges that follow:
+        "39-49,56"        -> [(C,39,49), (C,56,56)]            (C = leading chapter)
+        "10:35-11:7"      -> [(10,35,END), (11,1,7)]           (cross-chapter)
+        "6:8-15,7:1-5,47-60" -> [(6,8,15), (7,1,5), (7,47,60)] (chapter context)
+    END (9999) is clamped to the chapter's real last verse at assembly time.
+    """
     match = re.search(r'\?(\w+)\.(\d+):(.+)$', url)
     if not match:
         return None
     book = match.group(1)
-    chapter = int(match.group(2))
-    verse_str = match.group(3)
+    lead_chapter = int(match.group(2))
 
-    # Parse verse range: "39-49,56" or "11-18" or "1-12"
-    parts = verse_str.split(',')
-    start_verse = None
-    end_verse = None
-    extra_verses = []
-
-    for part in parts:
+    segments = []
+    cur_chapter = lead_chapter
+    for part in match.group(3).split(','):
         part = part.strip()
-        if '-' in part:
-            # Check for cross-chapter range (24:36-26:2)
-            range_match = re.match(r'(\d+)(?::(\d+))?-(\d+)(?::(\d+))?', part)
-            if range_match:
-                s = int(range_match.group(1))
-                if range_match.group(2):
-                    # Cross-chapter: just use first chapter for now
-                    start_verse = int(range_match.group(2)) if range_match.group(2) else s
-                    end_chapter = int(range_match.group(3)) if range_match.group(3) else chapter
-                    end_verse = int(range_match.group(4)) if range_match.group(4) else int(range_match.group(3))
-                else:
-                    start_verse = s
-                    end_verse = int(range_match.group(3))
+        # forms: v | v-v | ch:v | ch:v-v | v-ch:v | ch:v-ch:v
+        m = re.match(r'(?:(\d+):)?(\d+)(?:-(?:(\d+):)?(\d+))?$', part)
+        if not m:
+            continue
+        sch = int(m.group(1)) if m.group(1) else cur_chapter
+        sv = int(m.group(2))
+        ech = int(m.group(3)) if m.group(3) else sch
+        ev = int(m.group(4)) if m.group(4) else sv
+        cur_chapter = ech  # bare ranges that follow use this chapter
+        if sch == ech:
+            segments.append((sch, sv, ev))
         else:
-            if part.isdigit():
-                if start_verse is None:
-                    start_verse = int(part)
-                    end_verse = int(part)
-                else:
-                    extra_verses.append(int(part))
+            segments.append((sch, sv, 9999))            # start chapter: to its end
+            for c in range(sch + 1, ech):
+                segments.append((c, 1, 9999))            # whole middle chapters
+            segments.append((ech, 1, ev))                # end chapter: from verse 1
 
-    if start_verse is None:
+    if not segments:
         return None
-
-    return {
-        "book": book,
-        "chapter": chapter,
-        "start": start_verse,
-        "end": end_verse or start_verse,
-        "extra": extra_verses,
-    }
+    return {"book": book, "segments": segments}
 
 
 def parse_day_readings(html):
@@ -326,20 +317,25 @@ def main():
 
     print(f"  Total: {total_days} days with readings, {len(all_bibrefs)} unique Bible refs", file=sys.stderr)
 
-    # Phase 2: Fetch Bible pages and extract text
-    print(f"\nPhase 2: Fetching {len(all_bibrefs)} Bible passages...", file=sys.stderr)
-    bible_texts = {}  # href -> extracted text
-    fetched = 0
+    # Phase 2: Fetch Bible pages and extract text (one page per chapter, cached;
+    # a reading may span several chapters).
+    print(f"\nPhase 2: Fetching Bible passages for {len(all_bibrefs)} refs...", file=sys.stderr)
+    chapter_cache = {}
 
-    for href, parsed in all_bibrefs.items():
-        html = fetch_bible_page(parsed["book"], parsed["chapter"])
-        if html:
-            text = extract_verses(html, parsed["chapter"], parsed["start"], parsed["end"], parsed.get("extra"))
-            if text:
-                bible_texts[href] = text
-                fetched += 1
-        if fetched % 20 == 0 and fetched > 0:
-            print(f"  {fetched}/{len(all_bibrefs)}...", file=sys.stderr)
+    def get_chapter_map(book, chapter):
+        ckey = (book, chapter)
+        if ckey not in chapter_cache:
+            html = fetch_bible_page(book, chapter)
+            chapter_cache[ckey] = extract_chapter_verse_map(html) if html else {}
+        return chapter_cache[ckey]
+
+    bible_texts = {}  # href -> extracted text
+    for i, (href, parsed) in enumerate(all_bibrefs.items()):
+        text = assemble_segments(parsed, get_chapter_map)
+        if text:
+            bible_texts[href] = text
+        if (i + 1) % 20 == 0:
+            print(f"  {i+1}/{len(all_bibrefs)}...", file=sys.stderr)
 
     print(f"  Extracted text for {len(bible_texts)}/{len(all_bibrefs)} refs", file=sys.stderr)
 
