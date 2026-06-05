@@ -380,6 +380,8 @@ def _get_fixed_saints(saints_data: dict, key: str) -> list:
     result = []
     for s in saints:
         name = s.get("name", "")
+        if not name.strip():
+            continue  # skip blank scraper artifacts (would render as an empty card)
         if _is_pure_moveable_entry(name):
             continue
         # Clean any moveable feast label appended to a fixed saint name

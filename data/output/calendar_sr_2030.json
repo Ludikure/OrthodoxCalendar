@@ -1389,16 +1389,6 @@
           "isSlava": false,
           "serbianSaint": true,
           "displayRole": "tertiary"
-        },
-        {
-          "name": "",
-          "position": 4,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Рождества",
-          "isSlava": false,
-          "serbianSaint": true,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -3070,15 +3060,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Богојављења",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -5805,15 +5786,6 @@
           "importance": "normal",
           "type": "saint",
           "liturgicalContext": null,
-          "isSlava": false,
-          "displayRole": "tertiary"
-        },
-        {
-          "name": "",
-          "position": 6,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Сретења",
           "isSlava": false,
           "displayRole": "tertiary"
         }
@@ -11025,15 +10997,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "bold",
-          "type": "saint",
-          "liturgicalContext": "Оданије Благовести",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -15264,15 +15227,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Преполовљења",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -16013,15 +15967,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Васкрса",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -17080,16 +17025,6 @@
           "isSlava": false,
           "serbianSaint": true,
           "displayRole": "tertiary"
-        },
-        {
-          "name": "",
-          "position": 10,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Вазнесења",
-          "isSlava": false,
-          "serbianSaint": true,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -17817,15 +17752,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "secondary"
-        },
-        {
-          "name": "",
-          "position": 3,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Педесетнице",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -26443,15 +26369,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Преображења",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -27588,15 +27505,6 @@
           "importance": "normal",
           "type": "saint",
           "liturgicalContext": null,
-          "isSlava": false,
-          "displayRole": "tertiary"
-        },
-        {
-          "name": "",
-          "position": 4,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Успенија",
           "isSlava": false,
           "displayRole": "tertiary"
         }
@@ -29916,15 +29824,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Рођења Пресвете Богородице",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -30978,15 +30877,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "normal",
-          "type": "saint",
-          "liturgicalContext": "Оданије Воздвижења",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
@@ -38048,15 +37938,6 @@
           "liturgicalContext": null,
           "isSlava": false,
           "displayRole": "primary"
-        },
-        {
-          "name": "",
-          "position": 2,
-          "importance": "bold",
-          "type": "saint",
-          "liturgicalContext": "Оданије Ваведења",
-          "isSlava": false,
-          "displayRole": "tertiary"
         }
       ],
       "liturgicalPeriod": null,
