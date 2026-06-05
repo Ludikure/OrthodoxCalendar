@@ -120,6 +120,13 @@ def parse_readings_full(html: str) -> list:
                 # Remove JavaScript artifacts
                 text = re.sub(r'var showChar.*$', '', text)
                 text = re.sub(r'\$\(.*$', '', text)
+                # Strip a trailing service-section header that bleeds in when it
+                # isn't wrapped in <b> — bare ("…рече.Литургија") or "На "-prefixed
+                # ("…земљи.На вечерњи").
+                text = re.sub(
+                    r'\s*(?:На\s+)?(?:вечерњ[иауе]|јутрењ[ауе]|литургиј[аиеу]'
+                    r'|часов[иа]\w*|повечерј[еуа])\s*$',
+                    '', text, flags=re.IGNORECASE)
                 text = text.strip(' ;')
 
             if title and (len(title) > 15 or text):

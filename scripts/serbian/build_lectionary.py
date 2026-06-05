@@ -128,6 +128,13 @@ def parse_readings(html: str) -> list:
                 text = re.sub(r'\$\(.*$', '', text)
                 text = re.sub(r'затвори\s*$', '', text)
                 text = re.sub(r'даље\s*$', '', text)
+                # Strip a trailing service-section header that bleeds in when it
+                # isn't wrapped in <b> — bare ("…рече.Литургија") or "На "-prefixed
+                # ("…земљи.На вечерњи").
+                text = re.sub(
+                    r'\s*(?:На\s+)?(?:вечерњ[иауе]|јутрењ[ауе]|литургиј[аиеу]'
+                    r'|часов[иа]\w*|повечерј[еуа])\s*$',
+                    '', text, flags=re.IGNORECASE)
                 text = text.strip(' ;')
 
             if title and len(title) > 15:

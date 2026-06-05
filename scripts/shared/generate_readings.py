@@ -460,6 +460,66 @@ def _book_matches_en(engine_book: str, scraped_title: str) -> bool:
 # Data loading — global index of scraped readings by normalized reference
 # ---------------------------------------------------------------------------
 
+# Serbian service-section headers occasionally bleed onto the end of a reading's
+# text when the scraper fails to split the page on them — either as a bare label
+# ("…рече.Литургија", "…ћути.Јутрења") or with the "На " prefix ("…земљи.На
+# вечерњи"). Strip any such trailing header. The word list is explicit so we never
+# truncate legitimate scripture text.
+_SR_SERVICE_WORDS = (
+    'вечерњи', 'вечерња', 'вечерње', 'вечерњу',
+    'јутрења', 'јутрењу', 'јутрење',
+    'литургија', 'литургији', 'литургије', 'литургију',
+    'часови', 'часова', 'часовима',
+    'повечерје', 'повечерју', 'повечерја',
+)
+_SR_SERVICE_TAIL_RE = re.compile(
+    r'\s*(?:На\s+)?(?:' + '|'.join(_SR_SERVICE_WORDS) + r')\s*$',
+    re.IGNORECASE,
+)
+
+# A Serbian reading is only identifiable if it carries a chapter:verse reference
+# or a structural title (book name / зачало). Entries with neither are scraper
+# artifacts — orphaned verse fragments that were split onto their own <b> tag.
+_SR_STRUCT_TITLE_RE = re.compile(
+    r'зачало|Јеванђеље|Посланиц|Псал[ам]|књига|Књига|пророка|Пророка|Дела\s'
+    r'|Премудрост|Сирахов|Апостол|Мојсијев|Приче|Соломонов|Прокимен'
+    r'|Изласка|Постањ|Бројева|Поновљених'
+)
+
+
+def _strip_service_tail(text: str) -> str:
+    """Remove a trailing service-section header that bled into the reading text."""
+    if not text:
+        return text
+    return _SR_SERVICE_TAIL_RE.sub('', text).strip()
+
+
+def _is_orphan_fragment(reading: dict) -> bool:
+    """True for a Serbian reading that is a textless scraper artifact.
+
+    Such entries have no reference and no structural (book/зачало) title — they
+    are single verses the scraper peeled off onto their own <b> tag, and they
+    carry no recoverable text. Readings that *do* have text (e.g. the Lenten
+    canticle odes "Песма прва" …) are legitimate and kept.
+    """
+    if reading.get('reference'):
+        return False
+    if _SR_STRUCT_TITLE_RE.search(reading.get('title') or ''):
+        return False
+    return not (reading.get('text') or '').strip()
+
+
+def _add_title_text(title_index: dict, entry: dict):
+    """Index a scraped entry by its exact title, keeping the longest text seen."""
+    title = (entry.get('title') or '').strip()
+    text = (entry.get('text') or '').strip()
+    if not title or not text:
+        return
+    existing = title_index.get(title)
+    if existing is None or len(text) > len((existing.get('text') or '')):
+        title_index[title] = entry
+
+
 def _normalize_ref_key(segments: list) -> str:
     """Create a hashable key from parsed segments for index lookup."""
     if not segments:
@@ -475,18 +535,20 @@ def _build_scraped_index(locale: str) -> tuple:
     """
     Build a global index of all scraped readings keyed by normalized chapter:verse reference.
 
-    Returns (text_index, julian_readings):
+    Returns (text_index, julian_readings, title_index):
         text_index: dict mapping (book_key, ref_key) -> scraped entry (with text)
         julian_readings: dict mapping "MM-DD" (Julian) -> list of scraped entries
+        title_index: dict mapping exact reading title -> scraped entry (with text)
     """
     proc_dir = os.path.join(DATA_DIR, 'processed', locale)
+    title_index = {}
 
     if locale == 'en':
         # English: index scraped readings from holytrinityorthodox.com
         readings_path = os.path.join(proc_dir, 'readings.json')
         if not os.path.exists(readings_path):
             print(f"  [{locale}] No scraped readings data found", file=sys.stderr)
-            return {}, {}
+            return {}, {}, title_index
 
         with open(readings_path) as f:
             rdata = json.load(f)
@@ -497,9 +559,10 @@ def _build_scraped_index(locale: str) -> tuple:
                 if not entry.get('text'):
                     continue
                 _index_scraped_entry(text_index, entry, locale)
+                _add_title_text(title_index, entry)
 
         print(f"  [{locale}] Indexed {len(text_index)} scraped readings with text", file=sys.stderr)
-        return text_index, {}
+        return text_index, {}, title_index
 
     if locale == 'sr':
         path = os.path.join(proc_dir, 'lectionary_merged.json')
@@ -508,7 +571,7 @@ def _build_scraped_index(locale: str) -> tuple:
 
     if not os.path.exists(path):
         print(f"  WARNING: {path} not found", file=sys.stderr)
-        return {}, {}
+        return {}, {}, title_index
 
     with open(path) as f:
         data = json.load(f)
@@ -521,6 +584,7 @@ def _build_scraped_index(locale: str) -> tuple:
             if not entry.get('text'):
                 continue
             _index_scraped_entry(text_index, entry, locale)
+            _add_title_text(title_index, entry)
 
 
     # Index all byJulianDate entries
@@ -529,6 +593,7 @@ def _build_scraped_index(locale: str) -> tuple:
             if not entry.get('text'):
                 continue
             _index_scraped_entry(text_index, entry, locale)
+            _add_title_text(title_index, entry)
 
     # Also index the readings.json which has different reference formats
     readings_path = os.path.join(proc_dir, 'readings.json')
@@ -540,11 +605,12 @@ def _build_scraped_index(locale: str) -> tuple:
                 if not entry.get('text'):
                     continue
                 _index_scraped_entry(text_index, entry, locale)
+                _add_title_text(title_index, entry)
 
     julian_readings = data.get('byJulianDate', {})
 
     print(f"  [{locale}] Indexed {len(text_index)} scraped readings with text", file=sys.stderr)
-    return text_index, julian_readings
+    return text_index, julian_readings, title_index
 
 
 def _index_scraped_entry(index: dict, entry: dict, locale: str):
@@ -776,6 +842,7 @@ def generate_readings_for_day(
     text_index: dict,
     julian_readings: dict,
     locale: str,
+    title_index: dict = None,
 ) -> list:
     """
     Generate readings for a single day by combining engine output with scraped text.
@@ -871,8 +938,33 @@ def generate_readings_for_day(
                 entry['source'] = 'fixed'
             result.append(entry)
 
+    if locale == 'sr':
+        # Recover text for readings left empty: the same reading is often indexed
+        # elsewhere (a different Julian date / pascha distance) with its full text.
+        # Match by exact localized title.
+        if title_index:
+            for r in result:
+                if (r.get('text') or '').strip():
+                    continue
+                src = title_index.get((r.get('title') or '').strip())
+                if src:
+                    r['text'] = src['text']
+                    if not r.get('zachalo') and src.get('zachalo'):
+                        r['zachalo'] = src['zachalo']
+
+        # Strip service-section headers ("На вечерњи" …) that bled into the text.
+        for r in result:
+            if r.get('text'):
+                r['text'] = _strip_service_tail(r['text'])
+
     # Remove engine-only readings with English titles (no localized content)
     result = [r for r in result if not r.get('engineRef') or r.get('text')]
+
+    if locale == 'sr':
+        # Drop orphaned verse fragments: a reading the scraper split per-verse
+        # onto its own <b> tag, leaving no reference, no book/зачало title, and no
+        # recoverable text. (Fragments that carry text are kept above.)
+        result = [r for r in result if not _is_orphan_fragment(r)]
 
     # Sort by liturgical service order
     SERVICE_ORDER = {
@@ -907,7 +999,7 @@ def generate_all_readings(year: int, locale: str) -> dict:
 
     Returns a dict mapping "MM-DD" keys to lists of reading entries.
     """
-    text_index, julian_readings = _build_scraped_index(locale)
+    text_index, julian_readings, title_index = _build_scraped_index(locale)
 
     readings = {}
     current = date(year, 1, 1)
@@ -920,7 +1012,7 @@ def generate_all_readings(year: int, locale: str) -> dict:
 
     while current <= end:
         key = current.strftime("%m-%d")
-        day_readings = generate_readings_for_day(current, text_index, julian_readings, locale)
+        day_readings = generate_readings_for_day(current, text_index, julian_readings, locale, title_index)
         readings[key] = day_readings
 
         if day_readings:
