@@ -597,7 +597,10 @@ def _sr_bible_fill(eng: dict) -> dict:
         return None  # deuterocanon (e.g. Wisdom) or unmapped — leave to day-scrape
     chapters = book_data['chapters']
 
-    segments = _extract_chapter_verses(display)
+    # Parse the reference *after* the book name — _extract_chapter_verses would
+    # mistake the "1" in e.g. "1 Corinthians" for the chapter.
+    ref_part = display[bm.end() - 1:].strip()
+    segments = _parse_ref_segments(ref_part, '.')
     if not segments:
         return None
     parts = []
@@ -613,7 +616,7 @@ def _sr_bible_fill(eng: dict) -> dict:
     if not parts:
         return None
 
-    ref_sr = display[bm.end() - 1:].strip().replace('.', ',')
+    ref_sr = ref_part.replace('.', ',')
     short = SR_REF_NAME.get(book, book)
     if 40 <= knjiga <= 43:
         rtype = 'gospel'
@@ -627,6 +630,93 @@ def _sr_bible_fill(eng: dict) -> dict:
         'text': ' '.join(parts),
         'reference': f"{short} {ref_sr}",
     }
+
+
+# English Bible fallback — fill readings the OCA (NKJV) day-scrape doesn't provide
+# (festal Vespers prophecies, Hours, post-Pentecost weekday epistles). OT text is
+# Brenton's Septuagint, NT is the KJV (see scripts/english/build_bible.py).
+_EN_OT_BOOKS = frozenset({
+    'Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges',
+    'Ruth', '1 Samuel', '2 Samuel', '1 Kings', '2 Kings', '1 Chronicles',
+    '2 Chronicles', 'Ezra', 'Nehemiah', 'Job', 'Psalms', 'Proverbs', 'Ecclesiastes',
+    'Song of Songs', 'Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel',
+    'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah', 'Nahum', 'Habakkuk',
+    'Zephaniah', 'Haggai', 'Zechariah', 'Malachi', 'Wisdom of Solomon', 'Sirach',
+    'Baruch', 'Tobit', 'Judith',
+})
+
+_EN_BIBLE = None
+
+
+def _load_en_bible() -> dict:
+    global _EN_BIBLE
+    if _EN_BIBLE is None:
+        path = os.path.join(DATA_DIR, 'processed', 'en', 'bible.json')
+        if os.path.exists(path):
+            with open(path) as f:
+                _EN_BIBLE = json.load(f).get('books', {})
+            print(f"  [en] Loaded English Bible: {len(_EN_BIBLE)} books", file=sys.stderr)
+        else:
+            _EN_BIBLE = {}
+    return _EN_BIBLE
+
+
+def _en_bible_fill(eng: dict) -> dict:
+    """Build an English reading from the KJV/Brenton index for an engine reading
+    that matched no scraped (NKJV) day-text. Returns a reading entry or None.
+    """
+    bible = _load_en_bible()
+    if not bible:
+        return None
+    display = eng.get('display') or eng.get('sdisplay') or ''
+    # LXX Kingdoms naming: "3[1] Kings" = 1 Kings, "4[2] Kings" = 2 Kings.
+    display = re.sub(r'\d\[(\d)\]\s*Kings', r'\1 Kings', display)
+    # "Jeremiah (Baruch 3.35-4.4)" — the real reference is in the parentheses.
+    # Only when the parens hold a real "Book ch.v" reference, not a note like
+    # "(-2.1 LXX)".
+    pm = re.search(r'\(([^)]+)\)', display)
+    if pm and re.match(r'[A-Z][A-Za-z]+\s+\d', pm.group(1).strip()):
+        display = pm.group(1).strip()
+
+    bm = re.match(r'((?:[1-3]\s)?[A-Za-z][A-Za-z ]*?)\s+\d', display)
+    if not bm:
+        return None
+    book = bm.group(1).strip()
+    chapters = bible.get(book)
+    if not chapters:
+        return None  # "Composite" catenae, Psalms prokeimena, etc. — left to scrape
+
+    # Parse the reference *after* the book name — _extract_chapter_verses would
+    # mistake the "1" in "1 Corinthians" for the chapter.
+    ref_part = display[bm.end() - 1:].strip()
+    segments = _parse_ref_segments(ref_part, '.')
+    if not segments and len(chapters) == 1:
+        # Single-chapter book referenced by verses only (e.g. "Jude 1-10").
+        only_ch = next(iter(chapters))
+        segments = _parse_ref_segments(f"{only_ch}.{ref_part}", '.')
+    if not segments:
+        return None
+    parts = []
+    for ch, vstart, vend in segments:
+        chap = chapters.get(str(ch))
+        if not chap:
+            continue
+        last = max(int(v) for v in chap)
+        for v in range(vstart, min(vend, last) + 1):
+            t = chap.get(str(v))
+            if t:
+                parts.append(f"{v} {t}")  # OCA style: "13 For I speak…"
+    if not parts:
+        return None
+
+    ref = book + ' ' + ref_part.replace('.', ':')
+    if book in _EN_OT_BOOKS:
+        rtype = 'ot'
+    elif book in ('Matthew', 'Mark', 'Luke', 'John'):
+        rtype = 'gospel'
+    else:
+        rtype = 'apostol'
+    return {'title': ref, 'type': rtype, 'text': ' '.join(parts), 'reference': ref}
 
 
 def _add_title_text(title_index: dict, entry: dict):
@@ -1028,17 +1118,22 @@ def generate_readings_for_day(
                 entry['desc'] = desc
             result.append(entry)
         else:
-            # No scraped day-text matched. For Serbian, fill the text from the
-            # scraped Bible using the engine's known reference (this covers the
-            # post-Pentecost weekday readings the day-scrape missed).
+            # No scraped day-text matched. Fill the text from a Bible source using
+            # the engine's known reference — this covers the festal/weekday
+            # readings the day-scrape doesn't provide. (sr: pravoslavno.rs Bible;
+            # en: KJV + Brenton Septuagint.)
             if locale == 'sr':
                 filled = _sr_bible_fill(eng)
-                if filled:
-                    filled['source'] = source
-                    if desc:
-                        filled['desc'] = desc
-                    result.append(filled)
-                    continue
+            elif locale == 'en':
+                filled = _en_bible_fill(eng)
+            else:
+                filled = None
+            if filled:
+                filled['source'] = source
+                if desc:
+                    filled['desc'] = desc
+                result.append(filled)
+                continue
 
             # Map engine source to app-compatible type
             if source == 'Epistle':
