@@ -40,9 +40,9 @@ BRENTON_OT = {
 }
 
 
-def load_kjv_nt():
-    """New Testament from KJV, keyed by engine book name."""
-    data = json.load(open(os.path.join(RAW, 'kjv.json')))
+def load_nt(filename):
+    """New Testament (books 40-66) from a getbible-format file, keyed by book name."""
+    data = json.load(open(os.path.join(RAW, filename)))
     out = {}
     for book in data['books']:
         if not 40 <= book['nr'] <= 66:  # NT only
@@ -81,14 +81,22 @@ def load_brenton_ot():
 
 
 def main():
+    # Default text: KJV New Testament + Brenton Septuagint Old Testament.
     bible = {}
     bible.update(load_brenton_ot())
-    bible.update(load_kjv_nt())
+    bible.update(load_nt('kjv.json'))
+    # Alternate New Testament: World English Bible (modern English). The OT stays
+    # Brenton (LXX) for both, so only the NT is user-switchable.
+    nt_web = load_nt('web.json')
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w') as f:
-        json.dump({"source": "KJV (NT) + Brenton Septuagint (OT)", "books": bible}, f, ensure_ascii=False)
+        json.dump({
+            "source": "KJV (NT) + Brenton Septuagint (OT); WEB alternate NT",
+            "books": bible,
+            "ntWeb": nt_web,
+        }, f, ensure_ascii=False)
     total = sum(len(v) for b in bible.values() for v in b.values())
-    print(f"Wrote {len(bible)} books, {total} verses -> {OUT}")
+    print(f"Wrote {len(bible)} books + {len(nt_web)} WEB NT books, {total} verses -> {OUT}")
 
 
 if __name__ == "__main__":

@@ -28,6 +28,26 @@ struct SettingsView: View {
                 Text(AppTheme.sectionTitle(for: localization.language))
             }
 
+            // English New Testament translation (KJV/WEB). Only relevant to the
+            // English locales; the Old Testament always uses the Septuagint.
+            if localization.language == .en || localization.language == .en_nc {
+                Section {
+                    Picker(selection: $loc.bibleTranslation) {
+                        ForEach(BibleTranslation.allCases) { translation in
+                            Text(translation.displayName).tag(translation)
+                        }
+                    } label: {
+                        EmptyView()
+                    }
+                    .pickerStyle(.inline)
+                    .labelsHidden()
+                } header: {
+                    Text("Bible Translation")
+                } footer: {
+                    Text("New Testament wording. The Old Testament always uses the Septuagint.")
+                }
+            }
+
             Section {
                 NavigationLink {
                     AboutView()

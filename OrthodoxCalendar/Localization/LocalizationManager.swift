@@ -1,6 +1,21 @@
 import Foundation
 import SwiftUI
 
+/// English New Testament translation choice. The Old Testament is always the
+/// Septuagint (Brenton), so this only affects NT readings.
+enum BibleTranslation: String, CaseIterable, Identifiable {
+    case kjv
+    case web
+
+    var id: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .kjv: return "King James Version"
+        case .web: return "World English Bible"
+        }
+    }
+}
+
 @MainActor @Observable
 final class LocalizationManager {
     private(set) var bundle: LocalizationBundle
@@ -17,6 +32,13 @@ final class LocalizationManager {
         }
     }
 
+    /// English NT translation (KJV/WEB). Affects English locales only.
+    var bibleTranslation: BibleTranslation {
+        didSet {
+            UserDefaults.standard.set(bibleTranslation.rawValue, forKey: "bibleTranslation")
+        }
+    }
+
     init() {
         let saved = UserDefaults.standard.string(forKey: "appLanguage")
             .flatMap(AppLanguage.init(rawValue:)) ?? .sr
@@ -24,6 +46,8 @@ final class LocalizationManager {
         self.bundle = Self.loadBundle(for: saved)
         self.theme = UserDefaults.standard.string(forKey: "appTheme")
             .flatMap(AppTheme.init(rawValue:)) ?? .system
+        self.bibleTranslation = UserDefaults.standard.string(forKey: "bibleTranslation")
+            .flatMap(BibleTranslation.init(rawValue:)) ?? .kjv
     }
 
     private static func loadBundle(for language: AppLanguage) -> LocalizationBundle {

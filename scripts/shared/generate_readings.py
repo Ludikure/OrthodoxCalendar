@@ -645,28 +645,41 @@ _EN_OT_BOOKS = frozenset({
     'Baruch', 'Tobit', 'Judith',
 })
 
-_EN_BIBLE = None
+_EN_BIBLE = None   # KJV NT + Brenton OT, keyed by book
+_EN_WEB = None     # World English Bible NT (alternate), keyed by book
 
 
-def _load_en_bible() -> dict:
-    global _EN_BIBLE
+def _load_en_data():
+    global _EN_BIBLE, _EN_WEB
     if _EN_BIBLE is None:
         path = os.path.join(DATA_DIR, 'processed', 'en', 'bible.json')
         if os.path.exists(path):
             with open(path) as f:
-                _EN_BIBLE = json.load(f).get('books', {})
-            print(f"  [en] Loaded English Bible: {len(_EN_BIBLE)} books", file=sys.stderr)
+                data = json.load(f)
+            _EN_BIBLE = data.get('books', {})
+            _EN_WEB = data.get('ntWeb', {})
+            print(f"  [en] Loaded English Bible: {len(_EN_BIBLE)} books "
+                  f"(+ {len(_EN_WEB)} WEB NT)", file=sys.stderr)
         else:
             _EN_BIBLE = {}
+            _EN_WEB = {}
+
+
+def _load_en_bible() -> dict:
+    _load_en_data()
     return _EN_BIBLE
 
 
-def _en_bible_text(book: str, ref_part: str, sep: str) -> str:
-    """Assemble public-domain (KJV/Brenton) text for a book + reference part
+def _load_en_web() -> dict:
+    _load_en_data()
+    return _EN_WEB
+
+
+def _en_assemble(index: dict, book: str, ref_part: str, sep: str) -> str:
+    """Assemble verse text for a book + reference part from a given Bible index
     (e.g. book='Romans', ref_part='1:1-7, 13-17', sep=':'). Returns text or None.
     """
-    bible = _load_en_bible()
-    chapters = bible.get(book) or bible.get(book + 's')  # tolerate scrape typo ("Colossian")
+    chapters = index.get(book) or index.get(book + 's')  # tolerate scrape typo ("Colossian")
     if not chapters:
         return None
     segments = _parse_ref_segments(ref_part, sep)
@@ -687,6 +700,11 @@ def _en_bible_text(book: str, ref_part: str, sep: str) -> str:
             if t:
                 parts.append(f"{v} {t}")  # OCA style: "13 For I speak…"
     return ' '.join(parts) if parts else None
+
+
+def _en_bible_text(book: str, ref_part: str, sep: str) -> str:
+    """Default English text (KJV NT + Brenton OT)."""
+    return _en_assemble(_load_en_bible(), book, ref_part, sep)
 
 
 def _en_parse_ref(ref: str, sep: str):
@@ -1208,9 +1226,16 @@ def generate_readings_for_day(
         # public-domain Bible; readings that can't be assembled (e.g. Composite
         # catenae) keep their reference but show no body rather than ship the
         # copyrighted NKJV scrape text.
+        web = _load_en_web()
         for r in result:
             book, ref_part = _en_parse_ref(r.get('reference') or r.get('title') or '', ':')
             r['text'] = _en_bible_text(book, ref_part, ':') if book else None
+            # Alternate New Testament text (World English Bible) for user choice.
+            # OT stays Brenton (Septuagint) for both, so only NT readings carry it.
+            if book and web and book not in _EN_OT_BOOKS:
+                wt = _en_assemble(web, book, ref_part, ':')
+                if wt:
+                    r['textWeb'] = wt
 
     # Sort by liturgical service order
     SERVICE_ORDER = {

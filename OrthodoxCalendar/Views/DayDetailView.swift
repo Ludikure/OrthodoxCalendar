@@ -498,11 +498,16 @@ struct ReadingCard: View {
         }
     }
 
+    /// Text in the user's chosen English NT translation (KJV/WEB).
+    private var displayText: String? {
+        reading.text(for: localization.bibleTranslation)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             // Header: type + reference
             Button {
-                if reading.text != nil {
+                if displayText != nil {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                         isExpanded.toggle()
                     }
@@ -534,7 +539,7 @@ struct ReadingCard: View {
                                 .fill(AppColors.warmBorder)
                         )
 
-                    if reading.text != nil {
+                    if displayText != nil {
                         Image(systemName: "chevron.down")
                             .font(.caption2)
                             .foregroundStyle(AppColors.lightMuted)
@@ -551,7 +556,7 @@ struct ReadingCard: View {
             }
 
             // Scripture text (expandable)
-            if let text = reading.text, !text.isEmpty {
+            if let text = displayText, !text.isEmpty {
                 VStack {
                     Text(text)
                         .font(.system(.subheadline, design: .serif))
@@ -577,7 +582,7 @@ struct ReadingCard: View {
         .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(localizedType): \(reading.displayReference)")
-        .accessibilityHint(reading.text != nil ? (isExpanded ? "" : "Double tap to expand") : "")
+        .accessibilityHint(displayText != nil ? (isExpanded ? "" : "Double tap to expand") : "")
     }
 }
 

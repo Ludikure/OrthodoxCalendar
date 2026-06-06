@@ -179,12 +179,19 @@ struct ScriptureReading: Codable, Equatable, Sendable {
     let title: String?
     let reference: String?
     let zachalo: Int?
-    let text: String?                  // Full scripture text
+    let text: String?                  // Full scripture text (KJV NT / Brenton OT for English)
+    let textWeb: String?               // Alternate NT text (World English Bible), English only
     let service: String?               // "Јутрења", "Литургија", etc.
 
     /// Best available display string for this reading
     var displayReference: String {
         reference ?? title ?? book ?? type
+    }
+
+    /// Scripture text for the chosen English NT translation (OT/non-English ignore it).
+    func text(for translation: BibleTranslation) -> String? {
+        if translation == .web, let web = textWeb { return web }
+        return text
     }
 }
 
