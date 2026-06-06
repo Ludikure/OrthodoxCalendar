@@ -661,39 +661,19 @@ def _load_en_bible() -> dict:
     return _EN_BIBLE
 
 
-def _en_bible_fill(eng: dict) -> dict:
-    """Build an English reading from the KJV/Brenton index for an engine reading
-    that matched no scraped (NKJV) day-text. Returns a reading entry or None.
+def _en_bible_text(book: str, ref_part: str, sep: str) -> str:
+    """Assemble public-domain (KJV/Brenton) text for a book + reference part
+    (e.g. book='Romans', ref_part='1:1-7, 13-17', sep=':'). Returns text or None.
     """
     bible = _load_en_bible()
-    if not bible:
-        return None
-    display = eng.get('display') or eng.get('sdisplay') or ''
-    # LXX Kingdoms naming: "3[1] Kings" = 1 Kings, "4[2] Kings" = 2 Kings.
-    display = re.sub(r'\d\[(\d)\]\s*Kings', r'\1 Kings', display)
-    # "Jeremiah (Baruch 3.35-4.4)" — the real reference is in the parentheses.
-    # Only when the parens hold a real "Book ch.v" reference, not a note like
-    # "(-2.1 LXX)".
-    pm = re.search(r'\(([^)]+)\)', display)
-    if pm and re.match(r'[A-Z][A-Za-z]+\s+\d', pm.group(1).strip()):
-        display = pm.group(1).strip()
-
-    bm = re.match(r'((?:[1-3]\s)?[A-Za-z][A-Za-z ]*?)\s+\d', display)
-    if not bm:
-        return None
-    book = bm.group(1).strip()
-    chapters = bible.get(book)
+    chapters = bible.get(book) or bible.get(book + 's')  # tolerate scrape typo ("Colossian")
     if not chapters:
-        return None  # "Composite" catenae, Psalms prokeimena, etc. — left to scrape
-
-    # Parse the reference *after* the book name — _extract_chapter_verses would
-    # mistake the "1" in "1 Corinthians" for the chapter.
-    ref_part = display[bm.end() - 1:].strip()
-    segments = _parse_ref_segments(ref_part, '.')
+        return None
+    segments = _parse_ref_segments(ref_part, sep)
     if not segments and len(chapters) == 1:
         # Single-chapter book referenced by verses only (e.g. "Jude 1-10").
         only_ch = next(iter(chapters))
-        segments = _parse_ref_segments(f"{only_ch}.{ref_part}", '.')
+        segments = _parse_ref_segments(f"{only_ch}{sep}{ref_part}", sep)
     if not segments:
         return None
     parts = []
@@ -706,17 +686,46 @@ def _en_bible_fill(eng: dict) -> dict:
             t = chap.get(str(v))
             if t:
                 parts.append(f"{v} {t}")  # OCA style: "13 For I speak…"
-    if not parts:
-        return None
+    return ' '.join(parts) if parts else None
 
-    ref = book + ' ' + ref_part.replace('.', ':')
+
+def _en_parse_ref(ref: str, sep: str):
+    """Split an English reference into (book, ref_part), normalizing LXX names
+    and the "Jeremiah (Baruch …)" parenthetical. Returns (None, None) on failure.
+    """
+    ref = re.sub(r'\d\[(\d)\]\s*Kings', r'\1 Kings', ref or '')  # 3[1] Kings -> 1 Kings
+    pm = re.search(r'\(([^)]+)\)', ref)
+    if pm and re.match(r'[A-Z][A-Za-z]+\s+\d', pm.group(1).strip()):
+        ref = pm.group(1).strip()
+    bm = re.match(r'((?:[1-3]\s)?[A-Za-z][A-Za-z ]*?)\s+(\d.*)$', ref.strip())
+    if not bm:
+        return None, None
+    return bm.group(1).strip(), bm.group(2).strip()
+
+
+def _en_reading_type(book: str) -> str:
     if book in _EN_OT_BOOKS:
-        rtype = 'ot'
-    elif book in ('Matthew', 'Mark', 'Luke', 'John'):
-        rtype = 'gospel'
-    else:
-        rtype = 'apostol'
-    return {'title': ref, 'type': rtype, 'text': ' '.join(parts), 'reference': ref}
+        return 'ot'
+    if book in ('Matthew', 'Mark', 'Luke', 'John'):
+        return 'gospel'
+    return 'apostol'
+
+
+def _en_bible_fill(eng: dict) -> dict:
+    """Build an English reading from the KJV/Brenton index for an engine reading
+    that matched no scraped day-text. Returns a reading entry or None.
+    """
+    if not _load_en_bible():
+        return None
+    display = eng.get('display') or eng.get('sdisplay') or ''
+    book, ref_part = _en_parse_ref(display, '.')
+    if not book:
+        return None
+    text = _en_bible_text(book, ref_part, '.')
+    if not text:
+        return None
+    ref = book + ' ' + ref_part.replace('.', ':')
+    return {'title': ref, 'type': _en_reading_type(book), 'text': text, 'reference': ref}
 
 
 def _add_title_text(title_index: dict, entry: dict):
@@ -1192,6 +1201,16 @@ def generate_readings_for_day(
         # onto its own <b> tag, leaving no reference, no book/зачало title, and no
         # recoverable text. (Fragments that carry text are kept above.)
         result = [r for r in result if not _is_orphan_fragment(r)]
+
+    if locale == 'en' and _load_en_bible():
+        # Use only public-domain text (KJV NT + Brenton Septuagint OT). Replace
+        # every reading's text with the same passage assembled from the
+        # public-domain Bible; readings that can't be assembled (e.g. Composite
+        # catenae) keep their reference but show no body rather than ship the
+        # copyrighted NKJV scrape text.
+        for r in result:
+            book, ref_part = _en_parse_ref(r.get('reference') or r.get('title') or '', ':')
+            r['text'] = _en_bible_text(book, ref_part, ':') if book else None
 
     # Sort by liturgical service order
     SERVICE_ORDER = {
