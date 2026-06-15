@@ -4,6 +4,27 @@ struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
 
+    private var todayString: String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd"
+        fmt.calendar = Calendar(identifier: .gregorian)
+        return fmt.string(from: Date())
+    }
+
+    /// The season to show in the banner: today's if it's in view, otherwise the
+    /// first in-season day of the visible month; nil when the month has none.
+    private var focalPeriod: FastingPeriodInfo? {
+        let today = todayString
+        if let p = viewModel.fastingPeriods[today],
+           viewModel.daysInMonth.contains(where: { $0.gregorianDate == today }) {
+            return p
+        }
+        if let first = viewModel.daysInMonth.first(where: { viewModel.fastingPeriods[$0.gregorianDate] != nil }) {
+            return viewModel.fastingPeriods[first.gregorianDate]
+        }
+        return nil
+    }
+
     var body: some View {
         @Bindable var vm = viewModel
 
@@ -21,6 +42,13 @@ struct CalendarTabView: View {
                     localization: localization,
                     onMonthTap: { viewModel.showDatePicker = true }
                 )
+
+                // Fasting season banner (Great Lent, etc.) when the viewed month
+                // touches a season. Focal day = today if in view, else the first
+                // in-season day of the month.
+                if let period = focalPeriod {
+                    FastingPeriodBanner(period: period)
+                }
 
                 // Calendar content
                 ZStack {

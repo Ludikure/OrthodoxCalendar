@@ -9,6 +9,9 @@ final class CalendarViewModel {
     var currentMonth: Int
     var currentYear: Int
     var daysInMonth: [CalendarDay] = []
+    /// Fasting-season info per `gregorianDate`, computed across the loaded year
+    /// (plus the neighbour year at the boundary so the Nativity Fast resolves).
+    var fastingPeriods: [String: FastingPeriodInfo] = [:]
     var selectedDay: CalendarDay?
     var scrollToTodayTrigger = false
     var scrollToDay: Int? = nil
@@ -56,7 +59,9 @@ final class CalendarViewModel {
         loadTask = Task { [weak self] in
             do {
                 let file = try await CalendarRepository.shared.load(locale: locale, year: year)
+                let spans = await Self.computeSeasonSpans(file: file, locale: locale, year: year, month: month)
                 guard let self, !Task.isCancelled else { return }
+                self.fastingPeriods = spans
                 self.apply(file: file, locale: locale, month: month)
             } catch {
                 guard let self, !Task.isCancelled else { return }
@@ -67,6 +72,27 @@ final class CalendarViewModel {
                 self.isLoading = false
             }
         }
+    }
+
+    /// Days for the season-span computation: the loaded year, plus the adjacent
+    /// year when a boundary month (Nov/Dec/Jan) ends/starts inside a season so a
+    /// season straddling the year boundary (the Nativity Fast) resolves to its
+    /// true dates. The neighbour is fetched only in those months — never on a
+    /// normal launch — and failure to fetch it falls back to the single year.
+    private static func computeSeasonSpans(
+        file: CalendarFile, locale: String, year: Int, month: Int
+    ) async -> [String: FastingPeriodInfo] {
+        var days = Array(file.days.values)
+        let sorted = days.sorted { $0.gregorianDate < $1.gregorianDate }
+        if month >= 11, sorted.last?.fastingPeriod != nil,
+           let next = try? await CalendarRepository.shared.load(locale: locale, year: year + 1) {
+            days += next.days.values
+        }
+        if month == 1, sorted.first?.fastingPeriod != nil,
+           let prev = try? await CalendarRepository.shared.load(locale: locale, year: year - 1) {
+            days += prev.days.values
+        }
+        return FastingPeriods.computeSpans(days)
     }
 
     private func apply(file: CalendarFile, locale: String, month: Int) {

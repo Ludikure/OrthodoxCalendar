@@ -3,6 +3,7 @@ import SwiftUI
 struct DayDetailView: View {
     let day: CalendarDay
     @Environment(LocalizationManager.self) private var localization
+    @Environment(CalendarViewModel.self) private var viewModel
     @Environment(\.dismiss) private var dismiss
     @State private var showAddReminder = false
     @State private var showShareSheet = false
@@ -69,25 +70,26 @@ struct DayDetailView: View {
 
     private var heroSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Liturgical period badge
-            if let period = day.liturgicalPeriod, !period.isEmpty {
-                HStack(spacing: 5) {
+            // Fasting season badge (e.g. Great Lent) — driven by CalendarDay.fastingPeriod
+            if let period = viewModel.fastingPeriods[day.gregorianDate] {
+                HStack(spacing: 6) {
                     Text("⛪")
-                        .font(.system(size: 10))
-                    Text(period)
+                        .font(.system(size: 11))
+                    Text(FastingPeriods.displayName(period.code, names: localization.bundle.fastingPeriodNames).uppercased())
                         .font(.system(size: 11, weight: .bold))
                         .tracking(0.5)
-                        .foregroundStyle(isGreat ? AppColors.goldAccent : AppColors.mutedText)
+                        .foregroundStyle(AppColors.crimson)
+                    if period.complete {
+                        Text("·  \(FastingPeriods.dayLabel(localization.language, index: period.dayIndex, total: period.total))")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(AppColors.crimson.opacity(0.8))
+                    }
                 }
                 .padding(.horizontal, 10)
-                .padding(.vertical, 4)
+                .padding(.vertical, 5)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(isGreat ? AppColors.crimson.opacity(0.15) : AppColors.warmBorder)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(isGreat ? AppColors.crimson.opacity(0.25) : AppColors.warmBorder, lineWidth: 1)
-                        )
+                        .fill(AppColors.crimson.opacity(0.12))
                 )
                 .padding(.bottom, 12)
             }

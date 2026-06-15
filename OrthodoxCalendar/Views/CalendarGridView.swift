@@ -163,6 +163,15 @@ struct GridDayCell: View {
                     .padding(3)
             }
         }
+        .overlay(alignment: .bottom) {
+            // Fasting-season marker (Great Lent, Nativity Fast, …)
+            if day.fastingPeriod != nil && !isPascha {
+                Capsule()
+                    .fill(AppColors.crimson.opacity(0.7))
+                    .frame(width: 14, height: 2.5)
+                    .padding(.bottom, 2)
+            }
+        }
     }
 
     @ViewBuilder
@@ -242,6 +251,13 @@ struct SelectedDayCard: View {
                         .font(.caption)
                         .foregroundStyle(isPascha ? .white.opacity(0.7) : AppColors.mutedText)
                 }
+            }
+
+            // Fasting season (Great Lent, Nativity Fast, …)
+            if let code = day.fastingPeriod {
+                Text("⛪ \(FastingPeriods.displayName(code, names: localization.bundle.fastingPeriodNames))")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(isPascha ? AppColors.goldAccent : AppColors.crimson)
             }
         }
         .padding(14)
