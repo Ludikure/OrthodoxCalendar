@@ -45,9 +45,13 @@ struct CalendarTabView: View {
 
                 // Fasting season banner (Great Lent, etc.) when the viewed month
                 // touches a season. Focal day = today if in view, else the first
-                // in-season day of the month.
+                // in-season day of the month. Sits above the list with a soft
+                // shadow so scrolled rows pass cleanly under it.
                 if let period = focalPeriod {
                     FastingPeriodBanner(period: period)
+                        .background(AppColors.warmBg)
+                        .shadow(color: .black.opacity(0.06), radius: 4, y: 3)
+                        .zIndex(1)
                 }
 
                 // Calendar content
