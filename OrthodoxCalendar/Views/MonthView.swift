@@ -34,6 +34,7 @@ struct MonthListView: View {
                 .id(viewModel.loadedLocale)
                 .background(AppColors.cardBg)
             }
+            .contentMargins(.top, 6, for: .scrollContent)
             .background(AppColors.warmBg)
             .navigationDestination(for: CalendarDay.self) { day in
                 DayDetailView(day: day)
@@ -71,7 +72,9 @@ struct MonthListView: View {
             return calendar.isDateInToday(date)
         }) {
             withAnimation {
-                proxy.scrollTo(todayDay.id, anchor: .center)
+                // Pin today to the top so it sits as a full row just under the
+                // banner, with no partial row clipped above it.
+                proxy.scrollTo(todayDay.id, anchor: .top)
             }
         }
     }
