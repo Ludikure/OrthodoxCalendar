@@ -89,7 +89,7 @@ struct DayDetailView: View {
                 .padding(.vertical, 5)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(AppColors.crimson.opacity(0.12))
+                        .fill(AppColors.gold.opacity(0.18))
                 )
                 .padding(.bottom, 12)
             }
