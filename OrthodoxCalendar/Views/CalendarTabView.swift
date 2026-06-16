@@ -119,6 +119,7 @@ struct CalendarTabView: View {
             }
             .sheet(isPresented: $vm.showDatePicker) {
                 DatePickerSheet(currentMonth: viewModel.currentMonth, currentYear: viewModel.currentYear)
+                    .presentationDetents([.medium, .large])
             }
             .onChange(of: viewModel.navigateToDay) {
                 if let dayNum = viewModel.navigateToDay {

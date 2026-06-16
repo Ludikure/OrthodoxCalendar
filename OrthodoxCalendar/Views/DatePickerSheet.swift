@@ -8,7 +8,6 @@ struct DatePickerSheet: View {
     @State private var mode: PickerMode = .month
     @State private var pickerYear: Int
     @State private var pickerMonth: Int
-    @State private var sheetHeight: CGFloat = 0
 
     enum PickerMode {
         case month, day
@@ -21,7 +20,14 @@ struct DatePickerSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Title + close (system drag indicator sits above)
+            // Drag handle
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color.secondary.opacity(0.3))
+                .frame(width: 36, height: 4)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+
+            // Title + close
             HStack {
                 Text(mode == .month ? selectMonthLabel : selectDateLabel)
                     .font(.headline)
@@ -35,7 +41,6 @@ struct DatePickerSheet: View {
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.top, 20)
             .padding(.bottom, 14)
 
             if mode == .month {
@@ -64,16 +69,6 @@ struct DatePickerSheet: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
-        // Size the sheet to its content so the Today button is always visible
-        // without dragging; .large stays available for expansion.
-        .background(
-            GeometryReader { proxy in
-                Color.clear.preference(key: SheetHeightKey.self, value: proxy.size.height)
-            }
-        )
-        .onPreferenceChange(SheetHeightKey.self) { sheetHeight = $0 }
-        .presentationDetents(sheetHeight > 0 ? [.height(sheetHeight), .large] : [.large])
-        .presentationDragIndicator(.visible)
     }
 
     // MARK: - Month Grid (4×3)
@@ -343,13 +338,5 @@ struct DatePickerSheet: View {
         case .ru: return "Назад к месяцам"
         case .en, .en_nc: return "Back to months"
         }
-    }
-}
-
-/// Measures the sheet's intrinsic content height so it can size to fit.
-private struct SheetHeightKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
     }
 }
