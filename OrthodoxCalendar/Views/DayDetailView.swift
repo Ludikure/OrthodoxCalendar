@@ -78,18 +78,18 @@ struct DayDetailView: View {
                     Text(FastingPeriods.displayName(period.code, names: localization.bundle.fastingPeriodNames).uppercased())
                         .font(.system(size: 11, weight: .bold))
                         .tracking(0.5)
-                        .foregroundStyle(AppColors.crimson)
+                        .foregroundStyle(AppColors.bannerTitle)
                     if period.complete {
                         Text("·  \(FastingPeriods.dayLabel(localization.language, index: period.dayIndex, total: period.total))")
                             .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(AppColors.crimson.opacity(0.8))
+                            .foregroundStyle(AppColors.bannerSubtext)
                     }
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(AppColors.gold.opacity(0.18))
+                        .fill(AppColors.bannerBg)
                 )
                 .padding(.bottom, 12)
             }

@@ -75,6 +75,24 @@ enum AppColors {
             : UIColor(red: 0.361, green: 0.314, blue: 0.251, alpha: 1)
     })
 
+    // MARK: - Fasting-season banner/badge (soft liturgical parchment)
+
+    static let bannerBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.196, green: 0.169, blue: 0.110, alpha: 1)   // deep warm brown
+            : UIColor(red: 0.937, green: 0.886, blue: 0.737, alpha: 1)   // #EFE2BC pale wheat
+    })
+    static let bannerTitle = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.863, green: 0.753, blue: 0.537, alpha: 1)   // soft gold
+            : UIColor(red: 0.478, green: 0.122, blue: 0.102, alpha: 1)   // #7A1F1A burgundy
+    })
+    static let bannerSubtext = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.604, green: 0.541, blue: 0.451, alpha: 1)
+            : UIColor(red: 0.420, green: 0.357, blue: 0.290, alpha: 1)   // muted brown
+    })
+
     // MARK: - Fasting badge colors
 
     static let fastStrict = Color(red: 0.482, green: 0.176, blue: 0.557)

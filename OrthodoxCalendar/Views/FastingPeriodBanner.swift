@@ -13,13 +13,13 @@ struct FastingPeriodBanner: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(FastingPeriods.displayName(period.code, names: localization.bundle.fastingPeriodNames))
                     .font(.system(size: 15, weight: .bold))
-                    .foregroundStyle(AppColors.crimson)
+                    .foregroundStyle(AppColors.bannerTitle)
                 // Date range + "Day X of Y" only when the run is fully known
                 // (a season truncated at the data boundary would mislead).
                 if period.complete {
                     Text("\(FastingPeriods.dateRange(period, months: localization.ui.months))  ·  \(FastingPeriods.dayLabel(localization.language, index: period.dayIndex, total: period.total))")
                         .font(.system(size: 12))
-                        .foregroundStyle(AppColors.crimson.opacity(0.75))
+                        .foregroundStyle(AppColors.bannerSubtext)
                 }
             }
             Spacer()
@@ -29,7 +29,7 @@ struct FastingPeriodBanner: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(AppColors.gold.opacity(0.18))
+                .fill(AppColors.bannerBg)
         )
         .padding(.horizontal, 16)
         .padding(.vertical, 6)

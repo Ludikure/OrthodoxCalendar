@@ -257,7 +257,7 @@ struct SelectedDayCard: View {
             if let code = day.fastingPeriod {
                 Text("⛪ \(FastingPeriods.displayName(code, names: localization.bundle.fastingPeriodNames))")
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(isPascha ? AppColors.goldAccent : AppColors.crimson)
+                    .foregroundStyle(isPascha ? AppColors.goldAccent : AppColors.bannerTitle)
             }
         }
         .padding(14)
