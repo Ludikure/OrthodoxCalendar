@@ -29,7 +29,7 @@ struct FastingPeriodBanner: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(AppColors.crimson.opacity(0.10))
+                .fill(AppColors.gold.opacity(0.18))
         )
         .padding(.horizontal, 16)
         .padding(.vertical, 6)
