@@ -56,10 +56,14 @@ actor CalendarRepository {
 
     private func fetch(locale: String, year: Int, key: String) async throws -> CalendarFile {
         let url = baseURL.appending(path: "api/\(locale)/\(year)")
+        // Generous timeout: the Russian year files are ~50 MB and can take a
+        // while to stream over slow mobile connections.
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 60
         let data: Data
         let response: URLResponse
         do {
-            (data, response) = try await URLSession.shared.data(from: url)
+            (data, response) = try await URLSession.shared.data(for: request)
         } catch {
             throw LoadError.offline
         }
