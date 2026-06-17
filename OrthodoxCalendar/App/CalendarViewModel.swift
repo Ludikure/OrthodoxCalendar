@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor @Observable
 final class CalendarViewModel {
-    static let minYear = 2024
+    static let minYear = 2025
     static let maxYear = 2030
 
     var currentMonth: Int

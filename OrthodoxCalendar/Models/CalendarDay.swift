@@ -21,7 +21,7 @@ struct CalendarDay: Codable, Identifiable, Equatable, Hashable, Sendable {
     let weekLabel: String?
     let greatFeast: String?
     let fasting: FastingInfo
-    let readings: [ScriptureReading]
+    var readings: [ScriptureReading]
     let reflection: Reflection?
     var saintBios: [SaintBio]?
     let fastingPeriod: String?
@@ -179,9 +179,12 @@ struct ScriptureReading: Codable, Equatable, Sendable {
     let title: String?
     let reference: String?
     let zachalo: Int?
-    let text: String?                  // Full scripture text (KJV NT / Brenton OT for English)
-    let textWeb: String?               // Alternate NT text (World English Bible), English only
+    var text: String?                  // Full scripture text (KJV NT / Brenton OT for English)
+    var textWeb: String?               // Alternate NT text (World English Bible), English only
     let service: String?               // "Јутрења", "Литургија", etc.
+    // Deduped bundled data: text/textWeb live in the texts_<locale> pool, keyed here.
+    let textRef: String?
+    let textWebRef: String?
 
     /// Best available display string for this reading
     var displayReference: String {
