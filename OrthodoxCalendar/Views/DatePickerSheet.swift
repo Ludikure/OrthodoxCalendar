@@ -20,12 +20,8 @@ struct DatePickerSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Drag handle
-            RoundedRectangle(cornerRadius: 2)
-                .fill(Color.secondary.opacity(0.3))
-                .frame(width: 36, height: 4)
-                .padding(.top, 10)
-                .padding(.bottom, 6)
+            // (No custom drag handle — the sheet's own system grabber is shown for
+            // its multiple detents; a second handle here produced two stacked dashes.)
 
             // Title + close
             HStack {
@@ -41,6 +37,7 @@ struct DatePickerSheet: View {
                 }
             }
             .padding(.horizontal, 20)
+            .padding(.top, 18)
             .padding(.bottom, 14)
 
             if mode == .month {
