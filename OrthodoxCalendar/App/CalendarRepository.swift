@@ -16,6 +16,8 @@ actor CalendarRepository {
     private let baseURL = URL(string: "https://orthodox-calendar-api.ludikure.workers.dev")!
 
     private var memoryCache: [String: CalendarFile] = [:]
+    /// Per-locale deduped bio text pool (bios_<locale>.json), loaded lazily.
+    private var biosCache: [String: [String: String]] = [:]
 
     enum LoadError: Error {
         case offline      // no/failed connection and nothing cached
@@ -34,13 +36,44 @@ actor CalendarRepository {
         if let cached = memoryCache[key] { return cached }
 
         if let file = decode(data: bundleData(key)) ?? decode(data: diskData(key)) {
-            memoryCache[key] = file
-            return file
+            let resolved = resolveBios(file, locale: locale)
+            memoryCache[key] = resolved
+            return resolved
         }
 
-        let file = try await fetch(locale: locale, year: year, key: key)
+        let file = resolveBios(try await fetch(locale: locale, year: year, key: key), locale: locale)
         memoryCache[key] = file
         return file
+    }
+
+    /// Fills `SaintBio.text` from the per-locale pool for deduped bundled data.
+    /// No-op for API-streamed data (bios already carry text, no `ref`).
+    private func resolveBios(_ file: CalendarFile, locale: String) -> CalendarFile {
+        let needs = file.days.values.contains { ($0.saintBios ?? []).contains { $0.ref != nil } }
+        if !needs { return file }
+        let pool = biosPool(locale)
+        var days = file.days
+        for (key, var day) in days {
+            guard let bios = day.saintBios, bios.contains(where: { $0.ref != nil }) else { continue }
+            day.saintBios = bios.map { b in
+                guard let ref = b.ref, b.text.isEmpty else { return b }
+                return SaintBio(title: b.title, text: pool[ref] ?? "", ref: ref)
+            }
+            days[key] = day
+        }
+        return CalendarFile(year: file.year, locale: file.locale, generatedBy: file.generatedBy, days: days)
+    }
+
+    private func biosPool(_ locale: String) -> [String: String] {
+        if let cached = biosCache[locale] { return cached }
+        let pool: [String: String] = {
+            guard let url = Bundle.main.url(forResource: "bios_\(locale)", withExtension: "json"),
+                  let data = try? Data(contentsOf: url),
+                  let map = try? JSONDecoder().decode([String: String].self, from: data) else { return [:] }
+            return map
+        }()
+        biosCache[locale] = pool
+        return pool
     }
 
     // MARK: - Sources

@@ -23,7 +23,7 @@ struct CalendarDay: Codable, Identifiable, Equatable, Hashable, Sendable {
     let fasting: FastingInfo
     let readings: [ScriptureReading]
     let reflection: Reflection?
-    let saintBios: [SaintBio]?
+    var saintBios: [SaintBio]?
     let fastingPeriod: String?
     let isFastFreeWeek: Bool?
 
@@ -206,5 +206,24 @@ struct Reflection: Codable, Equatable, Sendable {
 
 struct SaintBio: Codable, Equatable, Sendable {
     let title: String
-    let text: String
+    /// Empty in deduped bundled data; filled from the bios_<locale> pool via `ref`.
+    /// Always present in API-streamed data.
+    var text: String
+    /// Content hash into bios_<locale>.json (deduped bundled files only).
+    let ref: String?
+
+    init(title: String, text: String, ref: String? = nil) {
+        self.title = title
+        self.text = text
+        self.ref = ref
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        title = try c.decode(String.self, forKey: .title)
+        text = try c.decodeIfPresent(String.self, forKey: .text) ?? ""
+        ref = try c.decodeIfPresent(String.self, forKey: .ref)
+    }
+
+    private enum CodingKeys: String, CodingKey { case title, text, ref }
 }
