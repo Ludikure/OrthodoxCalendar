@@ -11,16 +11,22 @@ struct CalendarTabView: View {
         return fmt.string(from: Date())
     }
 
-    /// The season to show in the banner: today's if it's in view, otherwise the
-    /// first in-season day of the visible month; nil when the month has none.
-    private var focalPeriod: FastingPeriodInfo? {
+    /// The season to show in the banner, and whether its "Day X of Y" is about
+    /// today. When today is in the viewed month the banner reflects *today's*
+    /// status: its season if we're in one, otherwise nothing — we must not fall
+    /// back to a fast that has already ended (or not yet begun) elsewhere in the
+    /// month, which would show e.g. "Day 24 of 34" of the Apostles' Fast days
+    /// after it ended. When browsing another month we show that month's season as
+    /// an overview (name + range, no day index — there is no "current day" there).
+    private var focal: (period: FastingPeriodInfo, isToday: Bool)? {
         let today = todayString
-        if let p = viewModel.fastingPeriods[today],
-           viewModel.daysInMonth.contains(where: { $0.gregorianDate == today }) {
-            return p
+        if viewModel.daysInMonth.contains(where: { $0.gregorianDate == today }) {
+            guard let p = viewModel.fastingPeriods[today] else { return nil }
+            return (p, true)
         }
-        if let first = viewModel.daysInMonth.first(where: { viewModel.fastingPeriods[$0.gregorianDate] != nil }) {
-            return viewModel.fastingPeriods[first.gregorianDate]
+        if let first = viewModel.daysInMonth.first(where: { viewModel.fastingPeriods[$0.gregorianDate] != nil }),
+           let p = viewModel.fastingPeriods[first.gregorianDate] {
+            return (p, false)
         }
         return nil
     }
@@ -44,11 +50,10 @@ struct CalendarTabView: View {
                 )
 
                 // Fasting season banner (Great Lent, etc.) when the viewed month
-                // touches a season. Focal day = today if in view, else the first
-                // in-season day of the month. Sits above the list with a soft
-                // shadow so scrolled rows pass cleanly under it.
-                if let period = focalPeriod {
-                    FastingPeriodBanner(period: period)
+                // touches a season — see `focal` for what it shows. Sits above the
+                // list with a soft shadow so scrolled rows pass cleanly under it.
+                if let focal {
+                    FastingPeriodBanner(period: focal.period, showsDayIndex: focal.isToday)
                         .background(AppColors.warmBg)
                         .shadow(color: .black.opacity(0.06), radius: 4, y: 3)
                         .zIndex(1)
