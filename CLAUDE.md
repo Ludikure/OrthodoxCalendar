@@ -62,7 +62,7 @@ cd worker && npm install && wrangler deploy
 python3 scripts/shared/upload_r2_v2.py <deduped_dir> --config
 
 # Android build (separate repo)
-cd ~/Developer/OrthodoxCalendarAndroid && ./gradlew assembleDebug
+cd /Volumes/External/OrthodoxCalendarAndroid && ./gradlew assembleDebug
 ```
 
 ## Locales
