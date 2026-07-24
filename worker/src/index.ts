@@ -4,9 +4,14 @@
  * Serves calendar data from R2 bucket.
  *
  * Endpoints:
- *   GET /api/{locale}/{year}          → full year calendar JSON
+ *   GET /api/v2/{locale}/{year}       → deduplicated year JSON (2024-2099; text
+ *                                       refs resolve against bundled texts pools)
+ *   GET /api/v2/years                 → years available in the v2 archive
+ *   GET /api/v2/texts/{locale}        → full texts pool for a locale
+ *   GET /api/{locale}/{year}          → legacy fat year JSON (pre-1.4.0 clients)
  *   GET /api/{locale}/{year}/{month}  → single month (filtered from year)
- *   GET /api/years                    → list available years
+ *   GET /api/years                    → list legacy years
+ *   GET /api/config                   → app config (forced-update gate, dataRevision)
  *   GET /api/health                   → health check
  *
  * Headers:
@@ -19,6 +24,11 @@ interface Env {
 }
 
 const VALID_LOCALES = new Set(["sr", "ru", "en", "en_nc"]);
+
+// v2 deduplicated archive spans 2024-2099 (Julian+13 date math holds to 2099).
+const V2_PREFIX = "v2/";
+const V2_MIN_YEAR = 2024;
+const V2_MAX_YEAR = 2099;
 const CACHE_HEADERS = {
 	"Cache-Control": "public, max-age=86400, s-maxage=604800, immutable",
 	"Content-Type": "application/json; charset=utf-8",
@@ -76,6 +86,26 @@ export default {
 			return await handleConfig(env);
 		}
 
+		// v2 archive: deduplicated year files under the v2/ key prefix.
+		// Text refs resolve against the texts_<locale> pools the apps bundle
+		// (also served at /api/v2/texts/{locale}). Legacy fat objects for
+		// pre-1.4.0 clients stay at the unprefixed keys.
+		if (path === "/api/v2/years") {
+			return await handleListYears(env, V2_PREFIX);
+		}
+
+		const v2TextsMatch = path.match(/^\/api\/v2\/texts\/(\w+)$/);
+		if (v2TextsMatch) {
+			return await handleGetTexts(env, v2TextsMatch[1]);
+		}
+
+		// /api/v2/{locale}/{year}
+		const v2YearMatch = path.match(/^\/api\/v2\/(\w+)\/(\d{4})$/);
+		if (v2YearMatch) {
+			const [, locale, yearStr] = v2YearMatch;
+			return await handleGetYear(env, locale, parseInt(yearStr), V2_PREFIX);
+		}
+
 		// /api/{locale}/{year}
 		const yearMatch = path.match(/^\/api\/(\w+)\/(\d{4})$/);
 		if (yearMatch) {
@@ -110,8 +140,10 @@ async function handleConfig(env: Env): Promise<Response> {
 	return new Response(await object.text(), { status: 200, headers });
 }
 
-async function handleListYears(env: Env): Promise<Response> {
-	const list = await env.CALENDAR_DATA.list({ prefix: "calendar_sr_" });
+async function handleListYears(env: Env, prefix = ""): Promise<Response> {
+	// R2 list() pages at 1000 objects; one locale spans at most 76 keys, so a
+	// single page suffices for both the legacy and v2 prefixes.
+	const list = await env.CALENDAR_DATA.list({ prefix: `${prefix}calendar_sr_` });
 	const years = list.objects
 		.map((obj) => {
 			const match = obj.key.match(/calendar_sr_(\d{4})\.json/);
@@ -123,16 +155,31 @@ async function handleListYears(env: Env): Promise<Response> {
 	return jsonResponse({ years });
 }
 
-async function handleGetYear(env: Env, locale: string, year: number): Promise<Response> {
+async function handleGetTexts(env: Env, locale: string): Promise<Response> {
+	if (!VALID_LOCALES.has(locale)) {
+		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en, en_nc`, 400);
+	}
+	const object = await env.CALENDAR_DATA.get(`${V2_PREFIX}texts_${locale}.json`);
+	if (!object) {
+		return errorResponse(`No texts pool for ${locale}`, 404);
+	}
+	return new Response(await object.text(), {
+		status: 200,
+		headers: { ...CACHE_HEADERS, ...corsHeaders(null) },
+	});
+}
+
+async function handleGetYear(env: Env, locale: string, year: number, prefix = ""): Promise<Response> {
 	if (!VALID_LOCALES.has(locale)) {
 		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en, en_nc`, 400);
 	}
 
-	if (year < 2020 || year > 2050) {
+	const [minYear, maxYear] = prefix === V2_PREFIX ? [V2_MIN_YEAR, V2_MAX_YEAR] : [2020, 2050];
+	if (year < minYear || year > maxYear) {
 		return errorResponse(`Year out of range: ${year}`, 400);
 	}
 
-	const key = `calendar_${locale}_${year}.json`;
+	const key = `${prefix}calendar_${locale}_${year}.json`;
 	const object = await env.CALENDAR_DATA.get(key);
 
 	if (!object) {

@@ -3,8 +3,11 @@ import SwiftUI
 
 @MainActor @Observable
 final class CalendarViewModel {
-    static let minYear = 2025
-    static let maxYear = 2030
+    /// Bounds of the v2 archive on the Worker (2024-2099; the pipeline's
+    /// Julian+13 date math holds through 2099). Years inside the bundled
+    /// window load offline; the rest download once and cache on device.
+    static let minYear = 2024
+    static let maxYear = 2099
 
     var currentMonth: Int
     var currentYear: Int
@@ -85,11 +88,11 @@ final class CalendarViewModel {
         var days = Array(file.days.values)
         let sorted = days.sorted { $0.gregorianDate < $1.gregorianDate }
         if month >= 11, sorted.last?.fastingPeriod != nil,
-           let next = try? await CalendarRepository.shared.load(locale: locale, year: year + 1) {
+           let next = try? await CalendarRepository.shared.load(locale: locale, year: year + 1, allowNetwork: false) {
             days += next.days.values
         }
         if month == 1, sorted.first?.fastingPeriod != nil,
-           let prev = try? await CalendarRepository.shared.load(locale: locale, year: year - 1) {
+           let prev = try? await CalendarRepository.shared.load(locale: locale, year: year - 1, allowNetwork: false) {
             days += prev.days.values
         }
         return FastingPeriods.computeSpans(days)
