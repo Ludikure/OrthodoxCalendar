@@ -133,13 +133,14 @@ A window of years ships in the bundle (fully offline, see `project.yml` Localiza
 - `Feast.description`: expandable text for major feasts (from feast_descriptions.json)
 - `FastingInfo.abbrev` and `.icon`: optional (stripped during compaction to reduce bundle size)
 
-### Saint Bio Matching (DayDetailView.findBio)
-Each saint card can expand to show a biography. Matching logic:
-- `commonWords` filter excludes generic words (Свети, Преподобни, Saint, etc.) from keyword matching
-- Single bio per day (Serbian crkvenikalendar.com): show on first non-moveable feast only
-- Multiple bios (EN/RU): keyword match with used-bio tracking to prevent duplicates
-- `Feast.description` takes priority over bio text
-- Moveable feasts (`feast.moveable == true`) never get bios
+### Saint Bio Matching (Engine/BioMatcher.swift)
+Each saint card can expand to show a biography. `BioMatcher.assign` pairs the day's fixed feasts with bio titles once per day:
+- Words are compared after dropping rank/place/feast words (`BioMatcher.generic`, one list for all locales); two-letter words count only when capitalised (Ор, II).
+- A word matches inflected or misspelt forms (Вартоломеј/Вартоломеја, Петар/Петра, Јевстатије/Евстатије, Тедот/Теодот) via shared prefixes and edit distance; a single substitution inside a short name (Матија/Марија) does not match.
+- Strong matches are assigned best-first across the day; a weak match is taken only when it is the sole remaining candidate. A wrong bio is worse than none.
+- Feasts with `moveable == true` never get bios; `Feast.description` takes priority over bio text in the card.
+- `scripts/shared/simulate_bio_matching.py` is the reference implementation: change rules there, check the per-locale match counts, then port to Swift (and the Android `BioMatcher`).
+- English bios (orthocal.info, keyed by church date) are attached by Julian date in `build_database.py`; the Serbian and Russian pools are keyed by Gregorian date.
 
 ### Haptics
 `Haptics` enum is `@MainActor` with static `let` generators. Methods fire synchronously (no `DispatchQueue.main.async`) and re-prime after each fire to keep the Taptic Engine warm. All call sites are SwiftUI gesture handlers already on MainActor.

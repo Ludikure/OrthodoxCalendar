@@ -26,6 +26,7 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
         PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar
+        DEVELOPMENT_TEAM: 6AS729C9FR
         PRODUCT_NAME: "Orthodox Calendar"
         MARKETING_VERSION: "1.4.3"
         CURRENT_PROJECT_VERSION: "16"

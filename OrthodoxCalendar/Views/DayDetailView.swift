@@ -235,67 +235,25 @@ struct DayDetailView: View {
                     .foregroundStyle(AppColors.darkText)
             }
 
+            let bios = bioByFeastIndex
             ForEach(Array(day.feasts.enumerated()), id: \.offset) { index, feast in
                 SaintCard(
                     feast: feast,
-                    bio: findBio(for: feast, index: index),
+                    bio: bios[index],
                     localizedType: localizedSaintType(feast.type)
                 )
             }
         }
     }
 
-    // Common saint title prefixes — too generic for matching
-    private static let commonWords: Set<String> = [
-        "свети", "света", "светог", "светих", "светом",
-        "преподобни", "преподобна", "преподобног",
-        "мученик", "мученица", "мученици",
-        "свештеномученик", "великомученик",
-        "святой", "святая", "святых", "святителя",
-        "преподобный", "преподобная", "мученик",
-        "saint", "holy", "venerable", "martyr",
-        "blessed", "righteous",
-    ]
-
-    /// Find matching bio for a feast entry — each bio used only once
-    private func findBio(for feast: Feast, index: Int) -> SaintBio? {
-        guard let bios = day.saintBios, !bios.isEmpty else { return nil }
-        if feast.moveable { return nil }
-
-        // Single bio per day (Serbian Охридски Пролог): show on first feast only
-        if bios.count == 1 {
-            return index == 0 ? bios[0] : nil
-        }
-
-        // Multiple bios (EN/RU): match by significant keywords, each bio used once
-        // Find which bios are already claimed by earlier feasts
-        var usedBioTitles = Set<String>()
-        for i in 0..<index {
-            let f = day.feasts[i]
-            if f.moveable { continue }
-            let words = f.name.lowercased().split(separator: " ")
-                .map(String.init)
-                .filter { $0.count > 3 && !Self.commonWords.contains($0) }
-            for bio in bios {
-                if usedBioTitles.contains(bio.title) { continue }
-                let bioLower = bio.title.lowercased()
-                if words.contains(where: { bioLower.contains($0) }) {
-                    usedBioTitles.insert(bio.title)
-                    break
-                }
-            }
-        }
-
-        // Match this feast to an unclaimed bio
-        let feastWords = feast.name.lowercased().split(separator: " ")
-            .map(String.init)
-            .filter { $0.count > 3 && !Self.commonWords.contains($0) }
-
-        return bios.first { bio in
-            guard !usedBioTitles.contains(bio.title) else { return false }
-            let bioLower = bio.title.lowercased()
-            return feastWords.contains { bioLower.contains($0) }
-        }
+    /// Bio for each feast card, matched once per day (see `BioMatcher`).
+    private var bioByFeastIndex: [Int: SaintBio] {
+        let bios = day.saintBios ?? []
+        return BioMatcher.assign(
+            feastNames: day.feasts.map(\.name),
+            moveable: day.feasts.map(\.moveable),
+            bioTitles: bios.map(\.title)
+        ).mapValues { bios[$0] }
     }
 
     // MARK: - Readings
