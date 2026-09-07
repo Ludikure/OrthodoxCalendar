@@ -100,7 +100,7 @@ def tok_match(a, b):
 def score(ft, bt):
     return sum(max((tok_match(f, b) for b in bt), default=0) for f in ft)
 
-def new_assign(feasts, bios, loc):
+def new_assign(feasts, bios, loc, single_fallback=True):
     out = {}
     if not bios: return out
     fixed = [i for i, f in enumerate(feasts) if not f.get('moveable')]
@@ -127,7 +127,7 @@ def new_assign(feasts, bios, loc):
         cands = [j for j in range(len(bios)) if j not in used_b and sc[(i, j)] >= 1]
         if len(cands) == 1:
             out[i] = cands[0]; used_f.add(i); used_b.add(cands[0])
-    if not out and len(bios) == 1:       # legacy single-bio day: first fixed feast
+    if single_fallback and not out and len(bios) == 1:   # legacy single-bio day: first fixed feast
         for i in fixed: out[i] = 0; break
     return out
 

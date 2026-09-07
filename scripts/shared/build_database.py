@@ -552,11 +552,10 @@ def build_calendar(locale: str, year: int):
     while current <= end:
         key = current.strftime("%m-%d")
         julian_key = to_julian_key(current)
-        # Bio pools for sr/ru come from Old Calendar sites and are keyed by the
-        # Gregorian date. The English pool (orthocal.info) is keyed by the church
-        # date, which for the Old Calendar saints listed in en/en_nc is the Julian
-        # date -- keyed by Gregorian date it was 13 days off.
-        bios_key = julian_key if data_locale == 'en' else key
+        # Every bio pool is keyed by the Gregorian date of the scraped year
+        # (build_saint_bios.py already maps orthocal's church-date stories onto
+        # the Gregorian day of the Old Calendar saints).
+        bios_key = key
 
         # New Calendar: fixed feasts use Gregorian dates (julian_key == key)
         feast_julian_key = key if is_new_calendar else julian_key

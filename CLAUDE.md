@@ -19,8 +19,8 @@ OrthodoxCalendar/           # iOS app (SwiftUI)
 scripts/
 ├── shared/                 # Paschalion, fasting engine, lectionary engine, build pipeline
 ├── serbian/                # Scrapers for pravoslavno.rs, crkvenikalendar.com
-├── russian/                # Scrapers for azbyka.ru, days.pravoslavie.ru
-├── english/                # Scraper for holytrinityorthodox.com
+├── russian/                # Scrapers for azbyka.ru, days.pravoslavie.ru; extract_azbyka_bios.py
+├── english/                # Scraper for holytrinityorthodox.com; build_saint_bios.py (lives + orthocal)
 data/
 ├── processed/              # Intermediate JSON per locale + shared feast descriptions
 ├── output/                 # Final calendar JSONs (28 files: 4 locales × 7 years)
@@ -44,11 +44,16 @@ python3 scripts/shared/build_database.py
 # Or generate specific year range (--out=DIR writes somewhere other than data/output)
 python3 scripts/shared/build_database.py 2026 2026
 
-# Rebuild Serbian saint bios from the cached crkvenikalendar.com day pages
-# (data/raw/sr/crkvenikalendar/, gitignored — keep a copy), then verify that
-# every stored bio matches the cache exactly (exit 1 otherwise)
+# Rebuild saint bios from the cached source pages (data/raw/ is gitignored —
+# keep a copy). Serbian: crkvenikalendar.com day pages; the audit verifies every
+# stored bio matches the cache (exit 1 otherwise). Russian: azbyka.ru saint
+# pages ("Краткое житие" when a page has both short and full life, cut at a
+# paragraph boundary near 12k chars). English: holytrinityorthodox.com lives
+# linked from each saint line, topped up with orthocal.info stories.
 python3 scripts/serbian/extract_crkvenikalendar_bios.py
 python3 scripts/serbian/audit_saint_bios.py
+python3 scripts/russian/extract_azbyka_bios.py
+python3 scripts/english/build_saint_bios.py --fetch   # --fetch downloads missing life pages
 
 # Generate + dedup the full 2024-2099 archive in a scratch dir FIRST (dedup
 # ACROSS ALL YEARS AT ONCE — pools don't merge across runs)
@@ -139,8 +144,8 @@ Each saint card can expand to show a biography. `BioMatcher.assign` pairs the da
 - A word matches inflected or misspelt forms (Вартоломеј/Вартоломеја, Петар/Петра, Јевстатије/Евстатије, Тедот/Теодот) via shared prefixes and edit distance; a single substitution inside a short name (Матија/Марија) does not match.
 - Strong matches are assigned best-first across the day; a weak match is taken only when it is the sole remaining candidate. A wrong bio is worse than none.
 - Feasts with `moveable == true` never get bios; `Feast.description` takes priority over bio text in the card.
-- `scripts/shared/simulate_bio_matching.py` is the reference implementation: change rules there, check the per-locale match counts, then port to Swift (and the Android `BioMatcher`).
-- English bios (orthocal.info, keyed by church date) are attached by Julian date in `build_database.py`; the Serbian and Russian pools are keyed by Gregorian date.
+- `scripts/shared/simulate_bio_matching.py` is the reference implementation: change rules there, check the per-locale match counts, then port to Swift (and the Android `BioMatcher`). Its `new_assign(..., single_fallback=False)` switch (off only in `build_saint_bios.py`, which uses the matcher to filter orthocal stories at build time) is not part of the app port.
+- All three bio pools are keyed by the Gregorian date of the scraped year. English bios come from holytrinityorthodox.com life pages linked from the saint line itself (title = feast name, so they always pair), with orthocal.info stories (keyed by church date, mapped by `build_saint_bios.py`) for saints without a life; cross-reference stubs ("For his life see May 6") are replaced by the story they point to.
 
 ### Haptics
 `Haptics` enum is `@MainActor` with static `let` generators. Methods fire synchronously (no `DispatchQueue.main.async`) and re-prime after each fire to keep the Taptic Engine warm. All call sites are SwiftUI gesture handlers already on MainActor.
