@@ -41,25 +41,45 @@ xcodebuild -project OrthodoxCalendar.xcodeproj -scheme OrthodoxCalendar \
 # Regenerate ALL calendar data (4 locales × 7 years = 28 files)
 python3 scripts/shared/build_database.py
 
-# Or generate specific year range
+# Or generate specific year range (--out=DIR writes somewhere other than data/output)
 python3 scripts/shared/build_database.py 2026 2026
 
-# Copy bundled-window years to app bundle, then dedup in place
+# Rebuild Serbian saint bios from the cached crkvenikalendar.com day pages
+# (data/raw/sr/crkvenikalendar/, gitignored — keep a copy), then verify that
+# every stored bio matches the cache exactly (exit 1 otherwise)
+python3 scripts/serbian/extract_crkvenikalendar_bios.py
+python3 scripts/serbian/audit_saint_bios.py
+
+# Generate + dedup the full 2024-2099 archive in a scratch dir FIRST (dedup
+# ACROSS ALL YEARS AT ONCE — pools don't merge across runs)
+python3 scripts/shared/build_database.py 2024 2099 --out=/path/to/scratch
+python3 scripts/shared/dedup_text.py /path/to/scratch
+
+# Copy bundled-window years (2025-2030; project.yml bundles whatever is in the
+# folder, so do not copy 2024) to the app bundle, then dedup in place
 # (dedup_text.py extracts bio/reading text into texts_<locale>.json pools
-# and compacts the JSON — the bundle format IS build output + dedup)
-cp data/output/calendar_*.json OrthodoxCalendar/Localization/
-python3 scripts/shared/dedup_text.py OrthodoxCalendar/Localization/
+# and compacts the JSON — the bundle format IS build output + dedup).
+# --keep-from makes the bundled pools a superset of the archive's: downloaded
+# years resolve refs against the bundled pool, and a few pericopes only occur
+# in years outside the bundled window.
+cp data/output/calendar_*_202[5-9].json data/output/calendar_*_2030.json OrthodoxCalendar/Localization/
+python3 scripts/shared/dedup_text.py OrthodoxCalendar/Localization/ --keep-from=/path/to/scratch
 
 # Deploy Cloudflare Worker
 cd worker && npm install && wrangler deploy
 
-# Publish the v2 archive (2024-2099) to R2: generate to a scratch dir,
-# dedup ACROSS ALL YEARS AT ONCE (dedup pools don't merge across runs),
-# then upload. The script verifies every text ref resolves against the
-# app-bundled pools before uploading, and --config pushes worker/config.json
-# (bump dataRevision there whenever regenerated files replace old ones —
-# devices drop their download cache when it changes).
-python3 scripts/shared/upload_r2_v2.py <deduped_dir> --config
+# Publish the deduped archive to R2. The script verifies every text ref
+# resolves against the app-bundled pools before uploading, and --config pushes
+# worker/config.json (bump dataRevision there whenever regenerated files
+# replace old ones — devices drop their download cache when it changes).
+# Installed apps resolve refs only against the pool they shipped with, so when
+# the pool changed, pass the pools of the release currently in the store via
+# --shipped-pools: refs they lack are inlined as full text in the archive
+# files, which keeps old and new installs working (the files grow ~1 MB each
+# until the next republish after the release is out).
+mkdir -p /path/to/shipped && for l in sr ru en en_nc; do
+  git show <release-commit>:OrthodoxCalendar/Localization/texts_$l.json > /path/to/shipped/texts_$l.json; done
+python3 scripts/shared/upload_r2_v2.py /path/to/scratch --shipped-pools=/path/to/shipped --config
 
 # Android build (separate repo)
 cd /Volumes/External/OrthodoxCalendarAndroid && ./gradlew assembleDebug
@@ -96,7 +116,7 @@ Flow: **Scrapers → Processed JSON → Build Pipeline → Calendar JSONs**
 - **Moveable feasts** (Pascha, Holy Week, Pentecost): `moveable: true` flag in JSON. Injected by pascha distance. Year-dependent.
 - **Fixed feasts** (Christmas, Theophany): Keyed by Julian month-day. Same Gregorian date every year (Julian+13).
 - Saints data scraped for 2026 — moveable entries stripped and replaced algorithmically for all years.
-- Saint bios are year-independent (keyed by date, not year).
+- Saint bios are year-independent (keyed by date, not year). Serbian bios come from `extract_crkvenikalendar_bios.py`: title from the page's h1, text from its tekst_opis span, moveable-feast notes (`pok=1`) skipped, and the ten 2026 dates that fell on great moveable feasts filled from the cached 2027 pages.
 
 ### Fasting Engine
 7 levels: `totalAbstinence`, `dryEating`, `hotNoOil`, `hotWithOil`, `fish`, `fishRoe`, `free`. Locale-aware (`compute_fasting(..., locale)`) with SPC overrides for Serbian.

@@ -640,7 +640,10 @@ def build_calendar(locale: str, year: int):
 
 
 def main():
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    # --out=DIR writes somewhere other than data/output (e.g. a scratch dir when
+    # generating the full 2024-2099 archive for upload_r2_v2.py).
+    output_dir = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--out=')), OUTPUT_DIR)
+    os.makedirs(output_dir, exist_ok=True)
 
     # Support command-line year range override: build_database.py [start] [end]
     args = [a for a in sys.argv[1:] if not a.startswith('-')]
@@ -656,7 +659,7 @@ def main():
             print(f"\n=== Building calendar_{locale}_{year}.json ===", file=sys.stderr)
             calendar = build_calendar(locale, year)
 
-            output_file = os.path.join(OUTPUT_DIR, f"calendar_{locale}_{year}.json")
+            output_file = os.path.join(output_dir, f"calendar_{locale}_{year}.json")
             with open(output_file, 'w') as f:
                 json.dump({
                     "year": year,

@@ -7,3 +7,4 @@ xcuserdata/
 __pycache__/
 *.pyc
 data/raw/
+data/archive_v2/
