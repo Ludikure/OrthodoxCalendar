@@ -108,8 +108,11 @@ def inline_missing(directory, shipped_dir):
 
 
 def put(local_path, key, dry):
+    # wrangler runs in worker/, so the file has to be named absolutely — a
+    # relative <deduped_dir> would otherwise fail every upload with "does not
+    # exist" after the closure check has already passed.
     cmd = ["npx", "wrangler", "r2", "object", "put", f"{BUCKET}/{key}",
-           "--file", local_path, "--content-type", "application/json", "--remote"]
+           "--file", os.path.abspath(local_path), "--content-type", "application/json", "--remote"]
     if dry:
         print("DRY:", key)
         return key, True
