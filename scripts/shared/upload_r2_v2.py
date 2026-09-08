@@ -25,11 +25,27 @@ Legacy fat objects at the unprefixed keys are never touched.
 import json, glob, os, re, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from dedup_text import POOL_ALIAS
+
 BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BUNDLE = os.path.join(BASE, "OrthodoxCalendar", "Localization")
 WORKER = os.path.join(BASE, "worker")
 BUCKET = "orthodox-calendar-data"
 LOCALES = ["sr", "ru", "en", "en_nc"]
+
+
+def pool_path(directory, locale):
+    """The texts pool a locale resolves against in `directory`.
+
+    en_nc shares en's pool (dedup_text.POOL_ALIAS), but a release that shipped
+    its own texts_en_nc.json still has one — hence the fallback rather than a
+    plain alias, so --shipped-pools keeps working against older bundles.
+    """
+    path = os.path.join(directory, f"texts_{locale}.json")
+    if os.path.exists(path) or locale not in POOL_ALIAS:
+        return path
+    return os.path.join(directory, f"texts_{POOL_ALIAS[locale]}.json")
 
 
 def refs_in_file(path):
@@ -49,8 +65,7 @@ def refs_in_file(path):
 def check_closure(directory, pool_dir=BUNDLE, label="bundled"):
     ok = True
     for locale in LOCALES:
-        pool_path = os.path.join(pool_dir, f"texts_{locale}.json")
-        bundled = set(json.load(open(pool_path)))
+        bundled = set(json.load(open(pool_path(pool_dir, locale))))
         for f in sorted(glob.glob(os.path.join(directory, f"calendar_{locale}_*.json"))):
             missing = refs_in_file(f) - bundled
             if missing:
@@ -63,12 +78,12 @@ def check_closure(directory, pool_dir=BUNDLE, label="bundled"):
 def inline_missing(directory, shipped_dir):
     """Replace refs absent from the shipped pools with the full text, in place."""
     for locale in LOCALES:
-        shipped_path = os.path.join(shipped_dir, f"texts_{locale}.json")
-        pool_path = os.path.join(directory, f"texts_{locale}.json")
-        if not os.path.exists(shipped_path) or not os.path.exists(pool_path):
+        shipped_path = pool_path(shipped_dir, locale)
+        current_path = pool_path(directory, locale)
+        if not os.path.exists(shipped_path) or not os.path.exists(current_path):
             continue
         shipped = set(json.load(open(shipped_path)))
-        pool = json.load(open(pool_path))
+        pool = json.load(open(current_path))
         for f in sorted(glob.glob(os.path.join(directory, f"calendar_{locale}_*.json"))):
             data = json.load(open(f, encoding="utf-8"))
             n = 0
@@ -114,7 +129,7 @@ def main():
     shipped_dir = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--shipped-pools=")), None)
 
     files = sorted(glob.glob(os.path.join(directory, "calendar_*_*.json")))
-    pools = [os.path.join(directory, f"texts_{loc}.json") for loc in LOCALES]
+    pools = sorted({pool_path(directory, loc) for loc in LOCALES})
     pools = [p for p in pools if os.path.exists(p)]
     if not files:
         sys.exit(f"no calendar_*.json in {directory}")

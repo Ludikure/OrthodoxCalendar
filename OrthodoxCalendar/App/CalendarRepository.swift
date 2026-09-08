@@ -161,15 +161,23 @@ actor CalendarRepository {
         return CalendarFile(year: file.year, locale: file.locale, generatedBy: file.generatedBy, days: days)
     }
 
+    /// The pool file a locale resolves against. en and en_nc show the same bios
+    /// and the same scripture text, so they share `texts_en.json` — bundling a
+    /// second, byte-identical copy cost 8.6 MB.
+    private static func poolName(_ locale: String) -> String {
+        locale == "en_nc" ? "en" : locale
+    }
+
     private func textsPool(_ locale: String) -> [String: String] {
-        if let cached = textsCache[locale] { return cached }
+        let name = Self.poolName(locale)
+        if let cached = textsCache[name] { return cached }
         let pool: [String: String] = {
-            guard let url = Bundle.main.url(forResource: "texts_\(locale)", withExtension: "json"),
+            guard let url = Bundle.main.url(forResource: "texts_\(name)", withExtension: "json"),
                   let data = try? Data(contentsOf: url),
                   let map = try? JSONDecoder().decode([String: String].self, from: data) else { return [:] }
             return map
         }()
-        textsCache[locale] = pool
+        textsCache[name] = pool
         return pool
     }
 

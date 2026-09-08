@@ -12,6 +12,9 @@ files keep only a reference:
   - ScriptureReading {…, textRef, textWebRef}
 Apps resolve the refs against the pool at load.
 
+en and en_nc show the same bios and the same scripture text, so they share a
+single `texts_en.json`; a separate texts_en_nc.json was a byte-for-byte copy.
+
 Usage: dedup_text.py <dir> [--keep-from=DIR]
   Dedups all calendar_*_*.json in <dir> in place. Idempotent: entries already
   carrying a ref (no text) keep their pool text; pool entries nothing
@@ -24,17 +27,22 @@ Usage: dedup_text.py <dir> [--keep-from=DIR]
 """
 import sys, os, json, hashlib, glob, re
 
+POOL_ALIAS = {"en_nc": "en"}   # locales that share another locale's pool
+
+def pool_name(locale: str) -> str:
+    return POOL_ALIAS.get(locale, locale)
+
 def h(text: str) -> str:
     return hashlib.sha1(text.encode("utf-8")).hexdigest()[:16]
 
 def main(directory: str, keep_from: str | None = None) -> None:
-    by_locale: dict[str, list[str]] = {}
+    by_pool: dict[str, list[str]] = {}
     for f in sorted(glob.glob(os.path.join(directory, "calendar_*_*.json"))):
         m = re.match(r"calendar_(.+)_(\d{4})\.json$", os.path.basename(f))
         if m:
-            by_locale.setdefault(m.group(1), []).append(f)
+            by_pool.setdefault(pool_name(m.group(1)), []).append(f)
 
-    for locale, files in by_locale.items():
+    for locale, files in by_pool.items():
         pool: dict[str, str] = {}
         # Entries that already carry a ref (a re-run on a deduped dir) keep
         # their text from the existing pool; unreferenced stale entries drop.

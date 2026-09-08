@@ -244,11 +244,31 @@ def parse_fasting(html: str) -> str:
     return None
 
 
-def parse_saints(html: str) -> list:
-    """Parse saints from the normaltext section before scripture readings.
+LITURGICAL_CONTEXT_RE = re.compile(
+    r'\(([^)]*(?:movable|Celtic|British|Greek|Georgia|Arabic|Romanian|Slav)(?:[^)]*)?)\)\s*$',
+    re.IGNORECASE)
 
-    Each saint is on a <br>-separated line within <span class="normaltext">.
-    Each line starts with <span class="typicon-{N}"> indicating importance.
+
+def split_context(text: str) -> tuple:
+    """Split a saint line into (name, liturgical context).
+
+    A trailing parenthetical like "(movable holiday on the 1st Friday of
+    Apostles' Fast)" is context, not part of the name.
+    """
+    m = LITURGICAL_CONTEXT_RE.search(text)
+    if not m:
+        return text, None
+    return text[:m.start()].strip().rstrip(',').strip(), m.group(1).strip()
+
+
+def saint_lines(html: str) -> list:
+    """(line html, cleaned line text) for every saint line of a day page.
+
+    Each saint is on a <br>-separated line within <span class="normaltext">,
+    starting with <span class="typicon-{N}"> for its importance. parse_saints()
+    below and english/build_saint_bios.py both work from these lines — the bios
+    attach to the exact feast entry, so the two must split the page identically
+    and derive the same names.
     """
     # Isolate the saints normaltext block (the first one, before scripture)
     # The scripture section starts with <p class="pscriptureheader">
@@ -271,30 +291,17 @@ def parse_saints(html: str) -> list:
     # Strip the final closing </span> for the normaltext wrapper
     saints_block = re.sub(r'</span>\s*$', '', saints_block)
 
+    out = []
     # Split on <br> to get individual saint lines
-    lines = re.split(r'<br\s*/?>\s*', saints_block)
-
-    saints = []
-    for line in lines:
+    for line in re.split(r'<br\s*/?>\s*', saints_block):
         line = line.strip()
         if not line:
             continue
 
-        # Extract typicon class
-        typicon_m = re.search(r'class="typicon-([0-9o])"', line)
-        typicon = typicon_m.group(1) if typicon_m else "0"
-
-        # Check if the whole saint line is wrapped in <b>
-        is_bold = bool(re.search(r'<b>', line))
-
-        # Check if wrapped in minortext
-        is_minor = 'class="minortext' in line
-
         # Clean up: remove typicon span, links, other markup
         # But preserve the text content
-        text = line
         # Remove typicon spans (they contain just the number)
-        text = re.sub(r'<span class="typicon-[0-9o]">[^<]*</span>', '', text)
+        text = re.sub(r'<span class="typicon-[0-9o]">[^<]*</span>', '', line)
         # Remove minortext span wrappers (keep content)
         text = re.sub(r'<span class="minortext\s*">', '', text)
         # Remove closing spans that were for minortext
@@ -312,18 +319,30 @@ def parse_saints(html: str) -> list:
         if not text:
             continue
 
+        out.append((line, text))
+    return out
+
+
+def parse_saints(html: str) -> list:
+    """Parse saints from the normaltext section before scripture readings."""
+    saints = []
+    for line, text in saint_lines(html):
+        # Extract typicon class
+        typicon_m = re.search(r'class="typicon-([0-9o])"', line)
+        typicon = typicon_m.group(1) if typicon_m else "0"
+
+        # Check if the whole saint line is wrapped in <b>
+        is_bold = bool(re.search(r'<b>', line))
+
+        # Check if wrapped in minortext
+        is_minor = 'class="minortext' in line
+
         importance = typicon_to_importance(typicon, is_bold, is_minor)
         saint_type = detect_saint_type(text)
-
-        # Extract liturgical context (parenthetical at end, like "(movable holiday ...)")
-        liturgical_context = None
-        paren_m = re.search(r'\(([^)]*(?:movable|Celtic|British|Greek|Georgia|Arabic|Romanian|Slav)(?:[^)]*)?)\)\s*$', text, re.IGNORECASE)
-        if paren_m:
-            liturgical_context = paren_m.group(1).strip()
-            text = text[:paren_m.start()].strip().rstrip(',').strip()
+        name, liturgical_context = split_context(text)
 
         saints.append({
-            "name": text,
+            "name": name,
             "position": len(saints),
             "importance": importance,
             "type": saint_type,

@@ -20,13 +20,16 @@ year-independent.
 Usage: python3 scripts/russian/extract_azbyka_bios.py [--year 2026] [--out FILE]
 """
 import argparse
+import functools
 import glob
 import json
 import os
 import re
 import sys
-import unicodedata
 from html import unescape
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'shared'))
+from htmltext import to_text
 
 BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')
 RAW_DIR = os.path.join(BASE_DIR, 'data', 'raw', 'ru')
@@ -37,22 +40,11 @@ LINK_RE = re.compile(r'<a\s+href=[\'"]?(https?://azbyka\.ru/days/(?:sv|svv|prazd
 BLOCK_RE = re.compile(r'<div\s+class="block (?:saint-description|saints-group-description|holiday-description)">(.*?)(?=<div\s+(?:id="[^"]*"\s+)?class="block[ "]|<div\s+id="left-bar")', re.DOTALL)
 SHORT_RE = re.compile(r'<p\s+class="short-description">(.*?)</p>', re.DOTALL)
 BRIF_RE = re.compile(r'<div\s+class="brif[^"]*">(.*)', re.DOTALL)
-
-
-def strip_accents(text: str) -> str:
-    return ''.join(c for c in text if unicodedata.category(c) != 'Mn')
+READ_MORE_RE = re.compile(r'<div\s+class="read-more">.*?</div>', re.DOTALL)
 
 
 def clean(fragment: str) -> str:
-    text = re.sub(r'<script[^>]*>.*?</script>|<style[^>]*>.*?</style>', '', fragment, flags=re.DOTALL)
-    text = re.sub(r'<div\s+class="read-more">.*?</div>', '', text, flags=re.DOTALL)
-    text = re.sub(r'<br\s*/?>', '\n', text)
-    text = re.sub(r'</(p|div|h[1-6]|li|tr|blockquote)>', '\n', text, flags=re.IGNORECASE)
-    text = re.sub(r'<[^>]+>', '', text)
-    text = strip_accents(unescape(text))
-    lines = [re.sub(r'[ \t\xa0]+', ' ', line).strip() for line in text.split('\n')]
-    text = '\n'.join(line for line in lines if line)
-    return text.strip()
+    return to_text(fragment, drop=(READ_MORE_RE,), accents=False)
 
 
 def entries(day_html: str) -> list:
@@ -115,6 +107,20 @@ def life(saint_html: str) -> str:
     return truncate(text)
 
 
+@functools.lru_cache(maxsize=None)
+def life_for_slug(slug: str):
+    """Life text of a cached saint page, or None when the page is missing.
+
+    Saints commemorated on several days link the same page, and full lives on
+    azbyka run to hundreds of kilobytes — parse each page once.
+    """
+    path = os.path.join(RAW_DIR, f'saint_{slug}.html')
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding='utf-8', errors='replace') as f:
+        return life(f.read())
+
+
 def build(year: int) -> tuple:
     days, missing_pages, empty = {}, [], []
     for path in sorted(glob.glob(os.path.join(RAW_DIR, f'azbyka_{year}-*.html'))):
@@ -125,12 +131,10 @@ def build(year: int) -> tuple:
         seen = set()
         for title, url in entries(day_html):
             slug = url.rstrip('/').split('/')[-1]
-            page = os.path.join(RAW_DIR, f'saint_{slug}.html')
-            if not os.path.exists(page):
+            text = life_for_slug(slug)
+            if text is None:
                 missing_pages.append((key, slug))
                 continue
-            with open(page, encoding='utf-8', errors='replace') as f:
-                text = life(f.read())
             if not text:
                 empty.append((key, title))
                 continue

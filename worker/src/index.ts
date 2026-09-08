@@ -159,7 +159,9 @@ async function handleGetTexts(env: Env, locale: string): Promise<Response> {
 	if (!VALID_LOCALES.has(locale)) {
 		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en, en_nc`, 400);
 	}
-	const object = await env.CALENDAR_DATA.get(`${V2_PREFIX}texts_${locale}.json`);
+	// en and en_nc show the same bios and scripture text and share one pool.
+	const pool = locale === 'en_nc' ? 'en' : locale;
+	const object = await env.CALENDAR_DATA.get(`${V2_PREFIX}texts_${pool}.json`);
 	if (!object) {
 		return errorResponse(`No texts pool for ${locale}`, 404);
 	}

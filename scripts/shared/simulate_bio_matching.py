@@ -100,9 +100,12 @@ def tok_match(a, b):
 def score(ft, bt):
     return sum(max((tok_match(f, b) for b in bt), default=0) for f in ft)
 
-def new_assign(feasts, bios, loc, single_fallback=True):
-    out = {}
-    if not bios: return out
+def pair_scores(feasts, bios, loc):
+    """{(feast index, bio index): how well the two go together} for fixed feasts.
+
+    Exposed for build_saint_bios.py, which keeps an orthocal story only when it
+    lands on the feast it fits best; the app only ever needs new_assign.
+    """
     fixed = [i for i, f in enumerate(feasts) if not f.get('moveable')]
     fs = {i: significant(feasts[i]['name'], loc) for i in fixed}
     fa = {i: set(tokens(feasts[i]['name'], loc)) for i in fixed}
@@ -116,8 +119,29 @@ def new_assign(feasts, bios, loc, single_fallback=True):
             return s if s else (1 if len(fa[i] & ba[j]) >= 3 else 0)
         # No distinguishing word (e.g. "Сабор Пресвете Богородице"): the whole name must be inside the title.
         return 2 if fa[i] and fa[i] <= ba[j] else 0
-    sc = {(i, j): pair_score(i, j) for i in fixed for j in range(len(bios))}
+    return {(i, j): pair_score(i, j) for i in fixed for j in range(len(bios))}
+
+def new_assign(feasts, bios, loc, single_fallback=True):
+    out = {}
+    if not bios: return out
+    fixed = [i for i, f in enumerate(feasts) if not f.get('moveable')]
+    # A bio whose title *is* a feast's name names that feast and no other. Pair
+    # those first: the greedy pass below breaks score ties by position, so on a
+    # day with several similar names (three Macarii, "Constantine and Helen" next
+    # to "Helen of Dechani") the bio would otherwise go to whichever tying feast
+    # comes first. A named bio left over is a duplicate of one already placed —
+    # it stays unassigned rather than landing on a stranger.
+    fseq = [tuple(tokens(f['name'], loc)) for f in feasts]
+    bseq = [tuple(tokens(b['title'], loc)) for b in bios]
+    names = set(seq for seq in fseq if seq)
+    sc = pair_scores(feasts, bios, loc)
     used_f, used_b = set(), set()
+    for j, bt in enumerate(bseq):
+        if bt not in names: continue
+        for i in fixed:
+            if i not in used_f and fseq[i] == bt:
+                out[i] = j; used_f.add(i); break
+        used_b.add(j)                    # named bios never move to another feast
     for s, i, j in sorted(((s, i, j) for (i, j), s in sc.items()), key=lambda p: (-p[0], p[1], p[2])):
         if s < 2: break
         if i in used_f or j in used_b: continue
@@ -127,8 +151,8 @@ def new_assign(feasts, bios, loc, single_fallback=True):
         cands = [j for j in range(len(bios)) if j not in used_b and sc[(i, j)] >= 1]
         if len(cands) == 1:
             out[i] = cands[0]; used_f.add(i); used_b.add(cands[0])
-    if single_fallback and not out and len(bios) == 1:   # legacy single-bio day: first fixed feast
-        for i in fixed: out[i] = 0; break
+    if single_fallback and not out and len(bios) == 1 and 0 not in used_b:
+        for i in fixed: out[i] = 0; break   # legacy single-bio day: first fixed feast
     return out
 
 BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')

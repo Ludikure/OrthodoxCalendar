@@ -552,10 +552,6 @@ def build_calendar(locale: str, year: int):
     while current <= end:
         key = current.strftime("%m-%d")
         julian_key = to_julian_key(current)
-        # Every bio pool is keyed by the Gregorian date of the scraped year
-        # (build_saint_bios.py already maps orthocal's church-date stories onto
-        # the Gregorian day of the Old Calendar saints).
-        bios_key = key
 
         # New Calendar: fixed feasts use Gregorian dates (julian_key == key)
         feast_julian_key = key if is_new_calendar else julian_key
@@ -620,8 +616,10 @@ def build_calendar(locale: str, year: int):
             # Reflection
             "reflection": reflections_data.get(key),
 
-            # Saint biographies (keyed by MM-DD, year-independent)
-            "saintBios": saint_bios_data.get(bios_key) or None,
+            # Saint biographies: every pool is keyed by the Gregorian MM-DD of
+            # the scraped year and is year-independent (build_saint_bios.py maps
+            # orthocal's church-date stories onto the Gregorian day itself).
+            "saintBios": saint_bios_data.get(key) or None,
 
             # Fasting period context
             "fastingPeriod": pasch.get_fasting_period(current),

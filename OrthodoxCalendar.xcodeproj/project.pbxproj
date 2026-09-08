@@ -11,7 +11,6 @@
 		0B57441EBA6D5523691015FA /* calendar_sr_2028.json in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB2D80878A479F4284C08F /* calendar_sr_2028.json */; };
 		0F7C5D4DD49F33859763F801 /* texts_sr.json in Resources */ = {isa = PBXBuildFile; fileRef = BA51DBE90D35A9C3CD66B44E /* texts_sr.json */; };
 		143603E505C653BD26CE787B /* FastingLegendBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D59A4D5146B2132AB8F2D5 /* FastingLegendBar.swift */; };
-		173FD230CA079BF0CD869C43 /* texts_en_nc.json in Resources */ = {isa = PBXBuildFile; fileRef = C3B61D369D6335CE12DE5A41 /* texts_en_nc.json */; };
 		1B399F9AFFB84AAE4522D23A /* JulianConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E05FD61F64516950CF42DF8 /* JulianConverter.swift */; };
 		1D1C38C58A11DF0DF6664007 /* AppUpdateGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220304BDF355854B3466F2A /* AppUpdateGate.swift */; };
 		1FD4A6ECB3359A6B4C4AD459 /* calendar_ru_2028.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867A38B1BDAB1253C4B0195 /* calendar_ru_2028.json */; };
@@ -124,7 +123,6 @@
 		B5DBDE80ABD2CD9F02FE3FB4 /* texts_ru.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = texts_ru.json; sourceTree = "<group>"; };
 		B8D5547954B52EDE13709406 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		BA51DBE90D35A9C3CD66B44E /* texts_sr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = texts_sr.json; sourceTree = "<group>"; };
-		C3B61D369D6335CE12DE5A41 /* texts_en_nc.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = texts_en_nc.json; sourceTree = "<group>"; };
 		CAC31CAD818AF95A0829487E /* CalendarTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTabView.swift; sourceTree = "<group>"; };
 		CBF37F5514D0CF20E2AA2AEA /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		CF45205D893F02AAFCF44102 /* calendar_en_nc_2028.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_nc_2028.json; sourceTree = "<group>"; };
@@ -174,7 +172,6 @@
 				0B6ABB33D59C087264D846E2 /* ru.json */,
 				412E78EF3E7566DB4C92C594 /* splash_logo.png */,
 				9EE0562EC4FDEFED51E7EAC9 /* sr.json */,
-				C3B61D369D6335CE12DE5A41 /* texts_en_nc.json */,
 				2272BDFDAC3748CF9E185040 /* texts_en.json */,
 				B5DBDE80ABD2CD9F02FE3FB4 /* texts_ru.json */,
 				BA51DBE90D35A9C3CD66B44E /* texts_sr.json */,
@@ -366,7 +363,6 @@
 				83D8249034221A77B3C92D8A /* splash_logo.png in Resources */,
 				F23B39CB8391170353E42B60 /* sr.json in Resources */,
 				C988067946D44F98BA371C06 /* texts_en.json in Resources */,
-				173FD230CA079BF0CD869C43 /* texts_en_nc.json in Resources */,
 				47180A56CA0F3339F1ADDAB8 /* texts_ru.json in Resources */,
 				0F7C5D4DD49F33859763F801 /* texts_sr.json in Resources */,
 			);

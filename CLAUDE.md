@@ -50,6 +50,7 @@ python3 scripts/shared/build_database.py 2026 2026
 # pages ("Краткое житие" when a page has both short and full life, cut at a
 # paragraph boundary near 12k chars). English: holytrinityorthodox.com lives
 # linked from each saint line, topped up with orthocal.info stories.
+python3 scripts/shared/fetch_bio_sources.py       # refill data/raw/ caches first
 python3 scripts/serbian/extract_crkvenikalendar_bios.py
 python3 scripts/serbian/audit_saint_bios.py
 python3 scripts/russian/extract_azbyka_bios.py
@@ -129,7 +130,7 @@ Flow: **Scrapers → Processed JSON → Build Pipeline → Calendar JSONs**
 ## Key Design Decisions
 
 ### Bundled Window + v2 Archive
-A window of years ships in the bundle (fully offline, see `project.yml` Localization folder). Years outside it come from the v2 archive on the Worker (`/api/v2/{locale}/{year}`, 2024–2099, deduplicated files ~1.3 MB each) and are cached permanently in Application Support (excluded from backup). Text refs in downloaded files resolve against the *bundled* `texts_<locale>.json` pools — which is why pool closure over all 76 years is checked before every upload. `dataRevision` in `/api/config` invalidates device caches after a regeneration. Legacy fat objects at unprefixed R2 keys serve pre-1.4.0 clients and must never be overwritten with deduped files.
+A window of years ships in the bundle (fully offline, see `project.yml` Localization folder). Years outside it come from the v2 archive on the Worker (`/api/v2/{locale}/{year}`, 2024–2099, deduplicated files ~1.3 MB each) and are cached permanently in Application Support (excluded from backup). Text refs in downloaded files resolve against the *bundled* `texts_<locale>.json` pools — which is why pool closure over all 76 years is checked before every upload. `en_nc` shares `texts_en.json` (identical bios and scripture text; a separate copy was 8.6 MB of duplicate bundle), via `dedup_text.POOL_ALIAS`, `CalendarRepository.poolName` and the same alias in the Worker and `upload_r2_v2.py`. `dataRevision` in `/api/config` invalidates device caches after a regeneration. Legacy fat objects at unprefixed R2 keys serve pre-1.4.0 clients and must never be overwritten with deduped files.
 
 ### CalendarDay Model
 - `dayOfWeek`: Python convention (0=Mon, 6=Sun), NOT iOS convention
@@ -142,10 +143,12 @@ A window of years ships in the bundle (fully offline, see `project.yml` Localiza
 Each saint card can expand to show a biography. `BioMatcher.assign` pairs the day's fixed feasts with bio titles once per day:
 - Words are compared after dropping rank/place/feast words (`BioMatcher.generic`, one list for all locales); two-letter words count only when capitalised (Ор, II).
 - A word matches inflected or misspelt forms (Вартоломеј/Вартоломеја, Петар/Петра, Јевстатије/Евстатије, Тедот/Теодот) via shared prefixes and edit distance; a single substitution inside a short name (Матија/Марија) does not match.
+- A bio whose title *is* a feast's name (same words) is paired with that feast before anything else, and never lands anywhere else. The greedy pass below breaks score ties by position, so without this a day with several similar names (three Macarii; "Constantine and Helen" next to "Helen of Dechani") hands the bio to whichever tying feast comes first.
 - Strong matches are assigned best-first across the day; a weak match is taken only when it is the sole remaining candidate. A wrong bio is worse than none.
 - Feasts with `moveable == true` never get bios; `Feast.description` takes priority over bio text in the card.
-- `scripts/shared/simulate_bio_matching.py` is the reference implementation: change rules there, check the per-locale match counts, then port to Swift (and the Android `BioMatcher`). Its `new_assign(..., single_fallback=False)` switch (off only in `build_saint_bios.py`, which uses the matcher to filter orthocal stories at build time) is not part of the app port.
-- All three bio pools are keyed by the Gregorian date of the scraped year. English bios come from holytrinityorthodox.com life pages linked from the saint line itself (title = feast name, so they always pair), with orthocal.info stories (keyed by church date, mapped by `build_saint_bios.py`) for saints without a life; cross-reference stubs ("For his life see May 6") are replaced by the story they point to.
+- `scripts/shared/simulate_bio_matching.py` is the reference implementation: change rules there, check the per-locale match counts, then port to Swift (and the Android `BioMatcher`). Its `new_assign(..., single_fallback=False)` switch and `pair_scores()` are used only by `build_saint_bios.py`, which runs the matcher to filter orthocal stories at build time; neither is part of the app port.
+- All three bio pools are keyed by the Gregorian date of the scraped year. English bios come from holytrinityorthodox.com life pages linked from the saint line itself (title = feast name, so the pairing is exact), topped up with orthocal.info stories (keyed by church date, mapped by `build_saint_bios.py`) for saints without a life; cross-reference stubs ("For his life see May 6") are replaced by the story they point to.
+- A story is kept only when it lands on the one feast it fits *better than every other* — a story about a saint who already has a life fits that saint's feast best (a duplicate), and one that fits several feasts equally ("Basil the Great" beside "Basil of Ancyra") names none of them. About 860 of the ~890 stories/year are dropped this way; hiding the covered feasts from the matcher instead put St Basil's life under an unrelated New Hieromartyr.
 
 ### Haptics
 `Haptics` enum is `@MainActor` with static `let` generators. Methods fire synchronously (no `DispatchQueue.main.async`) and re-prime after each fire to keep the Taptic Engine warm. All call sites are SwiftUI gesture handlers already on MainActor.
@@ -169,7 +172,7 @@ Bundle files are compacted: null fields stripped, whitespace removed, `abbrev`/`
 - `greatFeast` — canonical feast ID or null
 - `paschaDistance` — days from Pascha (negative=before, 0=Pascha, positive=after)
 
-All files must be listed individually in `project.yml` resources section.
+`project.yml` bundles the whole `OrthodoxCalendar/` folder, so any file dropped into `Localization/` ships — there is no per-file resource list to update.
 
 ## Cloudflare Worker API
 
@@ -190,7 +193,7 @@ Worker source: `worker/src/index.ts`. R2 bucket: `orthodox-calendar-data`.
 
 ## Common Pitfalls
 
-1. **Bundle resources**: Files in `data/output/` are NOT in the app bundle. Must copy to `OrthodoxCalendar/Localization/` AND list in `project.yml`.
+1. **Bundle resources**: Files in `data/output/` are NOT in the app bundle. Must be copied to `OrthodoxCalendar/Localization/` (which `project.yml` bundles wholesale).
 2. **Zachalo numbers**: Differ between OCA, Serbian, and Russian traditions. Match by chapter:verse, never zachalo.
 3. **Julian dates**: Fixed feasts use Julian calendar. Gregorian = Julian + 13 (for 1900-2099).
 4. **Pascha distance**: Negative = before, 0 = Pascha day, positive = after.

@@ -7,10 +7,10 @@ import Foundation
 /// Rank, place and liturgical words ("свети", "мученик", "прп.", "bishop",
 /// "цариградски") carry no identity and are ignored. The remaining words are
 /// compared with tolerance for inflection (Вартоломеј/Вартоломеја, Петар/Петра),
-/// spelling variants (Јевстатије/Евстатије, Тедот/Теодот) and OCR typos. Strong
-/// matches are assigned best-first across the whole day; a weak match is accepted
-/// only when it is the sole remaining candidate, because a wrong bio is worse
-/// than none.
+/// spelling variants (Јевстатије/Евстатије, Тедот/Теодот) and OCR typos. A bio
+/// whose title *is* a feast's name is paired with it first; the rest are assigned
+/// best-first across the whole day, and a weak match is accepted only when it is
+/// the sole remaining candidate, because a wrong bio is worse than none.
 ///
 /// `scripts/shared/simulate_bio_matching.py` is the reference implementation and
 /// runs the same rules over a whole year of data; keep the two (and the Android
@@ -53,6 +53,21 @@ enum BioMatcher {
 
         var result: [Int: Int] = [:]
         var usedBios = Set<Int>()
+        // A bio whose title *is* a feast's name names that feast and no other.
+        // Pair those first: the greedy pass below breaks score ties by position,
+        // so on a day with several similar names (three Macarii, "Constantine and
+        // Helen" next to "Helen of Dechani") the bio would otherwise go to
+        // whichever tying feast comes first. A named bio left over duplicates one
+        // already placed — it stays unassigned rather than landing on a stranger.
+        let feastWords = feastNames.map { tokens($0) }
+        let bioWords = bioTitles.map { tokens($0) }
+        let names = Set(feastWords.filter { !$0.isEmpty })
+        for (j, title) in bioWords.enumerated() where names.contains(title) {
+            if let i = fixed.first(where: { result[$0] == nil && feastWords[$0] == title }) {
+                result[i] = j
+            }
+            usedBios.insert(j)
+        }
         for pair in pairs where pair.score >= 2 {
             if result[pair.feast] != nil || usedBios.contains(pair.bio) { continue }
             result[pair.feast] = pair.bio
@@ -67,7 +82,7 @@ enum BioMatcher {
             }
         }
         // Legacy single-bio day (one combined text): show it on the first fixed feast.
-        if result.isEmpty, bioTitles.count == 1, let first = fixed.first {
+        if result.isEmpty, bioTitles.count == 1, !usedBios.contains(0), let first = fixed.first {
             result[first] = 0
         }
         return result
