@@ -174,7 +174,7 @@ relics righteous robe romania rome russia saint saints scotland serbia seventy s
 sisters soldiers son spain st sts sunday synaxis syria the them theotokos thessalonica those
 thousand translation twelve uncovering venerable venerables virgin wales who wife with
 wonderworker александрийского александријски анахорет антиохийского антиохијски ап апостол
-апостолa апостола апостоли апостолов апп архидиакона архиепископ архиепископа архимандрит
+апостола апостоли апостолов апп архидиакона архиепископ архиепископа архимандрит
 архимандрита атонски афонского блажена блажени блгв блгвв блж ближних богородица богородице
 богородицы божией брат брата велика велики великого великомученик великомученица вериге вмц
 вмч воинов војник војника војници всех всея второго главе главы господа господня господње
