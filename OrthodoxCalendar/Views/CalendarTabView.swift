@@ -73,9 +73,15 @@ struct CalendarTabView: View {
                             ProgressView(localization.ui.loadingLabel ?? "Loading…")
                                 .tint(AppColors.crimson)
                         } else if viewModel.errorMessage != nil {
+                            // Retrying only helps when the load failed on the
+                            // network; blaming the connection for a year that
+                            // simply has no data sends the user chasing wifi.
                             CalendarLoadFailureView(
-                                message: localization.ui.offlineMessage
-                                    ?? "Couldn't load data. Check your connection.",
+                                message: viewModel.isOffline
+                                    ? (localization.ui.offlineMessage
+                                        ?? "Couldn't load data. Check your connection.")
+                                    : noDataMessage(viewModel.currentYear),
+                                systemImage: viewModel.isOffline ? "wifi.slash" : "calendar.badge.exclamationmark",
                                 onRetry: { viewModel.loadMonth() }
                             )
                         }
@@ -141,17 +147,31 @@ struct CalendarTabView: View {
             }
         }
     }
+
+    /// A year the archive does not cover, as opposed to one that failed to
+    /// download. Kept here rather than in the shared `ui` strings so the two
+    /// apps' localization bundles stay byte-identical.
+    private func noDataMessage(_ year: Int) -> String {
+        switch localization.language {
+        case .sr: return "Нема података за \(year). годину."
+        case .ru: return "Нет данных за \(year) год."
+        case .en, .en_nc: return "No calendar data for \(year)."
+        }
+    }
 }
 
 // MARK: - Load failure (offline / missing data for an on-demand year)
 
 struct CalendarLoadFailureView: View {
     let message: String
+    /// Matches the message: a crossed-out wifi symbol over "no data for 2100"
+    /// would be as misleading as the text used to be.
+    var systemImage: String = "wifi.slash"
     let onRetry: () -> Void
 
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "wifi.slash")
+            Image(systemName: systemImage)
                 .font(.largeTitle)
                 .foregroundStyle(AppColors.mutedText)
             Text(message)

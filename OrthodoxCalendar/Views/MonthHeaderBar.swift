@@ -21,6 +21,8 @@ struct MonthHeaderBar: View {
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.white)
             }
+            .disabled(atFirstMonth)
+            .opacity(atFirstMonth ? 0.3 : 1)
             .padding(.horizontal, 8)
 
             Spacer()
@@ -78,6 +80,8 @@ struct MonthHeaderBar: View {
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.white)
             }
+            .disabled(atLastMonth)
+            .opacity(atLastMonth ? 0.3 : 1)
             .padding(.horizontal, 8)
         }
         .padding(.horizontal, 8)
@@ -85,7 +89,19 @@ struct MonthHeaderBar: View {
         .background(headerColor)
     }
 
+    // The archive covers 2024-2099; stepping outside it loads nothing and leaves
+    // the user on an empty month with no way back but the date picker. The date
+    // picker already stops at the same bounds.
+    private var atFirstMonth: Bool {
+        currentYear <= CalendarViewModel.minYear && currentMonth <= 1
+    }
+
+    private var atLastMonth: Bool {
+        currentYear >= CalendarViewModel.maxYear && currentMonth >= 12
+    }
+
     private func goToPreviousMonth() {
+        guard !atFirstMonth else { return }
         if currentMonth == 1 {
             currentMonth = 12
             currentYear -= 1
@@ -95,6 +111,7 @@ struct MonthHeaderBar: View {
     }
 
     private func goToNextMonth() {
+        guard !atLastMonth else { return }
         if currentMonth == 12 {
             currentMonth = 1
             currentYear += 1

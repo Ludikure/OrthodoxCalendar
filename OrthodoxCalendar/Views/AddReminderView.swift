@@ -12,6 +12,9 @@ struct AddReminderView: View {
     @State private var notes: String = ""
     @State private var permissionDenied = false
     @State private var showSuccess = false
+    @State private var alreadyAdded = false
+    @State private var saveFailed = false
+    @State private var alertsSkipped = false
 
     private let store = EKEventStore()
 
@@ -110,7 +113,15 @@ struct AddReminderView: View {
             .alert(savedTitle, isPresented: $showSuccess) {
                 Button("OK") { dismiss() }
             } message: {
-                Text(savedMessage)
+                Text(alreadyAdded ? alreadyAddedMessage
+                        : alertsSkipped ? savedWithoutAlertsMessage : savedMessage)
+            }
+            // Saving can fail for reasons the user can act on — no default
+            // calendar, for one — so say so instead of dismissing silently.
+            .alert(saveFailedTitle, isPresented: $saveFailed) {
+                Button("OK") { }
+            } message: {
+                Text(saveFailedMessage)
             }
         }
     }
@@ -140,6 +151,7 @@ struct AddReminderView: View {
         let predicate = store.predicateForEvents(withStart: dayStart, end: dayEnd, calendars: nil)
         let existing = store.events(matching: predicate)
         if existing.contains(where: { $0.title == title }) {
+            alreadyAdded = true
             showSuccess = true
             return
         }
@@ -147,8 +159,11 @@ struct AddReminderView: View {
         let event = EKEvent(eventStore: store)
         event.title = title
         event.isAllDay = true
-        event.startDate = eventDate
-        event.endDate = eventDate
+        // An all-day event spans [startOfDay, startOfDay + 1 day). `eventDate`
+        // is midday-ish rather than midnight, and a zero-length range is
+        // rejected, so both ends come from the day boundaries computed above.
+        event.startDate = dayStart
+        event.endDate = dayEnd
         event.calendar = store.defaultCalendarForNewEvents
         event.notes = notes.isEmpty ? nil : notes
 
@@ -177,8 +192,13 @@ struct AddReminderView: View {
             case .custom:
                 alarmDate = customTime
             }
-            if let alarmDate {
+            // An alarm in the past can never fire and can make the save fail
+            // outright, which would block adding a reminder to a feast that has
+            // already passed — a normal thing to want for next year's planning.
+            if let alarmDate, alarmDate > Date() {
                 event.addAlarm(EKAlarm(absoluteDate: alarmDate))
+            } else if alarmDate != nil {
+                alertsSkipped = true
             }
         }
 
@@ -189,6 +209,7 @@ struct AddReminderView: View {
             #if DEBUG
             print("Failed to save calendar event: \(error)")
             #endif
+            saveFailed = true
         }
     }
 
@@ -330,6 +351,38 @@ struct AddReminderView: View {
         case .sr: return "Сачувано"
         case .ru: return "Сохранено"
         case .en, .en_nc: return "Saved"
+        }
+    }
+
+    private var savedWithoutAlertsMessage: String {
+        switch localization.language {
+        case .sr: return "Подсетник је додат у календар. Изабрана упозорења су у прошлости, па неће бити приказана."
+        case .ru: return "Напоминание добавлено в календарь. Выбранные оповещения уже прошли и не сработают."
+        case .en, .en_nc: return "Reminder added to calendar. The alerts you chose are in the past, so they won't fire."
+        }
+    }
+
+    private var alreadyAddedMessage: String {
+        switch localization.language {
+        case .sr: return "Подсетник већ постоји у календару."
+        case .ru: return "Напоминание уже есть в календаре."
+        case .en, .en_nc: return "This reminder is already in your calendar."
+        }
+    }
+
+    private var saveFailedTitle: String {
+        switch localization.language {
+        case .sr: return "Није сачувано"
+        case .ru: return "Не сохранено"
+        case .en, .en_nc: return "Not Saved"
+        }
+    }
+
+    private var saveFailedMessage: String {
+        switch localization.language {
+        case .sr: return "Подсетник није могуће додати. Проверите да ли је у Подешавањима изабран подразумевани календар."
+        case .ru: return "Не удалось добавить напоминание. Проверьте, выбран ли календарь по умолчанию в Настройках."
+        case .en, .en_nc: return "The reminder could not be added. Check that a default calendar is set in Settings."
         }
     }
 
