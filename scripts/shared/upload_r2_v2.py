@@ -22,7 +22,7 @@ installs both render it; closure is then also checked against DIR.
 --config also uploads worker/config.json (minVersion gate + dataRevision).
 Legacy fat objects at the unprefixed keys are never touched.
 """
-import json, glob, os, re, subprocess, sys
+import json, glob, os, re, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -107,7 +107,7 @@ def inline_missing(directory, shipped_dir):
                       f"({os.path.getsize(f) / 1e6:.1f} MB)")
 
 
-def put(local_path, key, dry):
+def put(local_path, key, dry, attempts=4):
     # wrangler runs in worker/, so the file has to be named absolutely — a
     # relative <deduped_dir> would otherwise fail every upload with "does not
     # exist" after the closure check has already passed.
@@ -116,10 +116,19 @@ def put(local_path, key, dry):
     if dry:
         print("DRY:", key)
         return key, True
-    r = subprocess.run(cmd, cwd=WORKER, capture_output=True, text=True)
-    if r.returncode != 0:
-        print(f"FAILED {key}: {r.stderr.strip().splitlines()[-1] if r.stderr else '?'}")
-    return key, r.returncode == 0
+    # A few objects per 300 fail with a bare "fetch failed" when several uploads
+    # run at once. Retrying costs seconds; a partial publish costs a hunt through
+    # the log for which years never landed.
+    for attempt in range(attempts):
+        r = subprocess.run(cmd, cwd=WORKER, capture_output=True, text=True)
+        if r.returncode == 0:
+            if attempt:
+                print(f"  {key}: succeeded on attempt {attempt + 1}")
+            return key, True
+        if attempt < attempts - 1:
+            time.sleep(2 ** attempt)
+    print(f"FAILED {key}: {r.stderr.strip().splitlines()[-1] if r.stderr else '?'}")
+    return key, False
 
 
 def main():
