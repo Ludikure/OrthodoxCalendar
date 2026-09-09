@@ -666,7 +666,7 @@ def get_tone(year: int, month: int, day: int) -> int:
 # Main API: get_readings
 # ---------------------------------------------------------------------------
 
-def get_readings(year: int, month: int, day: int) -> List[dict]:
+def get_readings(year: int, month: int, day: int, new_calendar: bool = False) -> List[dict]:
     """
     Return a list of readings for a given Gregorian date.
 
@@ -678,8 +678,10 @@ def get_readings(year: int, month: int, day: int) -> List[dict]:
     jdn = gregorian_date_to_jdn(year, month, day)
     weekday = weekday_from_pdist(pdist)
 
-    # Convert Gregorian date to Julian for month/day lookups
-    jul = gregorian_to_julian_date(year, month, day)
+    # Menaion lookups are by fixed-cycle (Julian) month/day. On the Revised
+    # calendar that is the Gregorian month/day itself, which is what moves the
+    # whole fixed cycle 13 days earlier.
+    jul = date(year, month, day) if new_calendar else gregorian_to_julian_date(year, month, day)
     jul_month, jul_day = jul.month, jul.day
 
     # Adjusted pdists for epistle and gospel
@@ -704,7 +706,8 @@ def get_readings(year: int, month: int, day: int) -> List[dict]:
     # Paremias: if this day has paremias shifted from tomorrow
     if yr.has_paremias(pdist):
         tomorrow = date(year, month, day) + timedelta(days=1)
-        jul_tom = gregorian_to_julian_date(tomorrow.year, tomorrow.month, tomorrow.day)
+        jul_tom = tomorrow if new_calendar else gregorian_to_julian_date(
+            tomorrow.year, tomorrow.month, tomorrow.day)
         # Only vespers paremias from tomorrow
         # We handle this by adding the month/day pair; the Go code filters by source='Vespers'
         # For simplicity we add the pair and note it's for Vespers

@@ -8,3 +8,6 @@ __pycache__/
 *.pyc
 data/raw/
 data/archive_v2/
+
+# wrangler writes its account cache here when run from the repo root
+.wrangler/

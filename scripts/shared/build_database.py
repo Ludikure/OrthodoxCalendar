@@ -512,6 +512,15 @@ def load_json(path: str) -> dict:
         return json.load(f)
 
 
+def to_new_calendar_key(greg_date) -> str:
+    """Key into the (Old Calendar) scraped saints pool for a Revised calendar day.
+
+    The pool is keyed by Gregorian date and holds that date's Julian content, so
+    the entry for Julian month-day M is stored at M + 13 days.
+    """
+    return (greg_date + timedelta(days=JULIAN_OFFSET)).strftime("%m-%d")
+
+
 def to_julian_key(greg_date: date) -> str:
     julian = greg_date - timedelta(days=JULIAN_OFFSET)
     return f"{julian.month:02d}-{julian.day:02d}"
@@ -519,10 +528,10 @@ def to_julian_key(greg_date: date) -> str:
 
 def build_calendar(locale: str, year: int):
     """Build the final calendar JSON for a locale."""
-    pasch = Paschalion(year)
     # en_nc (New Calendar English) shares data with en but uses different date mapping
     data_locale = 'en' if locale == 'en_nc' else locale
     is_new_calendar = (locale == 'en_nc')
+    pasch = Paschalion(year, new_calendar=is_new_calendar)
     proc_dir = os.path.join(DATA_DIR, 'processed', data_locale)
 
     # Load scraped data
@@ -530,7 +539,7 @@ def build_calendar(locale: str, year: int):
 
     # Use the lectionary engine + scraped text for readings
     print(f"  Generating engine-based readings for {locale} {year}...", file=sys.stderr)
-    engine_readings = generate_all_readings(year, data_locale)
+    engine_readings = generate_all_readings(year, data_locale, new_calendar=is_new_calendar)
 
     # Fall back: load raw scraped readings for days the engine has no data
     readings_data = load_json(os.path.join(proc_dir, 'readings.json')).get('days', {})
@@ -553,8 +562,16 @@ def build_calendar(locale: str, year: int):
         key = current.strftime("%m-%d")
         julian_key = to_julian_key(current)
 
-        # New Calendar: fixed feasts use Gregorian dates (julian_key == key)
+        # New Calendar: the fixed cycle sits on the Gregorian date itself, so a
+        # Julian month-day is its own key.
         feast_julian_key = key if is_new_calendar else julian_key
+
+        # The scraped saints pool is keyed by the Gregorian date of an Old
+        # Calendar year, i.e. its content is that date's Julian day. The Revised
+        # calendar wants the saints *of this Gregorian month-day*, which sit 13
+        # days later in that pool — without this the New Calendar shows the Old
+        # Calendar's saints and every fixed great feast lands twice.
+        saints_key = to_new_calendar_key(current) if is_new_calendar else key
 
         # Pascha distance for this day
         pdist = pasch.pascha_distance(current)
@@ -571,7 +588,7 @@ def build_calendar(locale: str, year: int):
         else:
             great_feast = pasch.is_great_feast(current)
         # Check saints data for feast importance (bold saints upgrade fasting in SPC)
-        day_saints = saints_data.get(key, {}).get("saints", [])
+        day_saints = saints_data.get(saints_key, {}).get("saints", [])
         if great_feast:
             feast_rank = "great"
         elif any(s.get("importance") == "bold" for s in day_saints):
@@ -594,7 +611,9 @@ def build_calendar(locale: str, year: int):
             "paschaDistance": pdist,
 
             # Feasts/Saints — fixed saints from scraped data + algorithmic moveable feasts
-            "feasts": _build_feasts(saints_data, key, pdist, data_locale, great_feast, feast_julian_key),
+            "feasts": _build_feasts(saints_data, saints_key, pdist, data_locale, great_feast, feast_julian_key),
+            # The moveable cycle is identical on both calendars, so the week
+            # label stays on the Gregorian day rather than moving with the saints.
             "liturgicalPeriod": saints_data.get(key, {}).get("liturgicalPeriod"),
             "weekLabel": saints_data.get(key, {}).get("weekLabel"),
 
@@ -618,8 +637,9 @@ def build_calendar(locale: str, year: int):
 
             # Saint biographies: every pool is keyed by the Gregorian MM-DD of
             # the scraped year and is year-independent (build_saint_bios.py maps
-            # orthocal's church-date stories onto the Gregorian day itself).
-            "saintBios": saint_bios_data.get(key) or None,
+            # orthocal's church-date stories onto the Gregorian day itself). They
+            # describe the saints, so they move with them on the Revised calendar.
+            "saintBios": saint_bios_data.get(saints_key) or None,
 
             # Fasting period context
             "fastingPeriod": pasch.get_fasting_period(current),

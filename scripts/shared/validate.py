@@ -24,8 +24,19 @@ YEAR = 2026
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'output')
 
 
-def validate_calendar(locale: str):
-    filepath = os.path.join(DATA_DIR, f"calendar_{locale}_{YEAR}.json")
+# Fixed great feasts by the Gregorian date they must fall on in each calendar
+# style: Julian month-day for the Revised calendar, +13 days for the Old one.
+FIXED_GREAT_DATES = {
+    "nativity-of-christ": (12, 25), "theophany": (1, 6), "meeting-of-lord": (2, 2),
+    "annunciation": (3, 25), "transfiguration": (8, 6), "dormition": (8, 15),
+    "nativity-of-theotokos": (9, 8), "elevation-of-cross": (9, 14),
+    "presentation-of-theotokos": (11, 21),
+}
+
+
+def validate_calendar(locale: str, year: int = None, directory: str = None):
+    year = year or YEAR
+    filepath = os.path.join(directory or DATA_DIR, f"calendar_{locale}_{year}.json")
     if not os.path.exists(filepath):
         print(f"\n=== {locale.upper()}: File not found: {filepath} ===")
         return False
@@ -34,7 +45,8 @@ def validate_calendar(locale: str):
         data = json.load(f)
 
     calendar = data["days"]
-    pasch = Paschalion(YEAR)
+    new_calendar = (locale == 'en_nc')
+    pasch = Paschalion(year, new_calendar=new_calendar)
     errors = []
     warnings = []
 
@@ -115,9 +127,47 @@ def validate_calendar(locale: str):
     if days_with_readings < 200:
         warnings.append(f"Only {days_with_readings} days have readings (expected 300+)")
 
-    # Check 10: 365 days present
-    if len(calendar) != 365:
-        errors.append(f"Expected 365 days, got {len(calendar)}")
+    # Check 10: every day of the year present (366 in a leap year)
+    expected_days = (date(year, 12, 31) - date(year, 1, 1)).days + 1
+    if len(calendar) != expected_days:
+        errors.append(f"Expected {expected_days} days, got {len(calendar)}")
+
+    # Check 11: each fixed great feast falls on its own date, exactly once.
+    # en_nc used to carry the Old Calendar's saints as well as the Revised
+    # great feasts, so every fixed great feast appeared twice — 13 days apart.
+    offset = 0 if new_calendar else 13
+    for feast_id, (jm, jd) in FIXED_GREAT_DATES.items():
+        want = (date(year, jm, jd) + timedelta(days=offset)).strftime("%m-%d")
+        on = [k for k, d in calendar.items() if d.get("greatFeast") == feast_id]
+        if want in calendar and on != [want]:
+            errors.append(f"{feast_id}: expected only {want}, found {on or 'none'}")
+    # The injected great feast's own name must not also appear on another day —
+    # that is what a mis-keyed fixed cycle looks like (en_nc carried each of them
+    # twice, 13 days apart). Scraped sources do mark several entries "great" on a
+    # single day, so counting those would flag legitimate sr/ru data instead.
+    for key, day in calendar.items():
+        # Only the injected fixed great feast, which is always feast 0. Saints
+        # legitimately recur (a repose and a translation of relics), so checking
+        # any "great"-marked entry would flag those.
+        if day.get("greatFeast") not in FIXED_GREAT_DATES or not day.get("feasts"):
+            continue
+        primary = day["feasts"][0]["name"]
+        elsewhere = [k for k, d in calendar.items() if k != key
+                     and any(f.get("name") == primary for f in d.get("feasts", []))]
+        if elsewhere:
+            errors.append(f"{primary[:40]!r} appears on {key} and also {elsewhere[:2]}")
+
+    # Check 12: a great feast is never inside its own fast, and the fixed fasts
+    # start where this calendar style puts them.
+    nativity = (date(year, 12, 25) + timedelta(days=offset)).strftime("%m-%d")
+    if nativity in calendar and calendar[nativity].get("fastingPeriod"):
+        errors.append(f"Nativity ({nativity}) is inside {calendar[nativity]['fastingPeriod']}")
+    dormition = (date(year, 8, 15) + timedelta(days=offset)).strftime("%m-%d")
+    if dormition in calendar and calendar[dormition].get("fastingPeriod") == "dormition_fast":
+        errors.append(f"Dormition ({dormition}) is inside its own fast")
+    nf_start = (date(year, 11, 15) + timedelta(days=offset)).strftime("%m-%d")
+    if nf_start in calendar and calendar[nf_start].get("fastingPeriod") != "nativity_fast":
+        errors.append(f"Nativity Fast does not start on {nf_start}")
 
     # Report
     if errors:
@@ -137,9 +187,18 @@ def validate_calendar(locale: str):
 
 
 def main():
+    """validate.py [year|year-year] [--dir=DIR]"""
+    args = [a for a in sys.argv[1:] if not a.startswith('--')]
+    directory = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--dir=')), None)
+    if args and '-' in args[0]:
+        first, last = (int(x) for x in args[0].split('-'))
+        years = range(first, last + 1)
+    else:
+        years = [int(args[0]) if args else YEAR]
     results = {}
-    for locale in ['sr', 'ru']:
-        results[locale] = validate_calendar(locale)
+    for year in years:
+        for locale in ['sr', 'ru', 'en', 'en_nc']:
+            results[f'{locale}{year}'] = validate_calendar(locale, year, directory)
 
     print(f"\n{'='*40}")
     print(f"Overall: {'ALL PASS' if all(results.values()) else 'FAILURES DETECTED'}")

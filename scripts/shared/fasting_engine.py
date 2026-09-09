@@ -208,10 +208,15 @@ def to_julian(greg_date: date) -> tuple:
 
 # ─── Fixed Date Exceptions ───
 
-def check_fixed_exceptions(greg_date: date, fasting_period: Optional[str],
+def check_fixed_exceptions(greg_date: date, pasch: Paschalion,
                            locale: str = "ru") -> Optional[str]:
-    """Check for specific fixed-date fasting exceptions."""
-    jm, jd = to_julian(greg_date)
+    """Check for specific fixed-date fasting exceptions.
+
+    Keyed by the fixed-cycle (Julian) month-day, which the Paschalion resolves
+    for the calendar in use — the same feast, 13 days earlier in Gregorian terms
+    on the Revised calendar.
+    """
+    jm, jd = pasch.fixed_month_day(greg_date)
 
     # Annunciation (Mar 25 Julian = Apr 7 Gregorian)
     if jm == 3 and jd == 25:
@@ -352,7 +357,7 @@ def compute_fasting(greg_date: date, pasch: Paschalion,
         if pasch.is_holy_week(greg_date):
             base = HOLY_WEEK_RULES[dow]
             # Annunciation during Holy Week: special handling
-            jm, jd = to_julian(greg_date)
+            jm, jd = pasch.fixed_month_day(greg_date)
             if jm == 3 and jd == 25 and base != TOTAL_ABSTINENCE:
                 return HOT_WITH_OIL if is_spc else FISH
             return base  # No feast upgrades during Holy Week
@@ -387,7 +392,7 @@ def compute_fasting(greg_date: date, pasch: Paschalion,
             base = REGULAR_WEEK_RULES[dow]
 
     # Step 5: Check fixed date exceptions
-    fixed_exc = check_fixed_exceptions(greg_date, period, locale)
+    fixed_exc = check_fixed_exceptions(greg_date, pasch, locale)
     if fixed_exc is not None:
         # Use the more permissive of base rule and exception
         if STRICTNESS.get(fixed_exc, 5) > STRICTNESS.get(base, 5):

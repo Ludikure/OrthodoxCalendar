@@ -24,11 +24,35 @@ JULIAN_OFFSET = 13  # for 1900-2099
 class Paschalion:
     """Compute all movable Orthodox feast dates for a given year."""
 
-    def __init__(self, year: int):
+    def __init__(self, year: int, new_calendar: bool = False):
+        """`new_calendar=True` for the Revised Julian calendar (locale en_nc).
+
+        Pascha and everything measured from it are identical on both calendars.
+        What differs is the fixed cycle: a Julian month-day falls 13 days later
+        in Gregorian terms on the Old Calendar and on the same month-day on the
+        Revised one, which moves every fixed fast period with it.
+        """
         self.year = year
+        self.new_calendar = new_calendar
         self._compute_pascha()
         self._compute_movable_feasts()
         self._compute_fasting_periods()
+
+    # ─── Fixed (Julian) cycle ───
+
+    def fixed_date(self, jmonth: int, jday: int, year: Optional[int] = None) -> date:
+        """Gregorian date of a fixed-cycle (Julian) month-day in this style."""
+        y = self.year if year is None else year
+        greg = date(y, jmonth, jday)
+        return greg if self.new_calendar else greg + timedelta(days=JULIAN_OFFSET)
+
+    def fixed_month_day(self, greg_date: date) -> tuple:
+        """The fixed-cycle month-day a Gregorian date lands on — the inverse of
+        fixed_date(). On the Revised calendar this is the date itself."""
+        if self.new_calendar:
+            return (greg_date.month, greg_date.day)
+        julian = greg_date - timedelta(days=JULIAN_OFFSET)
+        return (julian.month, julian.day)
 
     # ─── Pascha (Easter) ───
 
@@ -152,20 +176,23 @@ class Paschalion:
         # Week after Pentecost (Trinity Week, fast-free)
         self.trinity_week = (self.pentecost, self.pentecost + d(days=6))
 
-        # Apostles' Fast: Monday after All Saints to June 28 Julian (July 11 Gregorian)
-        self.apostles_fast = (self.apostles_fast_start, date(y, 7, 11))
+        # Apostles' Fast: Monday after All Saints to June 28 Julian. Its start is
+        # pascha-relative and its end fixed, so on the Revised calendar (end Jun 28
+        # rather than Jul 11) a late Pascha can leave no fast at all — a real
+        # feature of that calendar, not an error.
+        self.apostles_fast = (self.apostles_fast_start, self.fixed_date(6, 28))
 
-        # Dormition Fast: Aug 1-14 Julian (Aug 14-27 Gregorian) — fixed
-        self.dormition_fast = (date(y, 8, 14), date(y, 8, 27))
+        # Dormition Fast: Aug 1-14 Julian — fixed
+        self.dormition_fast = (self.fixed_date(8, 1), self.fixed_date(8, 14))
 
-        # Nativity Fast: Nov 15 - Dec 24 Julian (Nov 28 - Jan 6 Gregorian) — fixed
-        self.nativity_fast = (date(y, 11, 28), date(y + 1, 1, 6))
-        self.nativity_fast_period1 = (date(y, 11, 28), date(y + 1, 1, 1))  # Nov 28 - Jan 1 (less strict)
-        self.nativity_fast_period2 = (date(y + 1, 1, 2), date(y + 1, 1, 6))  # Jan 2-6 (stricter)
+        # Nativity Fast: Nov 15 - Dec 24 Julian — fixed. On the Old Calendar it
+        # crosses into the next Gregorian year, on the Revised one it does not.
+        self.nativity_fast = (self.fixed_date(11, 15), self.fixed_date(12, 24))
+        self.nativity_fast_period1 = (self.fixed_date(11, 15), self.fixed_date(12, 19))  # less strict
+        self.nativity_fast_period2 = (self.fixed_date(12, 20), self.fixed_date(12, 24))  # stricter
 
-        # Svyatki (Nativity to Eve of Theophany, fast-free)
-        # Dec 25 Julian - Jan 4 Julian = Jan 7 - Jan 17 Gregorian
-        self.svyatki = (date(y, 1, 7), date(y, 1, 17))
+        # Svyatki (Nativity to Eve of Theophany, fast-free): Dec 25 - Jan 4 Julian
+        self.svyatki = (self.fixed_date(12, 25), self.fixed_date(1, 4, y + 1))
 
         # Publican & Pharisee week (fast-free, no Wed/Fri fasting)
         self.publican_pharisee_week = (self.publican_pharisee, self.publican_pharisee + d(days=6))
@@ -183,21 +210,27 @@ class Paschalion:
         """Return which fasting period a date falls in, or None."""
         if self.great_lent[0] <= greg_date <= self.great_lent[1]:
             return "great_lent"
+        # The Apostles' Fast can be empty when its fixed end falls before its
+        # pascha-relative start (possible on the Revised calendar).
         if self.apostles_fast[0] <= greg_date <= self.apostles_fast[1]:
             return "apostles_fast"
         if self.dormition_fast[0] <= greg_date <= self.dormition_fast[1]:
             return "dormition_fast"
-        # Nativity fast spans year boundary
-        if greg_date >= self.nativity_fast[0] or greg_date <= date(self.year, 1, 6):
-            # Check if we're in the nativity fast
-            nf_start = date(self.year, 11, 28)
-            nf_end = date(self.year + 1, 1, 6)
-            if nf_start <= greg_date <= nf_end:
-                return "nativity_fast"
-            # Check previous year's nativity fast (Jan 1-6 of current year)
-            if date(self.year, 1, 1) <= greg_date <= date(self.year, 1, 6):
-                return "nativity_fast"
+        # Nativity Fast: on the Old Calendar it runs past New Year, so a date in
+        # early January belongs to the *previous* year's fast. Checking both years
+        # covers that without hardcoding either calendar's boundaries.
+        if self._in_fixed_span(greg_date, (11, 15), (12, 24)):
+            return "nativity_fast"
         return None
+
+    def _in_fixed_span(self, greg_date: date, start_md: tuple, end_md: tuple) -> bool:
+        """Is the date inside a fixed-cycle span, in this or the previous year?"""
+        for y in (greg_date.year - 1, greg_date.year):
+            start = self.fixed_date(*start_md, y)
+            end_year = y if end_md >= start_md else y + 1
+            if start <= greg_date <= self.fixed_date(*end_md, end_year):
+                return True
+        return False
 
     def is_fast_free_week(self, greg_date: date) -> bool:
         """Check if date falls in a fast-free week (no Wed/Fri fasting)."""
@@ -207,8 +240,8 @@ class Paschalion:
         # Trinity Week (week after Pentecost)
         if self.trinity_week[0] <= greg_date <= self.trinity_week[1]:
             return True
-        # Svyatki (after Nativity)
-        if self.svyatki[0] <= greg_date <= self.svyatki[1]:
+        # Svyatki (Nativity to the Eve of Theophany), which crosses the year end
+        if self._in_fixed_span(greg_date, (12, 25), (1, 4)):
             return True
         # Publican & Pharisee week
         if self.publican_pharisee_week[0] <= greg_date <= self.publican_pharisee_week[1]:
@@ -225,12 +258,9 @@ class Paschalion:
 
     def get_nativity_fast_sub_period(self, greg_date: date) -> Optional[int]:
         """Return 1 or 2 for which sub-period of Nativity Fast, or None."""
-        if self.nativity_fast_period1[0] <= greg_date <= self.nativity_fast_period1[1]:
+        if self._in_fixed_span(greg_date, (11, 15), (12, 19)):
             return 1
-        if self.nativity_fast_period2[0] <= greg_date <= self.nativity_fast_period2[1]:
-            return 2
-        # Check previous year's period 2 (Jan 2-6)
-        if date(self.year, 1, 2) <= greg_date <= date(self.year, 1, 6):
+        if self._in_fixed_span(greg_date, (12, 20), (12, 24)):
             return 2
         return None
 

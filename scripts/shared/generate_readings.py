@@ -1080,6 +1080,7 @@ def generate_readings_for_day(
     julian_readings: dict,
     locale: str,
     title_index: dict = None,
+    new_calendar: bool = False,
 ) -> list:
     """
     Generate readings for a single day by combining engine output with scraped text.
@@ -1089,10 +1090,11 @@ def generate_readings_for_day(
     year, month, day = greg_date.year, greg_date.month, greg_date.day
 
     # Get engine readings
-    engine_readings = get_readings(year, month, day)
+    engine_readings = get_readings(year, month, day, new_calendar)
 
-    # Julian date for fixed feast lookups
-    julian = greg_date - timedelta(days=JULIAN_OFFSET)
+    # Julian date for fixed feast lookups — the Gregorian date itself on the
+    # Revised calendar, where the fixed cycle is not offset.
+    julian = greg_date if new_calendar else greg_date - timedelta(days=JULIAN_OFFSET)
     julian_key = f"{julian.month:02d}-{julian.day:02d}"
 
     # Fixed feast readings from scraped Julian date data
@@ -1264,7 +1266,7 @@ def generate_readings_for_day(
     return deduped
 
 
-def generate_all_readings(year: int, locale: str) -> dict:
+def generate_all_readings(year: int, locale: str, new_calendar: bool = False) -> dict:
     """
     Generate readings for all days in a year.
 
@@ -1283,7 +1285,8 @@ def generate_all_readings(year: int, locale: str) -> dict:
 
     while current <= end:
         key = current.strftime("%m-%d")
-        day_readings = generate_readings_for_day(current, text_index, julian_readings, locale, title_index)
+        day_readings = generate_readings_for_day(current, text_index, julian_readings, locale,
+                                                 title_index, new_calendar)
         readings[key] = day_readings
 
         if day_readings:
