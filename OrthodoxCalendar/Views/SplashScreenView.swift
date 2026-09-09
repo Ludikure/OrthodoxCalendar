@@ -47,24 +47,26 @@ struct SplashScreenView: View {
                 }
                 .opacity(opacity)
             }
-            .onAppear {
+            .task {
+                // 1.5 s of holding plus a 0.4 s fade put ~1.9 s in front of the
+                // calendar on every single launch, for an app people open to
+                // check one day. The logo still gets its entrance; it just does
+                // not make the user wait through it twice a day.
                 withAnimation(.easeOut(duration: 0.6)) {
                     scale = 1.0
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    withAnimation(.easeInOut(duration: 0.4)) {
-                        opacity = 0
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        isActive = true
-                    }
+                try? await Task.sleep(for: .milliseconds(600))
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    opacity = 0
                 }
+                try? await Task.sleep(for: .milliseconds(300))
+                isActive = true
             }
         }
     }
 
     private var savedLanguage: AppLanguage {
-        UserDefaults.standard.string(forKey: "appLanguage")
+        UserDefaults.standard.string(forKey: AppLanguage.defaultsKey)
             .flatMap(AppLanguage.init(rawValue:)) ?? .sr
     }
 

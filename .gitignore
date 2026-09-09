@@ -11,3 +11,8 @@ data/archive_v2/
 
 # wrangler writes its account cache here when run from the repo root
 .wrangler/
+
+# Build output: regenerate with scripts/shared/build_database.py.
+# data/processed/ stays tracked — it is the pipeline INPUT and the only
+# committed record of the scrape (data/raw/ is not in git).
+data/output/

@@ -42,7 +42,7 @@ final class CalendarViewModel {
     }
 
     func loadMonth() {
-        let locale = UserDefaults.standard.string(forKey: "appLanguage") ?? "sr"
+        let locale = UserDefaults.standard.string(forKey: AppLanguage.defaultsKey) ?? "sr"
         loadData(locale: locale, month: currentMonth, year: currentYear)
     }
 
@@ -107,6 +107,13 @@ final class CalendarViewModel {
             .map { $0.value }
         loadedLocale = locale
         isLoading = false
+        // A day requested before its month finished loading (search, date
+        // picker) is opened here rather than after a fixed wait — 300 ms was
+        // enough for a bundled year and never enough for a downloaded one.
+        if let dayNum = navigateToDay {
+            selectedDay = daysInMonth.first { $0.gregorianDay == dayNum }
+            navigateToDay = nil
+        }
     }
 
     func goToToday() {

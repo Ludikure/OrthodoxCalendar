@@ -1,6 +1,11 @@
 import Foundation
 
 enum AppLanguage: String, CaseIterable, Codable, Identifiable {
+    /// The UserDefaults key the selected language is stored under. Four files
+    /// spelled this literal out; one of them drifting would silently reset the
+    /// user's language on launch.
+    static let defaultsKey = "appLanguage"
+
     case sr = "sr"
     case ru = "ru"
     case en = "en"

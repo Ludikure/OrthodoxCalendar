@@ -9,13 +9,16 @@
  *   GET /api/v2/years                 → years available in the v2 archive
  *   GET /api/v2/texts/{locale}        → full texts pool for a locale
  *   GET /api/{locale}/{year}          → legacy fat year JSON (pre-1.4.0 clients)
- *   GET /api/{locale}/{year}/{month}  → single month (filtered from year)
+ *   GET /api/{locale}/{year}/{month}  → single month, from the legacy fat object
+ *                                       only; the v2 archive has no month endpoint
+ *                                       because clients cache whole years
  *   GET /api/years                    → list legacy years
  *   GET /api/config                   → app config (forced-update gate, dataRevision)
  *   GET /api/health                   → health check
  *
  * Headers:
- *   Cache-Control: immutable (calendar data doesn't change once generated)
+ *   Cache-Control: short max-age + stale-while-revalidate, validated by ETag.
+ *     Data IS regenerated in place (see dataRevision), so it is not immutable.
  *   CORS: allowed for all origins
  */
 
@@ -29,12 +32,26 @@ const VALID_LOCALES = new Set(["sr", "ru", "en", "en_nc"]);
 const V2_PREFIX = "v2/";
 const V2_MIN_YEAR = 2024;
 const V2_MAX_YEAR = 2099;
+// Year files and pools are regenerated in place, so they are emphatically not
+// `immutable`, and a week of s-maxage meant the CDN kept serving superseded data
+// for a week after a fix — exactly when it should be gone. Revalidation is cheap
+// against an ETag, and stale-while-revalidate keeps it off the critical path.
 const CACHE_HEADERS = {
-	"Cache-Control": "public, max-age=86400, s-maxage=604800, immutable",
+	"Cache-Control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
 	"Content-Type": "application/json; charset=utf-8",
 };
 
-function corsHeaders(origin: string | null): Record<string, string> {
+/** Serves an R2 object with its ETag, answering a matching If-None-Match with 304. */
+function objectResponse(request: Request, object: R2ObjectBody): Response {
+	const etag = object.httpEtag;
+	const headers = { ...CACHE_HEADERS, ...corsHeaders(), ETag: etag };
+	if (request.headers.get("If-None-Match") === etag) {
+		return new Response(null, { status: 304, headers });
+	}
+	return new Response(object.body, { status: 200, headers });
+}
+
+function corsHeaders(): Record<string, string> {
 	return {
 		"Access-Control-Allow-Origin": "*",
 		"Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -45,7 +62,7 @@ function corsHeaders(origin: string | null): Record<string, string> {
 function jsonResponse(data: unknown, status = 200): Response {
 	return new Response(JSON.stringify(data), {
 		status,
-		headers: { ...CACHE_HEADERS, ...corsHeaders(null) },
+		headers: { ...CACHE_HEADERS, ...corsHeaders() },
 	});
 }
 
@@ -54,7 +71,7 @@ function errorResponse(message: string, status: number): Response {
 		status,
 		headers: {
 			"Content-Type": "application/json",
-			...corsHeaders(null),
+			...corsHeaders(),
 		},
 	});
 }
@@ -66,7 +83,7 @@ export default {
 
 		// CORS preflight
 		if (request.method === "OPTIONS") {
-			return new Response(null, { status: 204, headers: corsHeaders(null) });
+			return new Response(null, { status: 204, headers: corsHeaders() });
 		}
 
 		if (request.method !== "GET") {
@@ -96,21 +113,21 @@ export default {
 
 		const v2TextsMatch = path.match(/^\/api\/v2\/texts\/(\w+)$/);
 		if (v2TextsMatch) {
-			return await handleGetTexts(env, v2TextsMatch[1]);
+			return await handleGetTexts(request, env, v2TextsMatch[1]);
 		}
 
 		// /api/v2/{locale}/{year}
 		const v2YearMatch = path.match(/^\/api\/v2\/(\w+)\/(\d{4})$/);
 		if (v2YearMatch) {
 			const [, locale, yearStr] = v2YearMatch;
-			return await handleGetYear(env, locale, parseInt(yearStr), V2_PREFIX);
+			return await handleGetYear(request, env, locale, parseInt(yearStr), V2_PREFIX);
 		}
 
 		// /api/{locale}/{year}
 		const yearMatch = path.match(/^\/api\/(\w+)\/(\d{4})$/);
 		if (yearMatch) {
 			const [, locale, yearStr] = yearMatch;
-			return await handleGetYear(env, locale, parseInt(yearStr));
+			return await handleGetYear(request, env, locale, parseInt(yearStr));
 		}
 
 		// /api/{locale}/{year}/{month}
@@ -131,7 +148,7 @@ async function handleConfig(env: Env): Promise<Response> {
 	const headers = {
 		"Cache-Control": "public, max-age=120",
 		"Content-Type": "application/json; charset=utf-8",
-		...corsHeaders(null),
+		...corsHeaders(),
 	};
 	const object = await env.CALENDAR_DATA.get("config.json");
 	if (!object) {
@@ -141,21 +158,23 @@ async function handleConfig(env: Env): Promise<Response> {
 }
 
 async function handleListYears(env: Env, prefix = ""): Promise<Response> {
-	// R2 list() pages at 1000 objects; one locale spans at most 76 keys, so a
-	// single page suffices for both the legacy and v2 prefixes.
-	const list = await env.CALENDAR_DATA.list({ prefix: `${prefix}calendar_sr_` });
-	const years = list.objects
-		.map((obj) => {
-			const match = obj.key.match(/calendar_sr_(\d{4})\.json/);
-			return match ? parseInt(match[1]) : null;
-		})
-		.filter((y): y is number => y !== null)
-		.sort();
+	// R2 list() pages at 1000 objects; four locales span at most 304 keys, so a
+	// single page suffices for both the legacy and v2 prefixes. Deriving the list
+	// from sr alone meant one missing sr object hid that year from every locale.
+	const list = await env.CALENDAR_DATA.list({ prefix: `${prefix}calendar_` });
+	const years = [
+		...new Set(
+			list.objects
+				.map((obj) => obj.key.match(/calendar_[a-z_]+_(\d{4})\.json$/))
+				.filter((m): m is RegExpMatchArray => m !== null)
+				.map((m) => parseInt(m[1]))
+		),
+	].sort((a, b) => a - b);
 
 	return jsonResponse({ years });
 }
 
-async function handleGetTexts(env: Env, locale: string): Promise<Response> {
+async function handleGetTexts(request: Request, env: Env, locale: string): Promise<Response> {
 	if (!VALID_LOCALES.has(locale)) {
 		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en, en_nc`, 400);
 	}
@@ -165,18 +184,17 @@ async function handleGetTexts(env: Env, locale: string): Promise<Response> {
 	if (!object) {
 		return errorResponse(`No texts pool for ${locale}`, 404);
 	}
-	return new Response(await object.text(), {
-		status: 200,
-		headers: { ...CACHE_HEADERS, ...corsHeaders(null) },
-	});
+	return objectResponse(request, object);
 }
 
-async function handleGetYear(env: Env, locale: string, year: number, prefix = ""): Promise<Response> {
+async function handleGetYear(request: Request, env: Env, locale: string, year: number, prefix = ""): Promise<Response> {
 	if (!VALID_LOCALES.has(locale)) {
 		return errorResponse(`Invalid locale: ${locale}. Valid: sr, ru, en, en_nc`, 400);
 	}
 
-	const [minYear, maxYear] = prefix === V2_PREFIX ? [V2_MIN_YEAR, V2_MAX_YEAR] : [2020, 2050];
+	// Legacy fat objects only ever covered the bundled window; the v2 archive is
+	// the one that spans 2024-2099.
+	const [minYear, maxYear] = prefix === V2_PREFIX ? [V2_MIN_YEAR, V2_MAX_YEAR] : [2024, 2030];
 	if (year < minYear || year > maxYear) {
 		return errorResponse(`Year out of range: ${year}`, 400);
 	}
@@ -188,11 +206,7 @@ async function handleGetYear(env: Env, locale: string, year: number, prefix = ""
 		return errorResponse(`No data for ${locale} ${year}`, 404);
 	}
 
-	const body = await object.text();
-	return new Response(body, {
-		status: 200,
-		headers: { ...CACHE_HEADERS, ...corsHeaders(null) },
-	});
+	return objectResponse(request, object);
 }
 
 async function handleGetMonth(

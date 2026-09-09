@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  data:
+    name: Calendar data invariants
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # data/output/ is not in git, so build it from data/processed/ first.
+      # This is also the check that the pipeline still runs end to end.
+      - name: Generate the bundled window
+        run: python3 scripts/shared/build_database.py 2025 2030
+
+      # The invariants that matter: each fixed great feast on its own date and
+      # nowhere else, no great feast inside its own fast, and each fixed fast
+      # starting where its calendar style puts it. en_nc shipped for months
+      # carrying the Old Calendar's saints because this only covered sr and ru.
+      - name: Validate all four locales
+        run: python3 scripts/shared/validate.py 2025-2030
+
+      # The reference implementation the two app ports are checked against.
+      - name: Bio matcher reference
+        run: python3 scripts/shared/simulate_bio_matching.py
+
+  worker:
+    name: Worker
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || npm install
+      - run: npm run typecheck
+
+  ios:
+    name: iOS
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      # project.pbxproj is committed next to project.yml, so it can drift.
+      # Regenerating must be a no-op.
+      - name: xcodegen is a no-op
+        run: |
+          brew install xcodegen
+          xcodegen generate
+          git diff --exit-code OrthodoxCalendar.xcodeproj/project.pbxproj
+
+      - name: Build
+        run: |
+          xcodebuild -project OrthodoxCalendar.xcodeproj \
+            -scheme OrthodoxCalendar \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            build

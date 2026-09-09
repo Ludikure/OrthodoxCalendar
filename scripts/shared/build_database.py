@@ -426,7 +426,7 @@ def _get_moveable_feast_entry(pdist: int, locale: str) -> dict:
     return result
 
 
-def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, great_feast, julian_key: str) -> list:
+def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, julian_key: str) -> list:
     """Build the feasts list for a day: fixed great feast + moveable feast + fixed saints."""
     feasts = []
 
@@ -468,18 +468,19 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, great_fe
     elif moveable:
         feasts.append(moveable)
 
-    # Add remaining fixed saints
+    # Add remaining fixed saints. Rank is the entry's place in the finished list,
+    # counted from the feasts already injected above — reading len(feasts) as the
+    # list grew made positions skip (0, 2, 4) and left every ordinary day without
+    # a secondary, because the "nothing injected yet" branch could only ever be
+    # true on the first iteration.
+    injected = len(feasts)
     for i, saint in enumerate(fixed):
         saint = dict(saint)
-        saint["position"] = len(feasts) + i
-        if not feasts and i == 0:
-            saint["displayRole"] = "primary"
-        elif not feasts:
-            saint["displayRole"] = "secondary" if i == 1 else "tertiary"
-        elif len(feasts) == 1 and i == 0:
-            saint["displayRole"] = "secondary"
-        else:
-            saint["displayRole"] = "tertiary"
+        rank = injected + i
+        saint["position"] = rank
+        saint["displayRole"] = ("primary" if rank == 0
+                                else "secondary" if rank == 1
+                                else "tertiary")
         feasts.append(saint)
 
     return feasts
@@ -611,7 +612,7 @@ def build_calendar(locale: str, year: int):
             "paschaDistance": pdist,
 
             # Feasts/Saints — fixed saints from scraped data + algorithmic moveable feasts
-            "feasts": _build_feasts(saints_data, saints_key, pdist, data_locale, great_feast, feast_julian_key),
+            "feasts": _build_feasts(saints_data, saints_key, pdist, data_locale, feast_julian_key),
             # The moveable cycle is identical on both calendars, so the week
             # label stays on the Gregorian day rather than moving with the saints.
             "liturgicalPeriod": saints_data.get(key, {}).get("liturgicalPeriod"),

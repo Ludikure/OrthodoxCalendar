@@ -14,6 +14,11 @@ actor CalendarRepository {
     static let shared = CalendarRepository()
 
     private var memoryCache: [String: CalendarFile] = [:]
+    /// Most-recent-first keys for `memoryCache`. A fully text-resolved year is
+    /// tens of MB, and browsing the archive would otherwise keep every year
+    /// visited this session resident.
+    private var memoryOrder: [String] = []
+    private static let memoryLimit = 3
     /// Per-locale deduped text pool (texts_<locale>.json), loaded lazily.
     private var textsCache: [String: [String: String]] = [:]
     /// Coalesces concurrent loads of the same year (e.g. the visible year and
@@ -60,7 +65,7 @@ actor CalendarRepository {
                 throw LoadError.notFound
             }
             let resolved = resolveText(raw, locale: locale)
-            memoryCache[key] = resolved
+            remember(key, resolved)
             return resolved
         }
         if allowNetwork { inFlight[key] = task }
@@ -147,7 +152,16 @@ actor CalendarRepository {
             if let bios = day.saintBios {
                 day.saintBios = bios.map { b in
                     guard let ref = b.ref, b.text.isEmpty else { return b }
-                    return SaintBio(title: b.title, text: pool[ref] ?? "", ref: ref)
+                    // A ref the shipped pool lacks means the card would render as
+                    // an empty expander. Leave the text empty and let the view
+                    // drop it rather than showing a bio that is not there.
+                    guard let text = pool[ref] else {
+                        #if DEBUG
+                        print("texts_\(locale): missing ref \(ref) for \(b.title)")
+                        #endif
+                        return SaintBio(title: b.title, text: "", ref: ref)
+                    }
+                    return SaintBio(title: b.title, text: text, ref: ref)
                 }
             }
             day.readings = day.readings.map { r in
@@ -166,6 +180,16 @@ actor CalendarRepository {
     /// second, byte-identical copy cost 8.6 MB.
     private static func poolName(_ locale: String) -> String {
         locale == "en_nc" ? "en" : locale
+    }
+
+    /// Records a year as most recently used and evicts the coldest beyond the limit.
+    private func remember(_ key: String, _ file: CalendarFile) {
+        memoryCache[key] = file
+        memoryOrder.removeAll { $0 == key }
+        memoryOrder.insert(key, at: 0)
+        while memoryOrder.count > Self.memoryLimit, let oldest = memoryOrder.popLast() {
+            memoryCache.removeValue(forKey: oldest)
+        }
     }
 
     private func textsPool(_ locale: String) -> [String: String] {

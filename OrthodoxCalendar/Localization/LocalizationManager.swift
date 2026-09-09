@@ -22,7 +22,7 @@ final class LocalizationManager {
     var language: AppLanguage {
         didSet {
             bundle = Self.loadBundle(for: language)
-            UserDefaults.standard.set(language.rawValue, forKey: "appLanguage")
+            UserDefaults.standard.set(language.rawValue, forKey: AppLanguage.defaultsKey)
         }
     }
 
@@ -40,7 +40,7 @@ final class LocalizationManager {
     }
 
     init() {
-        let saved = UserDefaults.standard.string(forKey: "appLanguage")
+        let saved = UserDefaults.standard.string(forKey: AppLanguage.defaultsKey)
             .flatMap(AppLanguage.init(rawValue:)) ?? .sr
         self.language = saved
         self.bundle = Self.loadBundle(for: saved)

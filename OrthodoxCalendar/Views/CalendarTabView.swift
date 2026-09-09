@@ -133,16 +133,13 @@ struct CalendarTabView: View {
                     .presentationDetents([.medium, .large])
             }
             .onChange(of: viewModel.navigateToDay) {
-                if let dayNum = viewModel.navigateToDay {
-                    // Wait for month data to load, then navigate to detail
-                    Task {
-                        // Give loadMonth time to complete
-                        try? await Task.sleep(for: .milliseconds(300))
-                        if let target = viewModel.daysInMonth.first(where: { $0.gregorianDay == dayNum }) {
-                            viewModel.selectedDay = target
-                        }
-                        viewModel.navigateToDay = nil
-                    }
+                // If the month is already the loaded one, open the day now;
+                // otherwise apply(file:locale:month:) picks it up when the load
+                // lands. Either way there is no timing guess.
+                if let dayNum = viewModel.navigateToDay,
+                   let target = viewModel.daysInMonth.first(where: { $0.gregorianDay == dayNum }) {
+                    viewModel.selectedDay = target
+                    viewModel.navigateToDay = nil
                 }
             }
         }
