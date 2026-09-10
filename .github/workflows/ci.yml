@@ -53,10 +53,22 @@ jobs:
 
       # project.pbxproj is committed next to project.yml, so it can drift.
       # Regenerating must be a no-op.
+      #
+      # The version is pinned, and has to be. `brew install xcodegen` tracks
+      # latest, and the generated pbxproj is not stable across xcodegen releases
+      # — 2.46 emits a `productRefGroup` line 2.44 does not — so an unpinned
+      # install turns this check red the day upstream ships, on a diff nobody
+      # wrote. That is what kept this whole job from reaching Build or Test for
+      # three commits. Bump this and commit the regenerated project together.
       - name: xcodegen is a no-op
+        env:
+          XCODEGEN_VERSION: '2.44.1'
         run: |
-          brew install xcodegen
-          xcodegen generate
+          curl -fsSL -o "$RUNNER_TEMP/xcodegen.zip" \
+            "https://github.com/yonaskolb/XcodeGen/releases/download/$XCODEGEN_VERSION/xcodegen.zip"
+          unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP"
+          "$RUNNER_TEMP/xcodegen/bin/xcodegen" --version
+          "$RUNNER_TEMP/xcodegen/bin/xcodegen" generate
           git diff --exit-code OrthodoxCalendar.xcodeproj/project.pbxproj
 
       - name: Build
@@ -65,3 +77,13 @@ jobs:
             -scheme OrthodoxCalendar \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             build
+
+      # Regression tests for the pure logic the data depends on: ASCII date keys
+      # (they break for users whose phone numbers differently), the bio matcher's
+      # documented rules, and the update gate's version compare.
+      - name: Test
+        run: |
+          xcodebuild -project OrthodoxCalendar.xcodeproj \
+            -scheme OrthodoxCalendar \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            test -only-testing:OrthodoxCalendarTests
