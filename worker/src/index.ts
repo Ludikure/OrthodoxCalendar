@@ -78,6 +78,21 @@ function errorResponse(message: string, status: number): Response {
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
+		// One bad object is enough to throw inside a handler (handleGetMonth parses
+		// JSON, R2 can fail): an unhandled rejection returns Cloudflare's HTML 500
+		// without CORS or JSON, and the app maps any non-200 to "offline", so the
+		// user is told to check their connection. Answer 5xx as JSON instead.
+		try {
+			return await route(request, env);
+		} catch (e) {
+			const message = e instanceof Error ? e.message : String(e);
+			console.error("unhandled error", request.url, message);
+			return errorResponse(`Internal error: ${message}`.slice(0, 300), 500);
+		}
+	},
+};
+
+async function route(request: Request, env: Env): Promise<Response> {
 		const url = new URL(request.url);
 		const path = url.pathname;
 
@@ -138,8 +153,7 @@ export default {
 		}
 
 		return errorResponse("Not found", 404);
-	},
-};
+}
 
 // App config (forced-update gate). Stored as config.json in R2 so the minimum
 // required version can be changed without redeploying the worker or the app.
