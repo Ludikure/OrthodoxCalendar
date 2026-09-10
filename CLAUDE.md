@@ -45,6 +45,13 @@ xcodebuild -project OrthodoxCalendar.xcodeproj -scheme OrthodoxCalendar \
   -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' \
   test -only-testing:OrthodoxCalendarTests
 
+# Name a destination the image actually has: `name=iPhone 16` alone means
+# OS:latest and exits 70 ("Unable to find a device matching the provided
+# destination specifier") once the default runtime no longer ships that
+# device. CI resolves a UDID from `xcrun simctl list devices available`
+# instead and prints what it chose; keep OS=18.6 here, the version the
+# suite is verified against.
+
 # Regenerate ALL calendar data (4 locales × 7 years = 28 files)
 python3 scripts/shared/build_database.py
 

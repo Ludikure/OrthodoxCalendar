@@ -69,21 +69,56 @@ jobs:
           unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP"
           "$RUNNER_TEMP/xcodegen/bin/xcodegen" --version
           "$RUNNER_TEMP/xcodegen/bin/xcodegen" generate
-          git diff --exit-code OrthodoxCalendar.xcodeproj/project.pbxproj
+          # The scheme is generated too, so it drifts the same way the pbxproj
+          # does — and it is what the Build and Test steps run.
+          git diff --exit-code OrthodoxCalendar.xcodeproj/project.pbxproj OrthodoxCalendar.xcodeproj/xcshareddata
+
+      # `name=iPhone 16` on its own means OS:latest, and that is a trap: the
+      # destination has to name a device the runner image actually has, or
+      # xcodebuild exits 70 with "Unable to find a device matching the provided
+      # destination specifier". Xcode 26.5's default runtime is iOS 26, which
+      # ships 16e and 17 but not a plain 16 — so the two steps below would go
+      # red on an image update without a single line of app code changing.
+      #
+      # Pick the newest runtime that has one of these, by UDID, so the device
+      # and its runtime are pinned together. Printed into the log because a red
+      # run should say which simulator it used.
+      - name: Pick a simulator
+        id: sim
+        run: |
+          set -euo pipefail
+          xcrun simctl list devices available -j > "$RUNNER_TEMP/devices.json"
+          for name in 'iPhone 16' 'iPhone 16e' 'iPhone 17' 'iPhone 15'; do
+            udid=$(jq -r --arg n "$name" '
+              .devices | to_entries | sort_by(.key) | reverse
+              | map(.value[] | select(.name == $n)) | (.[0].udid // empty)' "$RUNNER_TEMP/devices.json")
+            if [ -n "$udid" ]; then
+              echo "destination=platform=iOS Simulator,id=$udid" >> "$GITHUB_OUTPUT"
+              echo "Using $name ($udid)"
+              exit 0
+            fi
+          done
+          echo "::error::No iPhone simulator available. Devices present:"
+          jq -r '.devices | to_entries[] | .key + ": " + ([.value[].name] | join(", "))' "$RUNNER_TEMP/devices.json"
+          exit 1
 
       - name: Build
+        env:
+          DESTINATION: ${{ steps.sim.outputs.destination }}
         run: |
           xcodebuild -project OrthodoxCalendar.xcodeproj \
             -scheme OrthodoxCalendar \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination "$DESTINATION" \
             build
 
       # Regression tests for the pure logic the data depends on: ASCII date keys
       # (they break for users whose phone numbers differently), the bio matcher's
       # documented rules, and the update gate's version compare.
       - name: Test
+        env:
+          DESTINATION: ${{ steps.sim.outputs.destination }}
         run: |
           xcodebuild -project OrthodoxCalendar.xcodeproj \
             -scheme OrthodoxCalendar \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination "$DESTINATION" \
             test -only-testing:OrthodoxCalendarTests
