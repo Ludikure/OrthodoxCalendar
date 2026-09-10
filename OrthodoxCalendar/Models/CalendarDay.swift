@@ -233,6 +233,16 @@ struct ScriptureReading: Codable, Equatable, Sendable {
     var text: String?                  // Full scripture text (KJV NT / Brenton OT for English)
     var textWeb: String?               // Alternate NT text (World English Bible), English only
     let service: String?               // "Јутрења", "Литургија", etc.
+    // The lectionary slot this reading came from ("Vespers", "8th Matins Gospel")
+    // and, for a commemoration reading, whose it is ("Theotokos", "Forerunner").
+    // Both are written by the pipeline in English because they come from the
+    // lectionary tables. Modelled so the schema this repo shares with the Android
+    // port is complete rather than silently truncated on decode; `service` is
+    // still what the card shows here, while Android translates `source` to fill
+    // the same slot for the readings that have no `service` (see PARITY.md in
+    // the Android repo, Ludikure/OrthodoxCalendarAndroid — it is not bundled here).
+    let source: String?
+    let desc: String?
     // Deduped bundled data: text/textWeb live in the texts_<locale> pool, keyed here.
     let textRef: String?
     let textWebRef: String?
