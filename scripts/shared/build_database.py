@@ -426,6 +426,45 @@ def _get_moveable_feast_entry(pdist: int, locale: str) -> dict:
     return result
 
 
+# What the fixed-great-feast filter removed, per locale and Julian date, so a
+# regeneration records its assumptions instead of silently relying on them.
+GREAT_DUP_AUDIT: dict = {}
+
+
+def _shares_feast_word(name: str, injected: str) -> bool:
+    """Loose relatedness used only for the audit note: any shared word of 5+
+    letters. It decides what a human should look at, never what is kept."""
+    def words(s):
+        return {w.strip("\u2013\u2014-.,:;()\"'").lower() for w in s.split() if len(w) > 4}
+    return bool(words(name) & words(injected))
+
+
+def _audit_great_duplicate(locale: str, julian_key: str, injected: str, dropped: list):
+    rec = GREAT_DUP_AUDIT.setdefault(f"{locale}:{julian_key}",
+                                     {"injected": injected, "dropped": [], "unrelated": []})
+    for s in dropped:
+        n = s.get("name") or ""
+        if n and n not in rec["dropped"]:
+            rec["dropped"].append(n)
+            if not _shares_feast_word(n, injected):
+                rec["unrelated"].append(n)
+
+
+def _report_great_feast_duplicates(output_dir: str):
+    """Dump the audit and shout about anything that does not look like a duplicate."""
+    if not GREAT_DUP_AUDIT:
+        return
+    path = os.path.join(output_dir, "great_feast_duplicates.json")
+    with open(path, "w") as f:
+        json.dump(GREAT_DUP_AUDIT, f, ensure_ascii=False, indent=2, sort_keys=True)
+    print(f"\nGreat-feast duplicate filter: {len(GREAT_DUP_AUDIT)} dates audited -> {path}",
+          file=sys.stderr)
+    for key, rec in sorted(GREAT_DUP_AUDIT.items()):
+        if rec["unrelated"]:
+            print(f"  NOTE {key}: injected {rec['injected']!r} also removed "
+                  f"{rec['unrelated']} — check these are the same feast", file=sys.stderr)
+
+
 def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, julian_key: str) -> list:
     """Build the feasts list for a day: fixed great feast + moveable feast + fixed saints."""
     feasts = []
@@ -450,8 +489,25 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, julian_k
         desc = _FEAST_DESCS.get("fixed", {}).get(julian_key, {}).get(locale)
         if desc:
             fixed_great_entry["description"] = desc
-        # Remove any scraped entry that duplicates this great feast
+        # Remove any scraped entry that duplicates this great feast: the sources
+        # carry the same feast under a longer or shorter title ("Благовести"
+        # beside "Благовештење Пресвете Богородице", "Рождество Господа Бога и
+        # Спаса…" beside "Рождество Христово"), so on these days the great rank
+        # *is* the duplicate. That is an observation about the data, not a
+        # proof: a second genuinely different great commemoration sharing one of
+        # these days would be deleted from all 76 archive years without a trace.
+        # So the filter is now loud — it fails if a day would lose more than one
+        # entry, and records what it removed for review.
+        dropped_great = [s for s in fixed if s.get("importance") == "great"]
+        if len(dropped_great) > 1:
+            raise SystemExit(
+                f"{locale} {key}: {len(dropped_great)} great-importance scraped entries on "
+                f"the day of {name!r}: {[s.get('name') for s in dropped_great]}. The "
+                f"duplicate filter drops all of them — keep any that is not this "
+                f"feast by hand before regenerating."
+            )
         fixed = [s for s in fixed if s.get("importance") != "great"]
+        _audit_great_duplicate(locale, julian_key, name, dropped_great)
 
     # 3. Inject moveable feast
     moveable = _get_moveable_feast_entry(pdist, locale)
@@ -703,6 +759,8 @@ def main():
             print(f"  With reflection: {days_with_reflection}", file=sys.stderr)
             print(f"  Great feasts: {great_feasts}", file=sys.stderr)
             print(f"  Saved: {output_file}", file=sys.stderr)
+
+    _report_great_feast_duplicates(output_dir)
 
 
 if __name__ == "__main__":
