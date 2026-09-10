@@ -81,22 +81,4 @@ final class LocalizationManager {
         return bundle.ui.daysOfWeek[weekday]
     }
 
-    func localizedFastingDesc(_ apiDesc: String) -> String {
-        // Map API fasting descriptions to localized versions
-        let mapping: [(key: String, uiKey: String)] = [
-            ("No Fast", "noFast"),
-            ("Fast Free", "fastFree"),
-            ("Strict Fast", "strict"),
-            ("Fish Allowed", "fish"),
-            ("Oil Allowed", "oil"),
-            ("Wine Allowed", "wine"),
-            ("Fast Day", "strict")
-        ]
-        for (apiKey, uiKey) in mapping {
-            if apiDesc.contains(apiKey), let localized = bundle.ui.fastingTypes[uiKey] {
-                return localized
-            }
-        }
-        return apiDesc
-    }
 }
