@@ -14,8 +14,9 @@ OrthodoxCalendar/           # iOS app (SwiftUI)
 ├── Models/                 # CalendarDay, CalendarFile, AppLanguage, AppTheme
 ├── Views/                  # SwiftUI views (list, grid, detail, search, settings, about)
 ├── Localization/           # sr.json, ru.json, en.json, calendar_*.json (28 files)
-├── Engine/                 # JulianConverter, PaschaCalculator
+├── Engine/                 # BioMatcher (Pascha and the rest of the calendar come from the data)
 ├── Resources/              # Assets.xcassets, splash_logo.png
+OrthodoxCalendarTests/      # XCTest target (pure logic; module Orthodox_Calendar)
 scripts/
 ├── shared/                 # Paschalion, fasting engine, lectionary engine, build pipeline
 ├── serbian/                # Scrapers for pravoslavno.rs, crkvenikalendar.com
@@ -37,6 +38,12 @@ xcodegen generate
 # Build iOS app
 xcodebuild -project OrthodoxCalendar.xcodeproj -scheme OrthodoxCalendar \
   -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' build
+
+# Unit tests (pure logic: DateKeys, BioMatcher, AppUpdateGate). The app product
+# is named "Orthodox Calendar", so tests import the module as Orthodox_Calendar.
+xcodebuild -project OrthodoxCalendar.xcodeproj -scheme OrthodoxCalendar \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' \
+  test -only-testing:OrthodoxCalendarTests
 
 # Regenerate ALL calendar data (4 locales × 7 years = 28 files)
 python3 scripts/shared/build_database.py
@@ -199,7 +206,11 @@ Worker source: `worker/src/index.ts`. R2 bucket: `orthodox-calendar-data`.
 4. **Pascha distance**: Negative = before, 0 = Pascha day, positive = after.
 5. **ForEach identity**: Never use gregorianDate alone as SwiftUI ID when locale can change.
 6. **Feast descriptions**: Stored in `feast_descriptions.json` (not inline Python) to avoid Cyrillic quote escaping issues.
-7. **New Calendar (en_nc)**: Fixed feasts on Gregorian dates, moveable feasts same as Old Calendar. `is_great_feast()` from Paschalion only used for moveable great feasts.
-8. **R2 sync**: Publish the v2 archive with `scripts/shared/upload_r2_v2.py` (closure-checks refs against bundled pools first). Bump `dataRevision` in `worker/config.json` when regenerated files replace previously published ones. Never overwrite the legacy unprefixed fat objects.
+7. **New Calendar (en_nc)**: Fixed feasts on Gregorian dates, moveable feasts same as Old Calendar. `Paschalion.great_feasts_gregorian()`/`is_great_feast()` are calendar-style aware (`fixed_date()`), so for `new_calendar=True` they return the Revised dates; `build_database.py` still filters `is_great_feast()` to the moveable IDs because the fixed ones are injected from `NC_GREAT_FEASTS_GREG`. `validate.py` checks both styles, so a great feast landing on the wrong day in en_nc is now a CI error (it used to print nine false warnings and validate nothing).
+8. **R2 sync**: Publish the v2 archive with `scripts/shared/upload_r2_v2.py` (closure-checks refs against bundled pools first). Bump `dataRevision` in `worker/config.json` when regenerated files replace previously published ones; `--config` uploads config.json **after** every year object lands, so a mid-batch failure leaves devices on the previous revision instead of dropping their cache onto a half-published archive. `--shipped-pools` now refuses to run if a locale's pool is missing. Never overwrite the legacy unprefixed fat objects.
 9. **Fasting validation**: SPC fasting validated against pravoslavno.rs (93% match). Remaining gaps are individual saint-day upgrades.
-10. **Dedup pools don't merge across runs**: `dedup_text.py` rebuilds `texts_<locale>.json` from scratch each run — always dedup the full year set in one directory in one pass, never incrementally.
+10. **Dedup pools don't merge across runs**: `dedup_text.py` rebuilds `texts_<locale>.json` from scratch each run — always dedup the full year set in one directory in one pass, never incrementally. It now verifies after writing that every ref left in a year file resolves against the pool beside it and exits 1 if not (a dangling ref used to survive silently and become an empty bio on device).
+11. **CI gate**: `validate.py` exits 1 when any locale/year fails (it used to print `FAILURES DETECTED` and exit 0, so the data job could never go red). Warnings stay non-fatal; great-feast marking mismatches are errors.
+12. **Fixed great feast injection**: `build_database.py` removes scraped `importance == "great"` entries on days it injects a fixed great feast, because the sources carry the same feast under a longer title. That holds for all 27 date/locale pairs today (audited into `great_feast_duplicates.json` in the output dir); the build now fails if a day would lose more than one great entry, so a genuine second commemoration cannot be deleted quietly from the whole archive.
+13. **Date keys**: format/parse `gregorianDate` through `DateKeys` (`CalendarDay.swift`), never a fresh `DateFormatter`. A locale-aware formatter follows the user's numbering system (`٢٠٢٦-٠٩-٠٩` on ar_SA) and stops matching the ASCII keys in the data, which silently breaks "today".
+14. **Language changes reload once**: `OrthodoxCalendarApp` observes `localization.language` and calls `forceReload`. `SettingsView`/`LanguagePickerView` take no reload callback — adding one makes the same year load twice.
