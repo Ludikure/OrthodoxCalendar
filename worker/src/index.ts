@@ -85,9 +85,12 @@ export default {
 		try {
 			return await route(request, env);
 		} catch (e) {
+			// The real cause goes to the log (`wrangler tail`), not to the client: it
+			// can name an R2 key or carry a parse fragment, and it is of no use to a
+			// device that only looks at the status code. Body shape stays { error }.
 			const message = e instanceof Error ? e.message : String(e);
 			console.error("unhandled error", request.url, message);
-			return errorResponse(`Internal error: ${message}`.slice(0, 300), 500);
+			return errorResponse("Internal server error", 500);
 		}
 	},
 };
