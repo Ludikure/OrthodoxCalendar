@@ -13,10 +13,11 @@ targets:
     type: application
     platform: iOS
     sources:
-      # All calendar years are bundled offline (no network path since v1.4.0),
-      # so the folder scan picks up every calendar_*.json and texts_*.json in
-      # Localization/. RELEASE CHECKLIST: copy new years from data/output/ into
-      # OrthodoxCalendar/Localization/ before regenerating.
+      # The bundled window (currently 2025-2030) ships fully offline; years
+      # outside it download from the Worker (v1.4.0+), so the folder scan picks
+      # up every calendar_*.json and texts_*.json in Localization/ and that set
+      # is exactly the offline window. RELEASE CHECKLIST: copy new years from
+      # data/output/ into OrthodoxCalendar/Localization/ before regenerating.
       - path: OrthodoxCalendar
     settings:
       base:
@@ -37,3 +38,30 @@ targets:
         SWIFT_STRICT_CONCURRENCY: complete
         INFOPLIST_KEY_NSCalendarsUsageDescription: "Add feast days and reminders to your calendar"
         INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription: "Add feast days and reminders to your calendar"
+  # Pure-logic tests (date keys, bio matching, the update gate). The app has no
+  # TEST_HOST-independent target: these types are internal, so the bundle loads
+  # the app. `xcodebuild test -only-testing:OrthodoxCalendarTests`.
+  OrthodoxCalendarTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: OrthodoxCalendarTests
+    dependencies:
+      - target: OrthodoxCalendar
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Orthodox Calendar.app/Orthodox Calendar"
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  OrthodoxCalendar:
+    build:
+      targets:
+        OrthodoxCalendar: all
+        OrthodoxCalendarTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - OrthodoxCalendarTests
