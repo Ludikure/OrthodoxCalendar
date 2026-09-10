@@ -458,9 +458,15 @@ struct ReadingCard: View {
         }
     }
 
-    /// Text in the user's chosen English NT translation (KJV/WEB).
+    /// Text in the user's chosen English NT translation (KJV/WEB). Empty text
+    /// counts as no text at all: a ref into the texts pool that is missing
+    /// resolves to "", and the chevron used to key off `!= nil` while the body
+    /// checked `!isEmpty` — so the card offered an expansion onto nothing.
     private var displayText: String? {
-        reading.text(for: localization.bibleTranslation)
+        guard let text = reading.text(for: localization.bibleTranslation), !text.isEmpty else {
+            return nil
+        }
+        return text
     }
 
     var body: some View {
@@ -541,8 +547,14 @@ struct ReadingCard: View {
         )
         .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(localizedType): \(reading.displayReference)")
-        .accessibilityHint(displayText != nil ? (isExpanded ? "" : "Double tap to expand") : "")
+        // The explicit label replaces the combined content, so the scripture
+        // has to be folded in once the reader opens it — otherwise the text is
+        // in the tree but unreachable by VoiceOver. While collapsed the label
+        // stays at "type: reference" so the passage is not read out unasked.
+        .accessibilityLabel(CardAccessibility.summary(localizedType: localizedType,
+                                                      subject: reading.displayReference,
+                                                      text: isExpanded ? displayText : nil))
+        .accessibilityHint(displayText != nil && !isExpanded ? localization.expandHint : "")
     }
 }
 
@@ -552,12 +564,17 @@ struct SaintCard: View {
     let feast: Feast
     let bio: SaintBio?
     let localizedType: String
+    @Environment(LocalizationManager.self) private var localization
     @State private var isExpanded = false
 
-    /// The expandable text: feast description or saint bio
+    /// The expandable text: feast description or saint bio. Empty counts as
+    /// absent — `CalendarRepository.resolveText` deliberately hands back a bio
+    /// with `text == ""` when the pool has no entry for the ref, and this used
+    /// to render it as a chevron that opened onto an empty box.
     private var expandableText: String? {
         if let desc = feast.description, !desc.isEmpty { return desc }
-        return bio?.text
+        guard let text = bio?.text, !text.isEmpty else { return nil }
+        return text
     }
 
     var body: some View {
@@ -636,7 +653,35 @@ struct SaintCard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 2))
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(localizedType): \(feast.name)")
-        .accessibilityHint(bio != nil ? (isExpanded ? "" : "Double tap to read biography") : "")
+        // Only while expanded: a collapsed card must not announce the whole
+        // biography it has not been asked to open (see CardAccessibility).
+        .accessibilityLabel(CardAccessibility.summary(localizedType: localizedType,
+                                                      subject: feast.name,
+                                                      text: isExpanded ? expandableText : nil))
+        .accessibilityHint(expandableText != nil && !isExpanded
+                           ? (feast.description?.isEmpty == false
+                              ? localization.expandHint
+                              : localization.readBioHint)
+                           : "")
+    }
+}
+
+// MARK: - Accessibility helpers
+
+private extension LocalizationManager {
+    var expandHint: String {
+        switch language {
+        case .sr: return "Додирните двапут за текст"
+        case .ru: return "Нажмите дважды, чтобы открыть текст"
+        case .en, .en_nc: return "Double tap to expand"
+        }
+    }
+
+    var readBioHint: String {
+        switch language {
+        case .sr: return "Додирните двапут за житие"
+        case .ru: return "Нажмите дважды, чтобы читать житие"
+        case .en, .en_nc: return "Double tap to read biography"
+        }
     }
 }
