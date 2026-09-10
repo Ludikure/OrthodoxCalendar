@@ -25,6 +25,9 @@ final class CalendarViewModel {
     enum ViewMode { case list, grid }
     var showDatePicker = false
     var isLoading = false
+    /// Set purely as a flag: the failure view builds its own localized message
+    /// from the year (`CalendarTabView.noDataMessage`) and `isOffline`, so this
+    /// string is never shown. Kept as `String?` because nil-vs-set is the state.
     var errorMessage: String?
     /// True when the failure was a connectivity problem (vs. data genuinely absent).
     var isOffline = false
