@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LanguagePickerView: View {
     @Environment(LocalizationManager.self) private var localization
-    var onLanguageChanged: ((String) -> Void)?
 
     var body: some View {
         @Bindable var loc = localization
@@ -16,8 +15,9 @@ struct LanguagePickerView: View {
         }
         .pickerStyle(.inline)
         .labelsHidden()
-        .onChange(of: localization.language) {
-            onLanguageChanged?(localization.language.rawValue)
-        }
+        // No reload callback here: OrthodoxCalendarApp observes localization.language
+        // and reloads the month once. A second forceReload from here (and from
+        // SettingsView, which used to forward it) only made the same year load
+        // twice, cancelling the first, and flickered the spinner.
     }
 }

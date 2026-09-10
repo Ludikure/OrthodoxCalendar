@@ -104,9 +104,7 @@ struct CalendarTabView: View {
                                 .foregroundStyle(AppColors.mutedText)
                         }
                         NavigationLink {
-                            SettingsView(onLanguageChanged: { locale in
-                                viewModel.forceReload(locale: locale)
-                            })
+                            SettingsView()
                         } label: {
                             Image(systemName: "gearshape")
                                 .foregroundStyle(AppColors.mutedText)
