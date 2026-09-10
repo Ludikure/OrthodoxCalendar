@@ -42,15 +42,28 @@ final class AppUpdateGate {
     }
 
     /// True if `version` is strictly older than `minimum` (dotted numeric compare,
-    /// e.g. "1.3.0" < "1.4.0"). Non-numeric or missing components count as 0.
+    /// e.g. "1.3.0" < "1.4.0"). Missing components count as 0 ("1.4" == "1.4.0").
+    /// A version that does not parse at all is *not* older: the gate is fail-open
+    /// by design, and a malformed CFBundleShortVersionString must not lock a
+    /// working app behind an update screen.
     static func isOlder(_ version: String, than minimum: String) -> Bool {
-        let a = version.split(separator: ".").map { Int($0) ?? 0 }
-        let b = minimum.split(separator: ".").map { Int($0) ?? 0 }
+        guard let a = components(version), let b = components(minimum) else { return false }
         for i in 0..<max(a.count, b.count) {
             let x = i < a.count ? a[i] : 0
             let y = i < b.count ? b[i] : 0
             if x != y { return x < y }
         }
         return false
+    }
+
+    private static func components(_ version: String) -> [Int]? {
+        let parts = version.split(separator: ".")
+        guard !parts.isEmpty else { return nil }
+        var out: [Int] = []
+        for part in parts {
+            guard let value = Int(part) else { return nil }
+            out.append(value)
+        }
+        return out
     }
 }
