@@ -4,12 +4,7 @@ struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
 
-    private var todayString: String {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = Calendar(identifier: .gregorian)
-        return fmt.string(from: Date())
-    }
+    private var todayString: String { DateKeys.today }
 
     /// The season to show in the banner, and whether its "Day X of Y" is about
     /// today. When today is in the viewed month the banner reflects *today's*

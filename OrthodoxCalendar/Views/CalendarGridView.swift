@@ -6,12 +6,7 @@ struct CalendarGridView: View {
     @State private var selectedGridDay: CalendarDay?
     @State private var initialized = false
 
-    private var todayString: String {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = Calendar(identifier: .gregorian)
-        return fmt.string(from: Date())
-    }
+    private var todayString: String { DateKeys.today }
 
     /// Weekday of the 1st day of the month (0=Mon..6=Sun for grid layout)
     private var firstDayOffset: Int {
