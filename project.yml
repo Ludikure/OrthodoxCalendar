@@ -26,6 +26,10 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        # Set in the Xcode GUI originally; it belongs here because project.pbxproj
+        # is generated — regenerating used to drop it. The App Store listing
+        # category comes from App Store Connect, this is what ships in the bundle.
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.lifestyle
         PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar
         DEVELOPMENT_TEAM: 6AS729C9FR
         PRODUCT_NAME: "Orthodox Calendar"

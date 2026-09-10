@@ -522,6 +522,7 @@
 				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -673,6 +674,7 @@
 				DEVELOPMENT_TEAM = 6AS729C9FR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleIconName = AppIcon;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Add feast days and reminders to your calendar";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
