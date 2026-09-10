@@ -15,6 +15,10 @@ struct AddReminderView: View {
     @State private var alreadyAdded = false
     @State private var saveFailed = false
     @State private var alertsSkipped = false
+    /// Guards against a second tap: the duplicate check below queries EventKit
+    /// *before* saving, so two taps in flight both find nothing and write two
+    /// identical events.
+    @State private var isSaving = false
 
     private let store = EKEventStore()
 
@@ -86,6 +90,7 @@ struct AddReminderView: View {
                         Task { await saveEvent() }
                     }
                     .fontWeight(.semibold)
+                    .disabled(isSaving || title.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
                 ToolbarItem(placement: .keyboard) {
                     HStack {
@@ -133,6 +138,16 @@ struct AddReminderView: View {
     }
 
     private func saveEvent() async {
+        guard !isSaving else { return }
+        isSaving = true
+        defer { isSaving = false }
+        // Each attempt reports its own outcome. Without the reset a retry after
+        // a failure keeps claiming the previous one's result — "alerts were all
+        // in the past" on an event the user has since moved, or "already added"
+        // when the duplicate check was what tripped last time.
+        alreadyAdded = false
+        alertsSkipped = false
+        saveFailed = false
         do {
             let granted = try await store.requestFullAccessToEvents()
             guard granted else {
