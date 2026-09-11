@@ -256,7 +256,7 @@ struct AddReminderView: View {
     }
 
     private var formattedDate: String {
-        "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth)) \(day.gregorianDate.prefix(4))"
+        "\(localization.dayAndMonth(day.gregorianDay, day.gregorianMonth)) \(day.gregorianDate.prefix(4))"
     }
 
     private func alertText(_ option: AlertOption) -> String {

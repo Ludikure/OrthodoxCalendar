@@ -11,7 +11,7 @@ struct UpdateRequiredView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            Text("✝")
+            Text("☦\u{FE0E}")
                 .font(.system(size: 40))
                 .foregroundStyle(AppColors.crimson)
 

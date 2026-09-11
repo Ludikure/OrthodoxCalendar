@@ -191,7 +191,7 @@ struct CalendarTitle: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 6) {
-                Text("✝")
+                Text("☦\u{FE0E}")
                     .foregroundStyle(AppColors.crimson)
                 Text(localization.ui.appTitle)
                     .font(.system(.title2, design: .serif).weight(.bold))

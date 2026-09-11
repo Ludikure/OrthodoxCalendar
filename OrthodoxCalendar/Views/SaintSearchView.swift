@@ -168,7 +168,7 @@ struct SaintSearchView: View {
 
     private func dateDisplay(for result: SaintSearchResult) -> String {
         if let gm = result.gregorianMonth, let gd = result.gregorianDay {
-            return "\(gd) \(localization.localizedMonthName(gm))"
+            return localization.dayAndMonth(gd, gm)
         }
         return ""
     }

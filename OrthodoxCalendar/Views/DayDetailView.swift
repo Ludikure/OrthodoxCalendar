@@ -63,7 +63,7 @@ struct DayDetailView: View {
     // MARK: - Date Header
 
     private var formattedDate: String {
-        "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth))"
+        localization.dayAndMonth(day.gregorianDay, day.gregorianMonth)
     }
 
     // MARK: - Hero Section
@@ -228,7 +228,7 @@ struct DayDetailView: View {
     private var saintsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
-                Text("☦")
+                Text("☦\u{FE0E}")
                     .font(.system(size: 16))
                 Text(localization.ui.commemorationsLabel)
                     .font(.system(.subheadline, design: .serif).weight(.bold))
@@ -597,7 +597,7 @@ struct SaintCard: View {
                                 )
                             )
                             .frame(width: 36, height: 36)
-                        Text(feast.importance == "great" ? "✦" : "☦")
+                        Text(feast.importance == "great" ? "✦" : "☦\u{FE0E}")
                             .font(.system(size: 16))
                     }
 

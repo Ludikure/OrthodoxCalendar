@@ -222,6 +222,13 @@ struct SelectedDayCard: View {
     private var isPascha: Bool { day.greatFeast == "pascha" }
     private var isGreat: Bool { day.isGreatFeast }
 
+    /// "1 апреля" in Russian; the other languages keep the ordinal dot ("1. Април").
+    private var cardDate: String {
+        localization.language == .ru
+            ? localization.dayAndMonth(day.gregorianDay, day.gregorianMonth)
+            : "\(day.gregorianDay). \(localization.localizedMonthName(day.gregorianMonth))"
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             if isGreat, day.primaryFeast != nil {
@@ -231,7 +238,7 @@ struct SelectedDayCard: View {
                     .foregroundStyle(isPascha ? AppColors.goldAccent : AppColors.crimson)
             }
 
-            Text("\(day.gregorianDay). \(localization.localizedMonthName(day.gregorianMonth)) — \(day.primaryFeast?.name ?? "")")
+            Text("\(cardDate) — \(day.primaryFeast?.name ?? "")")
                 .font(.system(.body, design: .serif).weight(.semibold))
                 .foregroundStyle(isPascha ? .white : AppColors.darkText)
 

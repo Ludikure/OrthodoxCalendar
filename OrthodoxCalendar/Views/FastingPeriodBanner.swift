@@ -23,7 +23,8 @@ struct FastingPeriodBanner: View {
                 // the data boundary would mislead); the "Day X of Y" suffix only when
                 // it refers to today.
                 if period.complete {
-                    let range = FastingPeriods.dateRange(period, months: localization.ui.months)
+                    // After a day number Russian takes the genitive: "15 мар – 1 мая".
+                    let range = FastingPeriods.dateRange(period, months: localization.ui.monthsGenitive ?? localization.ui.months)
                     let text = showsDayIndex
                         ? "\(range)  ·  \(FastingPeriods.dayLabel(localization.language, index: period.dayIndex, total: period.total))"
                         : range

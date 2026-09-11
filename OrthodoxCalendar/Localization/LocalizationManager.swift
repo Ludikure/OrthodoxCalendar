@@ -71,9 +71,15 @@ final class LocalizationManager {
 
     var ui: UILabels { bundle.ui }
 
+    /// The month on its own, as a month header shows it. After a day number use
+    /// `dayAndMonth`, which declines the month where the language does.
     func localizedMonthName(_ month: Int) -> String {
         guard month >= 1, month <= 12 else { return "" }
         return bundle.ui.months[month - 1]
+    }
+
+    func dayAndMonth(_ day: Int, _ month: Int) -> String {
+        bundle.ui.dayAndMonth(day, month)
     }
 
     func localizedDayOfWeek(_ weekday: Int) -> String {

@@ -31,6 +31,19 @@ struct UILabels: Codable, Sendable {
     let updateRequiredTitle: String?
     let updateRequiredMessage: String?
     let updateButton: String?
+    // Month names as they read after a day number ("19 декабря"). Only Russian
+    // declines them; where absent, `months` is used as it is.
+    let monthsGenitive: [String]?
+}
+
+extension UILabels {
+    /// A day with its month: "19 декабря", "19 December". Android's
+    /// `UILabels.dayAndMonth` is the same function; keep them in step.
+    func dayAndMonth(_ day: Int, _ month: Int) -> String {
+        let names = monthsGenitive ?? months
+        guard month >= 1, month <= names.count else { return "\(day)" }
+        return "\(day) \(names[month - 1])"
+    }
 }
 
 struct ExtraFeast: Codable, Sendable {

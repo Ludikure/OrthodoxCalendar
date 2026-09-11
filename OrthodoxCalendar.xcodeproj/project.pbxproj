@@ -72,6 +72,7 @@
 		F16E591DD878CBFD7C8638A4 /* CalendarTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC31CAD818AF95A0829487E /* CalendarTabView.swift */; };
 		F23B39CB8391170353E42B60 /* sr.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EE0562EC4FDEFED51E7EAC9 /* sr.json */; };
 		F62D2E3E6A72934EC3262B6A /* CardAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC078478BF54F995850FAAEF /* CardAccessibility.swift */; };
+		F6E3BEB198D677820AE268C7 /* DayAndMonthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838C61ABB97944110525B6AA /* DayAndMonthTests.swift */; };
 		FD4EAEBBC7750038F1541F26 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF37F5514D0CF20E2AA2AEA /* AppLanguage.swift */; };
 /* End PBXBuildFile section */
 
@@ -121,6 +122,7 @@
 		73B1A9BC8F6FDE145D6CB9C0 /* calendar_sr_2025.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2025.json; sourceTree = "<group>"; };
 		751B4899F5210EF04C6A1657 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7992EA53B5E120F0BFC7C5F1 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		838C61ABB97944110525B6AA /* DayAndMonthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayAndMonthTests.swift; sourceTree = "<group>"; };
 		8AD5C09B892D96D7F8BD3262 /* calendar_en_nc_2025.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_nc_2025.json; sourceTree = "<group>"; };
 		8C3C2D6E9F932ABC188D1902 /* calendar_en_nc_2027.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_nc_2027.json; sourceTree = "<group>"; };
 		8D964572381FC1262D1309BF /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				4A1CA4481CAE126B1F4AE57C /* BioMatcherTests.swift */,
 				414ED88D9893091EF060A5C6 /* CardAccessibilityTests.swift */,
 				469F3E60AB1E9D84F0F91179 /* DateKeysTests.swift */,
+				838C61ABB97944110525B6AA /* DayAndMonthTests.swift */,
 				2A569F725A0E26D3467304AD /* SaintSearchFoldingTests.swift */,
 			);
 			path = OrthodoxCalendarTests;
@@ -427,6 +430,7 @@
 				17D0CFF23D1744725C76E17A /* BioMatcherTests.swift in Sources */,
 				B8A698F30C045186BE55FD37 /* CardAccessibilityTests.swift in Sources */,
 				5029F787636A2B03A0C52A39 /* DateKeysTests.swift in Sources */,
+				F6E3BEB198D677820AE268C7 /* DayAndMonthTests.swift in Sources */,
 				E49F9AF81277E013315E073E /* SaintSearchFoldingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
