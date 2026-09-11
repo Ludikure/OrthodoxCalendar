@@ -27,6 +27,13 @@ jobs:
       - name: Validate all four locales
         run: python3 scripts/shared/validate.py 2025-2030
 
+      # Serbian fasting against the SPC's own calendar (pravoslavno.rs,
+      # "Календар поста"), every day 2025-2037. The old "93% match" was measured
+      # against the month table's "пост" marker, which is also printed on Pascha
+      # and all of Bright Week — it never compared a level.
+      - name: SPC fasting vs pravoslavno.rs
+        run: python3 scripts/serbian/validate_spc_fasting.py
+
       # The reference implementation the two app ports are checked against.
       - name: Bio matcher reference
         run: python3 scripts/shared/simulate_bio_matching.py
