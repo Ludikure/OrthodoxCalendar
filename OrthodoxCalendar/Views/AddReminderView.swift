@@ -137,6 +137,27 @@ struct AddReminderView: View {
         day.date ?? Date()
     }
 
+    /// Asks for calendar access through the completion-handler API instead of
+    /// `requestFullAccessToEvents()`. The async form hands the view's
+    /// non-Sendable `EKEventStore` to a nonisolated function, which the Swift 6
+    /// compiler in Xcode 16 rejects ("sending 'self.store' risks causing data
+    /// races"). Xcode 26's compiler accepts it, so a local build never shows
+    /// the error — only CI does. The completion is marked `@Sendable` because
+    /// EventKit's header does not: left unmarked it would inherit the view's
+    /// main-actor isolation, and EventKit calls it on an arbitrary queue, where
+    /// Swift 6's runtime isolation check would trap.
+    private func requestFullAccess() async throws -> Bool {
+        try await withCheckedThrowingContinuation { continuation in
+            store.requestFullAccessToEvents { @Sendable granted, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: granted)
+                }
+            }
+        }
+    }
+
     private func saveEvent() async {
         guard !isSaving else { return }
         isSaving = true
@@ -149,7 +170,7 @@ struct AddReminderView: View {
         alertsSkipped = false
         saveFailed = false
         do {
-            let granted = try await store.requestFullAccessToEvents()
+            let granted = try await requestFullAccess()
             guard granted else {
                 permissionDenied = true
                 return
