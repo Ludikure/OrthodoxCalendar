@@ -46,7 +46,7 @@ def main():
     for ds, entry in sorted(fixture.items()):
         d = date.fromisoformat(ds)
         p = pasch.setdefault(d.year, Paschalion(d.year))
-        got = fe.compute_fasting(d, p, None, "sr")
+        got = fe.compute_fasting(d, p, "sr")
         want = pravoslavno_level(entry)
         cell = by_period[fe.spc_period(d, p)]
         cell[1] += 1

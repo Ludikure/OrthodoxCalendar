@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from paschalion import Paschalion
 from fasting_engine import compute_fasting, get_fasting_info
 from generate_readings import generate_all_readings
+import fixed_cycle
 
 YEAR_START = 2024
 YEAR_END = 2030
@@ -373,8 +374,11 @@ FIXED_GREAT_FEASTS = {
 }
 
 
-def _get_fixed_saints(saints_data: dict, key: str) -> list:
-    """Get only fixed saints from scraped data, filtering out pure moveable feast entries."""
+def _get_fixed_saints(saints_data: dict, key: str, locale: str = None, keep=None) -> list:
+    """Get only fixed saints from scraped data, filtering out pure moveable feast entries.
+
+    With a locale, entries that move (fixed_cycle.MOVED) and rubric notes are
+    left out too; `keep` is fixed_cycle.leap_split's name predicate."""
     day_data = saints_data.get(key, {})
     saints = day_data.get("saints", [])
     result = []
@@ -382,10 +386,16 @@ def _get_fixed_saints(saints_data: dict, key: str) -> list:
         name = s.get("name", "")
         if not name.strip():
             continue  # skip blank scraper artifacts (would render as an empty card)
-        if _is_pure_moveable_entry(name):
+        if _is_pure_moveable_entry(name) or fixed_cycle.is_note(name):
+            continue
+        if locale and fixed_cycle.is_relocated(locale, key, name):
+            continue
+        if keep and not keep(name):
             continue
         # Clean any moveable feast label appended to a fixed saint name
         cleaned = _clean_moveable_label(name)
+        if locale:
+            cleaned = fixed_cycle.clean_name(locale, cleaned)
         if cleaned != name:
             s = dict(s)
             s["name"] = cleaned
@@ -465,12 +475,14 @@ def _report_great_feast_duplicates(output_dir: str):
                   f"{rec['unrelated']} — check these are the same feast", file=sys.stderr)
 
 
-def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, julian_key: str) -> list:
-    """Build the feasts list for a day: fixed great feast + moveable feast + fixed saints."""
+def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, julian_key: str,
+                  keep=None, moving: list = None) -> list:
+    """Build the feasts list for a day: fixed great feast + moveable feast + the
+    commemorations that move onto this day (fixed_cycle.on_day) + fixed saints."""
     feasts = []
 
     # 1. Get fixed saints from scraped data (filtering out pure moveable feasts)
-    fixed = _get_fixed_saints(saints_data, key)
+    fixed = _get_fixed_saints(saints_data, key, locale, keep)
 
     # 2. Check for algorithmic fixed great feast (always injected, never lost)
     fixed_great = FIXED_GREAT_FEASTS.get(julian_key)
@@ -530,7 +542,7 @@ def _build_feasts(saints_data: dict, key: str, pdist: int, locale: str, julian_k
     # a secondary, because the "nothing injected yet" branch could only ever be
     # true on the first iteration.
     injected = len(feasts)
-    for i, saint in enumerate(fixed):
+    for i, saint in enumerate((moving or []) + fixed):
         saint = dict(saint)
         rank = injected + i
         saint["position"] = rank
@@ -569,15 +581,6 @@ def load_json(path: str) -> dict:
         return json.load(f)
 
 
-def to_new_calendar_key(greg_date) -> str:
-    """Key into the (Old Calendar) scraped saints pool for a Revised calendar day.
-
-    The pool is keyed by Gregorian date and holds that date's Julian content, so
-    the entry for Julian month-day M is stored at M + 13 days.
-    """
-    return (greg_date + timedelta(days=JULIAN_OFFSET)).strftime("%m-%d")
-
-
 def to_julian_key(greg_date: date) -> str:
     julian = greg_date - timedelta(days=JULIAN_OFFSET)
     return f"{julian.month:02d}-{julian.day:02d}"
@@ -606,10 +609,11 @@ def build_calendar(locale: str, year: int):
 
     # Russian-specific
     reflections_data = {}
-    fasting_descriptions = {}
     if locale == 'ru':
         reflections_data = load_json(os.path.join(proc_dir, 'reflections.json')).get('days', {})
-        fasting_descriptions = load_json(os.path.join(proc_dir, 'fasting.json')).get('days', {})
+
+    # Commemorations the pool lists on their POOL_YEAR date but which move.
+    relocated = fixed_cycle.relocations(data_locale, saints_data)
 
     calendar = {}
     current = date(year, 1, 1)
@@ -619,21 +623,22 @@ def build_calendar(locale: str, year: int):
         key = current.strftime("%m-%d")
         julian_key = to_julian_key(current)
 
-        # New Calendar: the fixed cycle sits on the Gregorian date itself, so a
-        # Julian month-day is its own key.
-        feast_julian_key = key if is_new_calendar else julian_key
+        # The day's place in the fixed cycle: its Julian month-day on the Old
+        # Calendar, its Gregorian one on the Revised.
+        church_key = key if is_new_calendar else julian_key
+        feast_julian_key = church_key
 
-        # The scraped saints pool is keyed by the Gregorian date of an Old
-        # Calendar year, i.e. its content is that date's Julian day. The Revised
-        # calendar wants the saints *of this Gregorian month-day*, which sit 13
-        # days later in that pool — without this the New Calendar shows the Old
-        # Calendar's saints and every fixed great feast lands twice.
-        saints_key = to_new_calendar_key(current) if is_new_calendar else key
+        # The saints and bio pools are read by that church date, never by this
+        # year's Gregorian month-day: they were scraped in one common year, and
+        # in a leap year the Gregorian reading put every day from February 29 to
+        # March 12 one church day out (fixed_cycle explains the details).
+        saints_key = fixed_cycle.pool_key(church_key)
+        keep = fixed_cycle.leap_split(church_key, current.year)
 
         # Pascha distance for this day
         pdist = pasch.pascha_distance(current)
 
-        # Determine feast rank for fasting upgrade
+        # The day's great feast, if any (the greatFeast field)
         if is_new_calendar:
             # New Calendar: fixed great feasts are on Gregorian dates
             great_feast = _nc_great_feast(key)
@@ -644,21 +649,10 @@ def build_calendar(locale: str, year: int):
                     great_feast = moveable_great
         else:
             great_feast = pasch.is_great_feast(current)
-        # Check saints data for feast importance (bold saints upgrade fasting in SPC)
-        day_saints = saints_data.get(saints_key, {}).get("saints", [])
-        if great_feast:
-            feast_rank = "great"
-        elif any(s.get("importance") == "bold" for s in day_saints):
-            feast_rank = "bold"
-        else:
-            feast_rank = None
-
-        # Compute algorithmic fasting
-        fasting_level = compute_fasting(current, pasch, feast_rank, data_locale)
+        # Fasting follows the locale's own calendar (fasting_engine) — the real
+        # locale, not the data one: en and en_nc share saints but not a tradition.
+        fasting_level = compute_fasting(current, pasch, locale)
         fasting_info = get_fasting_info(fasting_level, data_locale)
-
-        # Get scraped fasting description (supplements algorithmic)
-        scraped_fasting = fasting_descriptions.get(key, {})
 
         # Build day entry
         day = {
@@ -668,20 +662,24 @@ def build_calendar(locale: str, year: int):
             "paschaDistance": pdist,
 
             # Feasts/Saints — fixed saints from scraped data + algorithmic moveable feasts
-            "feasts": _build_feasts(saints_data, saints_key, pdist, data_locale, feast_julian_key),
-            # The moveable cycle is identical on both calendars, so the week
-            # label stays on the Gregorian day rather than moving with the saints.
-            "liturgicalPeriod": saints_data.get(key, {}).get("liturgicalPeriod"),
-            "weekLabel": saints_data.get(key, {}).get("weekLabel"),
+            # (The pools' week and period labels are not copied: they describe
+            # POOL_YEAR's Pascha cycle, so any other year showed them on the wrong
+            # days — Pascha's label on 2027-04-12, with Pascha on May 2.)
+            "feasts": _build_feasts(saints_data, saints_key, pdist, data_locale, feast_julian_key,
+                                    keep, fixed_cycle.on_day(relocated, church_key,
+                                                             current.weekday(), pdist)),
 
             # Great feast override
             "greatFeast": great_feast,
 
-            # Fasting (algorithmic + scraped description)
+            # Fasting. The explanation is the engine's own: the Russian build used
+            # to show days.pravoslavie.ru's 2026 sentence for the same Gregorian
+            # date, which in other years contradicted the level beside it on
+            # well over half the days ("Сухоядение" over "Пища с растительным маслом").
             "fasting": {
                 "type": fasting_level,
                 "label": fasting_info["label"],
-                "explanation": scraped_fasting.get("description") or fasting_info["explanation"],
+                "explanation": fasting_info["explanation"],
                 "abbrev": fasting_info["abbrev"],
                 "icon": fasting_info["icon"],
             },
@@ -692,20 +690,16 @@ def build_calendar(locale: str, year: int):
             # Reflection
             "reflection": reflections_data.get(key),
 
-            # Saint biographies: every pool is keyed by the Gregorian MM-DD of
-            # the scraped year and is year-independent (build_saint_bios.py maps
-            # orthocal's church-date stories onto the Gregorian day itself). They
-            # describe the saints, so they move with them on the Revised calendar.
+            # Saint biographies: every pool is keyed like the saints pool (the
+            # Gregorian MM-DD of POOL_YEAR; build_saint_bios.py maps orthocal's
+            # church-date stories onto it), so they are read by the same key and
+            # follow the saints on both calendars and in leap years.
             "saintBios": saint_bios_data.get(saints_key) or None,
 
             # Fasting period context
             "fastingPeriod": pasch.get_fasting_period(current),
             "isFastFreeWeek": pasch.is_fast_free_week(current),
         }
-
-        # Add liturgical note from pravoslavie.ru
-        if scraped_fasting.get("liturgicalNote"):
-            day["liturgicalNote"] = scraped_fasting["liturgicalNote"]
 
         # Enrich Serbian references with short book names
         if locale == 'sr':

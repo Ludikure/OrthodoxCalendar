@@ -14,11 +14,13 @@ Checks:
 
 import json
 import os
+import re
 import sys
 from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(__file__))
 from paschalion import Paschalion
+import fixed_cycle
 
 YEAR = 2026
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'output')
@@ -219,6 +221,72 @@ def validate_calendar(locale: str, year: int = None, directory: str = None):
     return passed
 
 
+MOVING_NAME = re.compile(
+    r"Задушнице|Отдание праздника (Пасхи|Преполовения|Вознесения|Пятидесятницы)"
+    r"|^(Sunday|Saturday) (before|after)|^Saturday the Nativity|Parents’ Saturday|\(Parental\) Saturday"
+    r"|\(movable holiday|\(celebration on the|Week of Holy Forefathers"
+    r"|– (Оци|Материце|Детињци|Теодорова субота)$")
+
+
+def check_fixed_cycle(years, directory=None) -> bool:
+    """Checks that need more than one year: a church day carries the same fixed
+    commemorations in every year, and nothing that moves sits on a fixed day.
+
+    The saints pools were scraped in one year. Read by the Gregorian date, a leap
+    year's February 29 to March 12 came out a church day early; and the sources'
+    moving commemorations (memorial Saturdays, the Sundays around the great
+    feasts, synaxes kept on "the Sunday nearest") stayed on that year's dates in
+    every other year. fixed_cycle.py explains both.
+    """
+    ok = True
+    for locale in ['sr', 'ru', 'en', 'en_nc']:
+        by_year = {}
+        problems = []
+        for year in years:
+            path = os.path.join(directory or DATA_DIR, f"calendar_{locale}_{year}.json")
+            if not os.path.exists(path):
+                continue
+            with open(path) as f:
+                days = json.load(f)["days"]
+            church_days = {}
+            for key, day in days.items():
+                church = key if locale == 'en_nc' else day["julianDate"]
+                church_days[church] = tuple(x["name"] for x in day["feasts"] if not x.get("moveable"))
+                for label in ("weekLabel", "liturgicalPeriod", "liturgicalNote"):
+                    if day.get(label):
+                        problems.append(f"{year}-{key}: {label} copied from the scraped year")
+                for x in day["feasts"]:
+                    name = x["name"]
+                    if not x.get("moveable") and MOVING_NAME.search(name):
+                        problems.append(f"{year}-{key}: a moving commemoration on a fixed day: {name[:60]}")
+                    if re.match(r"^(Sunday|Неделя|Недеља)\b", name) and day["dayOfWeek"] != 6:
+                        problems.append(f"{year}-{key}: a Sunday commemoration on a weekday: {name[:60]}")
+                    if name.lstrip().startswith("*"):
+                        problems.append(f"{year}-{key}: a rubric listed as a saint: {name[:60]}")
+            by_year[year] = church_days
+        common = [y for y in by_year if y % 4]
+        if common:
+            reference = by_year[common[0]]
+            for year, church_days in by_year.items():
+                for church, names in church_days.items():
+                    if church == "02-29":
+                        stray = [n for n in names if not fixed_cycle.LEAP_DAY.search(n)]
+                        if stray:
+                            problems.append(f"{year} church 02-29: not a February 29 commemoration: {stray[0][:50]}")
+                        continue
+                    want = reference.get(church)
+                    if church == "02-28" and year % 4 == 0 and want is not None:
+                        want = tuple(n for n in want if not fixed_cycle.LEAP_DAY.search(n))
+                    if want is not None and names != want:
+                        problems.append(f"{year} church {church}: fixed commemorations differ from {common[0]}'s")
+        status = "OK" if not problems else f"{len(problems)} problems"
+        print(f"  fixed cycle {locale}: {status}")
+        for line in problems[:10]:
+            print(f"    {line}")
+        ok = ok and not problems
+    return ok
+
+
 def main():
     """validate.py [year|year-year] [--dir=DIR]"""
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
@@ -233,7 +301,8 @@ def main():
         for locale in ['sr', 'ru', 'en', 'en_nc']:
             results[f'{locale}{year}'] = validate_calendar(locale, year, directory)
 
-    ok = all(results.values())
+    print(f"\n{'='*40}\nAcross years:")
+    ok = check_fixed_cycle(years, directory) and all(results.values())
     print(f"\n{'='*40}")
     print(f"Overall: {'ALL PASS' if ok else 'FAILURES DETECTED'}")
     # Without this the CI step prints FAILURES DETECTED and exits 0, so the

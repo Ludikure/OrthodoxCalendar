@@ -78,7 +78,12 @@ def main(directory: str, keep_from: str | None = None) -> None:
                     if k not in pool:
                         pool[k] = t; kept += 1
         pool_path = os.path.join(directory, f"texts_{locale}.json")
-        json.dump(pool, open(pool_path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        # Sorted, so a pool's bytes depend only on its texts. Refs are content
+        # hashes, but the pool used to be written in first-appearance order: a
+        # regeneration that moved a bio to another day reordered the whole file
+        # and a byte comparison could not tell that from a real change.
+        json.dump(dict(sorted(pool.items())), open(pool_path, "w", encoding="utf-8"),
+                  ensure_ascii=False, separators=(",", ":"))
         psize = os.path.getsize(pool_path)
         print(f"{locale:6}: years {before/1e6:6.1f}->{after/1e6:5.1f}MB + pool {psize/1e6:5.1f}MB "
               f"({len(pool)} unique{f', {kept} kept from {keep_from}' if kept else ''})  "

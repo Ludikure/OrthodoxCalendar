@@ -29,12 +29,17 @@ Rebuilt from their original sources and matched to the saint they belong to — 
 English (New Calendar)
 Corrected: feasts and fasting periods now fall on their proper Revised Julian dates. Christmas is no longer inside the Nativity Fast, and each great feast appears once rather than twice.
 
+Fasting
+Each calendar now follows its own church's fasting rules, day by day: the Serbian calendar the Serbian Church's, the Russian the Russian Church's, English ROCOR's, and English (New Calendar) the OCA's.
+
+Saints in every year
+Memorial Saturdays, the Sundays before and after the great feasts and other commemorations that move now fall on the right day in every year, not only this one. In leap years the saints from February 29 to mid-March appear on their own days.
+
 Also fixed
 • Reminders saved for the correct day, with a clear message if one can't be added
 • Month arrows no longer step outside the available years
 • A year that can't be loaded says so, instead of blaming your connection
 • The fasting banner no longer shows a fast that has ended or not yet begun
-• The Beheading of St John, the Exaltation of the Cross and Theophany Eve are marked as fast days again
 • Empty commemoration cards removed
 • Faster launch and snappier haptics
 ```
@@ -56,6 +61,9 @@ Also fixed
 
 Пост
 Пост сада прати календар СПЦ дан по дан: строги дани су на води, а уље и риба само где их Црква разрешава. Усековање, Воздвижење и Богојављенски Крстовдан поново су постни дани.
+
+Свеци сваке године
+Задушнице, Детињци, Материце, Оци и други покретни спомени сада падају на прави дан сваке године, а не само ове. У преступним годинама свеци од 29. фебруара до средине марта стоје на својим данима.
 
 Још исправки
 • Подсетници се чувају на тачан дан, уз јасну поруку ако додавање не успе
@@ -81,13 +89,19 @@ Also fixed
 Жития святых
 Заново собраны из первоисточников и привязаны к своему святому — многие прежде стояли рядом с чужой памятью.
 
+Пост
+Пост теперь следует календарю Русской Православной Церкви день за днём: сухоядение, горячая пища, масло и рыба — в свои дни.
+
+Святые в каждом году
+Родительские субботы, недели до и после великих праздников и другие переходящие памяти теперь приходятся на верный день каждого года, а не только нынешнего. В високосные годы святые с 29 февраля до середины марта стоят на своих днях.
+
 Ещё исправлено
 • Напоминания сохраняются на верный день, с понятным сообщением при ошибке
 • Стрелки месяцев больше не выходят за доступные годы
 • Год, который не удалось загрузить, так и сообщает, а не винит соединение
 • Баннер поста больше не показывает уже закончившийся или не начавшийся пост
-• Усекновение главы Иоанна Предтечи, Воздвижение Креста и Крещенский сочельник снова отмечены как постные дни
 • Убраны пустые карточки памяти
+• Даты читаются по-русски: «19 декабря», а не «19 Декабрь»
 • Быстрее запуск и отзывчивее тактильная отдача
 ```
 
@@ -102,15 +116,20 @@ Also fixed
   Leave `minVersion` alone until you are willing to wall off 1.2.3 users — and
   remember one value gates the Android app too, which is on a different version
   line (see PARITY.md in the Android repo).
-- **The fasting fix changes the archive.** `worker/config.json` is at `dataRevision: 6`,
-  and the regenerated 2024–2099 archive has to be published
-  (`upload_r2_v2.py <dir> --config`) before this release goes out, or years
-  downloaded from R2 keep the old fasting while the bundled ones show the new.
-  Only `fasting` differs from the published archive, apart from five `en_nc`
-  days — Apr 7 in 2058, 2069, 2075, 2080 and 2086 — that gain the Palm Sunday
-  or Pascha marking the old build lost (it took Apr 7 for the Julian
-  Annunciation). The text pools are byte-identical, so this publish needs no
-  `--shipped-pools` inlining.
+- **The data fixes change the archive.** `worker/config.json` is at `dataRevision: 7`,
+  and the regenerated 2024–2099 archive (staged in `data/archive_v2/files`) has to
+  be published — `python3 scripts/shared/upload_r2_v2.py data/archive_v2/files --config`
+  — before this release goes out, or downloaded years keep the old saints and
+  fasting while the bundled ones show the new. Revision 6 (published 2026-09-11)
+  carried the Serbian fasting. Revision 7 changes, across the 76 years: Russian and
+  English fasting (about 65–100 days a year per locale), the Russian fasting
+  explanation (the engine's own on every day), feasts (moving commemorations on
+  their rule days, leap-year saints on their church days) and the lives on the 13
+  leap-affected dates of each leap year. It drops the 2026-only week labels, period
+  labels and Russian liturgical notes, which no app displays. Readings and great
+  feasts are unchanged. The text pools hold exactly the same entries as revision 6;
+  they are now written in sorted order, so the files differ byte-for-byte once. So
+  this publish needs no `--shipped-pools` inlining either.
 - `--shipped-pools` was skipped on the last publishes because no released build
   reads the v2 archive. **That stops being true the moment 1.4.4 ships.** The next
   regeneration after this release must pass `--shipped-pools` pointing at 1.4.4's

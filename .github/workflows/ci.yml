@@ -34,6 +34,11 @@ jobs:
       - name: SPC fasting vs pravoslavno.rs
         run: python3 scripts/serbian/validate_spc_fasting.py
 
+      # Russian and English against the calendars they follow: days.pravoslavie.ru,
+      # holytrinityorthodox.com (ROCOR) and orthocal.info (the OCA).
+      - name: Russian and English fasting vs their calendars
+        run: python3 scripts/shared/validate_fasting.py
+
       # The reference implementation the two app ports are checked against.
       - name: Bio matcher reference
         run: python3 scripts/shared/simulate_bio_matching.py
