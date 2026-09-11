@@ -34,6 +34,7 @@ Also fixed
 • Month arrows no longer step outside the available years
 • A year that can't be loaded says so, instead of blaming your connection
 • The fasting banner no longer shows a fast that has ended or not yet begun
+• The Beheading of St John, the Exaltation of the Cross and Theophany Eve are marked as fast days again
 • Empty commemoration cards removed
 • Faster launch and snappier haptics
 ```
@@ -52,6 +53,9 @@ Also fixed
 
 Житија светих
 Поново састављена из изворних текстова и придружена правом свецу — многа су раније стајала уз погрешан спомен.
+
+Пост
+Пост сада прати календар СПЦ дан по дан: строги дани су на води, а уље и риба само где их Црква разрешава. Усековање, Воздвижење и Богојављенски Крстовдан поново су постни дани.
 
 Још исправки
 • Подсетници се чувају на тачан дан, уз јасну поруку ако додавање не успе
@@ -82,6 +86,7 @@ Also fixed
 • Стрелки месяцев больше не выходят за доступные годы
 • Год, который не удалось загрузить, так и сообщает, а не винит соединение
 • Баннер поста больше не показывает уже закончившийся или не начавшийся пост
+• Усекновение главы Иоанна Предтечи, Воздвижение Креста и Крещенский сочельник снова отмечены как постные дни
 • Убраны пустые карточки памяти
 • Быстрее запуск и отзывчивее тактильная отдача
 ```
@@ -97,8 +102,15 @@ Also fixed
   Leave `minVersion` alone until you are willing to wall off 1.2.3 users — and
   remember one value gates the Android app too, which is on a different version
   line (see PARITY.md in the Android repo).
-- The archive on R2 is at `dataRevision: 5`. Devices drop their cached years when
-  that changes, which is what you want here.
+- **The fasting fix changes the archive.** `worker/config.json` is at `dataRevision: 6`,
+  and the regenerated 2024–2099 archive has to be published
+  (`upload_r2_v2.py <dir> --config`) before this release goes out, or years
+  downloaded from R2 keep the old fasting while the bundled ones show the new.
+  Only `fasting` differs from the published archive, apart from five `en_nc`
+  days — Apr 7 in 2058, 2069, 2075, 2080 and 2086 — that gain the Palm Sunday
+  or Pascha marking the old build lost (it took Apr 7 for the Julian
+  Annunciation). The text pools are byte-identical, so this publish needs no
+  `--shipped-pools` inlining.
 - `--shipped-pools` was skipped on the last publishes because no released build
   reads the v2 archive. **That stops being true the moment 1.4.4 ships.** The next
   regeneration after this release must pass `--shipped-pools` pointing at 1.4.4's
