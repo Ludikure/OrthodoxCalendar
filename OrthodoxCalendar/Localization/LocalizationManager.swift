@@ -71,9 +71,15 @@ final class LocalizationManager {
 
     var ui: UILabels { bundle.ui }
 
+    /// The month on its own, as a month header shows it. After a day number use
+    /// `dayAndMonth`, which declines the month where the language does.
     func localizedMonthName(_ month: Int) -> String {
         guard month >= 1, month <= 12 else { return "" }
         return bundle.ui.months[month - 1]
+    }
+
+    func dayAndMonth(_ day: Int, _ month: Int) -> String {
+        bundle.ui.dayAndMonth(day, month)
     }
 
     func localizedDayOfWeek(_ weekday: Int) -> String {
@@ -81,22 +87,4 @@ final class LocalizationManager {
         return bundle.ui.daysOfWeek[weekday]
     }
 
-    func localizedFastingDesc(_ apiDesc: String) -> String {
-        // Map API fasting descriptions to localized versions
-        let mapping: [(key: String, uiKey: String)] = [
-            ("No Fast", "noFast"),
-            ("Fast Free", "fastFree"),
-            ("Strict Fast", "strict"),
-            ("Fish Allowed", "fish"),
-            ("Oil Allowed", "oil"),
-            ("Wine Allowed", "wine"),
-            ("Fast Day", "strict")
-        ]
-        for (apiKey, uiKey) in mapping {
-            if apiDesc.contains(apiKey), let localized = bundle.ui.fastingTypes[uiKey] {
-                return localized
-            }
-        }
-        return apiDesc
-    }
 }

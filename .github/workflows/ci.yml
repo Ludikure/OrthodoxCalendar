@@ -27,6 +27,18 @@ jobs:
       - name: Validate all four locales
         run: python3 scripts/shared/validate.py 2025-2030
 
+      # Serbian fasting against the SPC's own calendar (pravoslavno.rs,
+      # "Календар поста"), every day 2025-2037. The old "93% match" was measured
+      # against the month table's "пост" marker, which is also printed on Pascha
+      # and all of Bright Week — it never compared a level.
+      - name: SPC fasting vs pravoslavno.rs
+        run: python3 scripts/serbian/validate_spc_fasting.py
+
+      # Russian and English against the calendars they follow: days.pravoslavie.ru,
+      # holytrinityorthodox.com (ROCOR) and orthocal.info (the OCA).
+      - name: Russian and English fasting vs their calendars
+        run: python3 scripts/shared/validate_fasting.py
+
       # The reference implementation the two app ports are checked against.
       - name: Bio matcher reference
         run: python3 scripts/shared/simulate_bio_matching.py
@@ -53,15 +65,72 @@ jobs:
 
       # project.pbxproj is committed next to project.yml, so it can drift.
       # Regenerating must be a no-op.
+      #
+      # The version is pinned, and has to be. `brew install xcodegen` tracks
+      # latest, and the generated pbxproj is not stable across xcodegen releases
+      # — 2.46 emits a `productRefGroup` line 2.44 does not — so an unpinned
+      # install turns this check red the day upstream ships, on a diff nobody
+      # wrote. That is what kept this whole job from reaching Build or Test for
+      # three commits. Bump this and commit the regenerated project together.
       - name: xcodegen is a no-op
+        env:
+          XCODEGEN_VERSION: '2.44.1'
         run: |
-          brew install xcodegen
-          xcodegen generate
-          git diff --exit-code OrthodoxCalendar.xcodeproj/project.pbxproj
+          curl -fsSL -o "$RUNNER_TEMP/xcodegen.zip" \
+            "https://github.com/yonaskolb/XcodeGen/releases/download/$XCODEGEN_VERSION/xcodegen.zip"
+          unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP"
+          "$RUNNER_TEMP/xcodegen/bin/xcodegen" --version
+          "$RUNNER_TEMP/xcodegen/bin/xcodegen" generate
+          # The scheme is generated too, so it drifts the same way the pbxproj
+          # does — and it is what the Build and Test steps run.
+          git diff --exit-code OrthodoxCalendar.xcodeproj/project.pbxproj OrthodoxCalendar.xcodeproj/xcshareddata
+
+      # `name=iPhone 16` on its own means OS:latest, and that is a trap: the
+      # destination has to name a device the runner image actually has, or
+      # xcodebuild exits 70 with "Unable to find a device matching the provided
+      # destination specifier". Xcode 26.5's default runtime is iOS 26, which
+      # ships 16e and 17 but not a plain 16 — so the two steps below would go
+      # red on an image update without a single line of app code changing.
+      #
+      # Pick the newest runtime that has one of these, by UDID, so the device
+      # and its runtime are pinned together. Printed into the log because a red
+      # run should say which simulator it used.
+      - name: Pick a simulator
+        id: sim
+        run: |
+          set -euo pipefail
+          xcrun simctl list devices available -j > "$RUNNER_TEMP/devices.json"
+          for name in 'iPhone 16' 'iPhone 16e' 'iPhone 17' 'iPhone 15'; do
+            udid=$(jq -r --arg n "$name" '
+              .devices | to_entries | sort_by(.key) | reverse
+              | map(.value[] | select(.name == $n)) | (.[0].udid // empty)' "$RUNNER_TEMP/devices.json")
+            if [ -n "$udid" ]; then
+              echo "destination=platform=iOS Simulator,id=$udid" >> "$GITHUB_OUTPUT"
+              echo "Using $name ($udid)"
+              exit 0
+            fi
+          done
+          echo "::error::No iPhone simulator available. Devices present:"
+          jq -r '.devices | to_entries[] | .key + ": " + ([.value[].name] | join(", "))' "$RUNNER_TEMP/devices.json"
+          exit 1
 
       - name: Build
+        env:
+          DESTINATION: ${{ steps.sim.outputs.destination }}
         run: |
           xcodebuild -project OrthodoxCalendar.xcodeproj \
             -scheme OrthodoxCalendar \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination "$DESTINATION" \
             build
+
+      # Regression tests for the pure logic the data depends on: ASCII date keys
+      # (they break for users whose phone numbers differently), the bio matcher's
+      # documented rules, and the update gate's version compare.
+      - name: Test
+        env:
+          DESTINATION: ${{ steps.sim.outputs.destination }}
+        run: |
+          xcodebuild -project OrthodoxCalendar.xcodeproj \
+            -scheme OrthodoxCalendar \
+            -destination "$DESTINATION" \
+            test -only-testing:OrthodoxCalendarTests

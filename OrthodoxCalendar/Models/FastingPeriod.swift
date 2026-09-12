@@ -65,13 +65,6 @@ enum FastingPeriods {
         let minDate = allDates.min()
         let maxDate = allDates.max()
 
-        var cal = Calendar(identifier: .gregorian)
-        cal.timeZone = TimeZone(secondsFromGMT: 0)!
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = cal
-        fmt.timeZone = cal.timeZone
-
         let sorted = days.filter { $0.fastingPeriod != nil }
             .sorted { $0.gregorianDate < $1.gregorianDate }
         var result: [String: FastingPeriodInfo] = [:]
@@ -81,11 +74,8 @@ enum FastingPeriods {
             var j = i
             while j + 1 < sorted.count {
                 let next = sorted[j + 1]
-                let consecutive: Bool = {
-                    guard let cur = fmt.date(from: sorted[j].gregorianDate),
-                          let nxt = fmt.date(from: next.gregorianDate) else { return false }
-                    return cal.dateComponents([.day], from: cur, to: nxt).day == 1
-                }()
+                let consecutive = DateKeys.isConsecutive(sorted[j].gregorianDate,
+                                                         next.gregorianDate)
                 if next.fastingPeriod == code && consecutive { j += 1 } else { break }
             }
             let run = Array(sorted[i...j])

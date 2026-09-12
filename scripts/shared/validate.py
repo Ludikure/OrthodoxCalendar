@@ -14,11 +14,13 @@ Checks:
 
 import json
 import os
+import re
 import sys
 from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(__file__))
 from paschalion import Paschalion
+import fixed_cycle
 
 YEAR = 2026
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'output')
@@ -31,6 +33,13 @@ FIXED_GREAT_DATES = {
     "annunciation": (3, 25), "transfiguration": (8, 6), "dormition": (8, 15),
     "nativity-of-theotokos": (9, 8), "elevation-of-cross": (9, 14),
     "presentation-of-theotokos": (11, 21),
+}
+
+# Every id the greatFeast field can legitimately hold: the nine fixed ones, the
+# three that follow Pascha, and Pascha itself. Used to tell a real mis-marking
+# apart from two great feasts landing on one date.
+GREAT_FEAST_IDS = set(FIXED_GREAT_DATES) | {
+    "pascha", "entry-into-jerusalem", "ascension", "pentecost",
 }
 
 
@@ -71,16 +80,32 @@ def validate_calendar(locale: str, year: int = None, directory: str = None):
     if days_without_primary > 0:
         errors.append(f"{days_without_primary} days with feasts but no primary entry")
 
-    # Check 3: 12 Great Feasts present
+    # Check 3: all 12 Great Feasts are marked on the day they fall on.
+    # great_feasts_gregorian() is calendar-style aware, so this covers the
+    # Revised calendar's dates too; the moveable ones (Entry, Ascension,
+    # Pentecost) are only covered here — Check 11 handles the fixed ones.
     great_feasts = pasch.great_feasts_gregorian()
     for feast_id, feast_date in great_feasts.items():
         key = feast_date.strftime("%m-%d")
         day = calendar.get(key)
         if not day:
             errors.append(f"Great feast {feast_id} ({feast_date}) missing from calendar")
-            continue
-        if not day.get("greatFeast"):
-            warnings.append(f"Great feast {feast_id} ({feast_date}) not marked as greatFeast")
+        elif not day.get("greatFeast"):
+            errors.append(f"Great feast {feast_id} ({feast_date}) not marked as greatFeast")
+        elif day["greatFeast"] != feast_id:
+            # A day carries one greatFeast, and two of them do legitimately land
+            # on the same date: Annunciation falls on Palm Sunday in 2058, 2069
+            # and 2080, and the pipeline marks the fixed one. Another great
+            # feast's ID here is that coincidence, worth a note; anything else is
+            # bad data. (Kyriopascha — Pascha on Annunciation, 2075 and 2086 —
+            # never reaches this branch: Pascha is not one of the twelve, so the
+            # only feast checked on that date is Annunciation, which is exactly
+            # what the day is marked with.)
+            other = day["greatFeast"]
+            if other in GREAT_FEAST_IDS:
+                warnings.append(f"{key}: {feast_id} shares the day with greatFeast {other!r}")
+            else:
+                errors.append(f"{key}: greatFeast is {other!r}, expected {feast_id!r}")
 
     # Check 4: Pascha present
     pascha_key = pasch.pascha.strftime("%m-%d")
@@ -140,7 +165,17 @@ def validate_calendar(locale: str, year: int = None, directory: str = None):
         want = (date(year, jm, jd) + timedelta(days=offset)).strftime("%m-%d")
         on = [k for k, d in calendar.items() if d.get("greatFeast") == feast_id]
         if want in calendar and on != [want]:
-            errors.append(f"{feast_id}: expected only {want}, found {on or 'none'}")
+            other = calendar[want].get("greatFeast")
+            # Defensive: the fixed feast is marked nowhere and its own date
+            # carries a different great feast, i.e. the moveable one won the day.
+            # The pipeline currently always prefers the fixed feast, so no year
+            # in 2024-2099 reaches this — Check 3 above catches the real
+            # collisions. Kept as a downgrade so a future ordering change warns
+            # instead of failing the build on correct data.
+            if not on and other in GREAT_FEAST_IDS:
+                warnings.append(f"{feast_id}: shares {want} with greatFeast {other!r}")
+            else:
+                errors.append(f"{feast_id}: expected only {want}, found {on or 'none'}")
     # The injected great feast's own name must not also appear on another day —
     # that is what a mis-keyed fixed cycle looks like (en_nc carried each of them
     # twice, 13 days apart). Scraped sources do mark several entries "great" on a
@@ -186,6 +221,72 @@ def validate_calendar(locale: str, year: int = None, directory: str = None):
     return passed
 
 
+MOVING_NAME = re.compile(
+    r"Задушнице|Отдание праздника (Пасхи|Преполовения|Вознесения|Пятидесятницы)"
+    r"|^(Sunday|Saturday) (before|after)|^Saturday the Nativity|Parents’ Saturday|\(Parental\) Saturday"
+    r"|\(movable holiday|\(celebration on the|Week of Holy Forefathers"
+    r"|– (Оци|Материце|Детињци|Теодорова субота)$")
+
+
+def check_fixed_cycle(years, directory=None) -> bool:
+    """Checks that need more than one year: a church day carries the same fixed
+    commemorations in every year, and nothing that moves sits on a fixed day.
+
+    The saints pools were scraped in one year. Read by the Gregorian date, a leap
+    year's February 29 to March 12 came out a church day early; and the sources'
+    moving commemorations (memorial Saturdays, the Sundays around the great
+    feasts, synaxes kept on "the Sunday nearest") stayed on that year's dates in
+    every other year. fixed_cycle.py explains both.
+    """
+    ok = True
+    for locale in ['sr', 'ru', 'en', 'en_nc']:
+        by_year = {}
+        problems = []
+        for year in years:
+            path = os.path.join(directory or DATA_DIR, f"calendar_{locale}_{year}.json")
+            if not os.path.exists(path):
+                continue
+            with open(path) as f:
+                days = json.load(f)["days"]
+            church_days = {}
+            for key, day in days.items():
+                church = key if locale == 'en_nc' else day["julianDate"]
+                church_days[church] = tuple(x["name"] for x in day["feasts"] if not x.get("moveable"))
+                for label in ("weekLabel", "liturgicalPeriod", "liturgicalNote"):
+                    if day.get(label):
+                        problems.append(f"{year}-{key}: {label} copied from the scraped year")
+                for x in day["feasts"]:
+                    name = x["name"]
+                    if not x.get("moveable") and MOVING_NAME.search(name):
+                        problems.append(f"{year}-{key}: a moving commemoration on a fixed day: {name[:60]}")
+                    if re.match(r"^(Sunday|Неделя|Недеља)\b", name) and day["dayOfWeek"] != 6:
+                        problems.append(f"{year}-{key}: a Sunday commemoration on a weekday: {name[:60]}")
+                    if name.lstrip().startswith("*"):
+                        problems.append(f"{year}-{key}: a rubric listed as a saint: {name[:60]}")
+            by_year[year] = church_days
+        common = [y for y in by_year if y % 4]
+        if common:
+            reference = by_year[common[0]]
+            for year, church_days in by_year.items():
+                for church, names in church_days.items():
+                    if church == "02-29":
+                        stray = [n for n in names if not fixed_cycle.LEAP_DAY.search(n)]
+                        if stray:
+                            problems.append(f"{year} church 02-29: not a February 29 commemoration: {stray[0][:50]}")
+                        continue
+                    want = reference.get(church)
+                    if church == "02-28" and year % 4 == 0 and want is not None:
+                        want = tuple(n for n in want if not fixed_cycle.LEAP_DAY.search(n))
+                    if want is not None and names != want:
+                        problems.append(f"{year} church {church}: fixed commemorations differ from {common[0]}'s")
+        status = "OK" if not problems else f"{len(problems)} problems"
+        print(f"  fixed cycle {locale}: {status}")
+        for line in problems[:10]:
+            print(f"    {line}")
+        ok = ok and not problems
+    return ok
+
+
 def main():
     """validate.py [year|year-year] [--dir=DIR]"""
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
@@ -200,8 +301,13 @@ def main():
         for locale in ['sr', 'ru', 'en', 'en_nc']:
             results[f'{locale}{year}'] = validate_calendar(locale, year, directory)
 
+    print(f"\n{'='*40}\nAcross years:")
+    ok = check_fixed_cycle(years, directory) and all(results.values())
     print(f"\n{'='*40}")
-    print(f"Overall: {'ALL PASS' if all(results.values()) else 'FAILURES DETECTED'}")
+    print(f"Overall: {'ALL PASS' if ok else 'FAILURES DETECTED'}")
+    # Without this the CI step prints FAILURES DETECTED and exits 0, so the
+    # data job can never go red — every invariant below was decoration.
+    sys.exit(0 if ok else 1)
 
 
 if __name__ == "__main__":

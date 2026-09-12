@@ -150,12 +150,16 @@ actor CalendarRepository {
         var days = file.days
         for (key, var day) in days {
             if let bios = day.saintBios {
+                // A ref the shipped pool lacks means there is no biography.
+                // Keep the entry with empty text rather than dropping it: the
+                // views treat empty text as absent, but BioMatcher counts the
+                // day's bios, and shrinking a two-bio day to one can fire its
+                // single-bio fallback, which hands the survivor to the first
+                // fixed feast without scoring it — a wrong biography is worse
+                // than a missing one.
                 day.saintBios = bios.map { b in
                     guard let ref = b.ref, b.text.isEmpty else { return b }
-                    // A ref the shipped pool lacks means the card would render as
-                    // an empty expander. Leave the text empty and let the view
-                    // drop it rather than showing a bio that is not there.
-                    guard let text = pool[ref] else {
+                    guard let text = pool[ref], !text.isEmpty else {
                         #if DEBUG
                         print("texts_\(locale): missing ref \(ref) for \(b.title)")
                         #endif

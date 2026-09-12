@@ -13,10 +13,11 @@ targets:
     type: application
     platform: iOS
     sources:
-      # All calendar years are bundled offline (no network path since v1.4.0),
-      # so the folder scan picks up every calendar_*.json and texts_*.json in
-      # Localization/. RELEASE CHECKLIST: copy new years from data/output/ into
-      # OrthodoxCalendar/Localization/ before regenerating.
+      # The bundled window (currently 2025-2030) ships fully offline; years
+      # outside it download from the Worker (v1.4.0+), so the folder scan picks
+      # up every calendar_*.json and texts_*.json in Localization/ and that set
+      # is exactly the offline window. RELEASE CHECKLIST: copy new years from
+      # data/output/ into OrthodoxCalendar/Localization/ before regenerating.
       - path: OrthodoxCalendar
     settings:
       base:
@@ -25,6 +26,10 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        # Set in the Xcode GUI originally; it belongs here because project.pbxproj
+        # is generated — regenerating used to drop it. The App Store listing
+        # category comes from App Store Connect, this is what ships in the bundle.
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.lifestyle
         PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar
         DEVELOPMENT_TEAM: 6AS729C9FR
         PRODUCT_NAME: "Orthodox Calendar"
@@ -37,3 +42,30 @@ targets:
         SWIFT_STRICT_CONCURRENCY: complete
         INFOPLIST_KEY_NSCalendarsUsageDescription: "Add feast days and reminders to your calendar"
         INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription: "Add feast days and reminders to your calendar"
+  # Pure-logic tests (date keys, bio matching, the update gate). The app has no
+  # TEST_HOST-independent target: these types are internal, so the bundle loads
+  # the app. `xcodebuild test -only-testing:OrthodoxCalendarTests`.
+  OrthodoxCalendarTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: OrthodoxCalendarTests
+    dependencies:
+      - target: OrthodoxCalendar
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Orthodox Calendar.app/Orthodox Calendar"
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  OrthodoxCalendar:
+    build:
+      targets:
+        OrthodoxCalendar: all
+        OrthodoxCalendarTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - OrthodoxCalendarTests

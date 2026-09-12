@@ -5,12 +5,7 @@ struct MonthListView: View {
     @Environment(LocalizationManager.self) private var localization
     @State private var todayString = Self.makeTodayString()
 
-    private static func makeTodayString() -> String {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = Calendar(identifier: .gregorian)
-        return fmt.string(from: Date())
-    }
+    private static func makeTodayString() -> String { DateKeys.today }
 
     private func refreshToday() {
         todayString = Self.makeTodayString()

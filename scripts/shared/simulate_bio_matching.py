@@ -9,6 +9,8 @@ script reports how many fixed feasts get a bio with the previous matcher
 feast stays unmatched although unclaimed bios remain.
 
 Usage: python3 scripts/shared/simulate_bio_matching.py [sr|ru|en|en_nc ...] [--year=2026]
+       python3 scripts/shared/simulate_bio_matching.py --tsv=PATH   write the Android
+           BioMatcherTest fixture (app/src/test/resources/bio_assignments_2026.tsv)
 """
 import collections, json, os, re, sys
 
@@ -179,8 +181,31 @@ def run(loc, show=40, year=2026):
     for x in diffs[:show]: print("  DIFF", x)
     for x in leftovers[:show]: print("  LEFT", x)
 
+def write_tsv(path, locs, year):
+    """The fixture the Android BioMatcherTest checks its port against: for every
+    day with bios, the feast index = bio index pairs this reference makes. A day
+    whose bios match nothing keeps an empty row — that is a result too."""
+    lines = ["# feast index -> bio index per day, produced by scripts/shared/simulate_bio_matching.py",
+             f"# in the iOS repo (the reference implementation) over the bundled {year} calendars.",
+             "# Regenerate whenever the matcher rules or the bundled data change (--tsv=<this file>)."]
+    for loc in locs:
+        d = json.load(open(os.path.join(BASE, 'data', 'output', f'calendar_{loc}_{year}.json')))['days']
+        for k in sorted(d):
+            bios = d[k].get('saintBios') or []
+            if bios:
+                pairs = new_assign(d[k]['feasts'], bios, loc)
+                lines.append(f"{loc}\t{k}\t" + ",".join(f"{i}={j}" for i, j in sorted(pairs.items())))
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    print(f"{path}: {len(lines) - 3} days")
+
+
 if __name__ == '__main__':
     year = int(next((a.split('=')[1] for a in sys.argv[1:] if a.startswith('--year=')), 2026))
     locs = [a for a in sys.argv[1:] if not a.startswith('--')] or ['sr', 'ru', 'en', 'en_nc']
-    for loc in locs:
-        run(loc, year=year)
+    tsv = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--tsv=')), None)
+    if tsv:
+        write_tsv(tsv, locs, year)
+    else:
+        for loc in locs:
+            run(loc, year=year)

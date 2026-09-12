@@ -15,6 +15,10 @@ struct AddReminderView: View {
     @State private var alreadyAdded = false
     @State private var saveFailed = false
     @State private var alertsSkipped = false
+    /// Guards against a second tap: the duplicate check below queries EventKit
+    /// *before* saving, so two taps in flight both find nothing and write two
+    /// identical events.
+    @State private var isSaving = false
 
     private let store = EKEventStore()
 
@@ -86,6 +90,7 @@ struct AddReminderView: View {
                         Task { await saveEvent() }
                     }
                     .fontWeight(.semibold)
+                    .disabled(isSaving || title.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
                 ToolbarItem(placement: .keyboard) {
                     HStack {
@@ -132,9 +137,40 @@ struct AddReminderView: View {
         day.date ?? Date()
     }
 
+    /// Asks for calendar access through the completion-handler API instead of
+    /// `requestFullAccessToEvents()`. The async form hands the view's
+    /// non-Sendable `EKEventStore` to a nonisolated function, which the Swift 6
+    /// compiler in Xcode 16 rejects ("sending 'self.store' risks causing data
+    /// races"). Xcode 26's compiler accepts it, so a local build never shows
+    /// the error — only CI does. The completion is marked `@Sendable` because
+    /// EventKit's header does not: left unmarked it would inherit the view's
+    /// main-actor isolation, and EventKit calls it on an arbitrary queue, where
+    /// Swift 6's runtime isolation check would trap.
+    private func requestFullAccess() async throws -> Bool {
+        try await withCheckedThrowingContinuation { continuation in
+            store.requestFullAccessToEvents { @Sendable granted, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: granted)
+                }
+            }
+        }
+    }
+
     private func saveEvent() async {
+        guard !isSaving else { return }
+        isSaving = true
+        defer { isSaving = false }
+        // Each attempt reports its own outcome. Without the reset a retry after
+        // a failure keeps claiming the previous one's result — "alerts were all
+        // in the past" on an event the user has since moved, or "already added"
+        // when the duplicate check was what tripped last time.
+        alreadyAdded = false
+        alertsSkipped = false
+        saveFailed = false
         do {
-            let granted = try await store.requestFullAccessToEvents()
+            let granted = try await requestFullAccess()
             guard granted else {
                 permissionDenied = true
                 return
@@ -220,7 +256,7 @@ struct AddReminderView: View {
     }
 
     private var formattedDate: String {
-        "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth)) \(day.gregorianDate.prefix(4))"
+        "\(localization.dayAndMonth(day.gregorianDay, day.gregorianMonth)) \(day.gregorianDate.prefix(4))"
     }
 
     private func alertText(_ option: AlertOption) -> String {

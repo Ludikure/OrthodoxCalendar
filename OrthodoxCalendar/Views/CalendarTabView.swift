@@ -4,12 +4,7 @@ struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
 
-    private var todayString: String {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = Calendar(identifier: .gregorian)
-        return fmt.string(from: Date())
-    }
+    private var todayString: String { DateKeys.today }
 
     /// The season to show in the banner, and whether its "Day X of Y" is about
     /// today. When today is in the viewed month the banner reflects *today's*
@@ -109,9 +104,7 @@ struct CalendarTabView: View {
                                 .foregroundStyle(AppColors.mutedText)
                         }
                         NavigationLink {
-                            SettingsView(onLanguageChanged: { locale in
-                                viewModel.forceReload(locale: locale)
-                            })
+                            SettingsView()
                         } label: {
                             Image(systemName: "gearshape")
                                 .foregroundStyle(AppColors.mutedText)
@@ -198,7 +191,7 @@ struct CalendarTitle: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 6) {
-                Text("✝")
+                Text("☦\u{FE0E}")
                     .foregroundStyle(AppColors.crimson)
                 Text(localization.ui.appTitle)
                     .font(.system(.title2, design: .serif).weight(.bold))

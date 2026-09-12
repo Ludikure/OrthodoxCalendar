@@ -2,14 +2,13 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(LocalizationManager.self) private var localization
-    var onLanguageChanged: ((String) -> Void)?
 
     var body: some View {
         @Bindable var loc = localization
 
         Form {
             Section {
-                LanguagePickerView(onLanguageChanged: onLanguageChanged)
+                LanguagePickerView()
             } header: {
                 Text(localization.ui.settingsLabel)
             }

@@ -101,17 +101,27 @@ struct SaintSearchView: View {
             return
         }
 
+        // Fold both sides to one script before comparing: the `sr` data is
+        // Cyrillic-only while Serbian is read in both scripts, so "Nikola" or
+        // "Sava" used to return nothing at all. Display keeps the original text.
+        let foldedQuery = Self.fold(q)
         var found: [SaintSearchResult] = []
+        var seen: Set<String> = []
         for (_, day) in file.days {
             for feast in day.feasts {
-                if feast.name.lowercased().contains(q) {
-                    found.append(SaintSearchResult(
-                        matchedText: feast.name,
-                        gregorianMonth: day.gregorianMonth,
-                        gregorianDay: day.gregorianDay,
-                        language: localization.language
-                    ))
+                let result = SaintSearchResult(
+                    matchedText: feast.name,
+                    gregorianMonth: day.gregorianMonth,
+                    gregorianDay: day.gregorianDay,
+                    language: localization.language
+                )
+                // The id is (date, name), so it has to be unique — a day can
+                // list the same commemoration twice (a repose and a translation
+                // of relics), and duplicate ids make ForEach misbehave.
+                guard Self.fold(feast.name).contains(foldedQuery), seen.insert(result.id).inserted else {
+                    continue
                 }
+                found.append(result)
             }
         }
 
@@ -122,11 +132,43 @@ struct SaintSearchView: View {
         }.prefix(50))
     }
 
+    /// Lowercase and fold both scripts to one form so either matches the other.
+    /// Lossy by design (it decides what to show, never what the data says).
+    ///
+    /// The target is Serbian Latin, because that is the bi-script case this
+    /// exists for: Serbian is read in both alphabets and the `sr` data is
+    /// Cyrillic-only. So ч/ћ/ц fold to `c` and ш to `s` — a Russian
+    /// romanization ("ch", "sh", "ts") would leave "Cirilo" and "Cedomir"
+    /// matching nothing. Latin diacritics fold the same way, so a query typed
+    /// properly as "Ćirilo" or "Šišman" lands on the same string. Folding is
+    /// applied to both sides, so same-script search is unaffected either way.
+    static func fold(_ text: String) -> String {
+        text.lowercased().map { folding[$0] ?? "\($0)" }.joined()
+    }
+
+    private static let folding: [Character: String] = [
+        // Serbian Cyrillic, in Serbian Latin. љ/њ were absent before, so every
+        // name containing them ("Љубомир", "Њиш") was unreachable from Latin.
+        "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "ђ": "dj", "е": "e",
+        "ж": "z", "з": "z", "и": "i", "ј": "j", "к": "k", "л": "l", "љ": "lj",
+        "м": "m", "н": "n", "њ": "nj", "о": "o", "п": "p", "р": "r", "с": "s",
+        "т": "t", "ћ": "c", "у": "u", "ф": "f", "х": "h", "ц": "c", "ч": "c",
+        "џ": "dz", "ш": "s",
+        // Russian-only letters, folded consistently with the above.
+        "ё": "e", "й": "i", "щ": "sc", "ъ": "", "ы": "i", "ь": "", "э": "e",
+        "ю": "ju", "я": "ja",
+        // Other Cyrillic that turns up in transliterated sources.
+        "є": "je", "ї": "ji", "і": "i", "ў": "u", "ґ": "g", "ѣ": "e",
+        "ѳ": "th", "ѵ": "i",
+        // Latin diacritics, so a correctly typed Serbian query folds identically.
+        "đ": "dj", "ć": "c", "č": "c", "š": "s", "ž": "z",
+    ]
+
     // MARK: - Date Display
 
     private func dateDisplay(for result: SaintSearchResult) -> String {
         if let gm = result.gregorianMonth, let gd = result.gregorianDay {
-            return "\(gd) \(localization.localizedMonthName(gm))"
+            return localization.dayAndMonth(gd, gm)
         }
         return ""
     }
@@ -179,7 +221,12 @@ struct SaintSearchView: View {
 }
 
 struct SaintSearchResult: Identifiable {
-    let id = UUID()
+    /// Stable across keystrokes (it used to be a fresh UUID, so every debounced
+    /// search threw away all row identity: the list rebuilt, scroll position
+    /// reset, and rows animated from scratch).
+    var id: String {
+        "\(gregorianMonth ?? 0)-\(gregorianDay ?? 0)-\(matchedText)"
+    }
     let matchedText: String
     var gregorianMonth: Int?
     var gregorianDay: Int?
