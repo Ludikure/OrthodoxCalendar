@@ -92,6 +92,15 @@ struct AboutView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+                Link(destination: Self.writeReviewURL) {
+                    HStack {
+                        Text(rateLabel)
+                        Spacer()
+                        Image(systemName: "star")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
 
             Section {
@@ -292,6 +301,18 @@ struct AboutView: View {
         case .en, .en_nc: return "Support"
         }
     }
+
+    private var rateLabel: String {
+        switch localization.language {
+        case .sr: return "Оцените апликацију"
+        case .ru: return "Оценить приложение"
+        case .en, .en_nc: return "Rate the App"
+        }
+    }
+
+    /// Opens the App Store straight on the review sheet.
+    private static let writeReviewURL =
+        URL(string: "https://apps.apple.com/app/id6761862951?action=write-review")!
 
     private var disclaimer: String {
         switch localization.language {

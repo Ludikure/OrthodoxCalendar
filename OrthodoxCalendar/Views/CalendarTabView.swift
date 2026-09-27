@@ -1,8 +1,11 @@
+import StoreKit
 import SwiftUI
 
 struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
 
     private var todayString: String { DateKeys.today }
 
@@ -134,6 +137,20 @@ struct CalendarTabView: View {
                     viewModel.selectedDay = target
                     viewModel.navigateToDay = nil
                 }
+            }
+            .task(id: scenePhase) {
+                // Each return to the foreground counts the day; the ask waits a
+                // moment so it never lands on top of the calendar appearing, and
+                // skips while a sheet is up so it never interrupts a reading.
+                guard scenePhase == .active else { return }
+                let prompt = ReviewPrompt()
+                prompt.recordActive()
+                guard prompt.shouldPrompt else { return }
+                try? await Task.sleep(for: .seconds(2))
+                guard !Task.isCancelled, viewModel.selectedDay == nil,
+                      !viewModel.showSearch, !viewModel.showDatePicker else { return }
+                requestReview()
+                prompt.markPrompted()
             }
         }
     }
