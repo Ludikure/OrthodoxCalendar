@@ -4,6 +4,7 @@ import SwiftUI
 struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
+    @Environment(SlavaStore.self) private var slavaStore
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.requestReview) private var requestReview
 
@@ -29,6 +30,32 @@ struct CalendarTabView: View {
         return nil
     }
 
+    /// The countdown row for the banner: Serbian only, from 30 days before the
+    /// user's slava, and only while the month on screen holds today or the
+    /// slava itself — browsing March in December shouldn't count down to
+    /// Nikoljdan.
+    private var slavaCountdown: SlavaCountdown? {
+        guard localization.language == .sr,
+              let next = slavaStore.countdown(),
+              next.days <= SlavaStore.bannerDays else { return nil }
+        let cal = ChurchDates.calendar
+        let shown = { (d: Date) in
+            cal.component(.year, from: d) == viewModel.currentYear
+                && cal.component(.month, from: d) == viewModel.currentMonth
+        }
+        guard shown(Date()) || shown(next.date) else { return nil }
+        return SlavaCountdown(name: next.slava.name, date: next.date, days: next.days)
+    }
+
+    private func openSlava(_ countdown: SlavaCountdown) {
+        Haptics.light()
+        let c = ChurchDates.calendar.dateComponents([.year, .month, .day], from: countdown.date)
+        guard let year = c.year, let month = c.month, let day = c.day else { return }
+        viewModel.currentYear = year
+        viewModel.currentMonth = month
+        viewModel.navigateToDay = day
+    }
+
     var body: some View {
         @Bindable var vm = viewModel
 
@@ -47,11 +74,14 @@ struct CalendarTabView: View {
                     onMonthTap: { viewModel.showDatePicker = true }
                 )
 
-                // Fasting season banner (Great Lent, etc.) when the viewed month
-                // touches a season — see `focal` for what it shows. Sits above the
-                // list with a soft shadow so scrolled rows pass cleanly under it.
-                if let focal {
-                    FastingPeriodBanner(period: focal.period, showsDayIndex: focal.isToday)
+                // Season banner when the viewed month touches a fasting season
+                // (see `focal`) or the user's slava is near (see
+                // `slavaCountdown`). Sits above the list with a soft shadow so
+                // scrolled rows pass cleanly under it.
+                let slava = slavaCountdown
+                if focal != nil || slava != nil {
+                    SeasonBanner(period: focal?.period, showsDayIndex: focal?.isToday ?? false,
+                                 slava: slava, onSlavaTap: { if let slava { openSlava(slava) } })
                         .background(AppColors.warmBg)
                         .shadow(color: .black.opacity(0.06), radius: 4, y: 3)
                         .zIndex(1)

@@ -3,17 +3,22 @@ import SwiftUI
 struct DayRowView: View, Equatable {
     let day: CalendarDay
     let isToday: Bool
+    /// The user's or a friend's slava on this day (Serbian only; nil otherwise).
+    let slava: SlavaMark?
 
     @Environment(LocalizationManager.self) private var localization
 
-    init(day: CalendarDay, isToday: Bool = false) {
+    init(day: CalendarDay, isToday: Bool = false, slava: SlavaMark? = nil) {
         self.day = day
         self.isToday = isToday
+        self.slava = slava
     }
 
     nonisolated static func == (lhs: DayRowView, rhs: DayRowView) -> Bool {
-        lhs.day == rhs.day && lhs.isToday == rhs.isToday
+        lhs.day == rhs.day && lhs.isToday == rhs.isToday && lhs.slava == rhs.slava
     }
+
+    private var isMySlava: Bool { slava?.isMine == true }
 
     private var dayOfWeekAbbrev: String {
         let abbrevs = localization.bundle.ui.daysOfWeek
@@ -35,12 +40,16 @@ struct DayRowView: View, Equatable {
             VStack(spacing: 2) {
                 Text("\(day.gregorianDay)")
                     .font(.system(.title3, design: .serif).weight(.bold))
-                    .foregroundStyle(isToday ? .white : (day.isSunday ? AppColors.crimson : AppColors.darkText))
+                    .foregroundStyle(isToday ? .white : (isMySlava ? Color(red: 0.173, green: 0.141, blue: 0.094)
+                        : (day.isSunday ? AppColors.crimson : AppColors.darkText)))
                     .frame(width: 34, height: 34)
                     .background {
                         if isToday {
                             Circle()
                                 .fill(AppColors.crimson)
+                        } else if isMySlava {
+                            Circle()
+                                .fill(AppColors.gold)
                         }
                     }
 
@@ -58,6 +67,12 @@ struct DayRowView: View, Equatable {
 
             // Main content
             VStack(alignment: .leading, spacing: 3) {
+                if isMySlava {
+                    Text("🕯 ВАША СЛАВА")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .tracking(1.2)
+                }
                 if isGreatFeast {
                     Text("✦ \(greatFeastLabel)")
                         .font(.system(size: 9, weight: .bold))
@@ -79,6 +94,14 @@ struct DayRowView: View, Equatable {
                     Text(secondaryText)
                         .font(.caption)
                         .foregroundStyle(AppColors.mutedText)
+                        .lineLimit(1)
+                }
+
+                // Friends' slavas: "Андрејевдан · Петровићи"
+                ForEach(slava?.friendLines ?? [], id: \.self) { line in
+                    Text("🕯 \(line)")
+                        .font(.caption)
+                        .foregroundStyle(AppColors.slavaGold)
                         .lineLimit(1)
                 }
             }
@@ -115,6 +138,8 @@ struct DayRowView: View, Equatable {
         Group {
             if isToday {
                 AppColors.crimson.opacity(0.08)
+            } else if isMySlava {
+                AppColors.slavaRowBg
             } else if isGreatFeast {
                 LinearGradient(colors: [Color(red: 1, green: 0.97, blue: 0.94),
                                         Color(red: 0.99, green: 0.92, blue: 0.82)],

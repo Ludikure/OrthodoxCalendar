@@ -4,10 +4,13 @@ struct DayDetailView: View {
     let day: CalendarDay
     @Environment(LocalizationManager.self) private var localization
     @Environment(CalendarViewModel.self) private var viewModel
+    @Environment(SlavaStore.self) private var slavaStore
     @Environment(\.dismiss) private var dismiss
     @State private var showAddReminder = false
     @State private var showShareSheet = false
     @State private var expandedSection: String?
+    /// The slava just set from a saint card, shown in the undo toast.
+    @State private var justSetSlava: SlavaDay?
 
     private var isGreat: Bool { day.isGreatFeast }
 
@@ -19,6 +22,12 @@ struct DayDetailView: View {
             }
         }
         .background(AppColors.warmBg)
+        .overlay(alignment: .bottom) {
+            if let slava = justSetSlava {
+                slavaToast(slava)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
         .navigationTitle(formattedDate)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -151,6 +160,12 @@ struct DayDetailView: View {
 
     private var contentSections: some View {
         VStack(alignment: .leading, spacing: 0) {
+            // The user's or a friends' slava on this day (Serbian only)
+            if localization.language == .sr, let mark = slavaStore.mark(for: day) {
+                slavaSection(mark)
+                    .padding(.top, 16)
+            }
+
             // Fasting section
             fastingSection
                 .padding(.top, 16)
@@ -185,6 +200,109 @@ struct DayDetailView: View {
             .fill(AppColors.warmBorder)
             .frame(height: 1)
             .padding(.vertical, 20)
+    }
+
+    // MARK: - Slava
+
+    private func slavaSection(_ mark: SlavaMark) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if mark.isMine, let mine = slavaStore.settings.mine {
+                let isToday = day.gregorianDate == DateKeys.today
+                VStack(spacing: 6) {
+                    Text("🕯")
+                        .font(.system(size: 26))
+                        .frame(width: 52, height: 52)
+                        .background(Circle().fill(AppColors.cardBg))
+                        .overlay(Circle().stroke(AppColors.gold, lineWidth: 2))
+                    Text("ВАША СЛАВА")
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(1.5)
+                        .foregroundStyle(AppColors.slavaGold)
+                    Text(isToday ? "Срећна слава!" : mine.name)
+                        .font(.system(.title2, design: .serif).weight(.bold))
+                        .foregroundStyle(AppColors.bannerTitle)
+                    Text(mine.saint)
+                        .font(.system(.subheadline, design: .serif))
+                        .foregroundStyle(AppColors.bodyText)
+                        .multilineTextAlignment(.center)
+                    Text(SlavaText.table(day.fasting.type))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.darkText)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 4)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(18)
+                .background(RoundedRectangle(cornerRadius: 16).fill(AppColors.bannerBg))
+                .accessibilityElement(children: .combine)
+            }
+            ForEach(mark.friendLines, id: \.self) { line in
+                HStack(spacing: 8) {
+                    Text("🕯")
+                    Text("Слава: \(line)")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.slavaGold)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(RoundedRectangle(cornerRadius: 10).fill(AppColors.slavaRowBg))
+            }
+        }
+    }
+
+    /// A saint card offers "set as your slava" only on a slava feast, in
+    /// Serbian, and only until the user has one — after that it never shows.
+    private func slavaOffer(for feast: Feast) -> SlavaDay? {
+        guard localization.language == .sr, slavaStore.settings.mine == nil else { return nil }
+        return SlavaCatalog.slava(for: feast, on: day)
+    }
+
+    private func setSlava(_ slava: SlavaDay) {
+        Haptics.medium()
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+            slavaStore.settings.mine = slava
+            justSetSlava = slava
+        }
+        Task {
+            await SlavaReminders.requestAuthorization()
+            slavaStore.onChange?()
+            try? await Task.sleep(for: .seconds(5))
+            withAnimation { if justSetSlava == slava { justSetSlava = nil } }
+        }
+    }
+
+    private func slavaToast(_ slava: SlavaDay) -> some View {
+        HStack(spacing: 12) {
+            Text("🕯")
+            VStack(alignment: .leading, spacing: 1) {
+                Text("\(slava.name) је ваша слава")
+                    .font(.subheadline.weight(.bold))
+                Text(slavaStore.settings.remindWeekBefore
+                     ? "Подсетник стиже недељу дана пре"
+                     : "Видећете је у календару")
+                    .font(.caption)
+                    .opacity(0.75)
+            }
+            Spacer(minLength: 8)
+            Button("Поништи") {
+                withAnimation {
+                    slavaStore.settings.mine = nil
+                    justSetSlava = nil
+                }
+            }
+            .font(.subheadline.weight(.bold))
+            .padding(.horizontal, 12)
+            .frame(minHeight: 44)
+            .background(RoundedRectangle(cornerRadius: 10).fill(.white.opacity(0.12)))
+        }
+        .foregroundStyle(Color(red: 0.953, green: 0.925, blue: 0.867))
+        .padding(.leading, 16)
+        .padding(.trailing, 10)
+        .padding(.vertical, 10)
+        .background(RoundedRectangle(cornerRadius: 16).fill(Color(red: 0.173, green: 0.141, blue: 0.094)))
+        .shadow(color: .black.opacity(0.25), radius: 12, y: 4)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
     }
 
     // MARK: - Fasting
@@ -240,7 +358,8 @@ struct DayDetailView: View {
                 SaintCard(
                     feast: feast,
                     bio: bios[index],
-                    localizedType: localizedSaintType(feast.type)
+                    localizedType: localizedSaintType(feast.type),
+                    slavaAction: slavaOffer(for: feast).map { slava in { setSlava(slava) } }
                 )
             }
         }
@@ -564,6 +683,9 @@ struct SaintCard: View {
     let feast: Feast
     let bio: SaintBio?
     let localizedType: String
+    /// Set on a slava feast while the user has no slava: shows the
+    /// "Поставите као своју славу" pill under the name.
+    var slavaAction: (() -> Void)? = nil
     @Environment(LocalizationManager.self) private var localization
     @State private var isExpanded = false
 
@@ -625,6 +747,22 @@ struct SaintCard: View {
             .buttonStyle(.plain)
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
+
+            if let slavaAction {
+                Button(action: slavaAction) {
+                    Text("🕯 Поставите као своју славу")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .padding(.horizontal, 12)
+                        .frame(minHeight: 36)
+                        .background(Capsule().fill(AppColors.slavaRowBg))
+                        .overlay(Capsule().stroke(AppColors.gold.opacity(0.5), lineWidth: 1))
+                }
+                .buttonStyle(.plain)
+                // Lined up under the name, past the 36 pt icon and its spacing.
+                .padding(.leading, 60)
+                .padding(.bottom, 10)
+            }
 
             // Expandable description or biography
             if let text = expandableText {

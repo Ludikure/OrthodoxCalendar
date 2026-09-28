@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(LocalizationManager.self) private var localization
+    @Environment(SlavaStore.self) private var slavaStore
 
     var body: some View {
         @Bindable var loc = localization
@@ -44,6 +45,22 @@ struct SettingsView: View {
                     Text("Bible Translation")
                 } footer: {
                     Text("New Testament wording. The Old Testament always uses the Septuagint.")
+                }
+            }
+
+            // Krsna slava is a Serbian custom, so only the Serbian calendar offers it.
+            if localization.language == .sr {
+                Section {
+                    NavigationLink {
+                        SlavaSettingsView()
+                    } label: {
+                        HStack {
+                            Text("🕯 Моја слава")
+                            Spacer()
+                            Text(slavaStore.settings.mine?.name ?? "")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
             }
 

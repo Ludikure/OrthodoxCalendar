@@ -14,7 +14,7 @@ OrthodoxCalendar/           # iOS app (SwiftUI)
 ├── Models/                 # CalendarDay, CalendarFile, AppLanguage, AppTheme
 ├── Views/                  # SwiftUI views (list, grid, detail, search, settings, about)
 ├── Localization/           # sr.json, ru.json, en.json, calendar_*.json (28 files)
-├── Engine/                 # BioMatcher (Pascha and the rest of the calendar come from the data)
+├── Engine/                 # BioMatcher; Paschalion (slava reminder dates only — the calendar reads Pascha from the data)
 ├── Resources/              # Assets.xcassets, splash_logo.png
 OrthodoxCalendarTests/      # XCTest target (pure logic; module Orthodox_Calendar)
 scripts/
