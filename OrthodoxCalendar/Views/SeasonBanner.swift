@@ -104,16 +104,9 @@ struct SeasonBanner: View {
             .fixedSize(horizontal: false, vertical: true)
     }
 
-    /// "за 12 дана", with Serbian's plural forms: 1 дан, 2–4 дана, 5+ дана
-    /// (21 дан, 22 дана, but 11–14 дана).
+    /// "за 12 дана"; shared with the widget (`SlavaCountdownText`).
     nonisolated static func countdownLabel(_ days: Int) -> String {
-        switch days {
-        case 0: return "Срећна слава!"
-        case 1: return "сутра"
-        default:
-            let word = (days % 10 == 1 && days % 100 != 11) ? "дан" : "дана"
-            return "за \(days) \(word)"
-        }
+        SlavaCountdownText.label(days)
     }
 }
 

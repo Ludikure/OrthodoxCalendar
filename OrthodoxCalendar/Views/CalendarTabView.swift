@@ -49,11 +49,7 @@ struct CalendarTabView: View {
 
     private func openSlava(_ countdown: SlavaCountdown) {
         Haptics.light()
-        let c = ChurchDates.calendar.dateComponents([.year, .month, .day], from: countdown.date)
-        guard let year = c.year, let month = c.month, let day = c.day else { return }
-        viewModel.currentYear = year
-        viewModel.currentMonth = month
-        viewModel.navigateToDay = day
+        viewModel.open(dateKey: DateKeys.key(from: countdown.date))
     }
 
     var body: some View {

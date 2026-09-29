@@ -158,34 +158,17 @@ struct DayRowView: View, Equatable {
     }
 
     private var fastingBadge: some View {
-        let (icon, color, bg) = fastingStyle
+        let style = FastingBadgeStyle(type: day.fasting.type)
         return HStack(spacing: 3) {
-            Text(icon)
+            Text(style.icon)
                 .font(.system(size: 10))
             Text(day.fasting.abbrev ?? "")
                 .font(.system(size: 10, weight: .semibold))
         }
-        .foregroundStyle(color)
+        .foregroundStyle(style.color)
         .padding(.horizontal, 8)
         .padding(.vertical, 3)
-        .background(bg)
+        .background(style.background)
         .clipShape(Capsule())
-    }
-
-    private var fastingStyle: (String, Color, Color) {
-        let t = day.fasting.type.lowercased()
-        if t == "totalabstinence" {
-            return ("🚫", AppColors.fastStrict, AppColors.fastStrictBg)
-        } else if t == "dryeating" {
-            return ("🍞", AppColors.fastStrict, AppColors.fastStrictBg)
-        } else if t.contains("nooil") {
-            return ("💧", AppColors.fastWater, AppColors.fastWaterBg)
-        } else if t.contains("oil") {
-            return ("🫒", AppColors.fastOil, AppColors.fastOilBg)
-        } else if t.contains("fish") || t.contains("roe") {
-            return ("🐟", AppColors.fastFish, AppColors.fastFishBg)
-        } else {
-            return ("✓", AppColors.fastFree, AppColors.fastFreeBg)
-        }
     }
 }

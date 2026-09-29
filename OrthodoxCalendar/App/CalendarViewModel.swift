@@ -19,6 +19,11 @@ final class CalendarViewModel {
     var scrollToTodayTrigger = false
     var scrollToDay: Int? = nil
     var navigateToDay: Int? = nil
+    /// A day (`yyyy-MM-dd`) to open once its month has loaded — set by a
+    /// widget tap or the slava banner, which also move the calendar there.
+    /// Matched by full date, never day number: until the new month loads,
+    /// `daysInMonth` still holds the old one, whose 14th is the wrong 14th.
+    var pendingDayKey: String?
     var viewMode: ViewMode = .list
     var showSearch = false
 
@@ -117,6 +122,35 @@ final class CalendarViewModel {
             selectedDay = daysInMonth.first { $0.gregorianDay == dayNum }
             navigateToDay = nil
         }
+        openPendingDay()
+    }
+
+    /// Opened from a widget: the calendar on today, with today's detail.
+    func openToday() {
+        showSearch = false
+        showDatePicker = false
+        pendingDayKey = DateKeys.today
+        goToToday()
+        // Already on this month: open it now; otherwise apply() will.
+        if !isLoading { openPendingDay() }
+    }
+
+    /// Moves the calendar to `key`'s month and opens that day's detail.
+    func open(dateKey key: String) {
+        let parts = key.split(separator: "-").compactMap { Int($0) }
+        guard parts.count == 3 else { return }
+        pendingDayKey = key
+        currentYear = parts[0]
+        currentMonth = parts[1]
+        // Same month already on screen: nothing reloads, so open it now.
+        if !isLoading { openPendingDay() }
+    }
+
+    private func openPendingDay() {
+        guard let key = pendingDayKey,
+              let day = daysInMonth.first(where: { $0.gregorianDate == key }) else { return }
+        selectedDay = day
+        pendingDayKey = nil
     }
 
     func goToToday() {

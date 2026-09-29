@@ -12,6 +12,10 @@ struct OrthodoxCalendarApp: App {
         SlavaReminders.update(slava.settings, language: localization.language)
     }
 
+    private func refreshWidgets() {
+        WidgetSync.refresh(language: localization.language, ui: localization.ui, mySlava: slava.settings.mine)
+    }
+
     var body: some Scene {
         WindowGroup {
             Group {
@@ -30,6 +34,7 @@ struct OrthodoxCalendarApp: App {
                         .onChange(of: localization.language) {
                             viewModel.forceReload(locale: localization.language.rawValue)
                             rescheduleSlavaReminders()
+                            refreshWidgets()
                         }
                         .onChange(of: viewModel.currentMonth) {
                             viewModel.loadMonth()
@@ -37,19 +42,37 @@ struct OrthodoxCalendarApp: App {
                         .onChange(of: viewModel.currentYear) {
                             viewModel.loadMonth()
                         }
+                        .onChange(of: viewModel.isLoading) {
+                            // The current year just finished loading (perhaps
+                            // downloaded): the widgets can now be written.
+                            if !viewModel.isLoading, viewModel.loadedFile?.year == Calendar.current.component(.year, from: Date()) {
+                                refreshWidgets()
+                            }
+                        }
+                        .onOpenURL { url in
+                            // The widgets link to orthodoxcalendar://today.
+                            if url.scheme == "orthodoxcalendar" { viewModel.openToday() }
+                        }
                 }
             }
             .preferredColorScheme(localization.theme.colorScheme)
             .tint(AppColors.crimson)
             .task {
-                slava.onChange = { rescheduleSlavaReminders() }
+                slava.onChange = {
+                    rescheduleSlavaReminders()
+                    refreshWidgets()
+                }
                 rescheduleSlavaReminders()
+                refreshWidgets()
                 await updateGate.check()
             }
             .onChange(of: scenePhase) {
                 // A reminder a year out is scheduled for its date; coming back
                 // to the app tops the queue up with the next occurrence.
-                if scenePhase == .active { rescheduleSlavaReminders() }
+                if scenePhase == .active {
+                    rescheduleSlavaReminders()
+                    refreshWidgets()
+                }
             }
         }
     }
