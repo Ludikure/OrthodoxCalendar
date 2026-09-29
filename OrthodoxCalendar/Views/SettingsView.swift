@@ -2,14 +2,15 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(LocalizationManager.self) private var localization
-    var onLanguageChanged: ((String) -> Void)?
+    @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
 
     var body: some View {
         @Bindable var loc = localization
 
         Form {
             Section {
-                LanguagePickerView(onLanguageChanged: onLanguageChanged)
+                LanguagePickerView()
             } header: {
                 Text(localization.ui.settingsLabel)
             }
@@ -45,6 +46,38 @@ struct SettingsView: View {
                     Text("Bible Translation")
                 } footer: {
                     Text("New Testament wording. The Old Testament always uses the Septuagint.")
+                }
+            }
+
+            // Krsna slava is a Serbian custom, so only the Serbian calendar offers it.
+            if localization.language == .sr {
+                Section {
+                    NavigationLink {
+                        SlavaSettingsView()
+                    } label: {
+                        HStack {
+                            Text("🕯 Моја слава")
+                            Spacer()
+                            Text(slavaStore.settings.mine?.name ?? "")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+
+            // Name days (именины) are kept in the Russian calendar only.
+            if localization.language == .ru {
+                Section {
+                    NavigationLink {
+                        NameDaySettingsView()
+                    } label: {
+                        HStack {
+                            Label("Мои именины", systemImage: NameDayText.icon)
+                            Spacer()
+                            Text(nameDayStore.settings.mine.map { NameDayLabel.dayAndMonthOfNext($0.anchor) } ?? "")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
             }
 

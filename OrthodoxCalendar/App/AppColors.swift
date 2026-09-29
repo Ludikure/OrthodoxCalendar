@@ -129,4 +129,26 @@ enum AppColors {
             ? UIColor(red: 0.14, green: 0.22, blue: 0.12, alpha: 1)
             : UIColor(red: 0.929, green: 0.969, blue: 0.918, alpha: 1)
     })
+
+    // MARK: - Slava (Serbian krsna slava markers and banner row)
+
+    /// Text and icons for slava labels: a dark gold that stays readable on the
+    /// cream row and the wheat banner.
+    static let slavaGold = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.851, green: 0.725, blue: 0.353, alpha: 1)
+            : UIColor(red: 0.541, green: 0.416, blue: 0.071, alpha: 1)   // #8A6A12
+    })
+    /// Background of the row on the user's own slava.
+    static let slavaRowBg = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.188, green: 0.161, blue: 0.094, alpha: 1)
+            : UIColor(red: 0.984, green: 0.953, blue: 0.863, alpha: 1)   // #FBF3DC
+    })
+    /// The rule between the fasting season and the slava row in the banner.
+    static let bannerDivider = Color(UIColor { tc in
+        tc.userInterfaceStyle == .dark
+            ? UIColor(red: 0.35, green: 0.30, blue: 0.20, alpha: 1)
+            : UIColor(red: 0.847, green: 0.780, blue: 0.588, alpha: 1)   // #D8C796
+    })
 }

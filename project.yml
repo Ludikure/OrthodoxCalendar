@@ -8,16 +8,31 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     TARGETED_DEVICE_FAMILY: "1,2"
+    # Project-wide so the widget extension always carries the app's version:
+    # App Store validation rejects an embedded extension whose version differs.
+    MARKETING_VERSION: "1.4.7"
+    CURRENT_PROJECT_VERSION: "20"
 targets:
   OrthodoxCalendar:
     type: application
     platform: iOS
     sources:
-      # All calendar years are bundled offline (no network path since v1.4.0),
-      # so the folder scan picks up every calendar_*.json and texts_*.json in
-      # Localization/. RELEASE CHECKLIST: copy new years from data/output/ into
-      # OrthodoxCalendar/Localization/ before regenerating.
+      # The bundled window (currently 2025-2030) ships fully offline; years
+      # outside it download from the Worker (v1.4.0+), so the folder scan picks
+      # up every calendar_*.json and texts_*.json in Localization/ and that set
+      # is exactly the offline window. RELEASE CHECKLIST: copy new years from
+      # data/output/ into OrthodoxCalendar/Localization/ before regenerating.
       - path: OrthodoxCalendar
+      # Snapshot model and date keys, compiled into the widget extension too.
+      - path: Shared
+    dependencies:
+      - target: OrthodoxCalendarWidget
+    # The App Group the app writes the widgets' snapshot into.
+    entitlements:
+      path: OrthodoxCalendar/OrthodoxCalendar.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.orthodox.calendar
     settings:
       base:
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -25,11 +40,13 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        # Set in the Xcode GUI originally; it belongs here because project.pbxproj
+        # is generated — regenerating used to drop it. The App Store listing
+        # category comes from App Store Connect, this is what ships in the bundle.
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.lifestyle
         PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar
         DEVELOPMENT_TEAM: 6AS729C9FR
         PRODUCT_NAME: "Orthodox Calendar"
-        MARKETING_VERSION: "1.4.4"
-        CURRENT_PROJECT_VERSION: "17"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES
         GENERATE_INFOPLIST_FILE: YES
@@ -37,3 +54,55 @@ targets:
         SWIFT_STRICT_CONCURRENCY: complete
         INFOPLIST_KEY_NSCalendarsUsageDescription: "Add feast days and reminders to your calendar"
         INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription: "Add feast days and reminders to your calendar"
+  # Home and lock screen widgets. They read the small snapshot the app writes
+  # into the App Group (WidgetSync) and never open a year file: a widget gets
+  # about 30 MB.
+  OrthodoxCalendarWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: OrthodoxCalendarWidget
+      - path: Shared
+      - path: OrthodoxCalendar/App/AppColors.swift
+    entitlements:
+      path: OrthodoxCalendarWidget/OrthodoxCalendarWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.orthodox.calendar
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.orthodox.calendar.widget
+        DEVELOPMENT_TEAM: 6AS729C9FR
+        PRODUCT_NAME: OrthodoxCalendarWidget
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: OrthodoxCalendarWidget/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "Orthodox Calendar"
+        SWIFT_STRICT_CONCURRENCY: complete
+        SKIP_INSTALL: YES
+  # Pure-logic tests (date keys, bio matching, the update gate). The app has no
+  # TEST_HOST-independent target: these types are internal, so the bundle loads
+  # the app. `xcodebuild test -only-testing:OrthodoxCalendarTests`.
+  OrthodoxCalendarTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: OrthodoxCalendarTests
+    dependencies:
+      - target: OrthodoxCalendar
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Orthodox Calendar.app/Orthodox Calendar"
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  OrthodoxCalendar:
+    build:
+      targets:
+        OrthodoxCalendar: all
+        OrthodoxCalendarTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - OrthodoxCalendarTests

@@ -78,11 +78,45 @@ def main(directory: str, keep_from: str | None = None) -> None:
                     if k not in pool:
                         pool[k] = t; kept += 1
         pool_path = os.path.join(directory, f"texts_{locale}.json")
-        json.dump(pool, open(pool_path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        # Sorted, so a pool's bytes depend only on its texts. Refs are content
+        # hashes, but the pool used to be written in first-appearance order: a
+        # regeneration that moved a bio to another day reordered the whole file
+        # and a byte comparison could not tell that from a real change.
+        json.dump(dict(sorted(pool.items())), open(pool_path, "w", encoding="utf-8"),
+                  ensure_ascii=False, separators=(",", ":"))
         psize = os.path.getsize(pool_path)
         print(f"{locale:6}: years {before/1e6:6.1f}->{after/1e6:5.1f}MB + pool {psize/1e6:5.1f}MB "
               f"({len(pool)} unique{f', {kept} kept from {keep_from}' if kept else ''})  "
               f"total {(after+psize)/1e6:.1f}MB (was {before/1e6:.1f})")
+
+        # Verify what landed on disk: every ref in a year file must resolve
+        # against the pool written next to it. A dangling ref is an empty
+        # biography on device with no signal in release builds (the app prints
+        # only under DEBUG), and it used to survive silently — a ref whose text
+        # the pool lost is copied forward untouched. upload_r2_v2 checks the same
+        # thing before publishing; checking here catches it when it is created.
+        dangling = []
+        for path in files:
+            data = json.load(open(path, encoding="utf-8"))
+            days = data["days"]
+            for key, day in (days.items() if isinstance(days, dict) else enumerate(days)):
+                refs = {b["ref"] for b in (day.get("saintBios") or []) if b.get("ref")}
+                refs |= {r[k] for r in (day.get("readings") or [])
+                         for k in ("textRef", "textWebRef") if r.get(k)}
+                missing = sorted(refs - set(pool))
+                if not missing:
+                    continue
+                dangling.append((os.path.basename(path), key, missing))
+        if dangling:
+            # Count refs, not days: one day can dangle several (bio + textRef +
+            # textWebRef), and only the first three of each day are shown.
+            n_refs = sum(len(row[2]) for row in dangling)
+            for row in dangling[:5]:
+                print(f"  DANGLING {row[0]} day {row[1]}: {row[2][:3]}")
+            sys.exit(f"dedup produced {n_refs} dangling refs in "
+                     f"{len(dangling)} day entr{'y' if len(dangling) == 1 else 'ies'} "
+                     f"for {locale}: the pool does not contain text the year files "
+                     f"point at")
 
 if __name__ == "__main__":
     dirs = [a for a in sys.argv[1:] if not a.startswith("--")]

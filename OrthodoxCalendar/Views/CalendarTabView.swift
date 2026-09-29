@@ -1,15 +1,15 @@
+import StoreKit
 import SwiftUI
 
 struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
+    @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
 
-    private var todayString: String {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        fmt.calendar = Calendar(identifier: .gregorian)
-        return fmt.string(from: Date())
-    }
+    private var todayString: String { DateKeys.today }
 
     /// The season to show in the banner, and whether its "Day X of Y" is about
     /// today. When today is in the viewed month the banner reflects *today's*
@@ -31,6 +31,43 @@ struct CalendarTabView: View {
         return nil
     }
 
+    /// The countdown row for the banner: Serbian only, from 30 days before the
+    /// user's slava, and only while the month on screen holds today or the
+    /// slava itself — browsing March in December shouldn't count down to
+    /// Nikoljdan.
+    private var slavaCountdown: SlavaCountdown? {
+        guard localization.language == .sr,
+              let next = slavaStore.countdown(),
+              next.days <= SlavaStore.bannerDays else { return nil }
+        let cal = ChurchDates.calendar
+        let shown = { (d: Date) in
+            cal.component(.year, from: d) == viewModel.currentYear
+                && cal.component(.month, from: d) == viewModel.currentMonth
+        }
+        guard shown(Date()) || shown(next.date) else { return nil }
+        return SlavaCountdown(name: next.slava.name, date: next.date, days: next.days)
+    }
+
+    /// The same row for the user's name day: Russian only, same 30 days and
+    /// the same rule about the month on screen.
+    private var nameDayCountdown: SlavaCountdown? {
+        guard localization.language == .ru,
+              let next = nameDayStore.countdown(),
+              next.days <= NameDayStore.bannerDays else { return nil }
+        let cal = ChurchDates.calendar
+        let shown = { (d: Date) in
+            cal.component(.year, from: d) == viewModel.currentYear
+                && cal.component(.month, from: d) == viewModel.currentMonth
+        }
+        guard shown(Date()) || shown(next.date) else { return nil }
+        return SlavaCountdown(name: next.nameDay.churchName, date: next.date, days: next.days, kind: .nameDay)
+    }
+
+    private func openSlava(_ countdown: SlavaCountdown) {
+        Haptics.light()
+        viewModel.open(dateKey: DateKeys.key(from: countdown.date))
+    }
+
     var body: some View {
         @Bindable var vm = viewModel
 
@@ -49,11 +86,14 @@ struct CalendarTabView: View {
                     onMonthTap: { viewModel.showDatePicker = true }
                 )
 
-                // Fasting season banner (Great Lent, etc.) when the viewed month
-                // touches a season — see `focal` for what it shows. Sits above the
-                // list with a soft shadow so scrolled rows pass cleanly under it.
-                if let focal {
-                    FastingPeriodBanner(period: focal.period, showsDayIndex: focal.isToday)
+                // Season banner when the viewed month touches a fasting season
+                // (see `focal`) or the user's slava is near (see
+                // `slavaCountdown`). Sits above the list with a soft shadow so
+                // scrolled rows pass cleanly under it.
+                let slava = slavaCountdown ?? nameDayCountdown
+                if focal != nil || slava != nil {
+                    SeasonBanner(period: focal?.period, showsDayIndex: focal?.isToday ?? false,
+                                 slava: slava, onSlavaTap: { if let slava { openSlava(slava) } })
                         .background(AppColors.warmBg)
                         .shadow(color: .black.opacity(0.06), radius: 4, y: 3)
                         .zIndex(1)
@@ -109,9 +149,7 @@ struct CalendarTabView: View {
                                 .foregroundStyle(AppColors.mutedText)
                         }
                         NavigationLink {
-                            SettingsView(onLanguageChanged: { locale in
-                                viewModel.forceReload(locale: locale)
-                            })
+                            SettingsView()
                         } label: {
                             Image(systemName: "gearshape")
                                 .foregroundStyle(AppColors.mutedText)
@@ -141,6 +179,20 @@ struct CalendarTabView: View {
                     viewModel.selectedDay = target
                     viewModel.navigateToDay = nil
                 }
+            }
+            .task(id: scenePhase) {
+                // Each return to the foreground counts the day; the ask waits a
+                // moment so it never lands on top of the calendar appearing, and
+                // skips while a sheet is up so it never interrupts a reading.
+                guard scenePhase == .active else { return }
+                let prompt = ReviewPrompt()
+                prompt.recordActive()
+                guard prompt.shouldPrompt else { return }
+                try? await Task.sleep(for: .seconds(2))
+                guard !Task.isCancelled, viewModel.selectedDay == nil,
+                      !viewModel.showSearch, !viewModel.showDatePicker else { return }
+                requestReview()
+                prompt.markPrompted()
             }
         }
     }
@@ -198,7 +250,7 @@ struct CalendarTitle: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 6) {
-                Text("✝")
+                Text("☦\u{FE0E}")
                     .foregroundStyle(AppColors.crimson)
                 Text(localization.ui.appTitle)
                     .font(.system(.title2, design: .serif).weight(.bold))
@@ -221,7 +273,7 @@ struct CalendarTitle: View {
         switch localization.language {
         case .sr: return "Српска Православна Црква"
         case .ru: return "Русская Православная Церковь"
-        case .en, .en_nc: return "Orthodox Church Calendar"
+        case .en, .en_nc: return localization.language.churchName
         }
     }
 }

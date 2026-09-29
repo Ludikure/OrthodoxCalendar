@@ -3,17 +3,28 @@ import SwiftUI
 struct DayRowView: View, Equatable {
     let day: CalendarDay
     let isToday: Bool
+    /// The user's or a friend's slava on this day (Serbian only; nil otherwise).
+    let slava: SlavaMark?
+    /// The user's or a friend's name day on this day (Russian only; nil otherwise).
+    let nameDay: NameDayMark?
 
     @Environment(LocalizationManager.self) private var localization
 
-    init(day: CalendarDay, isToday: Bool = false) {
+    init(day: CalendarDay, isToday: Bool = false, slava: SlavaMark? = nil, nameDay: NameDayMark? = nil) {
         self.day = day
         self.isToday = isToday
+        self.slava = slava
+        self.nameDay = nameDay
     }
 
     nonisolated static func == (lhs: DayRowView, rhs: DayRowView) -> Bool {
-        lhs.day == rhs.day && lhs.isToday == rhs.isToday
+        lhs.day == rhs.day && lhs.isToday == rhs.isToday && lhs.slava == rhs.slava && lhs.nameDay == rhs.nameDay
     }
+
+    /// The user's own slava or name day: the row turns gold either way (the
+    /// two never meet — slavas are Serbian only, name days Russian only).
+    private var isMySlava: Bool { slava?.isMine == true || isMyNameDay }
+    private var isMyNameDay: Bool { nameDay?.isMine == true }
 
     private var dayOfWeekAbbrev: String {
         let abbrevs = localization.bundle.ui.daysOfWeek
@@ -35,12 +46,16 @@ struct DayRowView: View, Equatable {
             VStack(spacing: 2) {
                 Text("\(day.gregorianDay)")
                     .font(.system(.title3, design: .serif).weight(.bold))
-                    .foregroundStyle(isToday ? .white : (day.isSunday ? AppColors.crimson : AppColors.darkText))
+                    .foregroundStyle(isToday ? .white : (isMySlava ? Color(red: 0.173, green: 0.141, blue: 0.094)
+                        : (day.isSunday ? AppColors.crimson : AppColors.darkText)))
                     .frame(width: 34, height: 34)
                     .background {
                         if isToday {
                             Circle()
                                 .fill(AppColors.crimson)
+                        } else if isMySlava {
+                            Circle()
+                                .fill(AppColors.gold)
                         }
                     }
 
@@ -58,6 +73,17 @@ struct DayRowView: View, Equatable {
 
             // Main content
             VStack(alignment: .leading, spacing: 3) {
+                if isMyNameDay {
+                    Text("\(Image(systemName: NameDayText.icon)) ВАШИ ИМЕНИНЫ")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .tracking(1.2)
+                } else if isMySlava {
+                    Text("🕯 ВАША СЛАВА")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .tracking(1.2)
+                }
                 if isGreatFeast {
                     Text("✦ \(greatFeastLabel)")
                         .font(.system(size: 9, weight: .bold))
@@ -79,6 +105,22 @@ struct DayRowView: View, Equatable {
                     Text(secondaryText)
                         .font(.caption)
                         .foregroundStyle(AppColors.mutedText)
+                        .lineLimit(1)
+                }
+
+                // Friends' slavas: "Андрејевдан · Петровићи"
+                ForEach(slava?.friendLines ?? [], id: \.self) { line in
+                    Text("🕯 \(line)")
+                        .font(.caption)
+                        .foregroundStyle(AppColors.slavaGold)
+                        .lineLimit(1)
+                }
+
+                // Friends' name days: "мама · Галина"
+                ForEach(nameDay?.friendLines ?? [], id: \.self) { line in
+                    Text("\(Image(systemName: NameDayText.icon)) \(line)")
+                        .font(.caption)
+                        .foregroundStyle(AppColors.slavaGold)
                         .lineLimit(1)
                 }
             }
@@ -115,6 +157,8 @@ struct DayRowView: View, Equatable {
         Group {
             if isToday {
                 AppColors.crimson.opacity(0.08)
+            } else if isMySlava {
+                AppColors.slavaRowBg
             } else if isGreatFeast {
                 LinearGradient(colors: [Color(red: 1, green: 0.97, blue: 0.94),
                                         Color(red: 0.99, green: 0.92, blue: 0.82)],
@@ -133,34 +177,17 @@ struct DayRowView: View, Equatable {
     }
 
     private var fastingBadge: some View {
-        let (icon, color, bg) = fastingStyle
+        let style = FastingBadgeStyle(type: day.fasting.type)
         return HStack(spacing: 3) {
-            Text(icon)
+            Text(style.icon)
                 .font(.system(size: 10))
             Text(day.fasting.abbrev ?? "")
                 .font(.system(size: 10, weight: .semibold))
         }
-        .foregroundStyle(color)
+        .foregroundStyle(style.color)
         .padding(.horizontal, 8)
         .padding(.vertical, 3)
-        .background(bg)
+        .background(style.background)
         .clipShape(Capsule())
-    }
-
-    private var fastingStyle: (String, Color, Color) {
-        let t = day.fasting.type.lowercased()
-        if t == "totalabstinence" {
-            return ("🚫", AppColors.fastStrict, AppColors.fastStrictBg)
-        } else if t == "dryeating" {
-            return ("🍞", AppColors.fastStrict, AppColors.fastStrictBg)
-        } else if t.contains("nooil") {
-            return ("💧", AppColors.fastWater, AppColors.fastWaterBg)
-        } else if t.contains("oil") {
-            return ("🫒", AppColors.fastOil, AppColors.fastOilBg)
-        } else if t.contains("fish") || t.contains("roe") {
-            return ("🐟", AppColors.fastFish, AppColors.fastFishBg)
-        } else {
-            return ("✓", AppColors.fastFree, AppColors.fastFreeBg)
-        }
     }
 }

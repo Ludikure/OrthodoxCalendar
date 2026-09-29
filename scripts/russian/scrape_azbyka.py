@@ -89,18 +89,29 @@ def parse_day(html: str) -> dict:
         # Check for bold
         is_bold = bool(re.search(r'<b>', li_html))
 
-        # Extract name from <a> tag — find the <a> with real text, not just an icon image
-        a_matches = re.findall(r'<a[^>]*>(.*?)</a>', li_html, re.DOTALL)
-        name = ""
-        for a_inner in a_matches:
-            # Remove secondary-content spans (dates in parentheses)
-            a_clean = re.sub(r'<span[^>]*class=[\'"]?secondary-content[^>]*>.*?</span>', '', a_inner, flags=re.DOTALL)
-            candidate = clean(re.sub(r'<[^>]+>', '', a_clean))
-            if candidate:
-                name = candidate
-                break
-        if not name:
-            name = clean(re.sub(r'<[^>]+>', '', li_html))
+        # The name is the whole item's text. A commemoration of several saints
+        # links each one separately — "прпп. <a>Тихона</a>, <a>Василия</a> и
+        # <a>Никона Соколовских</a>" — so reading only the first link kept
+        # "Тихона" and dropped the rank, the other names and the epithet.
+        # Secondary-content spans (dates, "переходящее празднование …") are
+        # dropped, and so is the "Иконы Божией Матери:" heading azbyka puts
+        # before an icon's name (its API names the icon without it).
+        li_text = re.sub(r'<span[^>]*class=[\'"]?secondary-content[^>]*>.*?</span>', '',
+                         li_html, flags=re.DOTALL)
+        name = clean(re.sub(r'<[^>]+>', '', li_text))
+        name = re.sub(r'\s+([,.;:)])', r'\1', name)   # space left by a dropped date
+        name = re.sub(r'^Иконы Божией Матери:\s*', '', name)
+
+        # "и другого прп. Афанасия …" continues the item before it, but is a
+        # commemoration of its own.
+        name = re.sub(r'^и (другого|другой|других)\s+', '', name)
+
+        # azbyka sometimes breaks one commemoration over two items ("Сщмчч.
+        # Иосифа Сикова," + "Иоанна …, пресвитеров"): a name left dangling on a
+        # comma or "и" takes the next item's text.
+        if saint_items and re.search(r'(,| и)$', saint_items[-1]["name"]):
+            saint_items[-1]["name"] += " " + name
+            continue
 
         if name:
             saint_items.append({

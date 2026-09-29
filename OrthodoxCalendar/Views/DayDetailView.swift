@@ -4,10 +4,16 @@ struct DayDetailView: View {
     let day: CalendarDay
     @Environment(LocalizationManager.self) private var localization
     @Environment(CalendarViewModel.self) private var viewModel
+    @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
     @Environment(\.dismiss) private var dismiss
     @State private var showAddReminder = false
     @State private var showShareSheet = false
     @State private var expandedSection: String?
+    /// The slava just set from a saint card, shown in the undo toast.
+    @State private var justSetSlava: SlavaDay?
+    /// The "Именины" list past its first dozen names.
+    @State private var showAllNames = false
 
     private var isGreat: Bool { day.isGreatFeast }
 
@@ -19,6 +25,12 @@ struct DayDetailView: View {
             }
         }
         .background(AppColors.warmBg)
+        .overlay(alignment: .bottom) {
+            if let slava = justSetSlava {
+                slavaToast(slava)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
         .navigationTitle(formattedDate)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -63,7 +75,7 @@ struct DayDetailView: View {
     // MARK: - Date Header
 
     private var formattedDate: String {
-        "\(day.gregorianDay) \(localization.localizedMonthName(day.gregorianMonth))"
+        localization.dayAndMonth(day.gregorianDay, day.gregorianMonth)
     }
 
     // MARK: - Hero Section
@@ -151,6 +163,18 @@ struct DayDetailView: View {
 
     private var contentSections: some View {
         VStack(alignment: .leading, spacing: 0) {
+            // The user's or a friends' slava on this day (Serbian only)
+            if localization.language == .sr, let mark = slavaStore.mark(for: day) {
+                slavaSection(mark)
+                    .padding(.top, 16)
+            }
+
+            // The user's or friends' name day on this day (Russian only)
+            if localization.language == .ru, let mark = nameDayStore.mark(for: day) {
+                nameDayCard(mark)
+                    .padding(.top, 16)
+            }
+
             // Fasting section
             fastingSection
                 .padding(.top, 16)
@@ -163,6 +187,15 @@ struct DayDetailView: View {
             }
 
             sectionDivider
+
+            // Name days (Russian only)
+            if localization.language == .ru {
+                let names = NameDayCatalog.shared.names(on: day)
+                if !names.isEmpty {
+                    nameDaysSection(names)
+                    sectionDivider
+                }
+            }
 
             // Readings
             if !day.readings.isEmpty {
@@ -185,6 +218,208 @@ struct DayDetailView: View {
             .fill(AppColors.warmBorder)
             .frame(height: 1)
             .padding(.vertical, 20)
+    }
+
+    // MARK: - Slava
+
+    private func slavaSection(_ mark: SlavaMark) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if mark.isMine, let mine = slavaStore.settings.mine {
+                let isToday = day.gregorianDate == DateKeys.today
+                VStack(spacing: 6) {
+                    Text("🕯")
+                        .font(.system(size: 26))
+                        .frame(width: 52, height: 52)
+                        .background(Circle().fill(AppColors.cardBg))
+                        .overlay(Circle().stroke(AppColors.gold, lineWidth: 2))
+                    Text("ВАША СЛАВА")
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(1.5)
+                        .foregroundStyle(AppColors.slavaGold)
+                    Text(isToday ? "Срећна слава!" : mine.name)
+                        .font(.system(.title2, design: .serif).weight(.bold))
+                        .foregroundStyle(AppColors.bannerTitle)
+                    Text(mine.saint)
+                        .font(.system(.subheadline, design: .serif))
+                        .foregroundStyle(AppColors.bodyText)
+                        .multilineTextAlignment(.center)
+                    Text(SlavaText.table(day.fasting.type))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.darkText)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 4)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(18)
+                .background(RoundedRectangle(cornerRadius: 16).fill(AppColors.bannerBg))
+                .accessibilityElement(children: .combine)
+            }
+            ForEach(mark.friendLines, id: \.self) { line in
+                HStack(spacing: 8) {
+                    Text("🕯")
+                    Text("Слава: \(line)")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.slavaGold)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(RoundedRectangle(cornerRadius: 10).fill(AppColors.slavaRowBg))
+            }
+        }
+    }
+
+    // MARK: - Name days
+
+    private func nameDayCard(_ mark: NameDayMark) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if mark.isMine, let mine = nameDayStore.settings.mine {
+                let isToday = day.gregorianDate == DateKeys.today
+                VStack(spacing: 6) {
+                    Image(systemName: NameDayText.icon)
+                        .font(.system(size: 22))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .frame(width: 52, height: 52)
+                        .background(Circle().fill(AppColors.cardBg))
+                        .overlay(Circle().stroke(AppColors.gold, lineWidth: 2))
+                    Text("ВАШИ ИМЕНИНЫ")
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(1.5)
+                        .foregroundStyle(AppColors.slavaGold)
+                    Text(isToday ? "С днём ангела!" : mine.churchName)
+                        .font(.system(.title2, design: .serif).weight(.bold))
+                        .foregroundStyle(AppColors.bannerTitle)
+                    Text(mine.title)
+                        .font(.system(.subheadline, design: .serif))
+                        .foregroundStyle(AppColors.bodyText)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(18)
+                .background(RoundedRectangle(cornerRadius: 16).fill(AppColors.bannerBg))
+                .accessibilityElement(children: .combine)
+            }
+            ForEach(mark.friendLines, id: \.self) { line in
+                HStack(spacing: 8) {
+                    Image(systemName: NameDayText.icon)
+                        .foregroundStyle(AppColors.slavaGold)
+                    Text("Именины: \(line)")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.slavaGold)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(RoundedRectangle(cornerRadius: 10).fill(AppColors.slavaRowBg))
+            }
+        }
+    }
+
+    /// "Именины": the day's names, main saints first, the first dozen and an
+    /// "и другие" that opens the rest. The user's own name is picked out.
+    private func nameDaysSection(_ names: [DayName]) -> some View {
+        let capped = NameDayCatalog.capped(names)
+        let shown = showAllNames ? names : capped.shown
+        let mine = Set([nameDayStore.settings.mine?.churchName].compactMap { $0 }
+                       + nameDayStore.settings.friends.map(\.nameDay.churchName))
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: NameDayText.icon)
+                    .font(.system(size: 15))
+                    .foregroundStyle(AppColors.slavaGold)
+                Text("Именины")
+                    .font(.system(.subheadline, design: .serif).weight(.bold))
+                    .foregroundStyle(AppColors.darkText)
+            }
+
+            Text(Self.nameList(shown, highlighted: mine))
+                .font(.system(.subheadline, design: .serif))
+                .foregroundStyle(AppColors.bodyText)
+                .lineSpacing(4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(RoundedRectangle(cornerRadius: 12).fill(AppColors.cardBg))
+
+            if capped.hidden > 0 {
+                Button {
+                    Haptics.light()
+                    withAnimation(.easeInOut(duration: 0.2)) { showAllNames.toggle() }
+                } label: {
+                    Text(showAllNames ? "Свернуть" : "и другие (\(capped.hidden))")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.crimson)
+                }
+                .padding(.leading, 2)
+            }
+        }
+    }
+
+    /// "Татиана, Савва, Мартиниан, Мертий…": main saints in bold, the names
+    /// the user keeps in gold.
+    private static func nameList(_ names: [DayName], highlighted: Set<String>) -> AttributedString {
+        var out = AttributedString()
+        for (i, n) in names.enumerated() {
+            if i > 0 { out += AttributedString(", ") }
+            var part = AttributedString(n.name)
+            if n.isMain { part.font = .system(.subheadline, design: .serif).weight(.bold) }
+            if highlighted.contains(n.name) { part.foregroundColor = AppColors.slavaGold }
+            out += part
+        }
+        return out
+    }
+
+    /// A saint card offers "set as your slava" only on a slava feast, in
+    /// Serbian, and only until the user has one — after that it never shows.
+    private func slavaOffer(for feast: Feast) -> SlavaDay? {
+        guard localization.language == .sr, slavaStore.settings.mine == nil else { return nil }
+        return SlavaCatalog.slava(for: feast, on: day)
+    }
+
+    private func setSlava(_ slava: SlavaDay) {
+        Haptics.medium()
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+            slavaStore.settings.mine = slava
+            justSetSlava = slava
+        }
+        Task {
+            await SlavaReminders.requestAuthorization()
+            slavaStore.onChange?()
+            try? await Task.sleep(for: .seconds(5))
+            withAnimation { if justSetSlava == slava { justSetSlava = nil } }
+        }
+    }
+
+    private func slavaToast(_ slava: SlavaDay) -> some View {
+        HStack(spacing: 12) {
+            Text("🕯")
+            VStack(alignment: .leading, spacing: 1) {
+                Text("\(slava.name) је ваша слава")
+                    .font(.subheadline.weight(.bold))
+                Text(slavaStore.settings.remindWeekBefore
+                     ? "Подсетник стиже недељу дана пре"
+                     : "Видећете је у календару")
+                    .font(.caption)
+                    .opacity(0.75)
+            }
+            Spacer(minLength: 8)
+            Button("Поништи") {
+                withAnimation {
+                    slavaStore.settings.mine = nil
+                    justSetSlava = nil
+                }
+            }
+            .font(.subheadline.weight(.bold))
+            .padding(.horizontal, 12)
+            .frame(minHeight: 44)
+            .background(RoundedRectangle(cornerRadius: 10).fill(.white.opacity(0.12)))
+        }
+        .foregroundStyle(Color(red: 0.953, green: 0.925, blue: 0.867))
+        .padding(.leading, 16)
+        .padding(.trailing, 10)
+        .padding(.vertical, 10)
+        .background(RoundedRectangle(cornerRadius: 16).fill(Color(red: 0.173, green: 0.141, blue: 0.094)))
+        .shadow(color: .black.opacity(0.25), radius: 12, y: 4)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
     }
 
     // MARK: - Fasting
@@ -228,7 +463,7 @@ struct DayDetailView: View {
     private var saintsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
-                Text("☦")
+                Text("☦\u{FE0E}")
                     .font(.system(size: 16))
                 Text(localization.ui.commemorationsLabel)
                     .font(.system(.subheadline, design: .serif).weight(.bold))
@@ -240,7 +475,8 @@ struct DayDetailView: View {
                 SaintCard(
                     feast: feast,
                     bio: bios[index],
-                    localizedType: localizedSaintType(feast.type)
+                    localizedType: localizedSaintType(feast.type),
+                    slavaAction: slavaOffer(for: feast).map { slava in { setSlava(slava) } }
                 )
             }
         }
@@ -458,9 +694,15 @@ struct ReadingCard: View {
         }
     }
 
-    /// Text in the user's chosen English NT translation (KJV/WEB).
+    /// Text in the user's chosen English NT translation (KJV/WEB). Empty text
+    /// counts as no text at all: a ref into the texts pool that is missing
+    /// resolves to "", and the chevron used to key off `!= nil` while the body
+    /// checked `!isEmpty` — so the card offered an expansion onto nothing.
     private var displayText: String? {
-        reading.text(for: localization.bibleTranslation)
+        guard let text = reading.text(for: localization.bibleTranslation), !text.isEmpty else {
+            return nil
+        }
+        return text
     }
 
     var body: some View {
@@ -541,8 +783,14 @@ struct ReadingCard: View {
         )
         .shadow(color: AppColors.darkText.opacity(0.04), radius: 2, y: 1)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(localizedType): \(reading.displayReference)")
-        .accessibilityHint(displayText != nil ? (isExpanded ? "" : "Double tap to expand") : "")
+        // The explicit label replaces the combined content, so the scripture
+        // has to be folded in once the reader opens it — otherwise the text is
+        // in the tree but unreachable by VoiceOver. While collapsed the label
+        // stays at "type: reference" so the passage is not read out unasked.
+        .accessibilityLabel(CardAccessibility.summary(localizedType: localizedType,
+                                                      subject: reading.displayReference,
+                                                      text: isExpanded ? displayText : nil))
+        .accessibilityHint(displayText != nil && !isExpanded ? localization.expandHint : "")
     }
 }
 
@@ -552,12 +800,20 @@ struct SaintCard: View {
     let feast: Feast
     let bio: SaintBio?
     let localizedType: String
+    /// Set on a slava feast while the user has no slava: shows the
+    /// "Поставите као своју славу" pill under the name.
+    var slavaAction: (() -> Void)? = nil
+    @Environment(LocalizationManager.self) private var localization
     @State private var isExpanded = false
 
-    /// The expandable text: feast description or saint bio
+    /// The expandable text: feast description or saint bio. Empty counts as
+    /// absent — `CalendarRepository.resolveText` deliberately hands back a bio
+    /// with `text == ""` when the pool has no entry for the ref, and this used
+    /// to render it as a chevron that opened onto an empty box.
     private var expandableText: String? {
         if let desc = feast.description, !desc.isEmpty { return desc }
-        return bio?.text
+        guard let text = bio?.text, !text.isEmpty else { return nil }
+        return text
     }
 
     var body: some View {
@@ -580,7 +836,7 @@ struct SaintCard: View {
                                 )
                             )
                             .frame(width: 36, height: 36)
-                        Text(feast.importance == "great" ? "✦" : "☦")
+                        Text(feast.importance == "great" ? "✦" : "☦\u{FE0E}")
                             .font(.system(size: 16))
                     }
 
@@ -609,6 +865,22 @@ struct SaintCard: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
 
+            if let slavaAction {
+                Button(action: slavaAction) {
+                    Text("🕯 Поставите као своју славу")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .padding(.horizontal, 12)
+                        .frame(minHeight: 36)
+                        .background(Capsule().fill(AppColors.slavaRowBg))
+                        .overlay(Capsule().stroke(AppColors.gold.opacity(0.5), lineWidth: 1))
+                }
+                .buttonStyle(.plain)
+                // Lined up under the name, past the 36 pt icon and its spacing.
+                .padding(.leading, 60)
+                .padding(.bottom, 10)
+            }
+
             // Expandable description or biography
             if let text = expandableText {
                 VStack(alignment: .leading, spacing: 0) {
@@ -636,7 +908,35 @@ struct SaintCard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 2))
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(localizedType): \(feast.name)")
-        .accessibilityHint(bio != nil ? (isExpanded ? "" : "Double tap to read biography") : "")
+        // Only while expanded: a collapsed card must not announce the whole
+        // biography it has not been asked to open (see CardAccessibility).
+        .accessibilityLabel(CardAccessibility.summary(localizedType: localizedType,
+                                                      subject: feast.name,
+                                                      text: isExpanded ? expandableText : nil))
+        .accessibilityHint(expandableText != nil && !isExpanded
+                           ? (feast.description?.isEmpty == false
+                              ? localization.expandHint
+                              : localization.readBioHint)
+                           : "")
+    }
+}
+
+// MARK: - Accessibility helpers
+
+private extension LocalizationManager {
+    var expandHint: String {
+        switch language {
+        case .sr: return "Додирните двапут за текст"
+        case .ru: return "Нажмите дважды, чтобы открыть текст"
+        case .en, .en_nc: return "Double tap to expand"
+        }
+    }
+
+    var readBioHint: String {
+        switch language {
+        case .sr: return "Додирните двапут за житие"
+        case .ru: return "Нажмите дважды, чтобы читать житие"
+        case .en, .en_nc: return "Double tap to read biography"
+        }
     }
 }

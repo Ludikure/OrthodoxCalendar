@@ -54,6 +54,10 @@ def classify_reading(title: str) -> str:
     ot_kw = ["Мојсијев", "књига", "Књига", "Приче Соломонове", "пророка",
              "Исаије", "Јеремије", "Језекиља", "Данила", "Псалам",
              "Премудрости", "Јова"]
+    # An epistle first: "Прва Саборна Посланица ... Јована" names John, and
+    # the gospel test below would take 1-3 John for his Gospel.
+    if "Посланиц" in title:
+        return "apostol"
     for kw in gospel_kw:
         if kw in title: return "gospel"
     for kw in apostol_kw:

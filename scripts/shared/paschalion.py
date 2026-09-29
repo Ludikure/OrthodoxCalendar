@@ -282,21 +282,24 @@ class Paschalion:
         }
 
     def great_feasts_gregorian(self) -> dict:
-        """All 12 Great Feasts with Gregorian dates for this year."""
+        """All 12 Great Feasts with Gregorian dates for this year.
+
+        The fixed cycle goes through fixed_date(), so the Revised calendar gets
+        its own dates (Nativity on 12-25, Dormition on 08-15) instead of the
+        Old Calendar's Julian+13 — which used to make every en_nc fixed great
+        feast uncheckable and produced nine permanent false warnings.
+
+        Julian month-days at the end of the year (25/12) fall in January of the
+        following Gregorian year; they are reported inside the calendar year
+        this object describes, which is how callers match them against a year's
+        `MM-DD` keys.
+        """
         feasts = {}
-        # Fixed (Julian → Gregorian)
+        # Fixed (Julian month-day → Gregorian in this calendar style)
         for jkey, feast_id in self.great_feasts_julian().items():
             jm, jd = int(jkey[:2]), int(jkey[3:])
-            gd = jd + JULIAN_OFFSET
-            gm = jm
-            import calendar
-            dim = calendar.monthrange(self.year, gm)[1]
-            if gd > dim:
-                gd -= dim
-                gm += 1
-                if gm > 12:
-                    gm = 1
-            feasts[feast_id] = date(self.year, gm, gd)
+            d = self.fixed_date(jm, jd)
+            feasts[feast_id] = date(self.year, d.month, d.day)
 
         # Movable
         feasts["entry-into-jerusalem"] = self.palm_sunday

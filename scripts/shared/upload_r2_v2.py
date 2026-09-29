@@ -65,7 +65,15 @@ def refs_in_file(path):
 def check_closure(directory, pool_dir=BUNDLE, label="bundled"):
     ok = True
     for locale in LOCALES:
-        bundled = set(json.load(open(pool_path(pool_dir, locale))))
+        path = pool_path(pool_dir, locale)
+        if not os.path.exists(path):
+            # Without the pool the check proves nothing, and a silent pass here
+            # is what lets an archive publish that no device can resolve.
+            print(f"CLOSURE FAIL: {path} not found — pass the directory holding "
+                  f"texts_{locale}.json (the app bundle for --dir, the release's "
+                  f"pools for --shipped-pools)")
+            return False
+        bundled = set(json.load(open(path)))
         for f in sorted(glob.glob(os.path.join(directory, f"calendar_{locale}_*.json"))):
             missing = refs_in_file(f) - bundled
             if missing:
@@ -80,8 +88,15 @@ def inline_missing(directory, shipped_dir):
     for locale in LOCALES:
         shipped_path = pool_path(shipped_dir, locale)
         current_path = pool_path(directory, locale)
-        if not os.path.exists(shipped_path) or not os.path.exists(current_path):
-            continue
+        if not os.path.exists(current_path):
+            continue  # nothing to inline for this locale
+        if not os.path.exists(shipped_path):
+            # The whole point of --shipped-pools is that installs already in the
+            # store keep working; skipping a locale silently would publish refs
+            # their bundled pool cannot resolve.
+            sys.exit(f"--shipped-pools={shipped_dir} has no texts_{locale}.json — "
+                     f"extract it from the release commit in the store "
+                     f"(git show <tag>:OrthodoxCalendar/Localization/texts_{locale}.json)")
         shipped = set(json.load(open(shipped_path)))
         pool = json.load(open(current_path))
         for f in sorted(glob.glob(os.path.join(directory, f"calendar_{locale}_*.json"))):
@@ -91,6 +106,12 @@ def inline_missing(directory, shipped_dir):
                 for b in (day.get("saintBios") or []):
                     ref = b.get("ref")
                     if ref and ref not in shipped:
+                        # A ref missing from the fresh pool too would raise a bare
+                        # KeyError halfway through rewriting the archive.
+                        if ref not in pool:
+                            sys.exit(f"{os.path.basename(f)}: ref {ref} is in neither "
+                                     f"the shipped pool nor {os.path.basename(current_path)} "
+                                     f"— regenerate the archive and pools together")
                         b["text"] = pool[ref]
                         del b["ref"]
                         n += 1
@@ -98,6 +119,11 @@ def inline_missing(directory, shipped_dir):
                     for ref_key, text_key in (("textRef", "text"), ("textWebRef", "textWeb")):
                         ref = r.get(ref_key)
                         if ref and ref not in shipped:
+                            if ref not in pool:
+                                sys.exit(f"{os.path.basename(f)}: {ref_key} {ref} is in "
+                                         f"neither the shipped pool nor "
+                                         f"{os.path.basename(current_path)} — regenerate "
+                                         f"the archive and pools together")
                             r[text_key] = pool[ref]
                             del r[ref_key]
                             n += 1
@@ -158,8 +184,6 @@ def main():
 
     jobs = [(f, "v2/" + os.path.basename(f)) for f in files]
     jobs += [(p, "v2/" + os.path.basename(p)) for p in pools]
-    if with_config:
-        jobs.append((os.path.join(WORKER, "config.json"), "config.json"))
 
     print(f"uploading {len(jobs)} objects to {BUCKET}...")
     with ThreadPoolExecutor(max_workers=6) as ex:
@@ -167,7 +191,17 @@ def main():
     failed = [k for k, ok in results if not ok]
     if failed:
         sys.exit(f"{len(failed)} uploads failed: {failed[:5]}")
-    print(f"done: {len(results)} objects uploaded")
+
+    # config.json carries dataRevision, which makes every device drop its
+    # download cache. Uploading it alongside the data meant a half-published
+    # archive (some years still the old objects) with the cache already gone,
+    # so it goes last, only once the archive itself is complete.
+    if with_config:
+        key, ok = put(os.path.join(WORKER, "config.json"), "config.json", dry)
+        if not ok:
+            sys.exit(f"data uploaded but config.json failed — retry --config, "
+                     f"devices are still on the previous revision")
+    print(f"done: {len(results)} objects uploaded" + (" + config" if with_config else ""))
 
 
 if __name__ == "__main__":
