@@ -127,13 +127,24 @@ MOVED = [
     ("ru", "06-07", "Собор мучеников Холмских и Подляшских", between("05-19", "05-25")),
     ("ru", "07-19", "Собор Тверских святых", between("06-30", "07-06")),
     ("ru", "08-09", "Собор Смоленских святых", between("07-21", "07-27")),
-    ("ru", "10-11", "Собор святых Кубанской митрополии", between("09-28", "10-04")),
+    # azbyka.ru's calendar API keeps it on "the 1st Sunday after 28 September"
+    # (civil; 2026-10-04, as days.pravoslavie.ru does in 2026). The older day
+    # pages said "after 11 October", which pravoslavie.ru still followed in
+    # 2025 and holytrinityorthodox.com still follows, so en keeps that rule.
+    # "After" counts the day itself: azbyka's day pages kept it on Sunday
+    # 2026-10-11 under the old rule, and the API keeps the Altai synaxis ("after
+    # 20 September") on Sunday 2026-09-20. It matters only when 28 September is
+    # a Sunday (2025, 2031, 2036, …); no source shows the new rule in such a
+    # year (days.pravoslavie.ru kept the old one in 2025).
+    ("ru", "10-11", "Собор святых Кубанской митрополии", between("09-15", "09-21")),
     ("ru", "02-15", "Собор святых Пермской митрополии", between("01-29", "02-04")),
     ("ru", "08-23", "Собор Валаамских святых", between("08-07", "08-13")),
     ("ru", "08-30", "Собор Кузбасских святых", between("08-11", "08-17")),
     ("ru", "09-13", "Собор Саратовских святых", between("08-28", "09-03")),
     ("ru", "09-13", "Собор святых Нижегородской митрополии", between("08-26", "09-01")),
     ("ru", "09-20", "Собор новомучеников и исповедников Казахстанских", between("09-03", "09-09")),
+    # "The 1st Sunday after 20 September" (civil), the day itself included:
+    # azbyka.ru's API and days.pravoslavie.ru both keep it on 2026-09-20.
     ("ru", "09-27", "Собор Алтайских святых", between("09-07", "09-13")),
     ("ru", "10-11", "Собор святых, в земле Испанской и Португальской", between("09-23", "09-29")),
     ("ru", "11-22", "Собор Аланских святых", between("11-07", "11-13")),
