@@ -702,8 +702,123 @@ def _en_assemble(index: dict, book: str, ref_part: str, sep: str) -> str:
     return ' '.join(parts) if parts else None
 
 
+# The lectionary cites the Old Testament as the KJV and the OCA print it, and
+# Brenton's Septuagint numbers some of those passages elsewhere: Jeremiah 26-51
+# run in another order (the New Covenant, KJV 31:31-34, is LXX 38:31-34), the
+# end of Proverbs 30-31 sits inside Proverbs 24, the edition follows the Hebrew
+# chapter breaks where the KJV does not (Joel 3 is its Joel 4, Micah 5:2 its
+# 5:1), and the Song of the Three is Daniel 3:24-90. Each rule maps a KJV
+# chapter's verses onto Brenton: (book, chapter) -> (KJV last verse,
+# [(first, last, Brenton chapter, verse offset), ...]). Verses no rule covers
+# keep their number. Only the passages the lectionary reads are mapped;
+# _EN_LXX_UNMAPPED names the rest of the ground where the two part ways, and
+# a reading that reaches it is reported rather than filled with the wrong text.
+_EN_LXX_MAP = {
+    ('Genesis', 31): (55, [(55, 55, 32, -54)]),
+    ('Genesis', 32): (32, [(1, 32, 32, 1)]),
+    ('Isaiah', 9): (21, [(1, 1, 8, 22), (2, 21, 9, -1)]),
+    ('Isaiah', 64): (12, [(1, 1, 63, 18), (2, 12, 64, -1)]),
+    ('Jeremiah', 31): (40, [(1, 34, 38, 0)]),
+    ('Joel', 2): (32, [(28, 32, 3, -27)]),
+    ('Joel', 3): (21, [(1, 21, 4, 0)]),
+    ('Jonah', 1): (17, [(17, 17, 2, -16)]),
+    ('Jonah', 2): (10, [(1, 10, 2, 1)]),
+    ('Micah', 5): (15, [(1, 1, 4, 13), (2, 15, 5, -1)]),
+    ('Proverbs', 31): (31, [(1, 9, 24, 53)]),
+    ('Malachi', 4): (6, [(1, 6, 3, 18)]),
+}
+_EN_LXX_UNMAPPED = {
+    'Jeremiah': set(range(25, 53)) - {31},
+    'Proverbs': {30},
+    'Psalms': set(range(9, 148)),
+    'Exodus': set(range(35, 41)),
+}
+
+
+def _brenton_verses(chapters: dict, book: str, segments: list) -> tuple:
+    """(verses, moved): the Brenton (chapter, verse) of every verse a KJV-numbered
+    reading covers, in reading order and without repeats (two KJV verses can
+    share a Brenton one), and whether any of them is numbered differently."""
+    out, seen, moved = [], set(), False
+    for ch, vstart, vend in segments:
+        rule = _EN_LXX_MAP.get((book, ch))
+        if rule:
+            last = rule[0]
+        else:
+            chap = chapters.get(str(ch))
+            if not chap:
+                continue
+            last = max(int(v) for v in chap)
+        for v in range(vstart, min(vend, last) + 1):
+            target = (ch, v)
+            for first, final, lxx_ch, offset in (rule[1] if rule else ()):
+                if first <= v <= final:
+                    target = (lxx_ch, v + offset)
+                    break
+            moved = moved or target != (ch, v)
+            if target not in seen:
+                seen.add(target)
+                out.append(target)
+    return out, moved
+
+
+def _format_verses(chapters: dict, verses: list) -> str:
+    """"38:31-34", "8:13-9:6", "24:61-62; 31:10-31" for a list of (chapter, verse)."""
+    runs = []   # [first ch, first v, last ch, last v]
+    for ch, v in verses:
+        if runs:
+            r = runs[-1]
+            chap_last = max((int(x) for x in chapters.get(str(r[2]), {})), default=0)
+            if (ch == r[2] and v == r[3] + 1) or (ch == r[2] + 1 and v == 1 and r[3] == chap_last):
+                r[2], r[3] = ch, v
+                continue
+        runs.append([ch, v, ch, v])
+    out = []
+    for c1, v1, c2, v2 in runs:
+        if c1 != c2:
+            out.append(f"{c1}:{v1}-{c2}:{v2}")
+        else:
+            out.append(f"{c1}:{v1}" + (f"-{v2}" if v2 != v1 else ""))
+    return '; '.join(out)
+
+
+def _en_brenton(book: str, ref_part: str, sep: str):
+    """(text, LXX reference or None) of an Old Testament reading in Brenton.
+
+    The reference is returned only when Brenton numbers the passage differently."""
+    chapters = _load_en_bible().get(book)
+    if not chapters:
+        return None, None
+    if book == 'Daniel':
+        # "Daniel 3:1-23; Song of the Three 1-66 with verses": the Song is
+        # Brenton's Daniel 3:24-90, verse n at 3:23+n.
+        ref_part = re.sub(r'Song of the Three\s+(\d+)\s*[-–]\s*(\d+)[^;]*',
+                          lambda m: f"3{sep}{int(m.group(1)) + 23}-{int(m.group(2)) + 23}",
+                          ref_part)
+    segments = _parse_ref_segments(ref_part, sep)
+    if not segments:
+        return None, None
+    unmapped = _EN_LXX_UNMAPPED.get(book, set())
+    stray = sorted({ch for ch, _, _ in segments if ch in unmapped and (book, ch) not in _EN_LXX_MAP})
+    if stray:
+        print(f"  [en] WARNING: {book} {ref_part}: Brenton numbers chapter(s) {stray} "
+              f"differently and no rule maps them; reading left without text", file=sys.stderr)
+        return None, None
+    verses, moved = _brenton_verses(chapters, book, segments)
+    verses = [(ch, v) for ch, v in verses if chapters.get(str(ch), {}).get(str(v))]
+    if not verses:
+        return None, None
+    text = ' '.join(f"{v} {chapters[str(ch)][str(v)]}" for ch, v in verses)
+    lxx = _format_verses(chapters, verses) if moved else None
+    if lxx and lxx.replace(' ', '') == ref_part.replace(sep, ':').replace(' ', ''):
+        lxx = None   # the same span under other verse numbers (Jonah 1:1-4:11)
+    return text, lxx
+
+
 def _en_bible_text(book: str, ref_part: str, sep: str) -> str:
     """Default English text (KJV NT + Brenton OT)."""
+    if book in _EN_OT_BOOKS:
+        return _en_brenton(book, ref_part, sep)[0]
     return _en_assemble(_load_en_bible(), book, ref_part, sep)
 
 
@@ -1231,7 +1346,17 @@ def generate_readings_for_day(
         web = _load_en_web()
         for r in result:
             book, ref_part = _en_parse_ref(r.get('reference') or r.get('title') or '', ':')
-            r['text'] = _en_bible_text(book, ref_part, ':') if book else None
+            if book in _EN_OT_BOOKS:
+                r['text'], lxx = _en_brenton(book, ref_part, ':')
+                if lxx and r.get('text'):
+                    # Brenton prints the passage elsewhere: say where.
+                    ref = r.get('reference') or r.get('title')
+                    new_ref = f"{ref} ({lxx} LXX)"
+                    if r.get('title') == ref:
+                        r['title'] = new_ref
+                    r['reference'] = new_ref
+            else:
+                r['text'] = _en_bible_text(book, ref_part, ':') if book else None
             # Alternate New Testament text (World English Bible) for user choice.
             # OT stays Brenton (Septuagint) for both, so only NT readings carry it.
             if book and web and book not in _EN_OT_BOOKS:
