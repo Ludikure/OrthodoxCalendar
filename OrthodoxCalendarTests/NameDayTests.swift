@@ -24,9 +24,11 @@ final class NameDayTests: XCTestCase {
         try XCTUnwrap(file.days[monthDay], "\(file.year)-\(monthDay)")
     }
 
-    private func firstNameDay(_ name: String, _ month: Int, _ day: Int, year: Int = 2026) -> String {
+    private func firstNameDay(_ name: String, _ month: Int, _ day: Int, year: Int = 2026,
+                              newMartyrs: Bool = false) -> String {
         let hit = catalog.firstNameDay(churchForms: catalog.churchForms(for: name),
-                                       birthMonth: month, birthDay: day, year: year)
+                                       birthMonth: month, birthDay: day, year: year,
+                                       includeNewMartyrs: newMartyrs)
         return ymd(hit?.date)
     }
 
@@ -118,12 +120,29 @@ final class NameDayTests: XCTestCase {
     func testFirstCommemorationOnOrAfterBirthday() {
         XCTAssertEqual(firstNameDay("Татьяна", 1, 1), "2026-01-25")
         XCTAssertEqual(firstNameDay("Таня", 1, 25), "2026-01-25")        // the day itself counts
-        XCTAssertEqual(firstNameDay("Татиана", 1, 26), "2026-07-17")     // next: the royal passion-bearers
+        // Next: the royal passion-bearers (Julian 4 July), who are not new martyrs.
+        XCTAssertEqual(firstNameDay("Татиана", 1, 26), "2026-07-17")
+        XCTAssertEqual(firstNameDay("Татиана", 1, 26, newMartyrs: true), "2026-07-17")
         // Past the year's last Tatiana (Julian 10 December = 23 December) it wraps.
         XCTAssertEqual(firstNameDay("Татьяна", 12, 24), "2027-01-25")
         // A name kept once a year wraps too: Або, Julian 8 January = 21 January.
         XCTAssertEqual(firstNameDay("Або", 1, 21), "2026-01-21")
         XCTAssertEqual(firstNameDay("Або", 1, 22), "2027-01-21")
+    }
+
+    func testNewMartyrsCountOnlyWhenAskedFor() {
+        // After 17 July every Tatiana of the year is a new martyr: azbyka.ru's
+        // finder skips them by default, so the name day is next 25 January.
+        XCTAssertEqual(firstNameDay("Татьяна", 7, 18), "2027-01-25")
+        // "Учитывать новомучеников": St Tatiana Gribkova, Julian 1 September.
+        XCTAssertEqual(firstNameDay("Татьяна", 7, 18, newMartyrs: true), "2026-09-14")
+    }
+
+    func testNameWithOnlyNewMartyrsStillGetsADay() throws {
+        let only = catalog.names.first { !$0.value.isEmpty && $0.value.allSatisfy(\.isNewMartyr) }
+        let (name, list) = try XCTUnwrap(only, "some name has only new-martyr saints")
+        let hit = catalog.firstNameDay(churchForms: [name], birthMonth: 1, birthDay: 1, year: 2026)
+        XCTAssertTrue(list.contains(try XCTUnwrap(hit, name).commemoration), name)
     }
 
     func testBirthdayRuleReachesMoveableDates() {

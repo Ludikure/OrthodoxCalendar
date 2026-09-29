@@ -15,6 +15,9 @@ final class NameDayStore {
         var remindOnDay = true
         var remindFriends = true
         var remindFriendsDayBefore = false
+        /// Let new martyrs decide an automatic name day (azbyka.ru leaves them
+        /// out unless asked). A saint chosen by hand is never restricted.
+        var includeNewMartyrs = false
         /// Minutes after midnight the reminders fire at.
         var reminderMinutes = 9 * 60
     }

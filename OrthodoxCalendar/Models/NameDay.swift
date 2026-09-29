@@ -318,13 +318,18 @@ struct NameDayCatalog: Sendable {
     /// The name day by the Church's custom: the first commemoration of the
     /// name on or after the birthday (in `year`), wrapping into the next year.
     /// The first church form with any commemoration decides ("Юрий" → Георгий).
-    func firstNameDay(churchForms: [String], birthMonth: Int, birthDay: Int,
-                      year: Int) -> (commemoration: Commemoration, date: Date)? {
+    /// New martyrs count only when asked for, as in azbyka.ru's own name-day
+    /// finder ("учитывать новомучеников") — or when a name has no other saint.
+    func firstNameDay(churchForms: [String], birthMonth: Int, birthDay: Int, year: Int,
+                      includeNewMartyrs: Bool = false) -> (commemoration: Commemoration, date: Date)? {
         // February 29 in a common year counts from March 1.
         guard let birthday = ChurchDates.calendar.date(
             from: DateComponents(year: year, month: birthMonth, day: birthDay)) else { return nil }
         for form in churchForms {
-            let dated = commemorations(of: form).compactMap { c in
+            let all = commemorations(of: form)
+            let older = all.filter { !$0.isNewMartyr }
+            let candidates = includeNewMartyrs || older.isEmpty ? all : older
+            let dated = candidates.compactMap { c in
                 c.anchor.nextOccurrence(onOrAfter: birthday).map { (c, $0) }
             }
             if let best = dated.min(by: { $0.1 < $1.1 }) { return (best.0, best.1) }

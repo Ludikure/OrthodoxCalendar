@@ -12,7 +12,8 @@ struct NameDaySettingsView: View {
             Section {
                 if let mine = store.settings.mine {
                     NavigationLink {
-                        NameDayEditor(title: "Мои именины", initial: mine) { pick($0) }
+                        NameDayEditor(title: "Мои именины", initial: mine,
+                                      includeNewMartyrs: store.settings.includeNewMartyrs) { pick($0) }
                     } label: {
                         NameDayLabel(choice: mine)
                     }
@@ -21,7 +22,8 @@ struct NameDaySettingsView: View {
                     }
                 } else {
                     NavigationLink {
-                        NameDayEditor(title: "Мои именины") { pick($0) }
+                        NameDayEditor(title: "Мои именины",
+                                      includeNewMartyrs: store.settings.includeNewMartyrs) { pick($0) }
                     } label: {
                         Text("Указать имя и день рождения")
                             .foregroundStyle(AppColors.crimson)
@@ -31,6 +33,13 @@ struct NameDaySettingsView: View {
                 Text("Именины")
             } footer: {
                 Text("По обычаю Церкви именины — первый после дня рождения день памяти святого, чьё имя вы носите. Если вы знаете своего святого, выберите его сами.")
+            }
+
+            Section {
+                Toggle("Учитывать новомучеников", isOn: $store.settings.includeNewMartyrs)
+                    .tint(AppColors.crimson)
+            } footer: {
+                Text("Когда именины ищутся по дню рождения. Без этого новомученики учитываются, только если других святых с таким именем нет.")
             }
 
             Section {
@@ -56,7 +65,8 @@ struct NameDaySettingsView: View {
                 .onDelete { store.settings.friends.remove(atOffsets: $0) }
 
                 NavigationLink {
-                    NameDayEditor(title: "Именины друга", isFriend: true) { choice, person in
+                    NameDayEditor(title: "Именины друга", isFriend: true,
+                                  includeNewMartyrs: store.settings.includeNewMartyrs) { choice, person in
                         store.settings.friends.append(FriendNameDay(person: person, nameDay: choice))
                         askForNotifications()
                     }
@@ -148,6 +158,7 @@ struct NameDayLabel: View {
 struct NameDayEditor: View {
     let title: String
     var isFriend = false
+    var includeNewMartyrs = false
     let onSave: (NameDayChoice, String) -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -162,8 +173,10 @@ struct NameDayEditor: View {
 
     private let catalog = NameDayCatalog.shared
 
-    init(title: String, initial: NameDayChoice? = nil, onSave: @escaping (NameDayChoice) -> Void) {
+    init(title: String, initial: NameDayChoice? = nil, includeNewMartyrs: Bool = false,
+         onSave: @escaping (NameDayChoice) -> Void) {
         self.title = title
+        self.includeNewMartyrs = includeNewMartyrs
         self.onSave = { choice, _ in onSave(choice) }
         _name = State(initialValue: initial?.name ?? "")
         if let initial {
@@ -178,9 +191,11 @@ struct NameDayEditor: View {
         }
     }
 
-    init(title: String, isFriend: Bool, onSave: @escaping (NameDayChoice, String) -> Void) {
+    init(title: String, isFriend: Bool, includeNewMartyrs: Bool = false,
+         onSave: @escaping (NameDayChoice, String) -> Void) {
         self.title = title
         self.isFriend = isFriend
+        self.includeNewMartyrs = includeNewMartyrs
         self.onSave = onSave
     }
 
@@ -192,7 +207,8 @@ struct NameDayEditor: View {
     private var found: (commemoration: NameDayCatalog.Commemoration, date: Date)? {
         guard knowsBirthday else { return nil }
         let year = ChurchDates.calendar.component(.year, from: Date())
-        return catalog.firstNameDay(churchForms: forms, birthMonth: birthMonth, birthDay: birthDay, year: year)
+        return catalog.firstNameDay(churchForms: forms, birthMonth: birthMonth, birthDay: birthDay, year: year,
+                                    includeNewMartyrs: includeNewMartyrs)
     }
 
     private var chosen: NameDayCatalog.Commemoration? { manual ?? found?.commemoration }
