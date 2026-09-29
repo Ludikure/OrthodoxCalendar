@@ -550,7 +550,10 @@ def _sr_bible_fill(eng: dict) -> dict:
     if not bible:
         return None
     display = eng.get('display') or eng.get('sdisplay') or ''
-    # The engine's occasional "27:39-54" reads as "27.39-54".
+    # The Serbian reference is the Serbian Bible's: no English note on where
+    # the Septuagint puts the passage ("Job 42.12-17 (LXX)"), and the
+    # engine's occasional "27:39-54" read as "27.39-54".
+    display = re.sub(r'\s*\([^()]*\bLXX\)', '', display)
     display = re.sub(r'(\d):(\d)', r'\1.\2', display)
     bm = re.match(r'((?:[1-3]\s)?[A-Za-z ]+?)\s+\d', display)
     if not bm:
@@ -583,7 +586,10 @@ def _sr_bible_fill(eng: dict) -> dict:
     if not parts:
         return None
 
-    ref_sr = ref_part.replace('.', ',')
+    # A part that starts a new chapter follows a ';', as the Serbian sources
+    # write it ("1.1-2, 10-12, 2.6-10" -> "1,1-2, 10-12; 2,6-10"): after a
+    # comma "2,6-10" would read as more verses of the chapter in force.
+    ref_sr = re.sub(r',\s*(?=\d+\.\d)', '; ', ref_part).replace('.', ',')
     short = SR_REF_NAME.get(book, book)
     if 40 <= knjiga <= 43:
         rtype = 'gospel'
