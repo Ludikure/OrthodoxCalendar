@@ -10,8 +10,8 @@ settings:
     TARGETED_DEVICE_FAMILY: "1,2"
     # Project-wide so the widget extension always carries the app's version:
     # App Store validation rejects an embedded extension whose version differs.
-    MARKETING_VERSION: "1.4.6"
-    CURRENT_PROJECT_VERSION: "19"
+    MARKETING_VERSION: "1.4.7"
+    CURRENT_PROJECT_VERSION: "20"
 targets:
   OrthodoxCalendar:
     type: application

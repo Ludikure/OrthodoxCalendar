@@ -294,7 +294,7 @@ actor CalendarRepository {
 /// `dataRevision` they are published under — otherwise installs of the new
 /// version would re-download years their bundle already has.
 enum BundledData {
-    static let revision = 9
+    static let revision = 10
 
     enum Source: Equatable { case bundle, cache }
 
