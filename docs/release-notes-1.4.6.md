@@ -6,10 +6,21 @@ English (New Calendar) readings that fell 13 days late. The online archive for
 the non-bundled years already carries that fix (published 2026-09-28,
 dataRevision 8); this release brings it to the bundled years 2025–2030.
 
-The App Store has no Serbian localization, so the slava is described in English
-and Russian for Serbian-speaking users who see those listings.
 
 ---
+
+## Serbian (sr)
+
+```
+Виџети
+Светитељ дана и пост на почетном и закључаном екрану, на језику апликације. Додир отвара тај дан.
+
+Крсна слава
+Изаберите своју славу у Подешавањима › Моја слава или директно на дан светитеља. Календар одбројава дане до славе, обележава је и каже да ли је те године славска трпеза посна. Додајте и славе пријатеља, уз подсетник недељу дана пре и на сам дан.
+
+Исправљена читања енглеског календара (нови стил)
+Недеље пре и после Божића и Богојављења, Праоци, Благовести, Свети оци и јесења јеванђељска читања сада падају на тачне датуме новог календара — раније су каснила 13 дана.
+```
 
 ## English (en-US)
 
