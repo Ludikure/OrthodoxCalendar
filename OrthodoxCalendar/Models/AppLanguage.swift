@@ -17,8 +17,19 @@ enum AppLanguage: String, CaseIterable, Codable, Identifiable {
         switch self {
         case .sr: return "Српски"
         case .ru: return "Русский"
-        case .en: return "English (Old Calendar)"
-        case .en_nc: return "English (New Calendar)"
+        case .en, .en_nc: return "English"
+        }
+    }
+
+    /// Whose calendar each option follows, under its name in the picker and
+    /// under the app title. Two English calendars already exist and a Greek
+    /// one may follow, so the language alone no longer says which it is.
+    var churchName: String {
+        switch self {
+        case .sr: return "Српска Православна Црква (СПЦ)"
+        case .ru: return "Русская Православная Церковь (РПЦ)"
+        case .en: return "ROCOR · Old Calendar"
+        case .en_nc: return "OCA · New Calendar"
         }
     }
 

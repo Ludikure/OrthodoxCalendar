@@ -8,7 +8,13 @@ struct LanguagePickerView: View {
 
         Picker(selection: $loc.language) {
             ForEach(AppLanguage.allCases) { lang in
-                Text(lang.displayName).tag(lang)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(lang.displayName)
+                    Text(lang.churchName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .tag(lang)
             }
         } label: {
             EmptyView()
