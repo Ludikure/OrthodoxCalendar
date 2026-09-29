@@ -34,6 +34,11 @@ JULIAN_OFFSET = 13
 
 # Short Serbian book names for readable references
 SR_SHORT_BOOK = [
+    # The Catholic epistles of John first: "Прва Саборна Посланица ... Јована"
+    # names the apostle, and the Gospel rules below would take it for John's Gospel.
+    ('Прва.*Посланиц.*Јован', '1. Јованова'),
+    ('Друга.*Посланиц.*Јован', '2. Јованова'),
+    ('Трећа.*Посланиц.*Јован', '3. Јованова'),
     # Gospels — match both "од Матеја" and "Матеј" forms
     ('Јеванђеље.*Матеј', 'Матеј'),
     ('Матеја', 'Матеј'),
