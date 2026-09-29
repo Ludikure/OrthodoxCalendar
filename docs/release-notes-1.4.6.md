@@ -11,6 +11,8 @@ dataRevision 8); this release brings it to the bundled years 2025–2030.
 
 ## Serbian (sr)
 
+Not usable on iOS — the App Store has no Serbian localization (kept for reference; the same content ships on Google Play in `release-notes-1.5.3.md`).
+
 ```
 Виџети
 Светитељ дана и пост на почетном и закључаном екрану, на језику апликације. Додир отвара тај дан.
