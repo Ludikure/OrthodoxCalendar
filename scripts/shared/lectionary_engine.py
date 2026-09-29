@@ -329,8 +329,15 @@ def _query_readings(
 class Year:
     """Precompute all year-specific values for the lectionary algorithm."""
 
-    def __init__(self, year: int):
+    def __init__(self, year: int, new_calendar: bool = False):
         self.year = year
+        # Which calendar the fixed feasts that anchor the floats are kept on.
+        # Pascha is Julian either way; on the Revised calendar the Nativity,
+        # Theophany, Annunciation, Elevation … are Gregorian dates, so the
+        # Sundays and Saturdays around them, the Lucan Jump and the Lenten
+        # paremia shifts all move 13 days earlier with them. orthocal's Year
+        # takes the same switch.
+        self.new_calendar = new_calendar
         self.pascha = compute_pascha_jdn(year)
         self.previous_pascha = compute_pascha_jdn(year - 1)
         self.next_pascha = compute_pascha_jdn(year + 1)
@@ -349,8 +356,10 @@ class Year:
         self._compute_paremias()
 
     def date_to_pdist(self, month: int, day: int, year: int) -> int:
-        """Convert a Julian calendar date to a distance from Pascha."""
-        return julian_date_to_jdn(year, month, day) - self.pascha
+        """Distance from Pascha of a fixed-cycle date: Julian, or Gregorian
+        on the Revised calendar."""
+        to_jdn = gregorian_date_to_jdn if self.new_calendar else julian_date_to_jdn
+        return to_jdn(year, month, day) - self.pascha
 
     def _compute_pdists(self):
         self.theophany = self.date_to_pdist(1, 6, self.year + 1)
@@ -557,14 +566,15 @@ class Year:
         return pdist in self.no_daily
 
 
-# Year cache
-_year_cache: Dict[int, Year] = {}
+# Year cache, per calendar style
+_year_cache: Dict[Tuple[int, bool], Year] = {}
 
 
-def _get_year(pyear: int) -> Year:
-    if pyear not in _year_cache:
-        _year_cache[pyear] = Year(pyear)
-    return _year_cache[pyear]
+def _get_year(pyear: int, new_calendar: bool = False) -> Year:
+    key = (pyear, new_calendar)
+    if key not in _year_cache:
+        _year_cache[key] = Year(pyear, new_calendar)
+    return _year_cache[key]
 
 
 # ---------------------------------------------------------------------------
@@ -674,7 +684,7 @@ def get_readings(year: int, month: int, day: int, new_calendar: bool = False) ->
         source, desc, book, pericope, display, sdisplay
     """
     pdist, pyear = compute_pascha_distance(year, month, day)
-    yr = _get_year(pyear)
+    yr = _get_year(pyear, new_calendar)
     jdn = gregorian_date_to_jdn(year, month, day)
     weekday = weekday_from_pdist(pdist)
 
