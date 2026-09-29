@@ -142,11 +142,11 @@ struct SaintSearchView: View {
     /// matching nothing. Latin diacritics fold the same way, so a query typed
     /// properly as "Ćirilo" or "Šišman" lands on the same string. Folding is
     /// applied to both sides, so same-script search is unaffected either way.
-    static func fold(_ text: String) -> String {
+    nonisolated static func fold(_ text: String) -> String {
         text.lowercased().map { folding[$0] ?? "\($0)" }.joined()
     }
 
-    private static let folding: [Character: String] = [
+    nonisolated private static let folding: [Character: String] = [
         // Serbian Cyrillic, in Serbian Latin. љ/њ were absent before, so every
         // name containing them ("Љубомир", "Њиш") was unreachable from Latin.
         "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "ђ": "dj", "е": "e",
