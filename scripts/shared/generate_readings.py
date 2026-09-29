@@ -20,6 +20,7 @@ from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(__file__))
 from lectionary_engine import get_readings, gregorian_to_julian_date
+from paschalion import Paschalion
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..', '..')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
@@ -849,10 +850,11 @@ def _build_scraped_index(locale: str) -> tuple:
     """
     Build a global index of all scraped readings keyed by normalized chapter:verse reference.
 
-    Returns (text_index, julian_readings, title_index):
+    Returns (text_index, julian_readings, title_index, pdist_readings):
         text_index: dict mapping (book_key, ref_key) -> scraped entry (with text)
         julian_readings: dict mapping "MM-DD" (Julian) -> list of scraped entries
         title_index: dict mapping exact reading title -> scraped entry (with text)
+        pdist_readings: dict mapping Pascha distance ("-66") -> list of scraped entries
     """
     proc_dir = os.path.join(DATA_DIR, 'processed', locale)
     title_index = {}
@@ -862,7 +864,7 @@ def _build_scraped_index(locale: str) -> tuple:
         readings_path = os.path.join(proc_dir, 'readings.json')
         if not os.path.exists(readings_path):
             print(f"  [{locale}] No scraped readings data found", file=sys.stderr)
-            return {}, {}, title_index
+            return {}, {}, title_index, {}
 
         with open(readings_path) as f:
             rdata = json.load(f)
@@ -876,7 +878,7 @@ def _build_scraped_index(locale: str) -> tuple:
                 _add_title_text(title_index, entry)
 
         print(f"  [{locale}] Indexed {len(text_index)} scraped readings with text", file=sys.stderr)
-        return text_index, {}, title_index
+        return text_index, {}, title_index, {}
 
     if locale == 'sr':
         path = os.path.join(proc_dir, 'lectionary_merged.json')
@@ -885,7 +887,7 @@ def _build_scraped_index(locale: str) -> tuple:
 
     if not os.path.exists(path):
         print(f"  WARNING: {path} not found", file=sys.stderr)
-        return {}, {}, title_index
+        return {}, {}, title_index, {}
 
     with open(path) as f:
         data = json.load(f)
@@ -924,11 +926,21 @@ def _build_scraped_index(locale: str) -> tuple:
     julian_readings = data.get('byJulianDate', {})
 
     print(f"  [{locale}] Indexed {len(text_index)} scraped readings with text", file=sys.stderr)
-    return text_index, julian_readings, title_index
+    return text_index, julian_readings, title_index, data.get('byPaschaDistance', {})
 
 
 def _index_scraped_entry(index: dict, entry: dict, locale: str):
     """Add a scraped entry to the text index."""
+    key = _entry_index_key(entry, locale)
+    if key is None:
+        return
+    # Prefer entries with text
+    if key not in index or (entry.get('text') and not index[key].get('text')):
+        index[key] = entry
+
+
+def _entry_index_key(entry: dict, locale: str):
+    """The (book, ref_key) a scraped entry is indexed under, or None."""
     title = entry.get('title', '')
     reference = entry.get('reference', '')
 
@@ -943,17 +955,8 @@ def _index_scraped_entry(index: dict, entry: dict, locale: str):
         segments = _extract_scraped_ref_en(title, reference)
         book_key = _engine_book_from_display(title)
 
-    if not segments:
-        return
-
     ref_key = _normalize_ref_key(segments)
-    if not ref_key:
-        return
-
-    key = (book_key, ref_key)
-    # Prefer entries with text
-    if key not in index or (entry.get('text') and not index[key].get('text')):
-        index[key] = entry
+    return (book_key, ref_key) if ref_key else None
 
 
 def _sr_book_key(title: str) -> str:
@@ -1128,9 +1131,27 @@ def load_scraped_data(locale: str) -> dict:
 # Matching engine — uses global index
 # ---------------------------------------------------------------------------
 
-def _find_matching_in_index(engine_reading: dict, text_index: dict) -> dict:
+def _index_segments(idx_ref: str) -> list:
+    """The (chapter, first, last) segments of a text-index key."""
+    out = []
+    for part in idx_ref.split('|'):
+        m = re.match(r'(\d+):(\d+)-(\d+)', part)
+        if m:
+            out.append((int(m.group(1)), int(m.group(2)), int(m.group(3))))
+    return out
+
+
+def _find_matching_in_index(engine_reading: dict, text_index: dict, exact_only: bool = False,
+                            day_keys: frozenset = frozenset()) -> dict:
     """
     Find a scraped reading that matches the engine reading using the global text index.
+
+    exact_only: take only an entry with exactly the engine's verses (en_nc: the
+    OCA prints the engine's own pericopes, so a neighbour from the ROCOR index
+    is never closer than the Bible fill of the engine's reference).
+    day_keys: index keys of the entries the scraped lectionary lists on this
+    very day (its Pascha distance or church date), which may be the local
+    church's own, longer or shorter, pericope of the reading.
 
     Returns the scraped entry if found, or None.
     """
@@ -1158,41 +1179,58 @@ def _find_matching_in_index(engine_reading: dict, text_index: dict) -> dict:
     if result:
         return result
 
-    # Fuzzy matching. The first same-book entry that overlapped the engine's
-    # verses at all used to win, so once references parse whole, "Matthew
-    # 24.36-26.2" (Great Tuesday) would have taken the Serbian index's Matthew
-    # 25:1-13 and "Hebrews 11.24-26, 32-12.2" its Hebrews 12:1-10. An entry
-    # now has to contain the whole passage or share at least half of the two
-    # passages' verses, and of those the closest (shared verses over all
-    # verses of both) wins.
-    # A reading nothing covers falls through to the Bible fill (sr, en), which
-    # prints exactly the engine's reference, or is left out (ru).
+    # Fuzzy matching, in order of trust:
+    #   1. an entry with exactly the engine's verses, however they are written;
+    #   2. an entry listed on this very day that contains the passage or shares
+    #      at least half of the two passages' verses (the church's own bounds:
+    #      the SPC reads Acts 4:23-37 where the engine has 4:23-31);
+    #   3. any other entry that differs only slightly: at most two extra verses
+    #      and a fifth of the passage (Luke 23:1-34 for 23:2-34), or at most
+    #      three verses short and under half of it (Mark 11:23-26 for 11:22-26).
+    # A longer entry used to be taken however much longer, so a fixed-date
+    # neighbour beat the pericope (St John's Vespers 1 John 4:20-5:5 read to
+    # the end of the epistle), and one sharing half the verses both ways
+    # shifted it (1 John 4:12-19 for 4:11-16). Of several, the closest (shared
+    # verses over all verses of both) wins. A reading nothing fits falls
+    # through to the Bible fill (sr, en), which prints exactly the engine's
+    # reference, or is left out (ru).
     lengths = _chapter_lengths(engine_display)
     engine_verses = _verse_set(engine_segments, lengths)
-    best, best_score = None, 0.0
+    n = len(engine_verses)
+    best, best_rank = None, None
     for (idx_book, idx_ref), entry in text_index.items():
         if idx_book != book_key:
             continue
-        # Parse the indexed ref back to segments for overlap check
-        idx_segments = []
-        for part in idx_ref.split('|'):
-            m = re.match(r'(\d+):(\d+)-(\d+)', part)
-            if m:
-                idx_segments.append((int(m.group(1)), int(m.group(2)), int(m.group(3))))
+        idx_segments = _index_segments(idx_ref)
         if not _segments_overlap(engine_segments, idx_segments):
             continue
         idx_verses = _verse_set(idx_segments, lengths)
         shared = len(engine_verses & idx_verses)
+        extra, missing = len(idx_verses - engine_verses), n - shared
+        if not extra and not missing:
+            return entry
+        if exact_only:
+            continue
         score = shared / len(engine_verses | idx_verses)
-        if score < FUZZY_MIN_SHARE and shared < len(engine_verses):
-            continue   # neither close to the passage nor containing all of it
-        if best is None or score > best_score:
-            best, best_score = entry, score
+        if (idx_book, idx_ref) in day_keys and (not missing or score >= FUZZY_MIN_SHARE):
+            tier = 1
+        elif not missing and extra <= min(FUZZY_MAX_EXTRA, n * FUZZY_MAX_EXTRA_SHARE):
+            tier = 2
+        elif not extra and missing <= FUZZY_MAX_MISSING and missing * 2 < n:
+            tier = 2
+        else:
+            continue
+        rank = (tier, -score)
+        if best is None or rank < best_rank:
+            best, best_rank = entry, rank
 
     return best
 
 
 FUZZY_MIN_SHARE = 0.5
+FUZZY_MAX_EXTRA = 2
+FUZZY_MAX_EXTRA_SHARE = 0.2
+FUZZY_MAX_MISSING = 3
 
 
 def _chapter_lengths(display: str) -> dict:
@@ -1218,6 +1256,7 @@ def generate_readings_for_day(
     locale: str,
     title_index: dict = None,
     new_calendar: bool = False,
+    pdist_readings: dict = None,
 ) -> list:
     """
     Generate readings for a single day by combining engine output with scraped text.
@@ -1237,6 +1276,15 @@ def generate_readings_for_day(
     # Fixed feast readings from scraped Julian date data
     julian_scraped = julian_readings.get(julian_key, [])
 
+    # The index keys of what the scraped lectionary lists on this very day:
+    # its Pascha distance and its church date.
+    pdist = Paschalion(year, new_calendar=new_calendar).pascha_distance(greg_date)
+    day_keys = frozenset(
+        k for e in list((pdist_readings or {}).get(str(pdist), [])) + list(julian_scraped)
+        for k in [_entry_index_key(e, locale)] if k)
+    # en_nc follows the OCA, whose pericopes are the engine's own.
+    exact_only = new_calendar and locale == 'en'
+
     result = []
     used_julian_indices = set()
 
@@ -1247,7 +1295,7 @@ def generate_readings_for_day(
         display = eng.get('display') or eng.get('sdisplay', '')
 
         # Find matching scraped reading in the global index
-        matched = _find_matching_in_index(eng, text_index)
+        matched = _find_matching_in_index(eng, text_index, exact_only, day_keys)
 
         # Also try matching against the Julian date scraped entries
         if not matched:
@@ -1425,7 +1473,7 @@ def generate_all_readings(year: int, locale: str, new_calendar: bool = False) ->
 
     Returns a dict mapping "MM-DD" keys to lists of reading entries.
     """
-    text_index, julian_readings, title_index = _build_scraped_index(locale)
+    text_index, julian_readings, title_index, pdist_readings = _build_scraped_index(locale)
 
     readings = {}
     current = date(year, 1, 1)
@@ -1439,7 +1487,7 @@ def generate_all_readings(year: int, locale: str, new_calendar: bool = False) ->
     while current <= end:
         key = current.strftime("%m-%d")
         day_readings = generate_readings_for_day(current, text_index, julian_readings, locale,
-                                                 title_index, new_calendar)
+                                                 title_index, new_calendar, pdist_readings)
         readings[key] = day_readings
 
         if day_readings:
