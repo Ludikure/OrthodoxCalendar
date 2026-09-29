@@ -230,11 +230,12 @@ def _extract_chapter_verses(display: str) -> list:
         "Matthew 4.25-5.13"   -> [(4, 25, 99), (5, 1, 13)]  (cross-chapter)
         "Acts 1.1-8"          -> [(1, 1, 8)]
     """
-    # Strip book name - find the first digit after space
-    m = re.search(r'[\d]', display)
-    if not m:
+    # Strip the book name ("1 Corinthians 5.6-8" -> "5.6-8"; the first digit
+    # is not always the chapter's) and an LXX name ("3[1] Kings")
+    m = re.match(r'\s*(?:[1-4](?:\[\d\])?\s*)?[A-Za-z][A-Za-z ]*?\s*(?=\d)', display)
+    ref_part = display[m.end():] if m else display[(re.search(r'\d', display) or re.search('$', display)).start():]
+    if not ref_part:
         return []
-    ref_part = display[m.start():]
     return _parse_ref_segments(ref_part, '.')
 
 
@@ -242,93 +243,53 @@ def _parse_ref_segments(ref: str, chap_sep: str) -> list:
     """Parse chapter:verse segments from a reference string.
 
     chap_sep is '.' for engine format, ',' or ':' for scraped formats.
+
+    Sections are separated by ';' and parts within a section by ',' (', ' in
+    the Serbian format, where a bare ',' is the chapter separator). A part may
+    name a new chapter ("Titus 2.11-14, 3.4-7", "Римљанима 14,19-23, 16,25-27"),
+    cross into a later one ("4.25-5.13", "45-23,1"), or give verses of the
+    chapter in force, also after a ';' ("1,1-2; 10-12; 2,6-11", "Hebrews
+    12:6-13; 25-27"). A range over several chapters ("Jonah 1.1-4.11") covers
+    the ones in between whole. A section that is a bare number with no chapter
+    before it is that whole chapter.
     """
-    segments = []
-
-    # Handle semicolon-separated sections (different chapters)
-    sections = re.split(r'\s*;\s*', ref)
-
-    for section in sections:
+    s = re.escape(chap_sep)
+    part_re = re.compile(rf'(?:(\d+)\s*{s}\s*)?(\d+)(?:\s*[-–]\s*(?:(\d+)\s*{s}\s*)?(\d+))?')
+    segments, chapter = [], None
+    for section in re.split(r'\s*;\s*', ref):
         section = section.strip()
         if not section:
             continue
-
-        # Try to find chapter.verse pattern
-        # Handle formats like: "2.1-12", "4.25-5.13", "1.39-49,56"
-        # Also handle: "2,1-12", "1:39-49"
-
-        # Normalize separator
-        norm = section
-
-        # Split on the chapter separator (first occurrence)
-        if chap_sep == '.':
-            parts = norm.split('.', 1)
-        elif chap_sep == ',':
-            parts = norm.split(',', 1)
-        elif chap_sep == ':':
-            parts = norm.split(':', 1)
+        if chap_sep == ',':
+            # "1, 10-14" at the head of a section is chapter 1, verses 10-14;
+            # after that ", " separates parts and a bare "," is a chapter.
+            section = re.sub(r'^(\d+),\s+(?=\d)', r'\1,', section)
+            parts = re.split(r',\s+', section)
         else:
-            parts = [norm]
-
-        if len(parts) == 1:
-            # Just a chapter number or something we can't parse
-            try:
-                ch = int(parts[0].strip())
-                segments.append((ch, 1, 999))
-            except ValueError:
-                pass
+            parts = section.split(',')
+        if chapter is None and re.fullmatch(r'\d+', section):
+            chapter = int(section)
+            segments.append((chapter, 1, 999))    # a whole chapter
             continue
-
-        try:
-            chapter = int(parts[0].strip())
-        except ValueError:
-            continue
-
-        verse_part = parts[1].strip()
-
-        # Parse verse ranges: "1-12", "39-49,56", "25-5.13"
-        # Check for cross-chapter range (e.g., "25-5.13" or "25-5,13")
-        cross_match = re.match(r'(\d+)\s*[-–]\s*(\d+)[.,:](\d+)', verse_part)
-        if cross_match:
-            v_start = int(cross_match.group(1))
-            ch2 = int(cross_match.group(2))
-            v_end = int(cross_match.group(3))
-            segments.append((chapter, v_start, 999))
-            segments.append((ch2, 1, v_end))
-            # Handle any remaining comma-separated parts
-            remaining = verse_part[cross_match.end():]
-            if remaining.startswith(','):
-                for extra in remaining[1:].split(','):
-                    extra = extra.strip()
-                    if not extra:
-                        continue
-                    r = re.match(r'(\d+)\s*[-–]\s*(\d+)', extra)
-                    if r:
-                        segments.append((ch2, int(r.group(1)), int(r.group(2))))
-                    else:
-                        try:
-                            v = int(extra)
-                            segments.append((ch2, v, v))
-                        except ValueError:
-                            pass
-            continue
-
-        # Simple verse ranges within one chapter: "1-12" or "39-49,56"
-        comma_parts = verse_part.split(',')
-        for cp in comma_parts:
-            cp = cp.strip()
-            if not cp:
+        for part in parts:
+            m = part_re.match(part.strip())
+            if not m:
                 continue
-            r = re.match(r'(\d+)\s*[-–]\s*(\d+)', cp)
-            if r:
-                segments.append((chapter, int(r.group(1)), int(r.group(2))))
+            if m.group(1):
+                chapter = int(m.group(1))
+            if chapter is None:
+                continue
+            v1 = int(m.group(2))
+            if m.group(3):
+                ch2 = int(m.group(3))
+                segments.append((chapter, v1, 999))
+                segments.extend((c, 1, 999) for c in range(chapter + 1, ch2))
+                segments.append((ch2, 1, int(m.group(4))))
+                chapter = ch2
+            elif m.group(4):
+                segments.append((chapter, v1, int(m.group(4))))
             else:
-                try:
-                    v = int(cp)
-                    segments.append((chapter, v, v))
-                except ValueError:
-                    pass
-
+                segments.append((chapter, v1, v1))
     return segments
 
 
@@ -361,11 +322,12 @@ def _extract_scraped_ref_ru(title: str, reference: str = None) -> list:
     if not text:
         return []
 
-    # Remove book abbreviation: "Мк.10:17–27" -> "10:17–27"
-    m = re.search(r'(\d)', text)
-    if not m:
+    # Remove book abbreviation: "Мк.10:17–27" -> "10:17–27", "1Пет.1:1-2" ->
+    # "1:1-2" (the first digit is not always the chapter's)
+    m = re.match(r'\s*[1-4]?\s*[^\W\d_]+\.?\s*(?=\d)', text)
+    ref_part = text[m.end():] if m else text[(re.search(r'\d', text) or re.search('$', text)).start():]
+    if not ref_part:
         return []
-    ref_part = text[m.start():]
 
     return _parse_ref_segments(ref_part, ':')
 
@@ -379,11 +341,11 @@ def _extract_scraped_ref_en(title: str, reference: str = None) -> list:
     if not text:
         return []
 
-    # Remove book name: find the first digit
-    m = re.search(r'(\d)', text)
-    if not m:
+    # Remove the book name ("1 Corinthians 5:6-8" -> "5:6-8")
+    m = re.match(r'\s*(?:[1-4]\s*)?[A-Za-z][A-Za-z ]*?\s*(?=\d)', text)
+    ref_part = text[m.end():] if m else text[(re.search(r'\d', text) or re.search('$', text)).start():]
+    if not ref_part:
         return []
-    ref_part = text[m.start():]
 
     return _parse_ref_segments(ref_part, ':')
 
@@ -1008,7 +970,8 @@ def _sr_book_key(title: str) -> str:
         if 'јеванђеље' in title_lower:
             return 'John'
         if 'саборна' in title_lower or 'посланица' in title_lower:
-            return 'Epistles_John'
+            return ('2John' if 'друга' in title_lower else
+                    '3John' if 'трећа' in title_lower else '1John')
         return 'John'
     if 'јеврејим' in title_lower:
         return 'Hebrews'
@@ -1051,6 +1014,20 @@ def _sr_book_key(title: str) -> str:
     if 'откривењ' in title_lower:
         return 'Revelation'
     # OT books
+    if 'мојсијев' in title_lower:
+        for ordinal, book in (('прва', 'Genesis'), ('друга', 'Exodus'), ('трећа', 'Leviticus'),
+                              ('четврта', 'Numbers'), ('пета', 'Deuteronomy')):
+            if ordinal in title_lower:
+                return book
+    if 'царевима' in title_lower:
+        # Daničić's first and second books of Kings: the Septuagint's third and fourth
+        return '1Kings' if 'прва' in title_lower else '2Kings'
+    for fragment, book in (('навин', 'Joshua'), ('судијама', 'Judges'), ('о јову', 'Job'),
+                           ('јеремиј', 'Jeremiah'), ('језекиљ', 'Ezekiel'), ('данил', 'Daniel'),
+                           ('пророка јоне', 'Jonah'), ('михеј', 'Micah'), ('софониј', 'Zephaniah'),
+                           ('захариј', 'Zechariah'), ('малахиј', 'Malachi')):
+        if fragment in title_lower:
+            return book
     if 'исаиј' in title_lower:
         return 'Isaiah'
     if 'јоил' in title_lower:
@@ -1117,6 +1094,10 @@ def _engine_book_from_display(display: str) -> str:
         'Proverbs': 'Proverbs', 'Wisdom': 'Wisdom', 'Sirach': 'Sirach',
         'Joel': 'Joel', 'Jonah': 'Jonah', 'Zechariah': 'Zechariah',
         'Malachi': 'Malachi',
+        'Leviticus': 'Leviticus', 'Numbers': 'Numbers', 'Deuteronomy': 'Deuteronomy',
+        'Joshua': 'Joshua', 'Judges': 'Judges', 'Job': 'Job', 'Micah': 'Micah',
+        'Zephaniah': 'Zephaniah', '3[1] Kings': '1Kings', '4[2] Kings': '2Kings',
+        '1 Kings': '1Kings', '2 Kings': '2Kings',
     }
     for name, key in sorted(book_map.items(), key=lambda x: -len(x[0])):
         if display.startswith(name + ' '):
@@ -1162,6 +1143,11 @@ def _find_matching_in_index(engine_reading: dict, text_index: dict) -> dict:
         return None
 
     book_key = _engine_book_from_display(engine_display)
+    if book_key == 'unknown':
+        # Every book the tables do not name shares this key, so a match here
+        # pairs verse numbers across books (Judges 6:11-24 took Genesis 6:9-22
+        # before the tables named both).
+        return None
     ref_key = _normalize_ref_key(engine_segments)
 
     if not ref_key:
@@ -1172,8 +1158,18 @@ def _find_matching_in_index(engine_reading: dict, text_index: dict) -> dict:
     if result:
         return result
 
-    # Try fuzzy matching: check if the engine segments overlap with any indexed entry
-    # for the same book
+    # Fuzzy matching. The first same-book entry that overlapped the engine's
+    # verses at all used to win, so once references parse whole, "Matthew
+    # 24.36-26.2" (Great Tuesday) would have taken the Serbian index's Matthew
+    # 25:1-13 and "Hebrews 11.24-26, 32-12.2" its Hebrews 12:1-10. An entry
+    # now has to contain the whole passage or share at least half of the two
+    # passages' verses, and of those the closest (shared verses over all
+    # verses of both) wins.
+    # A reading nothing covers falls through to the Bible fill (sr, en), which
+    # prints exactly the engine's reference, or is left out (ru).
+    lengths = _chapter_lengths(engine_display)
+    engine_verses = _verse_set(engine_segments, lengths)
+    best, best_score = None, 0.0
     for (idx_book, idx_ref), entry in text_index.items():
         if idx_book != book_key:
             continue
@@ -1183,10 +1179,36 @@ def _find_matching_in_index(engine_reading: dict, text_index: dict) -> dict:
             m = re.match(r'(\d+):(\d+)-(\d+)', part)
             if m:
                 idx_segments.append((int(m.group(1)), int(m.group(2)), int(m.group(3))))
-        if _segments_overlap(engine_segments, idx_segments):
-            return entry
+        if not _segments_overlap(engine_segments, idx_segments):
+            continue
+        idx_verses = _verse_set(idx_segments, lengths)
+        shared = len(engine_verses & idx_verses)
+        score = shared / len(engine_verses | idx_verses)
+        if score < FUZZY_MIN_SHARE and shared < len(engine_verses):
+            continue   # neither close to the passage nor containing all of it
+        if best is None or score > best_score:
+            best, best_score = entry, score
 
-    return None
+    return best
+
+
+FUZZY_MIN_SHARE = 0.5
+
+
+def _chapter_lengths(display: str) -> dict:
+    """{chapter: last verse} of the engine reference's book, from the English
+    Bible (KJV numbering, Brenton for the Old Testament); empty if unknown."""
+    book, _ = _en_parse_ref(display, '.')
+    chapters = _load_en_bible().get(book or '', {})
+    return {int(c): max(int(v) for v in vs) for c, vs in chapters.items() if vs}
+
+
+def _verse_set(segments: list, lengths: dict = None) -> set:
+    """(chapter, verse) pairs a list of segments covers; "to the end of the
+    chapter" (999) runs to the chapter's last verse, 150 when it is unknown."""
+    lengths = lengths or {}
+    return {(ch, v) for ch, vs, ve in segments
+            for v in range(vs, min(ve, lengths.get(ch, 150)) + 1)}
 
 
 def generate_readings_for_day(
@@ -1236,10 +1258,16 @@ def generate_readings_for_day(
                 reference = js.get('reference', '')
                 if locale == 'sr':
                     js_segments = _extract_scraped_ref_sr(title, reference)
+                    js_book = _sr_book_key(title)
                 elif locale == 'ru':
                     js_segments = _extract_scraped_ref_ru(title, title)
+                    js_book = _ru_book_key(title)
                 else:
                     js_segments = _extract_chapter_verses(title)
+                    js_book = _engine_book_from_display(title)
+                engine_book = _engine_book_from_display(display)
+                if 'unknown' not in (js_book, engine_book) and js_book != engine_book:
+                    continue   # Acts 14:6-18 is not Zechariah 14:1-11
                 engine_segments = _extract_chapter_verses(display)
                 if _segments_overlap(engine_segments, js_segments):
                     matched = js
