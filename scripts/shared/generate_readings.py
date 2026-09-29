@@ -550,10 +550,14 @@ def _sr_bible_fill(eng: dict) -> dict:
     if not bible:
         return None
     display = eng.get('display') or eng.get('sdisplay') or ''
+    # The engine's occasional "27:39-54" reads as "27.39-54".
+    display = re.sub(r'(\d):(\d)', r'\1.\2', display)
     bm = re.match(r'((?:[1-3]\s)?[A-Za-z ]+?)\s+\d', display)
     if not bm:
         return None
     book = bm.group(1).strip()
+    if _split_composite(display):
+        return None   # several books: _composite_reading fills each part
     knjiga = ENGINE_TO_KNJIGA.get(book)
     book_data = bible.get(str(knjiga)) if knjiga else None
     if not book_data:
@@ -1249,6 +1253,87 @@ def _verse_set(segments: list, lengths: dict = None) -> set:
             for v in range(vs, min(ve, lengths.get(ch, 150)) + 1)}
 
 
+def _split_composite(display: str) -> list:
+    """The one-book parts of an engine reading drawn from several books, in
+    engine format ("1 Corinthians 5.6-8; Galatians 3.13-14" -> ["1 Corinthians
+    5.6-8", "Galatians 3.13-14"]; "Matt 27:39-54" -> "Matthew 27.39-54"), or []
+    for a one-book reading or one whose parts are not all books the tables
+    name (the catenae, "Daniel 3.1-23; Song of the Three 1-66")."""
+    if not display or display.startswith('Composite'):
+        return []
+    pieces = []
+    for chunk in (c.strip() for c in display.split(';')):
+        if not chunk:
+            continue
+        chunk = re.sub(r'^Matt\b\.?', 'Matthew', chunk)
+        if re.match(r'(?:[1-4](?:\[\d\])?\s+)?[A-Za-z]', chunk):
+            pieces.append(chunk)
+        elif pieces:
+            pieces[-1] += '; ' + chunk     # "Isaiah 7.10-16; 8.1-4" stays one part
+        else:
+            return []
+    if len(pieces) < 2:
+        return []
+    pieces = [re.sub(r'(\d):(\d)', r'\1.\2', p) for p in pieces]
+    if any(_engine_book_from_display(p) == 'unknown' for p in pieces):
+        return []
+    return pieces
+
+
+def _composite_reading(pieces: list, text_index: dict, locale: str, exact_only: bool,
+                       day_keys: frozenset) -> dict:
+    """One reading from the parts of a composite engine reading, each matched in
+    the index or filled from the Bible; None when any part has no text (ru has
+    no fill, so a part the index lacks leaves the reading out)."""
+    parts = []
+    for piece in pieces:
+        part = _find_matching_in_index({'display': piece}, text_index, exact_only, day_keys)
+        if not (part and part.get('text')):
+            part = (_sr_bible_fill({'display': piece}) if locale == 'sr' else
+                    _en_bible_fill({'display': piece}) if locale == 'en' else None)
+        if not (part and part.get('text')):
+            return None
+        parts.append((piece, part))
+    first = parts[0][1]
+    if locale == 'sr':
+        refs = []
+        for piece, part in parts:
+            m = re.search(r'\(([^()]*)\)\s*$', part.get('title') or '')
+            nums = m.group(1) if m else re.sub(r'^\D+', '', part.get('reference') or '')
+            book = re.match(r'((?:[1-3]\s)?[A-Za-z ]+?)\s+\d', piece).group(1).strip()
+            refs.append((SR_REF_NAME.get(book, book), nums.strip()))
+        head = re.sub(r'\s*\([^()]*\)\s*$', '', first.get('title') or '')
+        title = f"{head} ({refs[0][1]}; " + '; '.join(f"{b} {n}" for b, n in refs[1:]) + ')'
+        return {'title': title, 'type': first.get('type', 'gospel'),
+                'text': ' '.join(p['text'] for _, p in parts),
+                'reference': '; '.join(f"{b} {n}" for b, n in refs)}
+    if locale == 'ru':
+        # "Лк.23:39-43," -> "Лк.23:39-43": the scraped titles keep the list's punctuation
+        title = '; '.join(re.sub(r'[\s,;.]+$', '', p.get('title', '')) for _, p in parts)
+        return {'title': title, 'type': first.get('type', 'gospel'),
+                'text': '\n'.join(p['text'] for _, p in parts)}
+    ref = '; '.join(p.get('reference') or p.get('title') or '' for _, p in parts)
+    # en: the text is assembled from the public-domain Bible afterwards
+    return {'title': ref, 'type': first.get('type') or _en_reading_type(_en_parse_ref(ref, ':')[0]),
+            'text': ' '.join(p['text'] for _, p in parts), 'reference': ref}
+
+
+def _en_ref_pieces(ref: str) -> list:
+    """[(book, ref_part)] of an English reference naming several Bible books
+    ("1 Corinthians 5:6-8; Galatians 3:13-14"); one entry otherwise."""
+    chunks = [c.strip() for c in (ref or '').split(';')]
+    pieces = []
+    for chunk in chunks:
+        if re.match(r'(?:[1-4]\s+)?[A-Za-z]', chunk):
+            book, rp = _en_parse_ref(chunk, ':')
+            if not book or not _load_en_bible().get(book):
+                return [_en_parse_ref(ref, ':')]
+            pieces.append([book, rp])
+        elif pieces:
+            pieces[-1][1] += '; ' + chunk
+    return [tuple(p) for p in pieces] if len(pieces) > 1 else [_en_parse_ref(ref, ':')]
+
+
 def generate_readings_for_day(
     greg_date: date,
     text_index: dict,
@@ -1293,6 +1378,20 @@ def generate_readings_for_day(
         source = eng.get('source', '')
         desc = eng.get('desc', '')
         display = eng.get('display') or eng.get('sdisplay', '')
+
+        # A reading from several books ("1 Corinthians 5.6-8; Galatians
+        # 3.13-14", Great Friday's Gospel) is one reading: each book's part is
+        # matched or filled on its own and the parts are joined, or the reading
+        # is left out when a part has no text.
+        pieces = _split_composite(display)
+        if pieces:
+            joined = _composite_reading(pieces, text_index, locale, exact_only, day_keys)
+            if joined:
+                joined['source'] = source
+                if desc:
+                    joined['desc'] = desc
+                result.append(joined)
+            continue
 
         # Find matching scraped reading in the global index
         matched = _find_matching_in_index(eng, text_index, exact_only, day_keys)
@@ -1421,6 +1520,16 @@ def generate_readings_for_day(
         # copyrighted NKJV scrape text.
         web = _load_en_web()
         for r in result:
+            parts = _en_ref_pieces(r.get('reference') or r.get('title') or '')
+            if len(parts) > 1:
+                texts = [_en_bible_text(b, rp, ':') for b, rp in parts]
+                r['text'] = ' '.join(texts) if all(texts) else None
+                if web:
+                    wts = [_en_assemble(web, b, rp, ':') if b not in _EN_OT_BOOKS
+                           else _en_bible_text(b, rp, ':') for b, rp in parts]
+                    if all(wts) and any(b not in _EN_OT_BOOKS for b, _ in parts):
+                        r['textWeb'] = ' '.join(wts)
+                continue
             book, ref_part = _en_parse_ref(r.get('reference') or r.get('title') or '', ':')
             if book in _EN_OT_BOOKS:
                 r['text'], lxx = _en_brenton(book, ref_part, ':')
