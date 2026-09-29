@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(LocalizationManager.self) private var localization
     @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
 
     var body: some View {
         @Bindable var loc = localization
@@ -58,6 +59,22 @@ struct SettingsView: View {
                             Text("🕯 Моја слава")
                             Spacer()
                             Text(slavaStore.settings.mine?.name ?? "")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+
+            // Name days (именины) are kept in the Russian calendar only.
+            if localization.language == .ru {
+                Section {
+                    NavigationLink {
+                        NameDaySettingsView()
+                    } label: {
+                        HStack {
+                            Label("Мои именины", systemImage: NameDayText.icon)
+                            Spacer()
+                            Text(nameDayStore.settings.mine.map { NameDayLabel.dayAndMonthOfNext($0.anchor) } ?? "")
                                 .foregroundStyle(.secondary)
                         }
                     }

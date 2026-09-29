@@ -5,20 +5,26 @@ struct DayRowView: View, Equatable {
     let isToday: Bool
     /// The user's or a friend's slava on this day (Serbian only; nil otherwise).
     let slava: SlavaMark?
+    /// The user's or a friend's name day on this day (Russian only; nil otherwise).
+    let nameDay: NameDayMark?
 
     @Environment(LocalizationManager.self) private var localization
 
-    init(day: CalendarDay, isToday: Bool = false, slava: SlavaMark? = nil) {
+    init(day: CalendarDay, isToday: Bool = false, slava: SlavaMark? = nil, nameDay: NameDayMark? = nil) {
         self.day = day
         self.isToday = isToday
         self.slava = slava
+        self.nameDay = nameDay
     }
 
     nonisolated static func == (lhs: DayRowView, rhs: DayRowView) -> Bool {
-        lhs.day == rhs.day && lhs.isToday == rhs.isToday && lhs.slava == rhs.slava
+        lhs.day == rhs.day && lhs.isToday == rhs.isToday && lhs.slava == rhs.slava && lhs.nameDay == rhs.nameDay
     }
 
-    private var isMySlava: Bool { slava?.isMine == true }
+    /// The user's own slava or name day: the row turns gold either way (the
+    /// two never meet — slavas are Serbian only, name days Russian only).
+    private var isMySlava: Bool { slava?.isMine == true || isMyNameDay }
+    private var isMyNameDay: Bool { nameDay?.isMine == true }
 
     private var dayOfWeekAbbrev: String {
         let abbrevs = localization.bundle.ui.daysOfWeek
@@ -67,7 +73,12 @@ struct DayRowView: View, Equatable {
 
             // Main content
             VStack(alignment: .leading, spacing: 3) {
-                if isMySlava {
+                if isMyNameDay {
+                    Text("\(Image(systemName: NameDayText.icon)) ВАШИ ИМЕНИНЫ")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .tracking(1.2)
+                } else if isMySlava {
                     Text("🕯 ВАША СЛАВА")
                         .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(AppColors.slavaGold)
@@ -100,6 +111,14 @@ struct DayRowView: View, Equatable {
                 // Friends' slavas: "Андрејевдан · Петровићи"
                 ForEach(slava?.friendLines ?? [], id: \.self) { line in
                     Text("🕯 \(line)")
+                        .font(.caption)
+                        .foregroundStyle(AppColors.slavaGold)
+                        .lineLimit(1)
+                }
+
+                // Friends' name days: "мама · Галина"
+                ForEach(nameDay?.friendLines ?? [], id: \.self) { line in
+                    Text("\(Image(systemName: NameDayText.icon)) \(line)")
                         .font(.caption)
                         .foregroundStyle(AppColors.slavaGold)
                         .lineLimit(1)

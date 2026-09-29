@@ -6,10 +6,12 @@ struct OrthodoxCalendarApp: App {
     @State private var viewModel = CalendarViewModel()
     @State private var updateGate = AppUpdateGate()
     @State private var slava = SlavaStore()
+    @State private var nameDays = NameDayStore()
     @Environment(\.scenePhase) private var scenePhase
 
     private func rescheduleSlavaReminders() {
         SlavaReminders.update(slava.settings, language: localization.language)
+        NameDayReminders.update(nameDays.settings, language: localization.language)
     }
 
     private func refreshWidgets() {
@@ -27,6 +29,7 @@ struct OrthodoxCalendarApp: App {
                         .environment(localization)
                         .environment(viewModel)
                         .environment(slava)
+                        .environment(nameDays)
                         .onAppear {
                             viewModel.loadMonth()
                             Haptics.prepare()
@@ -61,6 +64,9 @@ struct OrthodoxCalendarApp: App {
                 slava.onChange = {
                     rescheduleSlavaReminders()
                     refreshWidgets()
+                }
+                nameDays.onChange = {
+                    NameDayReminders.update(nameDays.settings, language: localization.language)
                 }
                 rescheduleSlavaReminders()
                 refreshWidgets()

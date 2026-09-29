@@ -4,6 +4,7 @@ struct MonthListView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
     @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
     @State private var todayString = Self.makeTodayString()
 
     private static func makeTodayString() -> String { DateKeys.today }
@@ -20,7 +21,8 @@ struct MonthListView: View {
                     ForEach(viewModel.daysInMonth) { day in
                         NavigationLink(value: day) {
                             DayRowView(day: day, isToday: day.gregorianDate == today,
-                                       slava: localization.language == .sr ? slavaStore.mark(for: day) : nil)
+                                       slava: localization.language == .sr ? slavaStore.mark(for: day) : nil,
+                                       nameDay: localization.language == .ru ? nameDayStore.mark(for: day) : nil)
                         }
                         .buttonStyle(.plain)
 

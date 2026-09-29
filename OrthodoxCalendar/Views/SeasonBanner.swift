@@ -2,7 +2,8 @@ import SwiftUI
 
 /// Banner under the month bar (list & grid views). Its first row is the
 /// fasting season — name, date range and, for today, "Day X of Y" — and its
-/// second, in the 30 days before the user's slava, a countdown to it. Either
+/// second, in the 30 days before the user's slava (Serbian) or name day
+/// (Russian — the two never meet), a countdown to it. Either
 /// row can be absent; with both, they share one card under a thin rule, so a
 /// slava inside a fast (Никољдан always is) never hides the fast and costs
 /// the list one short row instead of a second banner.
@@ -70,18 +71,28 @@ struct SeasonBanner: View {
     }
 
     private func slavaRow(_ slava: SlavaCountdown) -> some View {
-        HStack(spacing: 10) {
-            Text("🕯")
-                .font(.system(size: 16))
+        let isNameDay = slava.kind == .nameDay
+        let today = isNameDay ? "Сегодня" : "Данас"
+        let suffix = isNameDay ? "ваши именины" : "ваша слава"
+        return HStack(spacing: 10) {
+            Group {
+                if isNameDay {
+                    Image(systemName: NameDayText.icon)
+                        .foregroundStyle(AppColors.slavaGold)
+                } else {
+                    Text("🕯")
+                }
+            }
+            .font(.system(size: 16))
             // "Никољдан — ваша слава" when it fits; a long name ("Покров
             // Пресвете Богородице") keeps the name and drops the suffix.
             ViewThatFits(in: .horizontal) {
-                slavaTitle(slava.days == 0 ? "Данас: \(slava.name) — ваша слава" : "\(slava.name) — ваша слава")
-                slavaTitle(slava.days == 0 ? "Данас: \(slava.name)" : slava.name)
+                slavaTitle(slava.days == 0 ? "\(today): \(slava.name) — \(suffix)" : "\(slava.name) — \(suffix)")
+                slavaTitle(slava.days == 0 ? "\(today): \(slava.name)" : slava.name)
                 slavaTitle(slava.name, lines: 2)
             }
             Spacer(minLength: 6)
-            Text(Self.countdownLabel(slava.days))
+            Text(isNameDay ? NameDayText.countdown(slava.days) : Self.countdownLabel(slava.days))
                 .font(.system(size: 12, weight: .bold))
                 .foregroundStyle(AppColors.slavaGold)
                 .padding(.horizontal, 9)
@@ -93,7 +104,7 @@ struct SeasonBanner: View {
         .padding(.vertical, 9)
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
-        .accessibilityHint("Отвара дан славе")
+        .accessibilityHint(isNameDay ? "Открывает день именин" : "Отвара дан славе")
     }
 
     private func slavaTitle(_ text: String, lines: Int = 1) -> some View {
@@ -110,9 +121,11 @@ struct SeasonBanner: View {
     }
 }
 
-/// The user's next slava as the banner shows it.
+/// The user's next slava — or, in Russian, name day — as the banner shows it.
 struct SlavaCountdown: Equatable {
+    enum Kind: Equatable { case slava, nameDay }
     let name: String
     let date: Date
     let days: Int
+    var kind: Kind = .slava
 }

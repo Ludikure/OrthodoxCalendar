@@ -5,12 +5,15 @@ struct DayDetailView: View {
     @Environment(LocalizationManager.self) private var localization
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
     @Environment(\.dismiss) private var dismiss
     @State private var showAddReminder = false
     @State private var showShareSheet = false
     @State private var expandedSection: String?
     /// The slava just set from a saint card, shown in the undo toast.
     @State private var justSetSlava: SlavaDay?
+    /// The "Именины" list past its first dozen names.
+    @State private var showAllNames = false
 
     private var isGreat: Bool { day.isGreatFeast }
 
@@ -166,6 +169,12 @@ struct DayDetailView: View {
                     .padding(.top, 16)
             }
 
+            // The user's or friends' name day on this day (Russian only)
+            if localization.language == .ru, let mark = nameDayStore.mark(for: day) {
+                nameDayCard(mark)
+                    .padding(.top, 16)
+            }
+
             // Fasting section
             fastingSection
                 .padding(.top, 16)
@@ -178,6 +187,15 @@ struct DayDetailView: View {
             }
 
             sectionDivider
+
+            // Name days (Russian only)
+            if localization.language == .ru {
+                let names = NameDayCatalog.shared.names(on: day)
+                if !names.isEmpty {
+                    nameDaysSection(names)
+                    sectionDivider
+                }
+            }
 
             // Readings
             if !day.readings.isEmpty {
@@ -248,6 +266,105 @@ struct DayDetailView: View {
                 .background(RoundedRectangle(cornerRadius: 10).fill(AppColors.slavaRowBg))
             }
         }
+    }
+
+    // MARK: - Name days
+
+    private func nameDayCard(_ mark: NameDayMark) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if mark.isMine, let mine = nameDayStore.settings.mine {
+                let isToday = day.gregorianDate == DateKeys.today
+                VStack(spacing: 6) {
+                    Image(systemName: NameDayText.icon)
+                        .font(.system(size: 22))
+                        .foregroundStyle(AppColors.slavaGold)
+                        .frame(width: 52, height: 52)
+                        .background(Circle().fill(AppColors.cardBg))
+                        .overlay(Circle().stroke(AppColors.gold, lineWidth: 2))
+                    Text("ВАШИ ИМЕНИНЫ")
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(1.5)
+                        .foregroundStyle(AppColors.slavaGold)
+                    Text(isToday ? "С днём ангела!" : mine.churchName)
+                        .font(.system(.title2, design: .serif).weight(.bold))
+                        .foregroundStyle(AppColors.bannerTitle)
+                    Text(mine.title)
+                        .font(.system(.subheadline, design: .serif))
+                        .foregroundStyle(AppColors.bodyText)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(18)
+                .background(RoundedRectangle(cornerRadius: 16).fill(AppColors.bannerBg))
+                .accessibilityElement(children: .combine)
+            }
+            ForEach(mark.friendLines, id: \.self) { line in
+                HStack(spacing: 8) {
+                    Image(systemName: NameDayText.icon)
+                        .foregroundStyle(AppColors.slavaGold)
+                    Text("Именины: \(line)")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.slavaGold)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(RoundedRectangle(cornerRadius: 10).fill(AppColors.slavaRowBg))
+            }
+        }
+    }
+
+    /// "Именины": the day's names, main saints first, the first dozen and an
+    /// "и другие" that opens the rest. The user's own name is picked out.
+    private func nameDaysSection(_ names: [DayName]) -> some View {
+        let capped = NameDayCatalog.capped(names)
+        let shown = showAllNames ? names : capped.shown
+        let mine = Set([nameDayStore.settings.mine?.churchName].compactMap { $0 }
+                       + nameDayStore.settings.friends.map(\.nameDay.churchName))
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: NameDayText.icon)
+                    .font(.system(size: 15))
+                    .foregroundStyle(AppColors.slavaGold)
+                Text("Именины")
+                    .font(.system(.subheadline, design: .serif).weight(.bold))
+                    .foregroundStyle(AppColors.darkText)
+            }
+
+            Text(Self.nameList(shown, highlighted: mine))
+                .font(.system(.subheadline, design: .serif))
+                .foregroundStyle(AppColors.bodyText)
+                .lineSpacing(4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(RoundedRectangle(cornerRadius: 12).fill(AppColors.cardBg))
+
+            if capped.hidden > 0 {
+                Button {
+                    Haptics.light()
+                    withAnimation(.easeInOut(duration: 0.2)) { showAllNames.toggle() }
+                } label: {
+                    Text(showAllNames ? "Свернуть" : "и другие (\(capped.hidden))")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.crimson)
+                }
+                .padding(.leading, 2)
+            }
+        }
+    }
+
+    /// "Татиана, Савва, Мартиниан, Мертий…": main saints in bold, the names
+    /// the user keeps in gold.
+    private static func nameList(_ names: [DayName], highlighted: Set<String>) -> AttributedString {
+        var out = AttributedString()
+        for (i, n) in names.enumerated() {
+            if i > 0 { out += AttributedString(", ") }
+            var part = AttributedString(n.name)
+            if n.isMain { part.font = .system(.subheadline, design: .serif).weight(.bold) }
+            if highlighted.contains(n.name) { part.foregroundColor = AppColors.slavaGold }
+            out += part
+        }
+        return out
     }
 
     /// A saint card offers "set as your slava" only on a slava feast, in

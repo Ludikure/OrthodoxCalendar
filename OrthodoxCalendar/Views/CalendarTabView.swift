@@ -5,6 +5,7 @@ struct CalendarTabView: View {
     @Environment(CalendarViewModel.self) private var viewModel
     @Environment(LocalizationManager.self) private var localization
     @Environment(SlavaStore.self) private var slavaStore
+    @Environment(NameDayStore.self) private var nameDayStore
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.requestReview) private var requestReview
 
@@ -47,6 +48,21 @@ struct CalendarTabView: View {
         return SlavaCountdown(name: next.slava.name, date: next.date, days: next.days)
     }
 
+    /// The same row for the user's name day: Russian only, same 30 days and
+    /// the same rule about the month on screen.
+    private var nameDayCountdown: SlavaCountdown? {
+        guard localization.language == .ru,
+              let next = nameDayStore.countdown(),
+              next.days <= NameDayStore.bannerDays else { return nil }
+        let cal = ChurchDates.calendar
+        let shown = { (d: Date) in
+            cal.component(.year, from: d) == viewModel.currentYear
+                && cal.component(.month, from: d) == viewModel.currentMonth
+        }
+        guard shown(Date()) || shown(next.date) else { return nil }
+        return SlavaCountdown(name: next.nameDay.churchName, date: next.date, days: next.days, kind: .nameDay)
+    }
+
     private func openSlava(_ countdown: SlavaCountdown) {
         Haptics.light()
         viewModel.open(dateKey: DateKeys.key(from: countdown.date))
@@ -74,7 +90,7 @@ struct CalendarTabView: View {
                 // (see `focal`) or the user's slava is near (see
                 // `slavaCountdown`). Sits above the list with a soft shadow so
                 // scrolled rows pass cleanly under it.
-                let slava = slavaCountdown
+                let slava = slavaCountdown ?? nameDayCountdown
                 if focal != nil || slava != nil {
                     SeasonBanner(period: focal?.period, showsDayIndex: focal?.isToday ?? false,
                                  slava: slava, onSlavaTap: { if let slava { openSlava(slava) } })
