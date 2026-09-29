@@ -34,6 +34,7 @@
 		5029F787636A2B03A0C52A39 /* DateKeysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469F3E60AB1E9D84F0F91179 /* DateKeysTests.swift */; };
 		52A7B4BBBBA7899417250B06 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EA05058841907271FB8FEE /* LocalizationManager.swift */; };
 		53F7CC6623B02326F8608638 /* FastingBadgeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03D3BDA4E22A271F6D6453C /* FastingBadgeStyle.swift */; };
+		5A75180C067B109C26793E15 /* BundledDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817169733A570241DBFA32D /* BundledDataTests.swift */; };
 		5BB48F11DD54E12903BBB517 /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B6ABB33D59C087264D846E2 /* ru.json */; };
 		606C0DA2699125A16E9FABC5 /* DateKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61ED1DC74186A767EA2A191 /* DateKeys.swift */; };
 		63240EF68EC49D0994D3AFF6 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5547954B52EDE13709406 /* CalendarViewModel.swift */; };
@@ -189,6 +190,7 @@
 		90DBB51E9394613105123B11 /* calendar_sr_2030.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2030.json; sourceTree = "<group>"; };
 		9735DE00718EAF7D895C4CBB /* calendar_en_2029.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_2029.json; sourceTree = "<group>"; };
 		980ECA64C085AAFC335F31B3 /* OrthodoxCalendar.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OrthodoxCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9817169733A570241DBFA32D /* BundledDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundledDataTests.swift; sourceTree = "<group>"; };
 		98CE7BEB6588582110BD971C /* calendar_en_nc_2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_en_nc_2026.json; sourceTree = "<group>"; };
 		9ECB2D80878A479F4284C08F /* calendar_sr_2028.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar_sr_2028.json; sourceTree = "<group>"; };
 		9EE0562EC4FDEFED51E7EAC9 /* sr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sr.json; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			children = (
 				72CC515376D0532C72ACCB2D /* AppUpdateGateTests.swift */,
 				4A1CA4481CAE126B1F4AE57C /* BioMatcherTests.swift */,
+				9817169733A570241DBFA32D /* BundledDataTests.swift */,
 				414ED88D9893091EF060A5C6 /* CardAccessibilityTests.swift */,
 				469F3E60AB1E9D84F0F91179 /* DateKeysTests.swift */,
 				838C61ABB97944110525B6AA /* DayAndMonthTests.swift */,
@@ -565,6 +568,7 @@
 			files = (
 				8A9CFA80106620EB07128202 /* AppUpdateGateTests.swift in Sources */,
 				17D0CFF23D1744725C76E17A /* BioMatcherTests.swift in Sources */,
+				5A75180C067B109C26793E15 /* BundledDataTests.swift in Sources */,
 				B8A698F30C045186BE55FD37 /* CardAccessibilityTests.swift in Sources */,
 				5029F787636A2B03A0C52A39 /* DateKeysTests.swift in Sources */,
 				F6E3BEB198D677820AE268C7 /* DayAndMonthTests.swift in Sources */,

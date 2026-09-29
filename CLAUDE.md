@@ -93,6 +93,8 @@ python3 scripts/shared/dedup_text.py /path/to/scratch
 # in years outside the bundled window.
 cp data/output/calendar_*_202[5-9].json data/output/calendar_*_2030.json OrthodoxCalendar/Localization/
 python3 scripts/shared/dedup_text.py OrthodoxCalendar/Localization/ --keep-from=/path/to/scratch
+# ...and set BundledData.revision (App/CalendarRepository.swift) to the
+# dataRevision these files are published under (see Bundled Window below).
 
 # Russian name days (именины): rebuild the bundled catalog after
 # scripts/russian/build_imeniny.py or a change to imeniny_civil_names.json
@@ -161,7 +163,7 @@ Flow: **Scrapers → Processed JSON → Build Pipeline → Calendar JSONs**
 ## Key Design Decisions
 
 ### Bundled Window + v2 Archive
-A window of years ships in the bundle (fully offline, see `project.yml` Localization folder). Years outside it come from the v2 archive on the Worker (`/api/v2/{locale}/{year}`, 2024–2099, deduplicated files ~1.3 MB each) and are cached permanently in Application Support (excluded from backup). Text refs in downloaded files resolve against the *bundled* `texts_<locale>.json` pools — which is why pool closure over all 76 years is checked before every upload. `en_nc` shares `texts_en.json` (identical bios and scripture text; a separate copy was 8.6 MB of duplicate bundle), via `dedup_text.POOL_ALIAS`, `CalendarRepository.poolName` and the same alias in the Worker and `upload_r2_v2.py`. `dataRevision` in `/api/config` invalidates device caches after a regeneration. Legacy fat objects at unprefixed R2 keys serve pre-1.4.0 clients and must never be overwritten with deduped files.
+A window of years ships in the bundle (fully offline, see `project.yml` Localization folder). Years outside it come from the v2 archive on the Worker (`/api/v2/{locale}/{year}`, 2024–2099, deduplicated files ~1.3 MB each) and are cached permanently in Application Support (excluded from backup). Text refs in downloaded files resolve against the *bundled* `texts_<locale>.json` pools — which is why pool closure over all 76 years is checked before every upload. `en_nc` shares `texts_en.json` (identical bios and scripture text; a separate copy was 8.6 MB of duplicate bundle), via `dedup_text.POOL_ALIAS`, `CalendarRepository.poolName` and the same alias in the Worker and `upload_r2_v2.py`. `dataRevision` in `/api/config` invalidates device caches after a regeneration. Bundled years follow it too: `BundledData.revision` (`CalendarRepository.swift`) records the revision the bundle was built for, and when `/api/config` reports a higher one, each bundled year is fetched once in the background, cached as `calendar_<locale>_<year>.r<rev>.json` (the revision in the name, so a copy at or below the bundle's never wins) and preferred over the bundle from then on; offline or on any failure the bundle is used. **Release step:** whenever regenerated years are copied into the bundle, set `BundledData.revision` to the `dataRevision` they are published at — too low and every install re-downloads its own bundle, too high and it never picks up corrections. Because installed bundles resolve these downloads against their own pools, the archive must keep being published with `--shipped-pools` for every release still in use. Legacy fat objects at unprefixed R2 keys serve pre-1.4.0 clients and must never be overwritten with deduped files.
 
 ### CalendarDay Model
 - `dayOfWeek`: Python convention (0=Mon, 6=Sun), NOT iOS convention
