@@ -117,7 +117,8 @@ def detect_saint_type(name: str) -> str:
         "пятидесятница", "духови", "воскресение", "васкрс",
     ]
     for kw in feast_keywords:
-        if kw in name_lower:
+        # "покров" is also the stem of a surname (сщмч. Иоанна Покровского)
+        if re.search(re.escape(kw) + r"(?!ск)", name_lower):
             return "feast"
 
     return "saint"
